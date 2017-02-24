@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:641840611652:android:b84347dacdb32eb9",
+        "mobilesdk_app_id": "1:641840611652:android:4fc319f559913ccd",
         "android_client_info": {
-          "package_name": "com.opencharge.opencharg"
+          "package_name": "com.opencharge.opencharge"
         }
       },
       "oauth_client": [
