@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "641840611652-7522th0ie4scqgqjcktc2jbee3cv9763.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.opencharge.opencharge",
+            "certificate_hash": "af31f95214f9fed928758900d8f3ff5141c61cef"
+          }
+        },
+        {
           "client_id": "641840611652-bci8480ecgcnnbp2pknniip6lmn0v0jb.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641840611652-bci8480ecgcnnbp2pknniip6lmn0v0jb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
