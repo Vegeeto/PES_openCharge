@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -38,7 +39,7 @@ public class GetPointsListUseCaseImplTest {
     GetPointsListUseCase.Callback mockCallback;
 
     @Captor
-    private ArgumentCaptor<GetPointsListUseCase.Callback> dummyCallbackArgumentCaptor;
+    private ArgumentCaptor<Runnable> runnableCaptor;
 
     @Before
     public void setUp() {
@@ -50,13 +51,16 @@ public class GetPointsListUseCaseImplTest {
     public void test_run_returnPointsFromRepository() {
         //Given
         String points = "points list";
-        when(mockPointsRepository.getPoints()).thenReturn(points)
+        when(mockPointsRepository.getPoints()).thenReturn(points);
 
         //When
         sut.run();
 
         //Then
         verify(mockPointsRepository).getPoints();
+        verify(mockMainThread).post(runnableCaptor.capture());
+
+        runnableCaptor.getValue().run();
         verify(mockCallback).onPointsRetrieved(points);
     }
 }
