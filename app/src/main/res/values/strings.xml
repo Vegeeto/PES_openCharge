@@ -4,4 +4,6 @@
     <string name="google_maps_api_key">AIzaSyCcXl402aSO9tsp9Jn_DZ-lSWvVIriTYuU</string>
     <string name="title_activity_maps">Map</string>
 
+    <string name="turn_on_gps">Please, turn on GPS</string>
+
 </resources>
