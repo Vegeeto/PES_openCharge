@@ -1,7 +1,7 @@
 package com.opencharge.opencharge.presentation.locators;
 
 import com.opencharge.opencharge.domain.repository.PointsRepository;
-import com.opencharge.opencharge.domain.repository.impl.PointsRepositoryDummyImpl;
+import com.opencharge.opencharge.domain.repository.impl.FirebasePointsRepository;
 
 /**
  * Created by ferran on 22/3/17.
@@ -21,6 +21,6 @@ public class RepositoriesLocator {
     }
 
     public PointsRepository getPointsRepository() {
-        return new PointsRepositoryDummyImpl();
+        return new FirebasePointsRepository();
     }
 }

@@ -11,7 +11,7 @@ import com.opencharge.opencharge.domain.repository.PointsRepository;
  * Created by ferran on 15/3/17.
  */
 
-public class PointsRepositoryDummyImpl implements PointsRepository {
+public class FirebasePointsRepository implements PointsRepository {
     @Override
     public String getPoints() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
