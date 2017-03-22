@@ -4,21 +4,21 @@ import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
-import com.opencharge.opencharge.domain.use_cases.GetPointsListUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 
 /**
  * Created by ferran on 15/3/17.
  */
 
-public class GetPointsListUseCaseImpl extends AbstractUseCase implements GetPointsListUseCase {
+public class PointsListUseCaseImpl extends AbstractUseCase implements PointsListUseCase {
 
-    private GetPointsListUseCase.Callback callback;
+    private PointsListUseCase.Callback callback;
     private PointsRepository pointsRepository;
 
-    public GetPointsListUseCaseImpl(Executor threadExecutor,
-                                    MainThread mainThread,
-                                    PointsRepository pointsRepository,
-                                    Callback callback) {
+    public PointsListUseCaseImpl(Executor threadExecutor,
+                                 MainThread mainThread,
+                                 PointsRepository pointsRepository,
+                                 Callback callback) {
         super(threadExecutor, mainThread);
 
         this.pointsRepository = pointsRepository;

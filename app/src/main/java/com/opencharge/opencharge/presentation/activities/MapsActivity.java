@@ -10,6 +10,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
+import com.opencharge.opencharge.presentation.locators.ServicesLocator;
+import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -23,6 +26,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        /**
+         * Exemple de com cridar al use case per agafar el llistat de punts!
+         */
+        
+        //  1. Primer es fa una instancia del UseCase. Té un parametre que es un callback, una funcio que es cridarà un cop
+        //      el UseCase acabi de fer el que ha de fer (cridar al firebase en aquest cas)
+        PointsListUseCase pointsListUseCase = UseCasesLocator.getInstance().getPointsListUseCase(new PointsListUseCase.Callback() {
+            @Override
+            public void onPointsRetrieved(String message) {
+                //  3. Aqui es reben els punts, i es fa el que sigui, s'envien a la api de google maps per mostrar els punts, etc
+            }
+        });
+        //  2. S'ha de cridar el execute per executar el use case, si no no fa res. En quan fas el execute es posa a fer el que sigui
+        pointsListUseCase.execute();
     }
 
 
