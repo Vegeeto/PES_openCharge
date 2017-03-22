@@ -27,8 +27,17 @@ public class PointsListUseCaseImpl extends AbstractUseCase implements PointsList
 
     @Override
     public void run() {
-        String punts = pointsRepository.getPoints();
-        postPoints(punts);
+        pointsRepository.getPoints(new PointsRepository.GetPointsCallback() {
+            @Override
+            public void onPointsRetrieved(String points) {
+                postPoints(points);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 
     private void postPoints(final String points) {

@@ -13,23 +13,27 @@ import com.opencharge.opencharge.domain.repository.PointsRepository;
 
 public class FirebasePointsRepository implements PointsRepository {
     @Override
-    public String getPoints() {
+    public void getPoints(final GetPointsCallback callback) {
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference().child("Punts");
+
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     System.out.println(snapshot.getValue());
+
+
                 }
+
+                callback.onPointsRetrieved("aqui el punts");
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                //TODO
             }
         });
-
-        return "";
     }
 }
