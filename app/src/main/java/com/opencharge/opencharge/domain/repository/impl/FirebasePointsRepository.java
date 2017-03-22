@@ -29,5 +29,7 @@ public class FirebasePointsRepository implements PointsRepository {
 
             }
         });
+
+        return "";
     }
 }
