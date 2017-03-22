@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "641840611652",
+    "firebase_url": "https://opencharge-836fb.firebaseio.com",
+    "project_id": "opencharge-836fb",
+    "storage_bucket": "opencharge-836fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641840611652:android:4fc319f559913ccd",
+        "android_client_info": {
+          "package_name": "com.opencharge.opencharge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641840611652-7522th0ie4scqgqjcktc2jbee3cv9763.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.opencharge.opencharge",
+            "certificate_hash": "af31f95214f9fed928758900d8f3ff5141c61cef"
+          }
+        },
+        {
+          "client_id": "641840611652-bci8480ecgcnnbp2pknniip6lmn0v0jb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZVBV1435jWyS4DzMa5RpE882ZN2uhqI4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641840611652-bci8480ecgcnnbp2pknniip6lmn0v0jb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
