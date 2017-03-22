@@ -1,4 +1,4 @@
-package com.opencharge.opencharge;
+package com.opencharge.opencharge.presentation.fragments;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.opencharge.opencharge.R;
 
 import static android.content.Context.LOCATION_SERVICE;
 

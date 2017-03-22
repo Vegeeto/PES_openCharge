@@ -1,4 +1,4 @@
-package com.opencharge.opencharge;
+package com.opencharge.opencharge.presentation.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;

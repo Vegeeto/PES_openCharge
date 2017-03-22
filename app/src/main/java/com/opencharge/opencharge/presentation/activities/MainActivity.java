@@ -1,10 +1,13 @@
-package com.opencharge.opencharge;
+package com.opencharge.opencharge.presentation.activities;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.presentation.fragments.MapsFragment;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
