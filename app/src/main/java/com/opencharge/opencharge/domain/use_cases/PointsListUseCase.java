@@ -6,7 +6,7 @@ import com.opencharge.opencharge.domain.use_cases.base.UseCase;
  * Created by ferran on 15/3/17.
  */
 
-public interface GetPointsListUseCase extends UseCase {
+public interface PointsListUseCase extends UseCase {
     interface Callback {
         void onPointsRetrieved(String message);
     }
