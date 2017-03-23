@@ -5,5 +5,12 @@ package com.opencharge.opencharge.domain.repository;
  */
 
 public interface PointsRepository {
-    String getPoints();
+
+    public interface GetPointsCallback {
+        public void onPointsRetrieved(String points);
+
+        public void onError();
+    }
+
+    void getPoints(final GetPointsCallback callback);
 }
