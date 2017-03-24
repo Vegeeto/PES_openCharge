@@ -54,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          * Exemple de com cridar al use case per agafar el llistat de punts!
          */
 
-        //  1. Primer es fa una instancia del UseCase. T√© un parametre que es un callback, una funcio que es cridar√† un cop
+        //  1. Primer es fa una instancia del UseCase. TÃ© un parametre que es un callback, una funcio que es cridarÃ  un cop
         //      el UseCase acabi de fer el que ha de fer (cridar al firebase en aquest cas)
         PointsListUseCase pointsListUseCase = UseCasesLocator.getInstance().getPointsListUseCase(new PointsListUseCase.Callback() {
             @Override
