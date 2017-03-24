@@ -1,16 +1,8 @@
 package com.opencharge.opencharge.presentation.activities;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,17 +10,22 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.executor.UserLocation;
-import com.opencharge.opencharge.domain.executor.impl.UserLocationImpl;
+import com.opencharge.opencharge.domain.use_cases.UserLocation;
+import com.opencharge.opencharge.domain.use_cases.impl.UserLocationImpl;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
 
     private GoogleMap mMap;
     private UserLocation userLocation;
     private LatLng currentLocation;
+    private VisibleRegion currentArea;
 
     static final LatLng BARCELONA = new LatLng(41.390, 2.154);
 
@@ -42,11 +39,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         userLocation = new UserLocationImpl(this);
-        currentLocation = BARCELONA;
-        System.out.println("Hola");
+        //currentLocation = BARCELONA;
         System.out.println(userLocation.canGetLocation());
         if (userLocation.canGetLocation()) {
-            System.out.println("Aqui entra");
             double latitude = userLocation.getLatitude();
             double longitude = userLocation.getLongitude();
             Log.i("Latitude: ", String.format("latitude: %s", latitude));
@@ -85,7 +80,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.addMarker(new MarkerOptions().position(currentLocation).title("My Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 10)); //15 com a molt
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
+        mMap.setOnCameraIdleListener(this);
+
+        //Test
+        addMarkers();
     }
 
+
+    public void addMarkers() {
+        List<LatLng> markers = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            LatLng l = new LatLng(BARCELONA.latitude+i, BARCELONA.longitude+i);
+            markers.add(l);
+        }
+        int count = 0;
+        for (LatLng l : markers) {
+            mMap.addMarker(new MarkerOptions().position(l).title("Marker " + count));
+            count++;
+        }
+    }
+
+
+    @Override
+    public void onCameraIdle() {
+        currentArea = mMap.getProjection().getVisibleRegion();
+        LatLng bottomLeft = currentArea.nearLeft;
+        LatLng bottomRight = currentArea.nearRight;
+        LatLng topLeft = currentArea.farRight;
+        LatLng topRight = currentArea.farRight;
+        System.out.println(bottomLeft);
+        System.out.println(bottomRight);
+        System.out.println(topLeft);
+        System.out.println(topRight);
+    }
 }

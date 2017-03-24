@@ -1,4 +1,4 @@
-package com.opencharge.opencharge.domain.executor.impl;
+package com.opencharge.opencharge.domain.use_cases.impl;
 
 import android.Manifest;
 import android.app.Activity;
@@ -18,9 +18,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.executor.UserLocation;
-
-import java.sql.SQLOutput;
+import com.opencharge.opencharge.domain.use_cases.UserLocation;
 
 /**
  * Created by Oriol on 23/3/2017.
@@ -61,10 +59,9 @@ public class UserLocationImpl extends Service implements UserLocation {
             mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
             isGpsEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);            //Check if GPS is enabled
             isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);    //Check if Network is enabled
-            System.out.println("GPS enabled: " + isGpsEnabled);
-            System.out.println("NETWORK enabled: " + isNetworkEnabled);
+            //System.out.println("GPS enabled: " + isGpsEnabled);
+            //System.out.println("NETWORK enabled: " + isNetworkEnabled);
             if (!isGpsEnabled && !isNetworkEnabled) {
-                System.out.println("Showing alert");
                 showSettingsAlert();
             } else {
                 //Check permissions
@@ -77,17 +74,15 @@ public class UserLocationImpl extends Service implements UserLocation {
                 } else {
 
                     this.canGetLocation = true;
-
-                    System.out.println("Can get location: " + this.canGetLocation);
                     if (canGetLocation && isGpsEnabled) {             //Get the user location using gps
-                        System.out.println("Getting user locations using GPS");
+                        //System.out.println("Getting user locations using GPS");
                         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_CHANGE_FOR_UPDATE, this);
                         if (mLocationManager != null) {
                             userLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         }
 
                     } else if (canGetLocation && isNetworkEnabled) {  //Get the user location using network.
-                        System.out.println("Getting user locations using NETWORK");
+                        //System.out.println("Getting user locations using NETWORK");
                         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_CHANGE_FOR_UPDATE, this);
                         if (mLocationManager != null) {
                             userLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);

@@ -1,4 +1,4 @@
-package com.opencharge.opencharge.domain.executor;
+package com.opencharge.opencharge.domain.use_cases;
 
 import android.content.ComponentCallbacks2;
 import android.content.Intent;
