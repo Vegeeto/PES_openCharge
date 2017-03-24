@@ -1,5 +1,6 @@
 package com.opencharge.opencharge.presentation.activities;
 
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private UserLocationUseCase userLocation;
     private LatLng currentLocation;
     private VisibleRegion currentArea;
+    private UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
 
     static final LatLng BARCELONA = new LatLng(41.390, 2.154);
 
@@ -38,25 +40,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        userLocation = new UserLocationUseCaseImpl(this);
-        //currentLocation = BARCELONA;
-        System.out.println(userLocation.canGetLocation());
-        if (userLocation.canGetLocation()) {
-            double latitude = userLocation.getLatitude();
-            double longitude = userLocation.getLongitude();
-            Log.i("Latitude: ", String.format("latitude: %s", latitude));
-            Log.i("Location: ", String.format("longitude: %s", longitude));
-            currentLocation = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
-        }
+
+        UserLocationUseCase.Callback userLocationCallback = new UserLocationUseCase.Callback() {
+            @Override
+            public void onLocationRetrieved(Location location) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                Log.i("Latitude: ", String.format("latitude: %s", latitude));
+                Log.i("Location: ", String.format("longitude: %s", longitude));
+                currentLocation = new LatLng(latitude, longitude);
+
+                if (mMap != null) {
+                    onMapReady(mMap);
+                }
+            }
+
+            @Override
+            public void onCanNotGetLocationError() {
+                Log.e("MapsActivity", "TODO: implenetar alguna cosa quan no es pot agafar la localitzacio");
+            }
+        };
+
+        UserLocationUseCase userLocationUseCase = useCasesLocator.getUserLocationUserCase(this, userLocationCallback);
+        userLocationUseCase.execute();
+
 
 
         /**
          * Exemple de com cridar al use case per agafar el llistat de punts!
          */
 
-        //  1. Primer es fa una instancia del UseCase. TÌ© un parametre que es un callback, una funcio que es cridarÌÊ un cop
+        //  1. Primer es fa una instancia del UseCase. TÌ© un parametre que es un callback, una funcio que es cridarï¿½ï¿½ un cop
         //      el UseCase acabi de fer el que ha de fer (cridar al firebase en aquest cas)
-        PointsListUseCase pointsListUseCase = UseCasesLocator.getInstance().getPointsListUseCase(new PointsListUseCase.Callback() {
+        PointsListUseCase pointsListUseCase = useCasesLocator.getPointsListUseCase(new PointsListUseCase.Callback() {
             @Override
             public void onPointsRetrieved(String points) {
                 //  3. Aqui es reben els punts, i es fa el que sigui, s'envien a la api de google maps per mostrar els punts, etc
@@ -79,12 +95,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.addMarker(new MarkerOptions().position(currentLocation).title("My Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
-        mMap.setOnCameraIdleListener(this);
+        if (currentLocation != null) {
+            mMap.addMarker(new MarkerOptions().position(currentLocation).title("My Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
+            mMap.setOnCameraIdleListener(this);
 
-        //Test
-        addMarkers();
+            //Test
+            addMarkers();
+        }
     }
 
 

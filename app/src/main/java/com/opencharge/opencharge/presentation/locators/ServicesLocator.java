@@ -1,5 +1,9 @@
 package com.opencharge.opencharge.presentation.locators;
 
+import android.content.Context;
+
+import com.opencharge.opencharge.domain.device_services.UserLocationService;
+import com.opencharge.opencharge.domain.device_services.impl.UserLocationServiceImpl;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.executor.impl.ThreadExecutor;
@@ -27,5 +31,9 @@ public class ServicesLocator {
 
     public Executor getExecutor() {
         return ThreadExecutor.getInstance();
+    }
+
+    public UserLocationService getUserLocationService(Context context) {
+        return new UserLocationServiceImpl(context);
     }
 }

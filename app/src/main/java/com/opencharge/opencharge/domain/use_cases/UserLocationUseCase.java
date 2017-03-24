@@ -7,34 +7,15 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.IBinder;
 
+import com.opencharge.opencharge.domain.use_cases.base.UseCase;
+
 /**
  * Created by Oriol on 23/3/2017.
  */
 
-public interface UserLocationUseCase extends ComponentCallbacks2, LocationListener {
+public interface UserLocationUseCase extends UseCase {
     interface Callback {
-        Location getLocation();
-        void onPointsRetrieved(String message);
+        void onLocationRetrieved(Location location);
+        void onCanNotGetLocationError();
     }
-
-    //Close the GPS
-    void closeGPS();
-
-    double getLatitude();
-
-    double getLongitude();
-
-    boolean canGetLocation();
-
-    void showSettingsAlert();
-
-    IBinder onBind(Intent arg0);
-
-    void onLocationChanged(Location location);
-
-    void onProviderDisabled(String provider);
-
-    void onProviderEnabled(String provider);
-
-    void onStatusChanged(String provider, int status, Bundle extras);
 }
