@@ -11,8 +11,11 @@ import android.os.IBinder;
  * Created by Oriol on 23/3/2017.
  */
 
-public interface UserLocation extends ComponentCallbacks2, LocationListener {
-    Location getLocation();
+public interface UserLocationUseCase extends ComponentCallbacks2, LocationListener {
+    interface Callback {
+        Location getLocation();
+        void onPointsRetrieved(String message);
+    }
 
     //Close the GPS
     void closeGPS();

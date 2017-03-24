@@ -18,14 +18,14 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.use_cases.UserLocation;
+import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 
 /**
  * Created by Oriol on 23/3/2017.
  * Classe de gestió de la localització de l'usuari
  */
 
-public class UserLocationImpl extends Service implements UserLocation {
+public class UserLocationUseCaseImpl extends Service implements UserLocationUseCase {
 
     /**
      *         Gps location tracker class
@@ -46,7 +46,7 @@ public class UserLocationImpl extends Service implements UserLocation {
     private LocationManager mLocationManager;
 
 
-    public UserLocationImpl(Context context) {
+    public UserLocationUseCaseImpl(Context context) {
         this.context = context;
         this.canGetLocation = false;
         getLocation();
@@ -103,7 +103,7 @@ public class UserLocationImpl extends Service implements UserLocation {
     @Override
     public void closeGPS() {
         if (mLocationManager != null) {
-            mLocationManager.removeUpdates(UserLocationImpl.this);
+            mLocationManager.removeUpdates(UserLocationUseCaseImpl.this);
         }
     }
 

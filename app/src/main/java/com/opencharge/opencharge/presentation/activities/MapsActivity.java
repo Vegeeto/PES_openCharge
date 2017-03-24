@@ -12,8 +12,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.use_cases.UserLocation;
-import com.opencharge.opencharge.domain.use_cases.impl.UserLocationImpl;
+import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
+import com.opencharge.opencharge.domain.use_cases.impl.UserLocationUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
 
     private GoogleMap mMap;
-    private UserLocation userLocation;
+    private UserLocationUseCase userLocation;
     private LatLng currentLocation;
     private VisibleRegion currentArea;
 
@@ -38,7 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        userLocation = new UserLocationImpl(this);
+        userLocation = new UserLocationUseCaseImpl(this);
         //currentLocation = BARCELONA;
         System.out.println(userLocation.canGetLocation());
         if (userLocation.canGetLocation()) {
