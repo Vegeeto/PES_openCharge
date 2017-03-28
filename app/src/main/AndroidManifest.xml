@@ -32,6 +32,11 @@
         <activity
             android:name=".presentation.activities.MapsActivity"
             android:label="@string/title_activity_maps">
+        </activity>
+        <activity
+            android:name=".presentation.activities.NavigationActivity"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
