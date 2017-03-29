@@ -41,7 +41,7 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
 
     private Location userLocation;
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATE = 10; //Distance to update user location
+    private static final long MIN_DISTANCE_FOR_UPDATE = 10; //Distance to update user location
 
     private static final long MIN_TIME_FOR_UPDATE = 60000; //Time to update user location (1 min)
 
@@ -83,14 +83,16 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
                     this.canGetLocation = true;
                     if (canGetLocation && isGpsEnabled) {             //Get the user location using gps
                         //System.out.println("Getting user locations using GPS");
-                        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_CHANGE_FOR_UPDATE, this);
+                        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
                         if (mLocationManager != null) {
                             userLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         }
 
                     } else if (canGetLocation && isNetworkEnabled) {  //Get the user location using network.
                         //System.out.println("Getting user locations using NETWORK");
-                        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_CHANGE_FOR_UPDATE, this);
+                        //mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE__FOR_UPDATE, this);
+                        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 500, this);
+                        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 500, this);
                         if (mLocationManager != null) {
                             userLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         }
