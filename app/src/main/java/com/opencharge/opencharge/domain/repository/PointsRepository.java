@@ -1,5 +1,7 @@
 package com.opencharge.opencharge.domain.repository;
 
+import com.opencharge.opencharge.domain.Entities.Points; // Esto rompe clean arch??
+
 /**
  * Created by ferran on 15/3/17.
  */
@@ -7,8 +9,7 @@ package com.opencharge.opencharge.domain.repository;
 public interface PointsRepository {
 
     public interface GetPointsCallback {
-        public void onPointsRetrieved(String points);
-
+        public void onPointsRetrieved(Points[] points);
         public void onError();
     }
 
