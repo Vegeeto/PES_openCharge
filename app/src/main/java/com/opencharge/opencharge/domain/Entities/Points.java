@@ -6,26 +6,25 @@ package com.opencharge.opencharge.domain.Entities;
 
 public class Points {
     //xCoord and yCoord string
-    private float xCoord;
-    private float yCoord;
+    public float lat;
+    public float lon;
 
-    public Points() {
-      /*Blank default constructor essential for Firebase*/
-    }
+    public Points() {}
+
     //Getters and setters
-    public float getxCoord() {
-        return xCoord;
+    public float getLatCoord() {
+        return lat;
     }
 
-    public void setxCoord(float xCoord) {
-        this.xCoord = xCoord;
+    public float getLonCoord() {
+        return lon;
     }
 
-    public float getyCoord() {
-        return yCoord;
-    }
-
-    public void setyCoord(float yCoord) {
-        this.yCoord = yCoord;
+    @Override
+    public String toString() {
+        return "Points{" +
+                "lat=" + lat +
+                ", lon=" + lon +
+                '}';
     }
 }
