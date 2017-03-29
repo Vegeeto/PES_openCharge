@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Points;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -68,8 +69,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         //      el UseCase acabi de fer el que ha de fer (cridar al firebase en aquest cas)
         PointsListUseCase pointsListUseCase = useCasesLocator.getPointsListUseCase(new PointsListUseCase.Callback() {
             @Override
-            public void onPointsRetrieved(String points) {
+            public void onPointsRetrieved(Points[] points) {
                 //  3. Aqui es reben els punts, i es fa el que sigui, s'envien a la api de google maps per mostrar els punts, etc
+                Log.d("Debug","Punts retrieved: " + points);
+
             }
         });
         //  2. S'ha de cridar el execute per executar el use case, si no no fa res. En quan fas el execute es posa a fer el que sigui
