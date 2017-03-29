@@ -37,20 +37,18 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
     private Context context;
     private boolean isGpsEnabled = false;
     private boolean isNetworkEnabled = false;
-    private boolean canGetLocation = false;
 
     private Location userLocation;
 
-    private static final long MIN_DISTANCE_FOR_UPDATE = 10; //Distance to update user location
+    private static final long MIN_DISTANCE_FOR_UPDATE = 50; //Distance to update user location (in meters)
 
-    private static final long MIN_TIME_FOR_UPDATE = 60000; //Time to update user location (1 min)
+    private static final long MIN_TIME_FOR_UPDATE = 10000; //Time to update user location (in ms) [10 sec]
 
     private LocationManager mLocationManager;
 
 
     public UserLocationServiceImpl(Context context) {
         this.context = context;
-        this.canGetLocation = false;
         getLocation();
     }
 
@@ -79,23 +77,14 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
                     Log.e("Error: ", "You don't have the right permissions to get User Location ");
                     callback.onCanNotGetLocationError();
                 } else {
-
-                    this.canGetLocation = true;
-                    if (canGetLocation && isGpsEnabled) {             //Get the user location using gps
-                        //System.out.println("Getting user locations using GPS");
-                        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
-                        if (mLocationManager != null) {
-                            userLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        }
-
-                    } else if (canGetLocation && isNetworkEnabled) {  //Get the user location using network.
-                        //System.out.println("Getting user locations using NETWORK");
-                        //mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE__FOR_UPDATE, this);
-                        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 500, this);
-                        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 500, this);
-                        if (mLocationManager != null) {
-                            userLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        }
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
+                    if (isGpsEnabled && mLocationManager != null) {             //Get the user location using gps
+                        //Log.e("LOCATION: ", "Getting user locations using GPS");
+                        userLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    } else {  //Get the user location using network.
+                        //Log.e("LOCATION: ", "Getting user locations using NETWORK");
+                        userLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
                     }
                 }
@@ -106,10 +95,6 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
         }
 
         return userLocation;
-    }
-
-    public boolean canGetLocation() {
-        return this.canGetLocation;
     }
 
 

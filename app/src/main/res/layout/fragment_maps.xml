@@ -2,19 +2,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <fragment android:id="@+id/map"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:context="com.opencharge.opencharge.presentation.fragments.MapsFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         class="com.google.android.gms.maps.MapFragment"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_menu_mylocation" />
 
 </FrameLayout>
