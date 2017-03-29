@@ -62,21 +62,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 getUserLocation();
             }
         });
-
-        // Exemple de com cridar al use case per agafar el llistat de punts!
-        //  1. Primer es fa una instancia del UseCase. T̩ un parametre que es un callback, una funcio que es cridar�� un cop
-        //      el UseCase acabi de fer el que ha de fer (cridar al firebase en aquest cas)
-        PointsListUseCase pointsListUseCase = useCasesLocator.getPointsListUseCase(new PointsListUseCase.Callback() {
-            @Override
-            public void onPointsRetrieved(Points[] points) {
-                //  3. Aqui es reben els punts, i es fa el que sigui, s'envien a la api de google maps per mostrar els punts, etc
-                Log.d("Debug","Punts retrieved: " + points);
-
-            }
-        });
-        //  2. S'ha de cridar el execute per executar el use case, si no no fa res. En quan fas el execute es posa a fer el que sigui
-        pointsListUseCase.execute();
-
     }
 
     @Override
@@ -102,25 +87,31 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);*/
         if (currentLocation != null) {
-            mMap.addMarker(new MarkerOptions().position(currentLocation).title("My Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
 
             //Test
-            //addMarkers();
+            addMarkers();
         }
     }
 
     public void addMarkers() {
-        List<LatLng> markers = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            LatLng l = new LatLng(BARCELONA.latitude+i, BARCELONA.longitude+i);
-            markers.add(l);
-        }
-        int count = 0;
-        for (LatLng l : markers) {
-            mMap.addMarker(new MarkerOptions().position(l).title("Marker " + count));
-            count++;
-        }
+        // Exemple de com cridar al use case per agafar el llistat de punts!
+        //  1. Primer es fa una instancia del UseCase. T̩ un parametre que es un callback, una funcio que es cridar�� un cop
+        //      el UseCase acabi de fer el que ha de fer (cridar al firebase en aquest cas)
+        PointsListUseCase pointsListUseCase = useCasesLocator.getPointsListUseCase(new PointsListUseCase.Callback() {
+            @Override
+            public void onPointsRetrieved(Points[] points) {
+                //  3. Aqui es reben els punts, i es fa el que sigui, s'envien a la api de google maps per mostrar els punts, etc
+                Log.d("Debug","Punts retrieved: " + points);
+
+                for (Points point : points) {
+                    LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
+                    mMap.addMarker(new MarkerOptions().position(position).title("Marker: " + point));
+                }
+            }
+        });
+        //  2. S'ha de cridar el execute per executar el use case, si no no fa res. En quan fas el execute es posa a fer el que sigui
+        pointsListUseCase.execute();
     }
 
 
