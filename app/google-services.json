@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "641840611652-sni42g5uim7l167dqp4d01okd1rgrg7p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.opencharge.opencharge",
+            "certificate_hash": "12b33d41519901d1a072c672c5e4ba3723a4f574"
+          }
+        },
+        {
           "client_id": "641840611652-7522th0ie4scqgqjcktc2jbee3cv9763.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
