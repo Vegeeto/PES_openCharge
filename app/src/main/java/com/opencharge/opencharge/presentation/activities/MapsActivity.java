@@ -37,13 +37,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         
         //  1. Primer es fa una instancia del UseCase. Té un parametre que es un callback, una funcio que es cridarà un cop
         //      el UseCase acabi de fer el que ha de fer (cridar al firebase en aquest cas)
-        Log.d("Debug","VOY A LLAMAR A LOS PUNTOS");
         FirebaseInstanceId.getInstance().getToken();
         PointsListUseCase pointsListUseCase = UseCasesLocator.getInstance().getPointsListUseCase(new PointsListUseCase.Callback() {
             @Override
             public void onPointsRetrieved(Points[] points) {
                 //  3. Aqui es reben els punts, i es fa el que sigui, s'envien a la api de google maps per mostrar els punts, etc
-                Log.d("Debug","Punts retrieved: Lenght = " + points.length);
+                Log.d("Debug","Punts retrieved: " + points);
 
             }
         });

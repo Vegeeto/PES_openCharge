@@ -33,7 +33,6 @@ public class PointsListUseCaseImpl extends AbstractUseCase implements PointsList
         pointsRepository.getPoints(new PointsRepository.GetPointsCallback() {
             @Override
             public void onPointsRetrieved(Points[] points) {
-                Log.d("Debug","BBBBBBBBBBBBBBBBBBBBBB");
                 postPoints(points);
             }
 

@@ -19,24 +19,16 @@ import com.opencharge.opencharge.domain.repository.PointsRepository;
 public class FirebasePointsRepository implements PointsRepository {
     @Override
     public void getPoints(final GetPointsCallback callback) {
-        Log.d("FirebasePointsRepo","GetPoints called!");
-
-        //--------------------------------------------------//
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Log.d("FirebasePointsRepo","database get instance called!");
         DatabaseReference myRef = database.getReference("Points");
-        Log.d("FirebasePointsRepo","database get reference called!");
-
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("FirebasePointsRepo","Inside DataChange From GetPoints");
                 Points[] pArray = new Points[(int)dataSnapshot.getChildrenCount()];
                 int index = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     pArray[index] = snapshot.getValue(Points.class);
-                    Log.d("FirebasePointsRepo","foreach snapshot i :" +index);
                     ++index;
                 }
                 callback.onPointsRetrieved(pArray);
