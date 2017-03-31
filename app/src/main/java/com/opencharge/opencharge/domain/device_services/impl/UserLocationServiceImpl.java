@@ -77,12 +77,15 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
                     Log.e("Error: ", "You don't have the right permissions to get User Location ");
                     callback.onCanNotGetLocationError();
                 } else {
+
                     mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
                     mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
                     if (isGpsEnabled && mLocationManager != null) {             //Get the user location using gps
                         //Log.e("LOCATION: ", "Getting user locations using GPS");
                         userLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    } else {  //Get the user location using network.
+                    } else if (!isGpsEnabled) {
+                        showSettingsAlert();
+                    } else { //Get the user location using network.
                         //Log.e("LOCATION: ", "Getting user locations using NETWORK");
                         userLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 

@@ -37,7 +37,7 @@ public class UseCasesLocator {
         );
     }
 
-    public UserLocationUseCase getUserLocationUserCase(Context context, UserLocationUseCase.Callback callback) {
+    public UserLocationUseCase getUserLocationUseCase(Context context, UserLocationUseCase.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
         return new UserLocationUseCaseImpl(
                 sl.getExecutor(),

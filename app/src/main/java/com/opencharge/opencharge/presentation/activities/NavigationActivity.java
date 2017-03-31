@@ -47,8 +47,8 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
+        android.app.FragmentManager fm = getFragmentManager();
+        fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
 
     }
 
