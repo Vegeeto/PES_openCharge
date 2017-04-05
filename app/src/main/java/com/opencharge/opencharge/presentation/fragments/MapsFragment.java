@@ -3,6 +3,8 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.Manifest;
 import android.app.Fragment;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -22,6 +24,10 @@ import com.opencharge.opencharge.domain.Entities.Points;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Victor on 28/03/2017.
@@ -136,6 +142,25 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         UserLocationUseCase userLocationUseCase = useCasesLocator.getUserLocationUseCase(getActivity(), userLocationCallback);
         userLocationUseCase.execute();
+    }
+
+
+    public void searchInMap(String name) {
+        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.US);
+        List<Address> listOfAddress;
+
+        try {
+            listOfAddress = geocoder.getFromLocationName(name, 1);
+
+            if(listOfAddress != null && !listOfAddress.isEmpty()){
+                Address address = listOfAddress.get(0);
+                LatLng newLocation = new LatLng(address.getLatitude(), address.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLocation, 14)); //40.000 km / 2^n, n=14
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
