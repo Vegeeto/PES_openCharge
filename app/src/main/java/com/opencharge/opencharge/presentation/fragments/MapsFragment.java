@@ -18,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Points;
@@ -33,7 +34,7 @@ import java.util.Locale;
  * Created by Victor on 28/03/2017.
  */
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private LatLng currentLocation;
@@ -64,12 +65,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         getUserLocation();
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMarkerClickListener(this);
         boolean noPermissions = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
         if (noPermissions) {
             // TODO: Consider calling
@@ -85,6 +88,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
 
             //Test
             addMarkers();
@@ -103,7 +107,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                 for (Points point : points) {
                     LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
-                    mMap.addMarker(new MarkerOptions().position(position).title("Marker: " + point));
+                    MarkerOptions marker = new MarkerOptions();
+                    marker.position(position);
+                    marker.title("Marker: " + point);
+                    //marker.icon(); To set an icon depending on the switch type.
+                    //marker.snippet("Information to show");
+                    mMap.addMarker(marker);
                 }
             }
         });
@@ -146,16 +155,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
 
     public void searchInMap(String name) {
-        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.US);
-        List<Address> listOfAddress;
+        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
 
         try {
-            listOfAddress = geocoder.getFromLocationName(name, 1);
 
-            if(listOfAddress != null && !listOfAddress.isEmpty()){
-                Address address = listOfAddress.get(0);
-                LatLng newLocation = new LatLng(address.getLatitude(), address.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLocation, 14)); //40.000 km / 2^n, n=14
+            List<Address> address = geocoder.getFromLocationName(name, 1);
+
+            if(address != null && !address.isEmpty()) {
+                LatLng newLocation = new LatLng(address.get(0).getLatitude(), address.get(0).getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLocation, 15)); //40.000 km / 2^n, n=15
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -163,4 +172,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        //TODO: quan cliquem a un marquer hauriem d'obtenir el seu point.
+        //android.app.FragmentManager fm = getFragmentManager();
+        //fm.beginTransaction().replace(R.id.content_frame, new InfoFragment()).commit();
+        return false;
+    }
 }
