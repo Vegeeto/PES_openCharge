@@ -51,8 +51,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         getUserLocation();
@@ -89,9 +89,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
             mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-
-            //Test
             addMarkers();
+            //Test: Successful!
+            //searchInMap("Avinguda L'Eramprunyà 4, Gavà");
         }
     }
 
@@ -163,6 +163,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
             if(address != null && !address.isEmpty()) {
                 LatLng newLocation = new LatLng(address.get(0).getLatitude(), address.get(0).getLongitude());
+                Log.e("Lat: ", "" + newLocation.latitude);
+                Log.e("Long: ", "" + newLocation.longitude);
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLocation, 15)); //40.000 km / 2^n, n=15
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
             }
