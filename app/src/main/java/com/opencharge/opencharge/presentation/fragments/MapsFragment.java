@@ -176,7 +176,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        //TODO: quan cliquem a un marquer hauriem d'obtenir el seu point.
+        //TODO: quan cliquem a un marker hauriem d'obtenir el seu id.
         //android.app.FragmentManager fm = getFragmentManager();
         //fm.beginTransaction().replace(R.id.content_frame, new InfoFragment()).commit();
         return false;
