@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -122,6 +123,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 return info;
             }
         });
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                //es recupera l'objecte Points associat al marcador
+                Points puntclic = (Points)marker.getTag();
+
+                //ara mateix fa això, quan estigui disponible es canviarà per a mostrar la pàgina corresponent al punt
+                //TODO quan existeixi la página de veure un punt, eliminar el toast i mostrar la página del punt recuperat
+                Toast.makeText(getActivity(), puntclic.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void addMarkers() {
@@ -136,8 +148,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                 for (Points point : points) {
                     LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
-                    mMap.addMarker(new MarkerOptions().position(position).title("Punt de càrrega:")
+                    Marker marcador =mMap.addMarker(new MarkerOptions().position(position).title("Punt de càrrega:")
                             .snippet("Tipus: "+point.getTipus()+"\nDirecció: "+point.getDireccio()));
+                    marcador.setTag(point);
                 }
             }
 
