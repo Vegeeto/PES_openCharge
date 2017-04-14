@@ -5,9 +5,25 @@ package com.opencharge.opencharge.domain.Entities;
  */
 
 public class Points {
+    public enum Acces {
+        PUBLIC,
+        PRIVAT,
+        PARTICULAR;
+    }
+
+    public int id;
+
     //xCoord and yCoord string
     public float lat;
     public float lon;
+
+    public String poblacio;
+    public String carrer;
+    public String numero;
+
+    public Acces acces;
+    public String conector;
+    public String horari;
 
     public Points() {}
 
@@ -18,6 +34,34 @@ public class Points {
 
     public float getLonCoord() {
         return lon;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getPoblacio() {
+        return poblacio;
+    }
+
+    public String getCarrer() {
+        return carrer;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public Acces getAcces() {
+        return acces;
+    }
+
+    public String getConector() {
+        return conector;
+    }
+
+    public String getHorari() {
+        return horari;
     }
 
     @Override
