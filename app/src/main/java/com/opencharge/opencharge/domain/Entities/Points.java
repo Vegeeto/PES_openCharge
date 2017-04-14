@@ -20,6 +20,12 @@ public class Points {
         return lon;
     }
 
+
+    //métodes stub
+    public String getTipus(){ return "Particular"; };
+    public String getDireccio(){return "Carrer X, x";}
+    //fi métodes stub
+
     @Override
     public String toString() {
         return "Points{" +
