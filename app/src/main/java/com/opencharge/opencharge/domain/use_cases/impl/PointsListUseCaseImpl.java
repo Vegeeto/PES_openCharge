@@ -1,7 +1,5 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
-import android.util.Log;
-
 import com.opencharge.opencharge.domain.Entities.Points;  //Esto rompe clean arch?
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;

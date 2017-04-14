@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/adreca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/normal_text_size"
+        android:text="Adreça " />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Tipus d'accés: "
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/access"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Tipus"
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Tipus de connector: "
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/connector"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Connector"
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_text_size"
+            android:drawableRight="@drawable/ic_menu_share"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Horari: "
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/horari"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Horari"
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>
