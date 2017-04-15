@@ -41,6 +41,7 @@ public class FirebasePointsParserTest {
         map.put(FirebasePointsParser.SHEDULE_KEY, "some shedule");
     }
 
+    //<editor-fold desc="Id tests">
     @Test
     public void test_parseFromMap_createPointWithCorrectId() {
         //When
@@ -49,7 +50,9 @@ public class FirebasePointsParserTest {
         //Then
         assertEquals("Point id not parsed", key, p.getId());
     }
+    //</editor-fold>
 
+    //<editor-fold desc="AccessType tests">
     @Test
     public void testMapWithPublicAccessType_parseFromMap_createPointWithCorrectAccessType() {
         //When
@@ -106,4 +109,64 @@ public class FirebasePointsParserTest {
         //Then
         assertEquals("Wrong parsed accessType", Points.UNKNOWN_ACCESS, p.getAccessType());
     }
+    //</editor-fold>
+
+    //<editor-fold desc="ConnectorType tests">
+    @Test
+    public void testMapWithSlowConnector_parseFromMap_createPointWithCorrectConnectorType() {
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed connectorType", Points.SLOW_CONNECTOR, p.getConnectorType());
+    }
+
+    @Test
+    public void testMapWithFastConnector_parseFromMap_createPointWithCorrectConnectorType() {
+        //Given
+        map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, Points.FAST_CONNECTOR);
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed connectorType", Points.FAST_CONNECTOR, p.getConnectorType());
+    }
+
+    @Test
+    public void testMapWithRapidConnector_parseFromMap_createPointWithCorrectConnectorType() {
+        //Given
+        map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, Points.RAPID_CONNECTOR);
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed connectorType", Points.RAPID_CONNECTOR, p.getConnectorType());
+    }
+
+    @Test
+    public void testMapWithUnknownConnector_parseFromMap_createPointWithCorrectConnectorType() {
+        //Given
+        map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, Points.UNKNOWN_CONNECTOR);
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed connectorType", Points.UNKNOWN_CONNECTOR, p.getConnectorType());
+    }
+
+    @Test
+    public void testMapWithWrongConnector_parseFromMap_createPointWithCorrectConnectorType() {
+        //Given
+        map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, "Wrong connectorType");
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed connectorType", Points.UNKNOWN_CONNECTOR, p.getConnectorType());
+    }
+    //</editor-fold>
 }
