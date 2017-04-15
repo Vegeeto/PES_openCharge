@@ -34,8 +34,8 @@ public class FirebasePointsParserTest {
         map.put(FirebasePointsParser.TOWN_KEY, "barcelona");
         map.put(FirebasePointsParser.STREET_KEY, "diagonal");
         map.put(FirebasePointsParser.NUMBER_KEY, "321-322");
-        map.put(FirebasePointsParser.LON_KEY, 3.22);
-        map.put(FirebasePointsParser.LAT_KEY, 2.33);
+        map.put(FirebasePointsParser.LON_KEY, 3.2222);
+        map.put(FirebasePointsParser.LAT_KEY, 2.3333);
         map.put(FirebasePointsParser.ACCESS_TYPE_KEY, Points.PUBLIC_ACCESS);
         map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, Points.SLOW_CONNECTOR);
         map.put(FirebasePointsParser.SHEDULE_KEY, "some shedule");
@@ -169,4 +169,28 @@ public class FirebasePointsParserTest {
         assertEquals("Wrong parsed connectorType", Points.UNKNOWN_CONNECTOR, p.getConnectorType());
     }
     //</editor-fold>
+
+    @Test
+    public void testMapWithLatAndLon_parseFromMap_createPointWithCorrectConnectorType() {
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed lat", 2.3333, p.getLatCoord(), FirebasePointsParser.COORDINATES_PRECISION);
+        assertEquals("Wrong parsed lon", 3.2222, p.getLonCoord(), FirebasePointsParser.COORDINATES_PRECISION);
+    }
+
+    @Test
+    public void testMapWithoutLatAndLon_parseFromMap_createPointWithCorrectConnectorType() {
+        //Given
+        map.remove(FirebasePointsParser.LAT_KEY);
+        map.remove(FirebasePointsParser.LON_KEY);
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed lat", 0.0000, p.getLatCoord(), FirebasePointsParser.COORDINATES_PRECISION);
+        assertEquals("Wrong parsed lon", 0.0000, p.getLonCoord(), FirebasePointsParser.COORDINATES_PRECISION);
+    }
 }

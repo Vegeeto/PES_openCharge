@@ -31,8 +31,8 @@ public class Points {
     public String id;
 
     //xCoord and yCoord string
-    public float lat;
-    public float lon;
+    public double lat;
+    public double lon;
 
     public String town;
     public String street;
@@ -50,11 +50,11 @@ public class Points {
     }
 
     //Getters and setters
-    public float getLatCoord() {
+    public double getLatCoord() {
         return lat;
     }
 
-    public float getLonCoord() {
+    public double getLonCoord() {
         return lon;
     }
 
@@ -86,11 +86,11 @@ public class Points {
         return schedule;
     }
 
-    public void setLat(float lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public void setLon(float lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 

@@ -11,6 +11,8 @@ import java.util.Map;
  */
 
 public class FirebasePointsParser implements PointsParser {
+    public static final double COORDINATES_PRECISION = 0.0001;
+
     public static final String TOWN_KEY = "town";
     public static final String STREET_KEY = "street";
     public static final String NUMBER_KEY = "number";
@@ -23,8 +25,13 @@ public class FirebasePointsParser implements PointsParser {
     @Override
     public Points parseFromMap(String key, Map<String, Object> map) {
         Points point = new Points(key);
+        
         point.setAccessType(parseAccessTypeFromMap(map));
         point.setConnectorType(parseConnectorTypeFromMap(map));
+
+        point.setLat(parseDoubleKeyFromMap(LAT_KEY, map));
+        point.setLon(parseDoubleKeyFromMap(LON_KEY, map));
+
         return point;
     }
 
@@ -37,11 +44,6 @@ public class FirebasePointsParser implements PointsParser {
         return accessType;
     }
 
-    private boolean isCorrectAccessType(String accessType) {
-        String[] allowedTypes = new String[] {Points.PUBLIC_ACCESS, Points.PRIVATE_ACCESS, Points.INDIVIDUAL_ACCESS};
-        return Arrays.asList(allowedTypes).contains(accessType);
-    }
-
     private @Points.ConnectorType String parseConnectorTypeFromMap(Map<String, Object> map) {
         @Points.ConnectorType String connectorType = (String)map.get(CONNECTOR_TYPE_KEY);
         if (!isCorrectConnectorType(connectorType)) {
@@ -49,6 +51,19 @@ public class FirebasePointsParser implements PointsParser {
         }
 
         return connectorType;
+    }
+
+    private double parseDoubleKeyFromMap(String key, Map<String, Object> map) {
+        double value = 0.0;
+        if (map.containsKey(key)) {
+            value = (double)map.get(key);
+        }
+        return value;
+    }
+
+    private boolean isCorrectAccessType(String accessType) {
+        String[] allowedTypes = new String[] {Points.PUBLIC_ACCESS, Points.PRIVATE_ACCESS, Points.INDIVIDUAL_ACCESS};
+        return Arrays.asList(allowedTypes).contains(accessType);
     }
 
     private boolean isCorrectConnectorType(String connectorType) {
