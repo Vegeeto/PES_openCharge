@@ -1,15 +1,22 @@
 package com.opencharge.opencharge.domain.Entities;
 
+import android.support.annotation.StringDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Created by Crjs on 24/03/2017.
  */
 
 public class Points {
-    public enum Acces {
-        PUBLIC,
-        PRIVAT,
-        PARTICULAR;
-    }
+    public static final String PUBLIC_ACCESS = "public";
+    public static final String PRIVATE_ACCESS = "private";
+    public static final String INDIVIDUAL_ACCESS = "individual";
+
+    @StringDef({PUBLIC_ACCESS, PRIVATE_ACCESS, INDIVIDUAL_ACCESS})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface AccessType {}
 
     public int id;
 
@@ -21,7 +28,7 @@ public class Points {
     public String carrer;
     public String numero;
 
-    public Acces acces;
+    public @Points.AccessType String acces;
     public String conector;
     public String horari;
 
@@ -52,7 +59,7 @@ public class Points {
         return numero;
     }
 
-    public Acces getAcces() {
+    public @AccessType String getAcces() {
         return acces;
     }
 
@@ -67,9 +74,15 @@ public class Points {
     @Override
     public String toString() {
         return "Points{" +
-                "lat=" + lat +
+                "id=" + id +
+                ", lat=" + lat +
                 ", lon=" + lon +
+                ", poblacio='" + poblacio + '\'' +
+                ", carrer='" + carrer + '\'' +
+                ", numero='" + numero + '\'' +
+                ", acces=" + acces +
+                ", conector='" + conector + '\'' +
+                ", horari='" + horari + '\'' +
                 '}';
     }
-
 }

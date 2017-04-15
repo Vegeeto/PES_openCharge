@@ -6,8 +6,8 @@
       "poblacio" : "Barcelona",
       "carrer" : "",
       "numero" : "",
-      "acces" : 1,
-      "conector" : 1,
+      "acces" : "public",
+      "conector" : "",
       "horari" : "de 8.00 a 20.00"
     },
     {
@@ -16,8 +16,8 @@
       "poblacio" : "Barcelona",
       "carrer" : "",
       "numero" : "",
-      "acces" : 1,
-      "conector" : 1,
+      "acces" : "public",
+      "conector" : "",
       "horari" : "de 8.00 a 20.00"
     },
     {
@@ -26,8 +26,8 @@
       "poblacio" : "Barcelona",
       "carrer" : "",
       "numero" : "",
-      "acces" : 1,
-      "conector" : 1,
+      "acces" : "public",
+      "conector" : "",
       "horari" : "de 8.00 a 20.00"
     },
     {
@@ -36,8 +36,8 @@
       "poblacio" : "Barcelona",
       "carrer" : "",
       "numero" : "",
-      "acces" : 1,
-      "conector" : 1,
+      "acces" : "public",
+      "conector" : "",
       "horari" : "de 8.00 a 20.00"
     }
   ]

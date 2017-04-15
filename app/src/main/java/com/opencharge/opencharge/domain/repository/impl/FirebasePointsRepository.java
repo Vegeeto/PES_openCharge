@@ -28,7 +28,9 @@ public class FirebasePointsRepository implements PointsRepository {
                 Points[] pArray = new Points[(int)dataSnapshot.getChildrenCount()];
                 int index = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    pArray[index] = snapshot.getValue(Points.class);
+                    Points p = snapshot.getValue(Points.class);
+                    Log.d("FirebaseRepo", p.toString());
+                    pArray[index] = p;
                     ++index;
                 }
                 callback.onPointsRetrieved(pArray);
