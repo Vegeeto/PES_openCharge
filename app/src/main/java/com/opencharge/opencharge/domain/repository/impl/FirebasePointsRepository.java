@@ -37,15 +37,8 @@ public class FirebasePointsRepository implements PointsRepository {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Points[] pArray = new Points[(int)dataSnapshot.getChildrenCount()];
-                int index = 0;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
-                    String key = snapshot.getKey();
-                    pArray[index] = pointsParser.parseFromMap(key, map);
-                    ++index;
-                }
-                callback.onPointsRetrieved(pArray);
+                Points[] points = parsePointsFromDataSnapshot(dataSnapshot);
+                callback.onPointsRetrieved(points);
             }
 
             @Override
@@ -54,5 +47,28 @@ public class FirebasePointsRepository implements PointsRepository {
                 Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
             }
         });
+    }
+
+    private Points[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
+        Points[] points = new Points[(int)dataSnapshot.getChildrenCount()];
+        int index = 0;
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            Points point = parsePointFromSnapshot(snapshot);
+            if (point != null) {
+                points[index] = point;
+                ++index;
+            }
+        }
+
+        return points;
+    }
+
+    private Points parsePointFromSnapshot(DataSnapshot snapshot) {
+        if (snapshot.getValue() instanceof Map) {
+            Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+            String key = snapshot.getKey();
+            return pointsParser.parseFromMap(key, map);
+        }
+        return null;
     }
 }
