@@ -24,14 +24,15 @@ public class Points {
     public float lat;
     public float lon;
 
-    public String poblacio;
-    public String carrer;
-    public String numero;
+    public String town;
+    public String street;
+    public String number;
 
-    public @Points.AccessType String acces;
-    public String conector;
-    public String horari;
+    public @Points.AccessType String accessType;
+    public String connectorType;
+    public String schedule;
 
+    //Empty constructor needed for Firebase
     public Points() {}
 
     //Getters and setters
@@ -47,28 +48,28 @@ public class Points {
         return id;
     }
 
-    public String getPoblacio() {
-        return poblacio;
+    public String getTown() {
+        return town;
     }
 
-    public String getCarrer() {
-        return carrer;
+    public String getStreet() {
+        return street;
     }
 
-    public String getNumero() {
-        return numero;
+    public String getNumber() {
+        return number;
     }
 
-    public @AccessType String getAcces() {
-        return acces;
+    public @AccessType String getAccessType() {
+        return accessType;
     }
 
-    public String getConector() {
-        return conector;
+    public String getConnectorType() {
+        return connectorType;
     }
 
-    public String getHorari() {
-        return horari;
+    public String getSchedule() {
+        return schedule;
     }
 
     @Override
@@ -77,12 +78,12 @@ public class Points {
                 "id=" + id +
                 ", lat=" + lat +
                 ", lon=" + lon +
-                ", poblacio='" + poblacio + '\'' +
-                ", carrer='" + carrer + '\'' +
-                ", numero='" + numero + '\'' +
-                ", acces=" + acces +
-                ", conector='" + conector + '\'' +
-                ", horari='" + horari + '\'' +
+                ", town='" + town + '\'' +
+                ", street='" + street + '\'' +
+                ", number='" + number + '\'' +
+                ", accessType=" + accessType +
+                ", connectorType='" + connectorType + '\'' +
+                ", schedule='" + schedule + '\'' +
                 '}';
     }
 }

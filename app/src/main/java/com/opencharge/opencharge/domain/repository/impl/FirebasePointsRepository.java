@@ -29,7 +29,7 @@ public class FirebasePointsRepository implements PointsRepository {
                 int index = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Points p = snapshot.getValue(Points.class);
-                    Log.d("FirebaseRepo", p.toString());
+                    //Log.d("FirebaseRepo", p.toString());
                     pArray[index] = p;
                     ++index;
                 }

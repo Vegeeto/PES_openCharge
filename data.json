@@ -3,42 +3,42 @@
     {
       "lat" : 41.394382,
       "lon" : 2.113115,
-      "poblacio" : "Barcelona",
-      "carrer" : "",
-      "numero" : "",
-      "acces" : "public",
-      "conector" : "",
-      "horari" : "de 8.00 a 20.00"
+      "town" : "Barcelona",
+      "street" : "",
+      "number" : "",
+      "accessType" : "public",
+      "connectorType" : "",
+      "schedule" : "de 8.00 a 20.00"
     },
     {
       "lat" : 41.404626,
       "lon" : 2.151604,
-      "poblacio" : "Barcelona",
-      "carrer" : "",
-      "numero" : "",
-      "acces" : "public",
-      "conector" : "",
-      "horari" : "de 8.00 a 20.00"
+      "town" : "Barcelona",
+      "street" : "",
+      "number" : "",
+      "accessType" : "public",
+      "connectorType" : "",
+      "schedule" : "de 8.00 a 20.00"
     },
     {
       "lat" : 41.406943,
       "lon" : 2.165594,
-      "poblacio" : "Barcelona",
-      "carrer" : "",
-      "numero" : "",
-      "acces" : "public",
-      "conector" : "",
-      "horari" : "de 8.00 a 20.00"
+      "town" : "Barcelona",
+      "street" : "",
+      "number" : "",
+      "accessType" : "public",
+      "connectorType" : "",
+      "schedule" : "de 8.00 a 20.00"
     },
     {
       "lat" : 41.40405,
       "lon" : 2.190616,
-      "poblacio" : "Barcelona",
-      "carrer" : "",
-      "numero" : "",
-      "acces" : "public",
-      "conector" : "",
-      "horari" : "de 8.00 a 20.00"
+      "town" : "Barcelona",
+      "street" : "",
+      "number" : "",
+      "accessType" : "public",
+      "connectorType" : "",
+      "schedule" : "de 8.00 a 20.00"
     }
   ]
 }
