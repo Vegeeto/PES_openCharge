@@ -39,7 +39,7 @@ public class FirebasePointsParserTest {
         map.put(FirebasePointsParser.LAT_KEY, 2.3333);
         map.put(FirebasePointsParser.ACCESS_TYPE_KEY, Points.PUBLIC_ACCESS);
         map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, Points.SLOW_CONNECTOR);
-        map.put(FirebasePointsParser.SHEDULE_KEY, "some shedule");
+        map.put(FirebasePointsParser.SHEDULE_KEY, "some schedule");
     }
 
     //<editor-fold desc="Id tests">
@@ -197,6 +197,7 @@ public class FirebasePointsParserTest {
     }
     //</editor-fold>
 
+    //<editor-fold desc="Address params tests">
     @Test
     public void testMapWithAddressParams_parseFromMap_createPointWithCorrectConnectorType() {
         //When
@@ -223,4 +224,28 @@ public class FirebasePointsParserTest {
         assertNull("Wrong parsed street", p.getStreet());
         assertNull("Wrong parsed number", p.getNumber());
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Shedule tests">
+    @Test
+    public void testMapWithSchedule_parseFromMap_createPointWithCorrectConnectorType() {
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed schedule", "some schedule", p.getSchedule());
+    }
+
+    @Test
+    public void testMapWithoutSchedule_parseFromMap_createPointWithCorrectConnectorType() {
+        //Given
+        map.remove(FirebasePointsParser.SHEDULE_KEY);
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertNull("Wrong parsed schedule", p.getSchedule());
+    }
+    //</editor-fold>
 }

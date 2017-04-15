@@ -36,6 +36,8 @@ public class FirebasePointsParser implements PointsParser {
         point.setStreet(parseStringKeyFromMap(STREET_KEY, map));
         point.setNumber(parseStringKeyFromMap(NUMBER_KEY, map));
 
+        point.setSchedule(parseStringKeyFromMap(SHEDULE_KEY, map));
+
         return point;
     }
 
