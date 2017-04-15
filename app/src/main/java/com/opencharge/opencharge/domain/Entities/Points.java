@@ -81,6 +81,38 @@ public class Points {
         return schedule;
     }
 
+    public void setLat(float lat) {
+        this.lat = lat;
+    }
+
+    public void setLon(float lon) {
+        this.lon = lon;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setAccessType(@AccessType String accessType) {
+        this.accessType = accessType;
+    }
+
+    public void setConnectorType(@ConnectorType String connectorType) {
+        this.connectorType = connectorType;
+    }
+
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
+    }
+
     @Override
     public String toString() {
         return "Points{" +
