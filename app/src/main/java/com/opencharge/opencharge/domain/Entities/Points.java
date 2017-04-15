@@ -44,6 +44,10 @@ public class Points {
     //Empty constructor needed for Firebase
     public Points() {}
 
+    public Points(String id) {
+        this.id = id;
+    }
+
     //Getters and setters
     public float getLatCoord() {
         return lat;

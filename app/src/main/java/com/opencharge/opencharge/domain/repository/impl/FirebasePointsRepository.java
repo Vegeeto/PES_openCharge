@@ -43,8 +43,11 @@ public class FirebasePointsRepository implements PointsRepository {
     }
 
     private Points parsePointFromFirebase(DataSnapshot snapshot) {
+        Log.d("FirebaseRepo VALUE", snapshot.getValue().toString());
         Points p = snapshot.getValue(Points.class);
         p.id = snapshot.getKey();
         Log.d("FirebaseRepo", p.toString());
+
+        return p;
     }
 }
