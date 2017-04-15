@@ -27,7 +27,7 @@ public class Points {
     @Retention(RetentionPolicy.SOURCE)
     public @interface ConnectorType {}
 
-    public int id;
+    public String id;
 
     //xCoord and yCoord string
     public float lat;
@@ -53,7 +53,7 @@ public class Points {
         return lon;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
