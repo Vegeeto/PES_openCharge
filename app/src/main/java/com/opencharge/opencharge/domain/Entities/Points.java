@@ -18,6 +18,15 @@ public class Points {
     @Retention(RetentionPolicy.SOURCE)
     public @interface AccessType {}
 
+    public static final String UNKNOWN_CONNECTOR = "unknown";
+    public static final String SLOW_CONNECTOR = "slow";
+    public static final String FAST_CONNECTOR = "fast";
+    public static final String RAPID_CONNECTOR = "rapid";
+
+    @StringDef({UNKNOWN_CONNECTOR, SLOW_CONNECTOR, FAST_CONNECTOR, RAPID_CONNECTOR})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ConnectorType {}
+
     public int id;
 
     //xCoord and yCoord string
@@ -29,7 +38,7 @@ public class Points {
     public String number;
 
     public @Points.AccessType String accessType;
-    public String connectorType;
+    public @Points.ConnectorType String connectorType;
     public String schedule;
 
     //Empty constructor needed for Firebase
@@ -64,7 +73,7 @@ public class Points {
         return accessType;
     }
 
-    public String getConnectorType() {
+    public @ConnectorType String getConnectorType() {
         return connectorType;
     }
 
