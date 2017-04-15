@@ -28,10 +28,7 @@ public class FirebasePointsRepository implements PointsRepository {
                 Points[] pArray = new Points[(int)dataSnapshot.getChildrenCount()];
                 int index = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Points p = snapshot.getValue(Points.class);
-                    p.id = snapshot.getKey();
-                    Log.d("FirebaseRepo", p.toString());
-                    pArray[index] = p;
+                    pArray[index] = parsePointFromFirebase(snapshot);
                     ++index;
                 }
                 callback.onPointsRetrieved(pArray);
@@ -43,5 +40,11 @@ public class FirebasePointsRepository implements PointsRepository {
                 Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
             }
         });
+    }
+
+    private Points parsePointFromFirebase(DataSnapshot snapshot) {
+        Points p = snapshot.getValue(Points.class);
+        p.id = snapshot.getKey();
+        Log.d("FirebaseRepo", p.toString());
     }
 }
