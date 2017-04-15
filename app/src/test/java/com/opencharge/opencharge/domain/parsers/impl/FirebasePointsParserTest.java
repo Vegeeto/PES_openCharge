@@ -36,8 +36,8 @@ public class FirebasePointsParserTest {
         map.put(FirebasePointsParser.NUMBER_KEY, "321-322");
         map.put(FirebasePointsParser.LON_KEY, 3.22);
         map.put(FirebasePointsParser.LAT_KEY, 2.33);
-        map.put(FirebasePointsParser.ACCESS_TYPE_KEY, "public");
-        map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, "slow");
+        map.put(FirebasePointsParser.ACCESS_TYPE_KEY, Points.PUBLIC_ACCESS);
+        map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, Points.SLOW_CONNECTOR);
         map.put(FirebasePointsParser.SHEDULE_KEY, "some shedule");
     }
 
@@ -48,5 +48,62 @@ public class FirebasePointsParserTest {
 
         //Then
         assertEquals("Point id not parsed", key, p.getId());
+    }
+
+    @Test
+    public void testMapWithPublicAccessType_parseFromMap_createPointWithCorrectAccessType() {
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed accessType", Points.PUBLIC_ACCESS, p.getAccessType());
+    }
+
+    @Test
+    public void testMapWithPrivateAccessType_parseFromMap_createPointWithCorrectAccessType() {
+        //Given
+        map.put(FirebasePointsParser.ACCESS_TYPE_KEY, Points.PRIVATE_ACCESS);
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed accessType", Points.PRIVATE_ACCESS, p.getAccessType());
+    }
+
+    @Test
+    public void testMapWithIndividualAccessType_parseFromMap_createPointWithCorrectAccessType() {
+        //Given
+        map.put(FirebasePointsParser.ACCESS_TYPE_KEY, Points.INDIVIDUAL_ACCESS);
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed accessType", Points.INDIVIDUAL_ACCESS, p.getAccessType());
+    }
+
+    @Test
+    public void testMapWithUnknownAccessType_parseFromMap_createPointWithCorrectAccessType() {
+        //Given
+        map.put(FirebasePointsParser.ACCESS_TYPE_KEY, Points.UNKNOWN_ACCESS);
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed accessType", Points.UNKNOWN_ACCESS, p.getAccessType());
+    }
+
+    @Test
+    public void testMapWithWrongAccessType_parseFromMap_createPointWithCorrectAccessType() {
+        //Given
+        map.put(FirebasePointsParser.ACCESS_TYPE_KEY, "Wrong access type");
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed accessType", Points.UNKNOWN_ACCESS, p.getAccessType());
     }
 }

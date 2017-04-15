@@ -10,11 +10,12 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 public class Points {
+    public static final String UNKNOWN_ACCESS = "unknown";
     public static final String PUBLIC_ACCESS = "public";
     public static final String PRIVATE_ACCESS = "private";
     public static final String INDIVIDUAL_ACCESS = "individual";
 
-    @StringDef({PUBLIC_ACCESS, PRIVATE_ACCESS, INDIVIDUAL_ACCESS})
+    @StringDef({UNKNOWN_ACCESS, PUBLIC_ACCESS, PRIVATE_ACCESS, INDIVIDUAL_ACCESS})
     @Retention(RetentionPolicy.SOURCE)
     public @interface AccessType {}
 

@@ -3,6 +3,7 @@ package com.opencharge.opencharge.domain.parsers.impl;
 import com.opencharge.opencharge.domain.Entities.Points;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -22,7 +23,21 @@ public class FirebasePointsParser implements PointsParser {
     @Override
     public Points parseFromMap(String key, Map<String, Object> map) {
         Points point = new Points(key);
-
+        point.setAccessType(parseAccessTypeFromMap(map));
         return point;
+    }
+
+    private @Points.AccessType String parseAccessTypeFromMap(Map<String, Object> map) {
+        @Points.AccessType String accessType = (String)map.get(ACCESS_TYPE_KEY);
+        if (!isCorrectAccessType(accessType)) {
+            accessType = Points.UNKNOWN_ACCESS;
+        }
+
+        return accessType;
+    }
+
+    private boolean isCorrectAccessType(String accessType) {
+        String[] allowedTypes = new String[] {Points.PUBLIC_ACCESS, Points.PRIVATE_ACCESS, Points.INDIVIDUAL_ACCESS};
+        return Arrays.asList(allowedTypes).contains(accessType);
     }
 }
