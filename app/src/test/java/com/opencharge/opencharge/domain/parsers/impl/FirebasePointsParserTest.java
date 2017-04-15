@@ -5,6 +5,7 @@ import com.opencharge.opencharge.domain.Entities.Points;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -170,6 +171,7 @@ public class FirebasePointsParserTest {
     }
     //</editor-fold>
 
+    //<editor-fold desc="Lat&Lon tests">
     @Test
     public void testMapWithLatAndLon_parseFromMap_createPointWithCorrectConnectorType() {
         //When
@@ -192,5 +194,33 @@ public class FirebasePointsParserTest {
         //Then
         assertEquals("Wrong parsed lat", 0.0000, p.getLatCoord(), FirebasePointsParser.COORDINATES_PRECISION);
         assertEquals("Wrong parsed lon", 0.0000, p.getLonCoord(), FirebasePointsParser.COORDINATES_PRECISION);
+    }
+    //</editor-fold>
+
+    @Test
+    public void testMapWithAddressParams_parseFromMap_createPointWithCorrectConnectorType() {
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed town", "barcelona", p.getTown());
+        assertEquals("Wrong parsed street", "diagonal", p.getStreet());
+        assertEquals("Wrong parsed number", "321-322", p.getNumber());
+    }
+
+    @Test
+    public void testMapWithoutAddressParams_parseFromMap_createPointWithCorrectConnectorType() {
+        //Given
+        map.remove(FirebasePointsParser.TOWN_KEY);
+        map.remove(FirebasePointsParser.STREET_KEY);
+        map.remove(FirebasePointsParser.NUMBER_KEY);
+
+        //When
+        Points p = sut.parseFromMap(key, map);
+
+        //Then
+        assertNull("Wrong parsed town", p.getTown());
+        assertNull("Wrong parsed street", p.getStreet());
+        assertNull("Wrong parsed number", p.getNumber());
     }
 }

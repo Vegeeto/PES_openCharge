@@ -25,12 +25,16 @@ public class FirebasePointsParser implements PointsParser {
     @Override
     public Points parseFromMap(String key, Map<String, Object> map) {
         Points point = new Points(key);
-        
+
         point.setAccessType(parseAccessTypeFromMap(map));
         point.setConnectorType(parseConnectorTypeFromMap(map));
 
         point.setLat(parseDoubleKeyFromMap(LAT_KEY, map));
         point.setLon(parseDoubleKeyFromMap(LON_KEY, map));
+
+        point.setTown(parseStringKeyFromMap(TOWN_KEY, map));
+        point.setStreet(parseStringKeyFromMap(STREET_KEY, map));
+        point.setNumber(parseStringKeyFromMap(NUMBER_KEY, map));
 
         return point;
     }
@@ -59,6 +63,15 @@ public class FirebasePointsParser implements PointsParser {
             value = (double)map.get(key);
         }
         return value;
+    }
+
+    private String parseStringKeyFromMap(String key, Map<String, Object> map) {
+        if (map.containsKey(key)) {
+            return (String)map.get(key);
+        }
+        else {
+            return null;
+        }
     }
 
     private boolean isCorrectAccessType(String accessType) {
