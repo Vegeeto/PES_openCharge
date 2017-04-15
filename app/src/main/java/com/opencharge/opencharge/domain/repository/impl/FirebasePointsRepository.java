@@ -10,16 +10,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.parsers.PointsParser;
+import com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
+
+import java.util.Map;
 
 /**
  * Created by ferran on 15/3/17.
  */
 
 public class FirebasePointsRepository implements PointsRepository {
+
+    private PointsParser pointsParser;
+    private FirebaseDatabase database;
+
+    public FirebasePointsRepository() {
+        this.pointsParser = new FirebasePointsParser();
+        this.database = FirebaseDatabase.getInstance();
+    }
+
     @Override
     public void getPoints(final GetPointsCallback callback) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Points");
 
         myRef.addValueEventListener(new ValueEventListener() {
@@ -28,7 +40,9 @@ public class FirebasePointsRepository implements PointsRepository {
                 Points[] pArray = new Points[(int)dataSnapshot.getChildrenCount()];
                 int index = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    pArray[index] = parsePointFromFirebase(snapshot);
+                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+                    String key = snapshot.getKey();
+                    pArray[index] = pointsParser.parseFromMap(key, map);
                     ++index;
                 }
                 callback.onPointsRetrieved(pArray);
@@ -40,14 +54,5 @@ public class FirebasePointsRepository implements PointsRepository {
                 Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
             }
         });
-    }
-
-    private Points parsePointFromFirebase(DataSnapshot snapshot) {
-        Log.d("FirebaseRepo VALUE", snapshot.getValue().toString());
-        Points p = snapshot.getValue(Points.class);
-        p.id = snapshot.getKey();
-        Log.d("FirebaseRepo", p.toString());
-
-        return p;
     }
 }
