@@ -40,7 +40,6 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
             access.setText(p.getAccessType());
             connector.setText(p.getConnectorType());
 
-
             switch(p.getConnectorType()) {
                 case Points.UNKNOWN_CONNECTOR:
 
@@ -68,15 +67,16 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     public PointsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
 
+
         switch(viewType) {
-            case 0:
+            case 0: //Inflate the layout with point information
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler, parent, false);
                 v.setOnClickListener(this);
                 break;
-            case 1: //Replace the layout
+            case 1: //Replace the layout: inflate with scheduler layout
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler, parent, false);
                 break;
-            default: //Replace the layout
+            default: //Replace the layout: inflate with comment layout
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler, parent, false);
                 break;
         }
