@@ -20,7 +20,7 @@ public class FirebasePointsParser implements PointsParser {
     public static final String LAT_KEY = "lat";
     public static final String ACCESS_TYPE_KEY = "accessType";
     public static final String CONNECTOR_TYPE_KEY = "connectorType";
-    public static final String SHEDULE_KEY = "schedule";
+    public static final String SCHEDULE_KEY = "schedule";
 
     @Override
     public Points parseFromMap(String key, Map<String, Object> map) {
@@ -36,7 +36,7 @@ public class FirebasePointsParser implements PointsParser {
         point.setStreet(parseStringKeyFromMap(STREET_KEY, map));
         point.setNumber(parseStringKeyFromMap(NUMBER_KEY, map));
 
-        point.setSchedule(parseStringKeyFromMap(SHEDULE_KEY, map));
+        point.setSchedule(parseStringKeyFromMap(SCHEDULE_KEY, map));
 
         return point;
     }

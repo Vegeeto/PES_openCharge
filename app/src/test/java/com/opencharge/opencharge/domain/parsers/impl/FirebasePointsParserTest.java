@@ -9,7 +9,6 @@ import static org.junit.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by ferran on 15/4/17.
@@ -39,7 +38,7 @@ public class FirebasePointsParserTest {
         map.put(FirebasePointsParser.LAT_KEY, 2.3333);
         map.put(FirebasePointsParser.ACCESS_TYPE_KEY, Points.PUBLIC_ACCESS);
         map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, Points.SLOW_CONNECTOR);
-        map.put(FirebasePointsParser.SHEDULE_KEY, "some schedule");
+        map.put(FirebasePointsParser.SCHEDULE_KEY, "some schedule");
     }
 
     //<editor-fold desc="Id tests">
@@ -239,7 +238,7 @@ public class FirebasePointsParserTest {
     @Test
     public void testMapWithoutSchedule_parseFromMap_createPointWithCorrectConnectorType() {
         //Given
-        map.remove(FirebasePointsParser.SHEDULE_KEY);
+        map.remove(FirebasePointsParser.SCHEDULE_KEY);
 
         //When
         Points p = sut.parseFromMap(key, map);
