@@ -13,5 +13,13 @@ public interface PointsRepository {
         public void onError();
     }
 
+    public interface GetCreatePointCallback {
+        public void onPointCreated(Points point);
+        public void onError();
+    }
+
     void getPoints(final GetPointsCallback callback);
+    Points createPoint(final GetCreatePointCallback callback, double lat, double lon,
+                       String town, String street, String number, String accesType,
+                       String connectorType, String schedule);
 }
