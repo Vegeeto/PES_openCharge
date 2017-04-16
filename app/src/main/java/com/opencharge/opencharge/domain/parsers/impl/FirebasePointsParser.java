@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
-import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 
 import java.util.Arrays;
@@ -23,8 +23,8 @@ public class FirebasePointsParser implements PointsParser {
     public static final String SCHEDULE_KEY = "schedule";
 
     @Override
-    public Points parseFromMap(String key, Map<String, Object> map) {
-        Points point = new Points(key);
+    public Point parseFromMap(String key, Map<String, Object> map) {
+        Point point = new Point(key);
 
         point.setAccessType(parseAccessTypeFromMap(map));
         point.setConnectorType(parseConnectorTypeFromMap(map));
@@ -41,19 +41,19 @@ public class FirebasePointsParser implements PointsParser {
         return point;
     }
 
-    private @Points.AccessType String parseAccessTypeFromMap(Map<String, Object> map) {
-        @Points.AccessType String accessType = (String)map.get(ACCESS_TYPE_KEY);
+    private @Point.AccessType String parseAccessTypeFromMap(Map<String, Object> map) {
+        @Point.AccessType String accessType = (String)map.get(ACCESS_TYPE_KEY);
         if (!isCorrectAccessType(accessType)) {
-            accessType = Points.UNKNOWN_ACCESS;
+            accessType = Point.UNKNOWN_ACCESS;
         }
 
         return accessType;
     }
 
-    private @Points.ConnectorType String parseConnectorTypeFromMap(Map<String, Object> map) {
-        @Points.ConnectorType String connectorType = (String)map.get(CONNECTOR_TYPE_KEY);
+    private @Point.ConnectorType String parseConnectorTypeFromMap(Map<String, Object> map) {
+        @Point.ConnectorType String connectorType = (String)map.get(CONNECTOR_TYPE_KEY);
         if (!isCorrectConnectorType(connectorType)) {
-            connectorType = Points.UNKNOWN_CONNECTOR;
+            connectorType = Point.UNKNOWN_CONNECTOR;
         }
 
         return connectorType;
@@ -77,12 +77,12 @@ public class FirebasePointsParser implements PointsParser {
     }
 
     private boolean isCorrectAccessType(String accessType) {
-        String[] allowedTypes = new String[] {Points.PUBLIC_ACCESS, Points.PRIVATE_ACCESS, Points.INDIVIDUAL_ACCESS};
+        String[] allowedTypes = new String[] {Point.PUBLIC_ACCESS, Point.PRIVATE_ACCESS, Point.INDIVIDUAL_ACCESS};
         return Arrays.asList(allowedTypes).contains(accessType);
     }
 
     private boolean isCorrectConnectorType(String connectorType) {
-        String[] allowedTypes = new String[] {Points.SLOW_CONNECTOR, Points.FAST_CONNECTOR, Points.RAPID_CONNECTOR};
+        String[] allowedTypes = new String[] {Point.SLOW_CONNECTOR, Point.FAST_CONNECTOR, Point.RAPID_CONNECTOR};
         return Arrays.asList(allowedTypes).contains(connectorType);
     }
 }

@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
-import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
@@ -68,11 +68,11 @@ public class PointsListUseCaseImplTest {
         verify(mockPointsRepository).getPoints(repositoryCallbackCaptor.capture());
 
         //When
-        Points point = new Points();
+        Point point = new Point();
         point.lat = 1.1f;
         point.lon = 1.2f;
 
-        Points[] points = new Points[1];
+        Point[] points = new Point[1];
         points[0] = point;
 
         repositoryCallbackCaptor.getValue().onPointsRetrieved(points);

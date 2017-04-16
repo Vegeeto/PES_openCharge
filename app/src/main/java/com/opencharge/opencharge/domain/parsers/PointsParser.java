@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.parsers;
 
-import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.Entities.Point;
 
 import java.util.Map;
 
@@ -9,5 +9,5 @@ import java.util.Map;
  */
 
 public interface PointsParser {
-    public Points parseFromMap(String key, Map<String, Object> map);
+    public Point parseFromMap(String key, Map<String, Object> map);
 }
