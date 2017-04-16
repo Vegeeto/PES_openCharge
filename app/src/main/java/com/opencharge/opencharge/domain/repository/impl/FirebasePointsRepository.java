@@ -71,4 +71,25 @@ public class FirebasePointsRepository implements PointsRepository {
         }
         return null;
     }
+
+    public Points createPoint(final GetCreatePointCallback callback, double lat, double lon,
+                              String town, String street, String number, String accesType,
+                              String connectorType, String schedule){
+
+        DatabaseReference myRef = database.getReference("Points");
+
+        Points p = new Points();
+        p.setLat(lat);
+        p.setLon(lon);
+        p.setTown(town);
+        p.setNumber(street);
+        p.setNumber(number) ;
+        p.setAccessType(accesType);
+        p.setConnectorType(connectorType);
+        p.setSchedule(schedule);
+
+        myRef.setValue(p);
+
+        return p;
+    }
 }
