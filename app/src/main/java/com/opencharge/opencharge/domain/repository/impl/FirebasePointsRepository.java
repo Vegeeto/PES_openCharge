@@ -36,7 +36,6 @@ public class FirebasePointsRepository implements PointsRepository {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Point[] points = parsePointsFromDataSnapshot(dataSnapshot);
-                Log.d("FirebaseRepo","ERROR: " + points);
                 callback.onPointsRetrieved(points);
             }
 
