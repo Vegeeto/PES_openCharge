@@ -1,15 +1,13 @@
 package com.opencharge.opencharge.domain.repository.impl;
 
-import android.graphics.Point;
 import android.util.Log;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
@@ -37,7 +35,7 @@ public class FirebasePointsRepository implements PointsRepository {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Points[] points = parsePointsFromDataSnapshot(dataSnapshot);
+                Point[] points = parsePointsFromDataSnapshot(dataSnapshot);
                 callback.onPointsRetrieved(points);
             }
 
@@ -49,11 +47,11 @@ public class FirebasePointsRepository implements PointsRepository {
         });
     }
 
-    private Points[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
-        Points[] points = new Points[(int)dataSnapshot.getChildrenCount()];
+    private Point[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
+        Point[] points = new Point[(int)dataSnapshot.getChildrenCount()];
         int index = 0;
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            Points point = parsePointFromSnapshot(snapshot);
+            Point point = parsePointFromSnapshot(snapshot);
             if (point != null) {
                 points[index] = point;
                 ++index;
@@ -63,7 +61,7 @@ public class FirebasePointsRepository implements PointsRepository {
         return points;
     }
 
-    private Points parsePointFromSnapshot(DataSnapshot snapshot) {
+    private Point parsePointFromSnapshot(DataSnapshot snapshot) {
         if (snapshot.getValue() instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
             String key = snapshot.getKey();
@@ -72,24 +70,14 @@ public class FirebasePointsRepository implements PointsRepository {
         return null;
     }
 
-    public Points createPoint(final GetCreatePointCallback callback, double lat, double lon,
-                              String town, String street, String number, String accesType,
-                              String connectorType, String schedule){
+    public String createPoint(Point point){
 
         DatabaseReference myRef = database.getReference("Points");
+        DatabaseReference postPoint =  myRef.push();
+        postPoint.setValue(point);
 
-        Points p = new Points();
-        p.setLat(lat);
-        p.setLon(lon);
-        p.setTown(town);
-        p.setNumber(street);
-        p.setNumber(number) ;
-        p.setAccessType(accesType);
-        p.setConnectorType(connectorType);
-        p.setSchedule(schedule);
+        String postId = postPoint.getKey();
 
-        myRef.setValue(p);
-
-        return p;
+        return postId;
     }
 }

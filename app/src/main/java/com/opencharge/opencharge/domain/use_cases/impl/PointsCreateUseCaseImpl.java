@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
-import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
@@ -14,6 +14,14 @@ import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
 public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCreateUseCase {
     private PointsCreateUseCase.Callback callback;
     private PointsRepository pointsRepository;
+    double lat;
+    double lon;
+    String town;
+    String street;
+    String number;
+    String accesType;
+    String connectorType;
+    String schedule;
 
     public PointsCreateUseCaseImpl(Executor threadExecutor,
                                    MainThread mainThread,
@@ -27,20 +35,13 @@ public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCr
 
     @Override
     public void run() {
-        pointsRepository.createPoint(new PointsRepository.GetCreatePointCallback() {
-            @Override
-            public void onPointCreated(Points point) {
-                postPoints(point);
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
+        //Crida factoryPoints
+        //Crear Point
+        Point p = new Point();
+        pointsRepository.createPoint();
     }
 
-    private void postPoints(final Points point) {
+    private void postPoints(final Point point) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
