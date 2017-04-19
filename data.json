@@ -1,0 +1,44 @@
+{
+  "Points" : [
+    {
+      "lat" : 41.394382,
+      "lon" : 2.113115,
+      "town" : "Barcelona",
+      "street" : "",
+      "number" : "",
+      "accessType" : "public",
+      "connectorType" : "unknown",
+      "schedule" : "de 8.00 a 20.00"
+    },
+    {
+      "lat" : 41.404626,
+      "lon" : 2.151604,
+      "town" : "Barcelona",
+      "street" : "",
+      "number" : "",
+      "accessType" : "public",
+      "connectorType" : "slow",
+      "schedule" : "de 8.00 a 20.00"
+    },
+    {
+      "lat" : 41.406943,
+      "lon" : 2.165594,
+      "town" : "Barcelona",
+      "street" : "",
+      "number" : "",
+      "accessType" : "public",
+      "connectorType" : "slow",
+      "schedule" : "de 8.00 a 20.00"
+    },
+    {
+      "lat" : 41.40405,
+      "lon" : 2.190616,
+      "town" : "Barcelona",
+      "street" : "",
+      "number" : "",
+      "accessType" : "public",
+      "connectorType" : "slow",
+      "schedule" : "de 8.00 a 20.00"
+    }
+  ]
+}

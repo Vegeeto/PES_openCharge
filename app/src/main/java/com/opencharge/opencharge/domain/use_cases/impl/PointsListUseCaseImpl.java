@@ -1,8 +1,6 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
-import android.util.Log;
-
-import com.opencharge.opencharge.domain.Entities.Points;  //Esto rompe clean arch?
+import com.opencharge.opencharge.domain.Entities.Point;  //Esto rompe clean arch?
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
@@ -32,7 +30,7 @@ public class PointsListUseCaseImpl extends AbstractUseCase implements PointsList
     public void run() {
         pointsRepository.getPoints(new PointsRepository.GetPointsCallback() {
             @Override
-            public void onPointsRetrieved(Points[] points) {
+            public void onPointsRetrieved(Point[] points) {
                 postPoints(points);
             }
 
@@ -43,7 +41,7 @@ public class PointsListUseCaseImpl extends AbstractUseCase implements PointsList
         });
     }
 
-    private void postPoints(final Points[] points) {
+    private void postPoints(final Point[] points) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

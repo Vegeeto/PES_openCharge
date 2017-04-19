@@ -21,7 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -101,11 +101,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         //      el UseCase acabi de fer el que ha de fer (cridar al firebase en aquest cas)
         PointsListUseCase pointsListUseCase = useCasesLocator.getPointsListUseCase(new PointsListUseCase.Callback() {
             @Override
-            public void onPointsRetrieved(Points[] points) {
+            public void onPointsRetrieved(Point[] points) {
                 //  3. Aqui es reben els punts, i es fa el que sigui, s'envien a la api de google maps per mostrar els punts, etc
                 Log.d("Debug","Punts retrieved: " + points);
 
-                for (Points point : points) {
+                for (Point point : points) {
                     LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
                     MarkerOptions marker = new MarkerOptions();
                     marker.position(position);
