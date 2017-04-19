@@ -2,20 +2,28 @@ package com.opencharge.opencharge.presentation.fragments;
 
 import android.Manifest;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Points;
@@ -44,8 +52,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         getUserLocation();
@@ -83,6 +91,49 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             //Test
             addMarkers();
         }
+        //
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                Context context = getActivity(); //or getActivity(), YourActivity.this, etc.
+
+                LinearLayout info = new LinearLayout(context);
+                info.setOrientation(LinearLayout.VERTICAL);
+
+                TextView title = new TextView(context);
+                title.setTextColor(Color.BLACK);
+                title.setGravity(Gravity.CENTER);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setText(marker.getTitle());
+
+                TextView snippet = new TextView(context);
+                snippet.setTextColor(Color.GRAY);
+                snippet.setText(marker.getSnippet());
+
+                info.addView(title);
+                info.addView(snippet);
+
+                return info;
+            }
+        });
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                //es recupera l'objecte Points associat al marcador
+                Points puntclic = (Points)marker.getTag();
+
+                //ara mateix fa això, quan estigui disponible es canviarà per a mostrar la pàgina corresponent al punt
+                //TODO quan existeixi la página de veure un punt, eliminar el toast i mostrar la página del punt recuperat
+                Toast.makeText(getActivity(), puntclic.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void addMarkers() {
@@ -97,9 +148,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                 for (Points point : points) {
                     LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
-                    mMap.addMarker(new MarkerOptions().position(position).title("Marker: " + point));
+                    Marker marcador =mMap.addMarker(new MarkerOptions().position(position).title("Punt de càrrega:")
+                            .snippet("Tipus: "+point.getTipus()+"\nDirecció: "+point.getDireccio()));
+                    marcador.setTag(point);
                 }
             }
+
         });
         //  2. S'ha de cridar el execute per executar el use case, si no no fa res. En quan fas el execute es posa a fer el que sigui
         pointsListUseCase.execute();
