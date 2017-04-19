@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.use_cases;
 
-import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 /**
@@ -9,7 +9,7 @@ import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 public interface PointsListUseCase extends UseCase {
     interface Callback {
-        void onPointsRetrieved(Points[] points);
+        void onPointsRetrieved(Point[] points);
     }
 
     // TODO: Add usecase methods here

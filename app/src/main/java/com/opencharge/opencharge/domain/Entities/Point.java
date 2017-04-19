@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
  * Created by Crjs on 24/03/2017.
  */
 
-public class Points {
+public class Point {
     public static final String UNKNOWN_ACCESS = "unknown";
     public static final String PUBLIC_ACCESS = "public";
     public static final String PRIVATE_ACCESS = "private";
@@ -38,14 +38,14 @@ public class Points {
     public String street;
     public String number;
 
-    public @Points.AccessType String accessType;
-    public @Points.ConnectorType String connectorType;
+    public @Point.AccessType String accessType;
+    public @Point.ConnectorType String connectorType;
     public String schedule;
 
     //Empty constructor needed for Firebase
-    public Points() {}
+    public Point() {}
 
-    public Points(String id) {
+    public Point(String id) {
         this.id = id;
     }
 
@@ -120,7 +120,7 @@ public class Points {
 
     @Override
     public String toString() {
-        return "Points{" +
+        return "Point{" +
                 "id=" + id +
                 ", lat=" + lat +
                 ", lon=" + lon +

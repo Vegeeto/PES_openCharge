@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.use_cases;
 
-import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 /**
@@ -9,6 +9,6 @@ import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 public interface PointsCreateUseCase extends UseCase {
     interface Callback {
-        void onPointCreated(Points point);
+        void onPointCreated(Point point);
     }
 }

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.Entities.Point;
 
 /**
  * Created by Oriol on 10/4/2017.
@@ -16,7 +16,7 @@ import com.opencharge.opencharge.domain.Entities.Points;
 
 public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder> implements View.OnClickListener {
 
-    private Points item;
+    private Point item;
     private View.OnClickListener listener;
     private Context context;
 
@@ -34,23 +34,23 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
             connector = (TextView) itemView.findViewById(R.id.connector);
         }
 
-        public void bindPoint(Points p) {
+        public void bindPoint(Point p) {
             //Posar la informació d'un punt a la vista
             adreca.setText(p.getLatCoord() + " " + p.getLonCoord());
             access.setText(p.getAccessType());
             connector.setText(p.getConnectorType());
 
             switch(p.getConnectorType()) {
-                case Points.UNKNOWN_CONNECTOR:
+                case Point.UNKNOWN_CONNECTOR:
 
                     break;
-                case Points.SLOW_CONNECTOR:
+                case Point.SLOW_CONNECTOR:
 
                     break;
-                case Points.FAST_CONNECTOR:
+                case Point.FAST_CONNECTOR:
 
                     break;
-                case Points.RAPID_CONNECTOR:
+                case Point.RAPID_CONNECTOR:
 
                     break;
                 default: connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0); break;
@@ -58,7 +58,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
         }
     }
 
-    public PointsAdapter(Context context, Points item) {
+    public PointsAdapter(Context context, Point item) {
         this.context = context;
         this.item = item;
     }
