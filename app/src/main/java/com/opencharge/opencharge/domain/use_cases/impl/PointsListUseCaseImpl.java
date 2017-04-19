@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
-import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.Point;  //Esto rompe clean arch?
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
