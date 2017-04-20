@@ -3,7 +3,7 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +27,7 @@ import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 public class PointInfoFragment extends Fragment {
 
     private PointsAdapter pointsAdapter;
+    private Point point;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,16 +76,17 @@ public class PointInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_point_info, container, false);
-        // TODO: get the point with the arguments passed in the function onCreate.
-        Point point = new Point();
-        pointsAdapter = new PointsAdapter(getContext(), point);
+        // TODO: get the point with the arguments passed before create the adapter in the function onCreate.
+        pointsAdapter = new PointsAdapter(getActivity().getApplicationContext(), point);
 
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.rv);
-        rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         rv.setHasFixedSize(true);
         rv.setAdapter(pointsAdapter);
-        rv.addItemDecoration(new ItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        rv.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
         rv.setItemAnimator(new DefaultItemAnimator());
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
