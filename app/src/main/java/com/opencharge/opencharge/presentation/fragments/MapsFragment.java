@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -26,16 +28,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.Entities.Points;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Victor on 28/03/2017.
  */
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private LatLng currentLocation;
@@ -66,12 +72,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         getUserLocation();
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMarkerClickListener(this);
         boolean noPermissions = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
         if (noPermissions) {
             // TODO: Consider calling
@@ -87,9 +95,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
-
-            //Test
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
             addMarkers();
+            //Test: Successful!
+            //searchInMap("Avinguda L'Eramprunyà 4, Gavà");
         }
         //
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
@@ -142,15 +151,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         //      el UseCase acabi de fer el que ha de fer (cridar al firebase en aquest cas)
         PointsListUseCase pointsListUseCase = useCasesLocator.getPointsListUseCase(new PointsListUseCase.Callback() {
             @Override
-            public void onPointsRetrieved(Points[] points) {
+            public void onPointsRetrieved(Point[] points) {
                 //  3. Aqui es reben els punts, i es fa el que sigui, s'envien a la api de google maps per mostrar els punts, etc
                 Log.d("Debug","Punts retrieved: " + points);
 
-                for (Points point : points) {
+                for (Point point : points) {
                     LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
-                    Marker marcador =mMap.addMarker(new MarkerOptions().position(position).title("Punt de càrrega:")
-                            .snippet("Tipus: "+point.getTipus()+"\nDirecció: "+point.getDireccio()));
-                    marcador.setTag(point);
+                    MarkerOptions marker = new MarkerOptions();
+                    marker.position(position);
+                    marker.title("Marker: " + point);
+                    //marker.icon(); To set an icon depending on the switch type.
+                    //marker.snippet("Information to show");
+                    mMap.addMarker(marker);
                 }
             }
 
@@ -192,4 +204,32 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         userLocationUseCase.execute();
     }
 
+
+    public void searchInMap(String name) {
+        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+
+        try {
+
+            List<Address> address = geocoder.getFromLocationName(name, 1);
+
+            if(address != null && !address.isEmpty()) {
+                LatLng newLocation = new LatLng(address.get(0).getLatitude(), address.get(0).getLongitude());
+                Log.e("Lat: ", "" + newLocation.latitude);
+                Log.e("Long: ", "" + newLocation.longitude);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLocation, 15)); //40.000 km / 2^n, n=15
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        //TODO: quan cliquem a un marker hauriem d'obtenir el seu id.
+        //android.app.FragmentManager fm = getFragmentManager();
+        //fm.beginTransaction().replace(R.id.content_frame, new InfoFragment()).commit();
+        return false;
+    }
 }
