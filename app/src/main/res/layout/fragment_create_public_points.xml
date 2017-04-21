@@ -1,0 +1,199 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:id="@+id/Afegir_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="@color/weakblue"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:text="@string/afegir_punt_carrega"
+            android:gravity="center"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Direccio_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:paddingTop="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            android:text="@string/direccio"
+            android:gravity="left"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Poblacio_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:paddingTop="16dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="0"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            android:gravity="left"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Lloc_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:paddingTop="16dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="0"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            android:gravity="left"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Acces_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:paddingTop="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            android:text="@string/acces"
+            android:gravity="left"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/Public_pr_private"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/Public"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginRight="32dp"
+            android:checked="true"
+            android:text="@string/publics" />
+
+        <RadioButton
+            android:id="@+id/Privat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:checked="false"
+            android:layout_marginRight="16dp"
+            android:text="@string/privat" />
+
+        <RadioButton
+            android:id="@+id/Particular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:checked="false"
+            android:text="@string/particular" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/Horari"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:paddingTop="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            android:text="@string/horari"
+            android:gravity="left"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Horari_text"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:paddingTop="16dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="0"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            android:gravity="left"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Conector"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:paddingTop="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            android:text="@string/conector"
+            android:gravity="left"
+            android:layout_weight="2" />
+
+
+
+
+    </LinearLayout>
