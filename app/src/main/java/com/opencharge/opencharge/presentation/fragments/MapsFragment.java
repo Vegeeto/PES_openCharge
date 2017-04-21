@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.device_services.impl.MapSearchFeatureImpl;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -90,6 +91,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
             mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
             addMarkers();
+
             //Test: Successful!
             //searchInMap("Avinguda L'Eramprunyà 4, Gavà");
         }
@@ -154,24 +156,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
 
-    public void searchInMap(String name) {
+    public LatLng searchInMap(String name) {
         Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
-
-        try {
-
-            List<Address> address = geocoder.getFromLocationName(name, 1);
-
-            if(address != null && !address.isEmpty()) {
-                LatLng newLocation = new LatLng(address.get(0).getLatitude(), address.get(0).getLongitude());
-                Log.e("Lat: ", "" + newLocation.latitude);
-                Log.e("Long: ", "" + newLocation.longitude);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLocation, 15)); //40.000 km / 2^n, n=15
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        MapSearchFeatureImpl MapSearchFeature = new MapSearchFeatureImpl(geocoder);
+        LatLng searchLocation = MapSearchFeature.searchInMap(name);
+        if (searchLocation != null) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
         }
 
+        return searchLocation;
     }
 
     @Override
