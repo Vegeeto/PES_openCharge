@@ -136,9 +136,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Point point = (Point)marker.getTag();
-
                 android.app.FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().replace(R.id.content_frame, new PointInfoFragment()).commit();
+                PointInfoFragment fragment = PointInfoFragment.newInstance(point.getId());
+                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
             }
         });
     }
