@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,7 +40,7 @@ import java.util.Locale;
  * Created by Victor on 28/03/2017.
  */
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private LatLng currentLocation;
@@ -79,7 +78,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnMarkerClickListener(this);
         boolean noPermissions = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
         if (noPermissions) {
             // TODO: Consider calling
@@ -100,7 +98,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             //Test: Successful!
             //searchInMap("Avinguda L'Eramprunyà 4, Gavà");
         }
-        //
+
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
             @Override
@@ -144,29 +142,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     public void addMarkers() {
-        // Exemple de com cridar al use case per agafar el llistat de punts!
-        //  1. Primer es fa una instancia del UseCase. T̩ un parametre que es un callback, una funcio que es cridar�� un cop
-        //      el UseCase acabi de fer el que ha de fer (cridar al firebase en aquest cas)
         PointsListUseCase pointsListUseCase = useCasesLocator.getPointsListUseCase(new PointsListUseCase.Callback() {
             @Override
             public void onPointsRetrieved(Point[] points) {
-                //  3. Aqui es reben els punts, i es fa el que sigui, s'envien a la api de google maps per mostrar els punts, etc
-                Log.d("Debug","Punts retrieved: " + points);
-
                 for (Point point : points) {
-                    LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
-                    MarkerOptions marker = new MarkerOptions();
-                    marker.position(position);
-                    marker.title("Marker: " + point);
-                    //marker.icon(); To set an icon depending on the switch type.
-                    //marker.snippet("Information to show");
-                    mMap.addMarker(marker);
+                    addMarkerForPoint(point);
                 }
             }
 
         });
-        //  2. S'ha de cridar el execute per executar el use case, si no no fa res. En quan fas el execute es posa a fer el que sigui
         pointsListUseCase.execute();
+    }
+
+    private void addMarkerForPoint(Point point) {
+        LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(position);
+        markerOptions.title("Punt de càrrega:");
+        markerOptions.snippet("Accés: " + point.getAccessType() + "\n Direcció: " + point.getStreet());
+
+        Marker marker = mMap.addMarker(markerOptions);
+        marker.setTag(point);
     }
 
 
@@ -221,13 +217,5 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             e.printStackTrace();
         }
 
-    }
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        //TODO: quan cliquem a un marker hauriem d'obtenir el seu id.
-        android.app.FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.content_frame, new PointInfoFragment()).commit();
-        return false;
     }
 }
