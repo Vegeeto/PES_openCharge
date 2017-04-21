@@ -136,7 +136,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onInfoWindowClick(Marker marker) {
                 //es recupera l'objecte Points associat al marcador
-                Points puntclic = (Points)marker.getTag();
+                Point puntclic = (Point)marker.getTag();
 
                 //ara mateix fa això, quan estigui disponible es canviarà per a mostrar la pàgina corresponent al punt
                 //TODO quan existeixi la página de veure un punt, eliminar el toast i mostrar la página del punt recuperat
