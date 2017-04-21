@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +14,10 @@ import android.view.ViewGroup;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
+import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +30,7 @@ import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 public class PointInfoFragment extends Fragment {
 
     private PointsAdapter pointsAdapter;
+    private RecyclerView recyclerView;
 
     private static final String ARG_POINT_ID = "point_id";
     private String pointId;
@@ -66,19 +70,31 @@ public class PointInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_point_info, container, false);
-        // TODO: get the point with the arguments passed before create the adapter in the function onCreate.
-        Point point = new Point();
-        pointsAdapter = new PointsAdapter(getActivity().getApplicationContext(), point);
+        View view = inflater.inflate(R.layout.fragment_point_info, container, false);
+        recyclerView = (RecyclerView)view.findViewById(R.id.rv);
+        return view;
+    }
 
-        RecyclerView rv = (RecyclerView) v.findViewById(R.id.rv);
-        rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-        rv.setHasFixedSize(true);
-        rv.setAdapter(pointsAdapter);
-        rv.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
-        rv.setItemAnimator(new DefaultItemAnimator());
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        return v;
+        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        PointByIdUseCase getPointUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
+            @Override
+            public void onPointRetrieved(Point point) {
+                pointsAdapter = new PointsAdapter(getActivity().getApplicationContext(), point);
+
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setAdapter(pointsAdapter);
+                recyclerView.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+            }
+        });
+
+        getPointUseCase.setPointId(pointId);
+        getPointUseCase.execute();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
