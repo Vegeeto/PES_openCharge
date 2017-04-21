@@ -8,6 +8,11 @@
     <string name="conector">Conector</string>
     <string name="publics">Public</string>
     <string name="privat">Privat</string>
+    <string name="tipus1">Tipus 1</string>
+    <string name="tipus2">Tipus 2</string>
+    <string name="tipus3">Tipus 3</string>
+    <string name="guardar">Guardar</string>
+    <string name="cancelar">Cancel·lar</string>
     <string name="particular">Particular</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
