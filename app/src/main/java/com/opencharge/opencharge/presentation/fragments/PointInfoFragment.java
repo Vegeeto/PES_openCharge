@@ -3,12 +3,18 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
+import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +25,10 @@ import com.opencharge.opencharge.R;
  * create an instance of this fragment.
  */
 public class PointInfoFragment extends Fragment {
+
+    private PointsAdapter pointsAdapter;
+    private Point point;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,7 +75,18 @@ public class PointInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_point_info, container, false);
+        View v = inflater.inflate(R.layout.fragment_point_info, container, false);
+        // TODO: get the point with the arguments passed before create the adapter in the function onCreate.
+        pointsAdapter = new PointsAdapter(getActivity().getApplicationContext(), point);
+
+        RecyclerView rv = (RecyclerView) v.findViewById(R.id.rv);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        rv.setHasFixedSize(true);
+        rv.setAdapter(pointsAdapter);
+        rv.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
+        rv.setItemAnimator(new DefaultItemAnimator());
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
