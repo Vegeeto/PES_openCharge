@@ -29,10 +29,10 @@ public class MapSearchFeatureImpl implements MapSearchFeature {
         try {
 
             List<Address> address = geocoder.getFromLocationName(name, 1);
-
-            if(address != null && !address.isEmpty()) {
+            if (address != null && !address.isEmpty()) {
                 return new LatLng(address.get(0).getLatitude(), address.get(0).getLongitude());
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
