@@ -13,5 +13,11 @@ public interface PointsRepository {
         public void onError();
     }
 
+    public interface GetPointByIdCallback {
+        public void onPointRetrieved(Point point);
+        public void onError();
+    }
+
     void getPoints(final GetPointsCallback callback);
+    void getPointById(String pointId, final GetPointByIdCallback callback);
 }
