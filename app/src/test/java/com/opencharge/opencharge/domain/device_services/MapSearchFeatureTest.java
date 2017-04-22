@@ -1,4 +1,4 @@
-package com.opencharge.opencharge.domain.parsers.impl;
+package com.opencharge.opencharge.domain.device_services;
 
 import android.content.Context;
 import android.location.Address;
