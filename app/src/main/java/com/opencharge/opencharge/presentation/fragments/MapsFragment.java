@@ -28,9 +28,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
-import com.opencharge.opencharge.domain.device_services.impl.MapSearchFeatureImpl;
+import com.opencharge.opencharge.domain.device_services.MapSearchFeature;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
+import com.opencharge.opencharge.presentation.locators.ServicesLocator;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.io.IOException;
@@ -46,6 +47,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private LatLng currentLocation;
     private UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+    private ServicesLocator servicesLocator = ServicesLocator.getInstance();
 
     static final LatLng BARCELONA = new LatLng(41.390, 2.154);
 
@@ -203,7 +205,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     public LatLng searchInMap(String name) {
         Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
-        MapSearchFeatureImpl MapSearchFeature = new MapSearchFeatureImpl(geocoder);
+        MapSearchFeature MapSearchFeature = servicesLocator.getMapSearchFeature(geocoder);
         LatLng searchLocation = MapSearchFeature.searchInMap(name);
         if (searchLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
