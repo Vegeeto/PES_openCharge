@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -114,6 +115,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                 LinearLayout info = new LinearLayout(context);
                 info.setOrientation(LinearLayout.VERTICAL);
+                //info.setBackgroundColor(ContextCompat.getColor(context, R.color.orange));
 
                 TextView title = new TextView(context);
                 title.setTextColor(Color.BLACK);
