@@ -60,8 +60,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        //MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         getUserLocation();
@@ -74,7 +74,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         getUserLocation();
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
         }
     }
 
@@ -96,11 +96,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
             addMarkers();
-
-            //Test: Successful!
-            //searchInMap("Avinguda L'Eramprunyà 4, Gavà");
         }
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
@@ -134,6 +131,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 return info;
             }
         });
+
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -162,8 +160,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(position);
-        markerOptions.title("Punt de càrrega:");
-        markerOptions.snippet("Accés: " + point.getAccessType() + "\n Direcció: " + point.getStreet());
+        markerOptions.title("Punt de recàrrega " + point.getAccessType());
+        markerOptions.snippet("Direcció: " + point.getStreet());
 
         Marker marker = mMap.addMarker(markerOptions);
         marker.setTag(point);
