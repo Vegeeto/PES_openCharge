@@ -1,17 +1,13 @@
 package com.opencharge.opencharge.domain.device_services.impl;
 
-import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
-import android.util.Log;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.opencharge.opencharge.domain.device_services.MapSearchFeature;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Oriol on 21/4/2017.
