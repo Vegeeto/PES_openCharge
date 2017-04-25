@@ -132,4 +132,8 @@ public class Point {
                 ", schedule='" + schedule + '\'' +
                 '}';
     }
+
+    public String getAddress() {
+        return street + " " + number + ", " + town;
+    }
 }

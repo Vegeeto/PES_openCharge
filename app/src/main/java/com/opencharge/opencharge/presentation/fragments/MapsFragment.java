@@ -104,7 +104,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
             @Override
-            public View getInfoWindow(Marker arg0) {
+            public View getInfoWindow(Marker marker) {
                 return null;
             }
 
@@ -115,7 +115,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                 LinearLayout info = new LinearLayout(context);
                 info.setOrientation(LinearLayout.VERTICAL);
-                //info.setBackgroundColor(ContextCompat.getColor(context, R.color.orange));
+                info.setBackgroundColor(ContextCompat.getColor(context, R.color.tooltip));
+
 
                 TextView title = new TextView(context);
                 title.setTextColor(Color.BLACK);
@@ -124,7 +125,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 title.setText(marker.getTitle());
 
                 TextView snippet = new TextView(context);
-                snippet.setTextColor(Color.GRAY);
+                snippet.setTextColor(Color.BLACK);
                 snippet.setText(marker.getSnippet());
 
                 info.addView(title);
@@ -163,7 +164,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(position);
         markerOptions.title("Punt de recàrrega " + point.getAccessType());
-        markerOptions.snippet("Direcció: " + point.getStreet());
+        markerOptions.snippet(point.getAddress());
+        //markerOptions.icon(R.drawable.?);
 
         Marker marker = mMap.addMarker(markerOptions);
         marker.setTag(point);
