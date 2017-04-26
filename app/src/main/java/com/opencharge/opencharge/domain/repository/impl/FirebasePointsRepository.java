@@ -89,14 +89,19 @@ public class FirebasePointsRepository implements PointsRepository {
         return null;
     }
 
-    public String createPoint(Point point){
-        
+    public void createPoint(Point point, final CreatePointCallback callback) {
+
         DatabaseReference myRef = database.getReference("Points");
-        DatabaseReference postPoint =  myRef.push();
-        postPoint.setValue(point);
+        myRef.push().setValue(point, new DatabaseReference.CompletionListener() {
 
-        String postId = postPoint.getKey();
+            @Override
+            public void onComplete(DatabaseError de, DatabaseReference dr) {
+                System.out.println("Record saved!");
+                String postId = dr.getKey();
+                callback.onPointCreated(postId);
+            }
 
-        return postId;
+            ;
+        });
     }
 }

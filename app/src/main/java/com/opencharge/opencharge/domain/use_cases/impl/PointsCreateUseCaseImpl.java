@@ -50,19 +50,28 @@ public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCr
     @Override
     public void run() {
         System.out.println("Enter PointsCreate.run()");
-        Point point = PointFactory.getInstance().createNewPoint(lat,lon,town,street,number,accessType,connectorType,schedule);
+        final Point point = PointFactory.getInstance().createNewPoint(lat,lon,town,street,number,accessType,connectorType,schedule);
         System.out.println("Created Point: "+point.toString());
-        String id = pointsRepository.createPoint(point); //No entra dintre de la funció?
-        System.out.println("Id returned from firebase: "+id);
-        PointFactory.getInstance().setPointId(point, id);
-        postPoints(point);
+        pointsRepository.createPoint(point, new PointsRepository.CreatePointCallback(){
+            @Override
+            public void onPointCreated(String id)
+            {
+                PointFactory.getInstance().setPointId(point, id);
+                postPoint(id);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 
-    private void postPoints(final Point point) {
+    private void postPoint(final String id) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                callback.onPointCreated(point);
+                callback.onPointCreated(id);
             }
         });
     }

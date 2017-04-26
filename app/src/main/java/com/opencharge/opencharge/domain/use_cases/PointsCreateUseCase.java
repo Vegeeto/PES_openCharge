@@ -9,7 +9,7 @@ import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 public interface PointsCreateUseCase extends UseCase {
     interface Callback {
-        void onPointCreated(Point point);
+        void onPointCreated(String id);
     }
 
     public void setPointParameters( double lat,double lon, String town,

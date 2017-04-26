@@ -20,9 +20,15 @@ public interface PointsRepository {
         public void onError();
     }
 
+    public interface CreatePointCallback {
+        public void onPointCreated(String id);
+
+        public void onError();
+    }
+
     void getPoints(final GetPointsCallback callback);
 
-    String createPoint(Point point);
+    void createPoint(Point point, final CreatePointCallback callback);
 
     void getPointById(String pointId, final GetPointByIdCallback callback);
 }
