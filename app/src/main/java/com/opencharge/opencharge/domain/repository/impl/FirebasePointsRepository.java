@@ -97,6 +97,7 @@ public class FirebasePointsRepository implements PointsRepository {
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
                 System.out.println("Record saved!");
+                Log.d("CrearPunt","Record saved!");
                 String postId = dr.getKey();
                 callback.onPointCreated(postId);
             }
