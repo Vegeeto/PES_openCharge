@@ -62,6 +62,6 @@ public class PointsCreateUseCaseImplTest {
         sut.run();
 
         //Then
-        verify(mockPointsRepository).createPoint(any(Point.class));
+        verify(mockPointsRepository).createPoint(any(Point.class),any(PointsRepository.CreatePointCallback.class));
     }
 }
