@@ -1,6 +1,7 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Factories.PointFactory;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
@@ -14,31 +15,45 @@ import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
 public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCreateUseCase {
     private PointsCreateUseCase.Callback callback;
     private PointsRepository pointsRepository;
-    double lat;
-    double lon;
-    String town;
-    String street;
-    String number;
-    String accesType;
-    String connectorType;
-    String schedule;
+    private double lat;
+    private double lon;
+    private String town;
+    private String street;
+    private String number;
+    private String accessType;
+    private String connectorType;
+    private String schedule;
 
     public PointsCreateUseCaseImpl(Executor threadExecutor,
                                    MainThread mainThread,
                                    PointsRepository pointsRepository,
-                                   PointsCreateUseCase.Callback callback) {
+                                   PointsCreateUseCase.Callback callback,
+                                   double lat,
+                                   double lon,
+                                   String town,
+                                   String street,
+                                   String number,
+                                   String accessType,
+                                   String connectorType,
+                                   String schedule) {
         super(threadExecutor, mainThread);
 
         this.pointsRepository = pointsRepository;
         this.callback = callback;
+        this.town = town;
+        this.street = street;
+        this.number = number;
+        this.accessType = accessType;
+        this.connectorType = connectorType;
+        this.schedule =  schedule;
     }
 
     @Override
     public void run() {
-        //Crida factoryPoints
-        //Crear Point
-        Point p = new Point();
-        pointsRepository.createPoint();
+        Point point = PointFactory.getInstance().createNewPoint(lat,lon,town,street,number,accessType,connectorType,schedule);
+        String id = pointsRepository.createPoint(point);
+        PointFactory.getInstance().setPointId(point, id);
+        postPoints(point);
     }
 
     private void postPoints(final Point point) {
