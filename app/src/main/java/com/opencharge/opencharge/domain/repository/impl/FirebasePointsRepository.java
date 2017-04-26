@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.opencharge.opencharge.domain.Entities.FirebasePoint;
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser;
@@ -89,7 +90,7 @@ public class FirebasePointsRepository implements PointsRepository {
         return null;
     }
 
-    public void createPoint(Point point, final CreatePointCallback callback) {
+    public void createPoint(FirebasePoint point, final CreatePointCallback callback) {
 
         DatabaseReference myRef = database.getReference("Points");
         myRef.push().setValue(point, new DatabaseReference.CompletionListener() {
@@ -97,6 +98,7 @@ public class FirebasePointsRepository implements PointsRepository {
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
                 System.out.println("Record saved!");
+                Log.d("CrearPunt","Record saved!");
                 String postId = dr.getKey();
                 callback.onPointCreated(postId);
             }

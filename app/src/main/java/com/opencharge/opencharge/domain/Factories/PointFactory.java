@@ -1,5 +1,7 @@
 package com.opencharge.opencharge.domain.Factories;
 
+import com.google.firebase.database.FirebaseDatabase;
+import com.opencharge.opencharge.domain.Entities.FirebasePoint;
 import com.opencharge.opencharge.domain.Entities.Point;
 
 /**
@@ -35,5 +37,20 @@ public class PointFactory {
     }
     public void setPointId(Point p, String id){
         p.id = id;
+    }
+
+    public FirebasePoint pointToFirebasePoint(Point p){
+
+        FirebasePoint o = new FirebasePoint();
+        o.lat = p.lat;
+        o.lon = p.lon;
+        o.town = p.town;
+        o.street = p.street;
+        o.number = p.number;
+        o.accessType = p.accessType;
+        o.connectorType = p.connectorType;
+        o.schedule = p.schedule;
+
+        return o;
     }
 }
