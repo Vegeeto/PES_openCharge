@@ -115,7 +115,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                 LinearLayout info = new LinearLayout(context);
                 info.setOrientation(LinearLayout.VERTICAL);
-                info.setBackgroundColor(ContextCompat.getColor(context, R.color.tooltip));
+                info.setBackgroundColor(ContextCompat.getColor(context, R.color.orange));
+                info.setPadding(10, 2, 10, 2);
 
 
                 TextView title = new TextView(context);
