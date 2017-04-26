@@ -3,8 +3,10 @@ package com.opencharge.opencharge.presentation.locators;
 import android.content.Context;
 import android.util.Log;
 
+import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
+import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsListUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserLocationUseCaseImpl;
 
@@ -20,15 +22,12 @@ public class UseCasesLocator {
 
     public static UseCasesLocator getInstance() {
         if(instance == null) {
-            Log.d("UseCasesLocator","Creating new instance");
             instance = new UseCasesLocator();
         }
-        Log.d("UseCasesLocator","Instance already exists, returning");
         return instance;
     }
 
     public PointsListUseCase getPointsListUseCase(PointsListUseCase.Callback callback) {
-        Log.d("UseCasesLocator","Im inside getPointUseCase");
         return new PointsListUseCaseImpl(
                 ServicesLocator.getInstance().getExecutor(),
                 ServicesLocator.getInstance().getMainThread(),
@@ -47,5 +46,13 @@ public class UseCasesLocator {
         );
     }
 
-
+    public PointsCreateUseCase getPointsCreateUseCase(PointsCreateUseCase.Callback callback,  double lat, double lon,
+                                                      String town, String street, String number, String accesType,
+                                                      String connectorType, String schedule) {
+        return new PointsCreateUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getPointsRepository(),
+                callback, lat, lon, town, street, number, accesType, connectorType, schedule);
+    }
 }
