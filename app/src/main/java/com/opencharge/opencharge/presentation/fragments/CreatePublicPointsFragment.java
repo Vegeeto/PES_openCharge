@@ -108,7 +108,7 @@ public class CreatePublicPointsFragment extends Fragment {
             }
 
         });
-        getCreatePointsUseCase.setPointParameters(1.0,1.0, town,street,number,accesType,connectorType,schedule);
+        getCreatePointsUseCase.setPointParameters(1.2f,1.3f, town,street,number,accesType,connectorType,schedule);
         //getCreatePointsUseCase.setPointParameters(1.0,1.0, "a","a","a","a","a","a");
         getCreatePointsUseCase.execute();
 
