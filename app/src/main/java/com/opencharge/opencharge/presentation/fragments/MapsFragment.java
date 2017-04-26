@@ -60,6 +60,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
@@ -165,10 +166,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
                     searchView.setQuery("", false);
-                    searchView.setIconified(true);
-                    //searchView.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    //searchView.setIconified(true);
+                    searchView.clearFocus();
                 }
                 else Toast.makeText(getActivity(),"Address invalid!",Toast.LENGTH_SHORT).show();
                 return true;
