@@ -10,9 +10,19 @@ public interface PointsRepository {
 
     public interface GetPointsCallback {
         public void onPointsRetrieved(Point[] points);
+
+        public void onError();
+    }
+
+    public interface GetPointByIdCallback {
+        public void onPointRetrieved(Point point);
+
         public void onError();
     }
 
     void getPoints(final GetPointsCallback callback);
+
     String createPoint(Point point);
+
+    void getPointById(String pointId, final GetPointByIdCallback callback);
 }
