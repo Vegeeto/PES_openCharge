@@ -11,13 +11,20 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -141,6 +148,33 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 android.app.FragmentManager fm = getFragmentManager();
                 PointInfoFragment fragment = PointInfoFragment.newInstance(point.getId());
                 fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            }
+        });
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.navigation, menu);
+        final MenuItem searchItem = menu.findItem(R.id.searchBar);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(getText(R.string.hint));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                LatLng result = searchInMap(query);
+                if (result==null) Toast.makeText(getActivity(),"Address invalid!",Toast.LENGTH_SHORT);
+                else {
+                    searchView.setQuery("", false);
+                    //searchView.setIconified(true);
+                    searchView.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
             }
         });
     }
