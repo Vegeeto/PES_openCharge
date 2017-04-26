@@ -2,6 +2,7 @@ package com.opencharge.opencharge.domain.use_cases.impl;
 
 import android.util.Log;
 
+import com.opencharge.opencharge.domain.Entities.FirebasePoint;
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.Factories.PointFactory;
 import com.opencharge.opencharge.domain.executor.Executor;
@@ -55,9 +56,10 @@ public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCr
         System.out.println("Enter PointsCreate.run()");
         Log.d("CrearPunt","Enter PointsCreate.run()");
         final Point point = PointFactory.getInstance().createNewPoint(lat,lon,town,street,number,accessType,connectorType,schedule);
+        final FirebasePoint firebasePoint = PointFactory.getInstance().pointToFirebasePoint(point);
         System.out.println("Created Point: "+point.toString());
         Log.d("CrearPunt","Created Point: "+point.toString());
-        pointsRepository.createPoint(point, new PointsRepository.CreatePointCallback(){
+        pointsRepository.createPoint(firebasePoint, new PointsRepository.CreatePointCallback(){
             @Override
             public void onPointCreated(String id)
             {
