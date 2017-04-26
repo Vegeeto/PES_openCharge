@@ -35,7 +35,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
@@ -55,7 +55,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
@@ -74,7 +74,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
@@ -93,7 +93,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
@@ -147,7 +147,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
@@ -167,7 +167,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
@@ -185,7 +185,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"

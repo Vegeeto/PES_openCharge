@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment;
 import com.opencharge.opencharge.presentation.fragments.MainFragment;
 import com.opencharge.opencharge.presentation.fragments.MapsFragment;
 
@@ -97,6 +98,7 @@ public class NavigationActivity extends AppCompatActivity
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
 
         } else if (id == R.id.nav_slideshow) {
+            fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit())
 
         } else if (id == R.id.nav_manage) {
 

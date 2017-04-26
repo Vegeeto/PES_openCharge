@@ -15,11 +15,6 @@ import com.opencharge.opencharge.R;
 public class CreatePublicPointsFragment extends Fragment {
 
 
-    public CreatePublicPointsFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
