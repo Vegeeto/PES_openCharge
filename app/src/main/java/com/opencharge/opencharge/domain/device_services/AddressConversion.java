@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 
 public interface AddressConversion {
+
     LatLng AddressToLatLng(String town, String street, String number);
 
     boolean LatLongToAddress(double lat, double lng);
