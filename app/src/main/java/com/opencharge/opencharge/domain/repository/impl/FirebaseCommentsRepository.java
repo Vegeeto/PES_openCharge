@@ -24,6 +24,7 @@ public class FirebaseCommentsRepository implements CommentsRepository {
         //modificar aqui:
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(point_id);
+        myRef = myRef.child("Comments");
         myRef.push().setValue(comment, new DatabaseReference.CompletionListener() {
 
             @Override
