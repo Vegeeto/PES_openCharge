@@ -47,6 +47,25 @@ public class FirebasePointsRepository implements PointsRepository {
         });
     }
 
+    @Override
+    public void getPointById(String pointId, final GetPointByIdCallback callback) {
+        DatabaseReference myRef = database.getReference("Points").child(pointId);
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Point point = parsePointFromSnapshot(dataSnapshot);
+                callback.onPointRetrieved(point);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //TODO
+                Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
+            }
+        });
+    }
+
     private Point[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
         Point[] points = new Point[(int)dataSnapshot.getChildrenCount()];
         int index = 0;

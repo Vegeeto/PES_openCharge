@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment;
@@ -111,5 +113,35 @@ public class NavigationActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void guardarPunt(View view) {
+        String town = ((EditText) findViewById(R.id.Poblacio)).getText().toString();
+        String street = ((EditText) findViewById(R.id.Street)).getText().toString();
+        String number = ((EditText) findViewById(R.id.Number)).getText().toString();
+        String schedule = ((EditText) findViewById(R.id.Horari)).getText().toString();
+        RadioGroup rdg = (RadioGroup) findViewById(R.id.Public_or_private);
+        RadioGroup rdgTipus = (RadioGroup) findViewById(R.id.tipus_connector);
+        String accesType = "unkown";
+        if (rdg.getCheckedRadioButtonId() == R.id.Public) {
+            accesType = "public";
+        } else if (rdg.getCheckedRadioButtonId() == R.id.Privat) {
+            accesType = "private";
+        } else if (rdg.getCheckedRadioButtonId() == R.id.Particular) {
+            accesType = "individual";
+        }
+        String connectorType = "unkown";
+        if (rdgTipus.getCheckedRadioButtonId() == R.id.Slow) {
+            connectorType = "slow";
+        } else if (rdgTipus.getCheckedRadioButtonId() == R.id.Fast) {
+            connectorType = "fast";
+        } else if (rdgTipus.getCheckedRadioButtonId() == R.id.Rapid) {
+            connectorType = "rapid";
+        }
+        //crida a la constructora
+    }
+
+    public void cancelar(View view) {
+        onSupportNavigateUp();
     }
 }
