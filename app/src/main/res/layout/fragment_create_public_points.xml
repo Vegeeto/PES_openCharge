@@ -51,7 +51,7 @@
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
                 android:text="@string/direccio"
-                android:gravity="left"
+                android:gravity="start"
                 android:layout_weight="2" />
 
         </LinearLayout>
@@ -62,16 +62,16 @@
             android:layout_height="48dp"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
-            android:paddingTop="16dp"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/Poblacio"
+                android:inputType="text"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:layout_marginStart="16dp"
                 android:gravity="start"
+                android:layout_marginStart="16dp"
                 android:layout_weight="2" />
 
         </LinearLayout>
@@ -82,22 +82,23 @@
             android:layout_height="48dp"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
-            android:paddingTop="16dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/Street"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:inputType="text"
+                android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
-                android:layout_weight="2" />
+                android:layout_weight="2"/>
 
             <EditText
                 android:id="@+id/Number"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:inputType="number"
+                android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
                 android:layout_weight="2" />
@@ -119,7 +120,7 @@
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
                 android:text="@string/acces"
-                android:gravity="left"
+                android:gravity="start"
                 android:layout_weight="2" />
 
         </LinearLayout>
@@ -184,13 +185,13 @@
             android:layout_height="48dp"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
-            android:paddingTop="16dp"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/Horari"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
                 android:gravity="start"
