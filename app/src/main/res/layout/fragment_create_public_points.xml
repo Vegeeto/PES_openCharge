@@ -230,7 +230,7 @@
                 android:layout_marginBottom="16dp"
                 android:checked="false"
                 android:gravity="center"
-                android:drawableStart="@mipmap/connector_type1"
+                android:drawableStart="@mipmap/slow_acces"
                 android:text="@string/slow" />
 
 
@@ -241,7 +241,7 @@
                 android:textSize="20sp"
                 android:checked="false"
                 android:gravity="center"
-                android:drawableStart="@mipmap/connector_type2"
+                android:drawableStart="@mipmap/fast_acces"
                 android:layout_marginBottom="16dp"
                 android:text="@string/fast" />
 
@@ -252,7 +252,7 @@
                 android:textSize="20sp"
                 android:checked="false"
                 android:gravity="center"
-                android:drawableStart="@mipmap/connector_type3"
+                android:drawableStart="@mipmap/rapid_acces"
                 android:text="@string/rapid" />
         </RadioGroup>
 
