@@ -100,7 +100,7 @@ public class NavigationActivity extends AppCompatActivity
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
 
         } else if (id == R.id.nav_slideshow) {
-            //fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
+            fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
 
         } else if (id == R.id.nav_manage) {
 
@@ -115,33 +115,4 @@ public class NavigationActivity extends AppCompatActivity
         return true;
     }
 
-    public void guardarPunt(View view) {
-        String town = ((EditText) findViewById(R.id.Poblacio)).getText().toString();
-        String street = ((EditText) findViewById(R.id.Street)).getText().toString();
-        String number = ((EditText) findViewById(R.id.Number)).getText().toString();
-        String schedule = ((EditText) findViewById(R.id.Horari)).getText().toString();
-        RadioGroup rdg = (RadioGroup) findViewById(R.id.Public_or_private);
-        RadioGroup rdgTipus = (RadioGroup) findViewById(R.id.tipus_connector);
-        String accesType = "unkown";
-        if (rdg.getCheckedRadioButtonId() == R.id.Public) {
-            accesType = "public";
-        } else if (rdg.getCheckedRadioButtonId() == R.id.Privat) {
-            accesType = "private";
-        } else if (rdg.getCheckedRadioButtonId() == R.id.Particular) {
-            accesType = "individual";
-        }
-        String connectorType = "unkown";
-        if (rdgTipus.getCheckedRadioButtonId() == R.id.Slow) {
-            connectorType = "slow";
-        } else if (rdgTipus.getCheckedRadioButtonId() == R.id.Fast) {
-            connectorType = "fast";
-        } else if (rdgTipus.getCheckedRadioButtonId() == R.id.Rapid) {
-            connectorType = "rapid";
-        }
-        //crida a la constructora
-    }
-
-    public void cancelar(View view) {
-        onSupportNavigateUp();
-    }
 }
