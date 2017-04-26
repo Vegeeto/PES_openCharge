@@ -105,6 +105,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
 
                 View view = getActivity().getLayoutInflater().inflate(R.layout.content_tooltip, null);
 
@@ -116,39 +121,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 address.setText(marker.getSnippet());
                 int drawable = Point.getDrawableForAccess(marker.getTitle());
                 image.setImageDrawable(getResources().getDrawable(drawable));
-
-                return view;
-            }
-
-            @Override
-            public View getInfoContents(Marker marker) {
-
-                View view = getActivity().getLayoutInflater().inflate(R.layout.content_tooltip, null);
-
-                TextView access = (TextView) view.findViewById(R.id.access);
-                TextView address = (TextView) view.findViewById(R.id.adreca);
-
-                access.setText(marker.getTitle());
-                address.setText(marker.getSnippet());
-
-
-                /*Context context = getActivity(); //or getActivity(), YourActivity.this, etc.
-
-                LinearLayout view = new LinearLayout(context);
-                view.setOrientation(LinearLayout.VERTICAL);
-
-                TextView title = new TextView(context);
-                title.setTextColor(Color.BLACK);
-                title.setGravity(Gravity.CENTER);
-                title.setTypeface(null, Typeface.BOLD);
-                title.setText(marker.getTitle());
-
-                TextView snippet = new TextView(context);
-                snippet.setTextColor(Color.BLACK);
-                snippet.setText(marker.getSnippet());
-
-                view.addView(title);
-                view.addView(snippet);*/
 
                 return view;
             }
