@@ -160,15 +160,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                LatLng result = searchInMap(query);
-                if (result==null) Toast.makeText(getActivity(),"Address invalid!",Toast.LENGTH_SHORT);
-                else {
+                LatLng searchLocation = searchInMap(query);
+                if (searchLocation != null) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
                     searchView.setQuery("", false);
-                    //searchView.setIconified(true);
-                    searchView.clearFocus();
+                    searchView.setIconified(true);
+                    //searchView.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 }
+                else Toast.makeText(getActivity(),"Address invalid!",Toast.LENGTH_SHORT).show();
                 return true;
             }
 
@@ -241,11 +243,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         MapSearchFeature MapSearchFeature = servicesLocator.getMapSearchFeature(geocoder);
         LatLng searchLocation = MapSearchFeature.searchInMap(name);
-        if (searchLocation != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-        }
-
         return searchLocation;
     }
 }
