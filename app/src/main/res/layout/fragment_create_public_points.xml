@@ -35,7 +35,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
@@ -55,11 +55,12 @@
         android:orientation="horizontal">
 
         <EditText
-            android:layout_width="0"
+            android:id="@+id/Poblacio"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
-            android:gravity="left"
+            android:gravity="start"
             android:layout_weight="2" />
 
     </LinearLayout>
@@ -71,14 +72,23 @@
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
         android:paddingTop="16dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <EditText
-            android:layout_width="0"
+            android:id="@+id/Street"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
-            android:gravity="left"
+            android:layout_weight="2" />
+
+        <EditText
+            android:id="@+id/Number"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
             android:layout_weight="2" />
 
     </LinearLayout>
@@ -93,7 +103,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
@@ -104,7 +114,7 @@
     </LinearLayout>
 
     <RadioGroup
-        android:id="@+id/Public_pr_private"
+        android:id="@+id/Public_or_private"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center"
@@ -115,7 +125,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_marginEnd="32dp"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/publics" />
 
         <RadioButton
@@ -138,7 +148,7 @@
     </RadioGroup>
 
     <LinearLayout
-        android:id="@+id/Horari"
+        android:id="@+id/Horari_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginStart="0dp"
@@ -147,12 +157,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
             android:text="@string/horari"
-            android:gravity="left"
+            android:gravity="start"
             android:layout_weight="2" />
 
     </LinearLayout>
@@ -167,11 +177,12 @@
         android:orientation="horizontal">
 
         <EditText
-            android:layout_width="0"
+            android:id="@+id/Horari"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
-            android:gravity="left"
+            android:gravity="start"
             android:layout_weight="2" />
     </LinearLayout>
 
@@ -185,12 +196,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="24sp"
             android:layout_marginStart="16dp"
             android:text="@string/conector"
-            android:gravity="left"
+            android:gravity="start"
             android:layout_weight="2" />
     </LinearLayout>
 
@@ -201,7 +212,7 @@
         android:gravity="center"
         android:orientation="vertical">
         <RadioButton
-            android:id="@+id/Tipus1"
+            android:id="@+id/Slow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -213,7 +224,7 @@
 
 
         <RadioButton
-            android:id="@+id/Tipus2"
+            android:id="@+id/Fast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -224,7 +235,7 @@
             android:text="@string/tipus2" />
 
         <RadioButton
-            android:id="@+id/Tipus3"
+            android:id="@+id/Rapid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -242,21 +253,23 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/browseViewBtn"
+            android:id="@+id/GuardarBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:gravity="center"
             android:textSize="24sp"
             android:layout_weight="1"
+            android:onClick="guardarPunt"
             android:text="@string/guardar" />
 
         <Button
-            android:id="@+id/browseReturnBtn"
+            android:id="@+id/CancelarBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="24sp"
+            android:onClick="cancelar"
             android:layout_weight="1"
             android:text="@string/cancelar" />
     </LinearLayout>
