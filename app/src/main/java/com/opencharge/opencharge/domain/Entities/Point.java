@@ -2,6 +2,8 @@ package com.opencharge.opencharge.domain.Entities;
 
 import android.support.annotation.StringDef;
 
+import com.opencharge.opencharge.R;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -135,5 +137,19 @@ public class Point {
 
     public String getAddress() {
         return street + " " + number + ", " + town;
+    }
+
+
+    public static final int getDrawableForAccess(String access) {
+        switch(access) {
+            case Point.PUBLIC_ACCESS:
+                return R.drawable.ic_point_public;
+            case Point.PRIVATE_ACCESS:
+                return R.drawable.ic_point_private;
+            case Point.INDIVIDUAL_ACCESS:
+                return R.drawable.ic_point_particular;
+            default:
+                return R.drawable.ic_point_unknown;
+        }
     }
 }

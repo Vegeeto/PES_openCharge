@@ -41,18 +41,8 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
             access.setText(p.getAccessType());
             connector.setText(p.getConnectorType());
 
-            switch(p.getAccessType()) {
-                case Point.PUBLIC_ACCESS:
-                    access.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_point_public, 0, 0, 0);
-                    break;
-                case Point.PRIVATE_ACCESS:
-                    access.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_point_private, 0, 0, 0);
-                    break;
-                case Point.INDIVIDUAL_ACCESS:
-                    access.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_point_particular, 0, 0, 0);
-                    break;
-                default: access.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_point_unknown, 0, 0, 0); break;
-            }
+            int drawable = Point.getDrawableForAccess(p.getAccessType());
+            access.setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0);
 
             switch(p.getConnectorType()) {
                 case Point.UNKNOWN_CONNECTOR:

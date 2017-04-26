@@ -105,19 +105,37 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public View getInfoWindow(Marker marker) {
-                return null;
+
+                View view = getActivity().getLayoutInflater().inflate(R.layout.content_tooltip, null);
+
+                TextView access = (TextView) view.findViewById(R.id.access);
+                TextView address = (TextView) view.findViewById(R.id.adreca);
+                ImageView image = (ImageView) view.findViewById(R.id.image);
+
+                access.setText(" " + marker.getTitle());
+                address.setText(marker.getSnippet());
+                int drawable = Point.getDrawableForAccess(marker.getTitle());
+                image.setImageDrawable(getResources().getDrawable(drawable));
+
+                return view;
             }
 
             @Override
             public View getInfoContents(Marker marker) {
 
-                Context context = getActivity(); //or getActivity(), YourActivity.this, etc.
+                View view = getActivity().getLayoutInflater().inflate(R.layout.content_tooltip, null);
 
-                LinearLayout info = new LinearLayout(context);
-                info.setOrientation(LinearLayout.VERTICAL);
-                info.setBackgroundColor(ContextCompat.getColor(context, R.color.orange));
-                info.setPadding(10, 2, 10, 2);
+                TextView access = (TextView) view.findViewById(R.id.access);
+                TextView address = (TextView) view.findViewById(R.id.adreca);
 
+                access.setText(marker.getTitle());
+                address.setText(marker.getSnippet());
+
+
+                /*Context context = getActivity(); //or getActivity(), YourActivity.this, etc.
+
+                LinearLayout view = new LinearLayout(context);
+                view.setOrientation(LinearLayout.VERTICAL);
 
                 TextView title = new TextView(context);
                 title.setTextColor(Color.BLACK);
@@ -129,10 +147,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 snippet.setTextColor(Color.BLACK);
                 snippet.setText(marker.getSnippet());
 
-                info.addView(title);
-                info.addView(snippet);
+                view.addView(title);
+                view.addView(snippet);*/
 
-                return info;
+                return view;
             }
         });
 
@@ -164,7 +182,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(position);
-        markerOptions.title("Punt de recàrrega " + point.getAccessType());
+        markerOptions.title(point.getAccessType());
         markerOptions.snippet(point.getAddress());
 
         BitmapDescriptor icon;
