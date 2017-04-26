@@ -14,4 +14,5 @@ public interface PointsRepository {
     }
 
     void getPoints(final GetPointsCallback callback);
+    String createPoint(Point point);
 }
