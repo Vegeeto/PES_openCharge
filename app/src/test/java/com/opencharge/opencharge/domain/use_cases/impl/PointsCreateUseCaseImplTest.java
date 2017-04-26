@@ -23,15 +23,6 @@ import static org.mockito.Mockito.verify;
 public class PointsCreateUseCaseImplTest {
 
     PointsCreateUseCaseImpl sut;
-    private double lat = 1.0;
-    private double lon = 1.0;
-    private String town = "townTest";
-    private String street = "streetTest";
-    private String number = "numberTest";
-    private String accessType = "accessTypeTest";
-    private String connectorType = "connectorTypeTest";
-    private String schedule = "scheduleTest";
-
 
     //Collaborators
     @Mock
@@ -49,19 +40,59 @@ public class PointsCreateUseCaseImplTest {
     @Captor
     private ArgumentCaptor<Runnable> mainThreadRunnableCaptor;
 
+    @Captor
+    private ArgumentCaptor<PointsRepository.CreatePointCallback> repositoryCallbackCaptor;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         sut = new PointsCreateUseCaseImpl(mockThreadExecutor, mockMainThread, mockPointsRepository, mockCallback);
-        sut.setPointParameters(lat,lon,town,street,number,accessType,connectorType,schedule);
     }
 
     @Test
     public void test_run_callRepository() {
+        //Given
+        double lat = 1.0;
+        double lon = 1.0;
+        String town = "townTest";
+        String street = "streetTest";
+        String number = "numberTest";
+        String accessType = "accessTypeTest";
+        String connectorType = "connectorTypeTest";
+        String schedule = "scheduleTest";
+
         //When
+        sut.setPointParameters(lat,lon,town,street,number,accessType,connectorType,schedule);
         sut.run();
 
         //Then
         verify(mockPointsRepository).createPoint(any(Point.class),any(PointsRepository.CreatePointCallback.class));
+    }
+
+    @Test
+    public void testRun_onPointsRetrievedFromRepository_returnPointsFromRepoToMainThread() {
+        //Given
+        double lat = 1.0;
+        double lon = 1.0;
+        String town = "townTest";
+        String street = "streetTest";
+        String number = "numberTest";
+        String accessType = "accessTypeTest";
+        String connectorType = "connectorTypeTest";
+        String schedule = "scheduleTest";
+        sut.setPointParameters(lat,lon,town,street,number,accessType,connectorType,schedule);
+        sut.run();
+        verify(mockPointsRepository).createPoint(any(Point.class),repositoryCallbackCaptor.capture());
+
+        //When
+        String id = "5";
+
+        repositoryCallbackCaptor.getValue().onPointCreated(id);
+
+        //Then
+        verify(mockMainThread).post(mainThreadRunnableCaptor.capture());
+
+        mainThreadRunnableCaptor.getValue().run();
+        verify(mockCallback).onPointCreated(id);
     }
 }
