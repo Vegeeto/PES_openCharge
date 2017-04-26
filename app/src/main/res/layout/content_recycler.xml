@@ -34,6 +34,7 @@
             android:text="Tipus"
             android:textColor="@color/black"
             android:textSize="@dimen/normal_text_size"
+            android:drawableRight="@drawable/ic_point_unknown"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -59,7 +60,7 @@
             android:text="Connector"
             android:textColor="@color/black"
             android:textSize="@dimen/normal_text_size"
-            android:drawableRight="@drawable/ic_menu_share"
+            android:drawableRight="@drawable/ic_point_unknown"
             android:layout_weight="1" />
 
     </LinearLayout>

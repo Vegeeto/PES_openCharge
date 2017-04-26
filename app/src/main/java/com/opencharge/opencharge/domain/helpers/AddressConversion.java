@@ -1,4 +1,4 @@
-package com.opencharge.opencharge.domain.device_services;
+package com.opencharge.opencharge.domain.helpers;
 
 import com.google.android.gms.maps.model.LatLng;
 

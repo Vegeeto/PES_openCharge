@@ -1,10 +1,10 @@
-package com.opencharge.opencharge.domain.device_services.impl;
+package com.opencharge.opencharge.domain.helpers.impl;
 
 import android.location.Address;
 import android.location.Geocoder;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.opencharge.opencharge.domain.device_services.AddressConversion;
+import com.opencharge.opencharge.domain.helpers.AddressConversion;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +24,6 @@ public class AddressConversionImpl implements AddressConversion {
         this.geocoder = geocoder;
     }
 
-
     @Override
     public LatLng AddressToLatLng(String town, String street, String number) {
         try {
@@ -39,7 +38,6 @@ public class AddressConversionImpl implements AddressConversion {
 
         return null;
     }
-
 
     @Override
     public boolean LatLongToAddress(double lat, double lng) {

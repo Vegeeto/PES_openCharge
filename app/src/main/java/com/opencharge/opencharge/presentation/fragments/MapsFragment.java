@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Address;
 import android.location.Geocoder;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -17,6 +16,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,19 +24,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
-import com.opencharge.opencharge.domain.device_services.MapSearchFeature;
+import com.opencharge.opencharge.domain.helpers.MapSearchFeature;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.presentation.locators.ServicesLocator;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -165,7 +165,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         markerOptions.position(position);
         markerOptions.title("Punt de recàrrega " + point.getAccessType());
         markerOptions.snippet(point.getAddress());
-        //markerOptions.icon(R.drawable.?);
+
+        BitmapDescriptor icon;
+        switch(point.getAccessType()) {
+            case Point.PUBLIC_ACCESS:
+                icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                break;
+            case Point.PRIVATE_ACCESS:
+                icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                break;
+            case Point.INDIVIDUAL_ACCESS:
+                icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+                break;
+            default: icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW); break;
+        }
+        markerOptions.icon(icon);
 
         Marker marker = mMap.addMarker(markerOptions);
         marker.setTag(point);
@@ -216,4 +230,5 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         return searchLocation;
     }
+
 }
