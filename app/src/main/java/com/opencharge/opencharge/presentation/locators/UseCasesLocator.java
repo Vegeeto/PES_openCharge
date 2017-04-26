@@ -59,13 +59,11 @@ public class UseCasesLocator {
         );
     }
 
-    public PointsCreateUseCase getPointsCreateUseCase(PointsCreateUseCase.Callback callback,  double lat, double lon,
-                                                      String town, String street, String number, String accesType,
-                                                      String connectorType, String schedule) {
+    public PointsCreateUseCase getPointsCreateUseCase(PointsCreateUseCase.Callback callback) {
         return new PointsCreateUseCaseImpl(
                 ServicesLocator.getInstance().getExecutor(),
                 ServicesLocator.getInstance().getMainThread(),
                 RepositoriesLocator.getInstance().getPointsRepository(),
-                callback, lat, lon, town, street, number, accesType, connectorType, schedule);
+                callback);
     }
 }

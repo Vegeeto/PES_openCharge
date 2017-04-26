@@ -11,4 +11,8 @@ public interface PointsCreateUseCase extends UseCase {
     interface Callback {
         void onPointCreated(Point point);
     }
+
+    public void setPointParameters( double lat,double lon, String town,
+                                    String street,String number, String accessType,
+                                    String connectorType, String schedule);
 }

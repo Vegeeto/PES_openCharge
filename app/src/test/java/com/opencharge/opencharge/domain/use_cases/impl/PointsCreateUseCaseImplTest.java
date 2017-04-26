@@ -52,8 +52,8 @@ public class PointsCreateUseCaseImplTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        sut = new PointsCreateUseCaseImpl(mockThreadExecutor, mockMainThread, mockPointsRepository, mockCallback,
-                lat,lon,town,street,number,accessType,connectorType,schedule);
+        sut = new PointsCreateUseCaseImpl(mockThreadExecutor, mockMainThread, mockPointsRepository, mockCallback);
+        sut.setPointParameters(lat,lon,town,street,number,accessType,connectorType,schedule);
     }
 
     @Test

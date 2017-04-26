@@ -27,19 +27,19 @@ public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCr
     public PointsCreateUseCaseImpl(Executor threadExecutor,
                                    MainThread mainThread,
                                    PointsRepository pointsRepository,
-                                   PointsCreateUseCase.Callback callback,
-                                   double lat,
-                                   double lon,
-                                   String town,
-                                   String street,
-                                   String number,
-                                   String accessType,
-                                   String connectorType,
-                                   String schedule) {
+                                   PointsCreateUseCase.Callback callback) {
         super(threadExecutor, mainThread);
 
         this.pointsRepository = pointsRepository;
         this.callback = callback;
+    }
+    @Override
+    public void setPointParameters( double lat,double lon, String town,
+                                    String street,String number, String accessType,
+                                    String connectorType, String schedule){
+
+        this.lat = lat;
+        this.lon = lon;
         this.town = town;
         this.street = street;
         this.number = number;
@@ -47,7 +47,6 @@ public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCr
         this.connectorType = connectorType;
         this.schedule =  schedule;
     }
-
     @Override
     public void run() {
         System.out.println("Enter PointsCreate.run()");
