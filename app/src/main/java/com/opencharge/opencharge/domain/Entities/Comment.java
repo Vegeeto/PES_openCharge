@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class Comment {
 
+    public String id;
     public String autor;
     public String text;
     public Date data;
@@ -25,6 +26,7 @@ public class Comment {
     //Getters and setters
 
 
+    public String getId(){ return id; }
     public String getAuthor() { return autor; }
     public String getText() {
         return text;
@@ -33,6 +35,7 @@ public class Comment {
         return data;
     }
 
+    public void setId(String id){ this.id = id; }
     public void setAuthor(String autor) {
         this.autor = autor;
     }
