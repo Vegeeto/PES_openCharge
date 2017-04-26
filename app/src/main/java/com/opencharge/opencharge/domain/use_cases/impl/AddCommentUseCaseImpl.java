@@ -45,7 +45,7 @@ public class AddCommentUseCaseImpl extends AbstractUseCase implements AddComment
         System.out.println("Enter AddComment.run()");
         final Comment comment = CommentFactory.getInstance().createNewComment(autor, text, data);
         System.out.println("Created Comment: "+comment.toString());
-        commentsRepository.createComment(comment, new CommentsRepository.CreateCommentCallback(){
+        commentsRepository.createComment(point_id,comment, new CommentsRepository.CreateCommentCallback(){
             @Override
             public void onCommentCreated(String id)
             {
