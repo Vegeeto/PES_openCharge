@@ -37,23 +37,27 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
         public void bindPoint(Point p) {
             //Posar la informació d'un punt a la vista
             adreca.setText(p.getLatCoord() + " " + p.getLonCoord());
+            adreca.setText(p.getAddress());
             access.setText(p.getAccessType());
             connector.setText(p.getConnectorType());
 
+            int drawable = Point.getDrawableForAccess(p.getAccessType());
+            access.setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0);
+
             switch(p.getConnectorType()) {
                 case Point.UNKNOWN_CONNECTOR:
-
+                    connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0);
                     break;
                 case Point.SLOW_CONNECTOR:
-
+                    connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0);
                     break;
                 case Point.FAST_CONNECTOR:
-
+                    connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0);
                     break;
                 case Point.RAPID_CONNECTOR:
-
+                    connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0);
                     break;
-                default: connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0); break;
+                default: connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_point_unknown, 0, 0, 0); break;
             }
         }
     }
