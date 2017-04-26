@@ -71,7 +71,7 @@ public class FirebasePointsRepository implements PointsRepository {
     }
 
     public String createPoint(Point point){
-
+        
         DatabaseReference myRef = database.getReference("Points");
         DatabaseReference postPoint =  myRef.push();
         postPoint.setValue(point);
