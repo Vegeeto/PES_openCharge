@@ -13,7 +13,7 @@
         <LinearLayout
             android:id="@+id/widget33"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             >
@@ -228,10 +228,10 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:layout_marginBottom="16dp"
-                android:checked="true"
+                android:checked="false"
                 android:gravity="center"
-                android:drawableStart="@mipmap/connector_type1"
-                android:text="@string/tipus1" />
+                android:drawableStart="@mipmap/slowAcces"
+                android:text="@string/slow" />
 
 
             <RadioButton
@@ -241,9 +241,9 @@
                 android:textSize="20sp"
                 android:checked="false"
                 android:gravity="center"
-                android:drawableStart="@mipmap/connector_type2"
+                android:drawableStart="@mipmap/fastAcces"
                 android:layout_marginBottom="16dp"
-                android:text="@string/tipus2" />
+                android:text="@string/fast" />
 
             <RadioButton
                 android:id="@+id/Rapid"
@@ -252,8 +252,8 @@
                 android:textSize="20sp"
                 android:checked="false"
                 android:gravity="center"
-                android:drawableStart="@mipmap/connector_type3"
-                android:text="@string/tipus3" />
+                android:drawableStart="@mipmap/rapidAcces"
+                android:text="@string/rapid" />
         </RadioGroup>
 
         <LinearLayout
