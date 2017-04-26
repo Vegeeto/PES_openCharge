@@ -98,7 +98,7 @@ public class NavigationActivity extends AppCompatActivity
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
 
         } else if (id == R.id.nav_slideshow) {
-            fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit())
+            //fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
 
         } else if (id == R.id.nav_manage) {
 
