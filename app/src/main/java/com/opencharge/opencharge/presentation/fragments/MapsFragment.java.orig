@@ -16,9 +16,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< HEAD
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+=======
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+>>>>>>> cd56b1212c890fa652da4c1924c9565ea32036b2
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,8 +70,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        //MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         getUserLocation();
