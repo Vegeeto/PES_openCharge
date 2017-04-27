@@ -25,8 +25,16 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="search_address">Address</string>
+
+    <string name="hint">Address</string>
+
     <string name="turn_on_gps">Please, turn on the GPS</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="punt_de_recarrega">Punt de recàrrega</string>
+    <string name="tipus_d_acces">Tipus d\'accés</string>
 </resources>

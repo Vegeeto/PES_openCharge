@@ -3,9 +3,9 @@ package com.opencharge.opencharge.presentation.locators;
 import android.content.Context;
 import android.location.Geocoder;
 
-import com.opencharge.opencharge.domain.device_services.MapSearchFeature;
+import com.opencharge.opencharge.domain.helpers.MapSearchFeature;
 import com.opencharge.opencharge.domain.device_services.UserLocationService;
-import com.opencharge.opencharge.domain.device_services.impl.MapSearchFeatureImpl;
+import com.opencharge.opencharge.domain.helpers.impl.MapSearchFeatureImpl;
 import com.opencharge.opencharge.domain.device_services.impl.UserLocationServiceImpl;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;

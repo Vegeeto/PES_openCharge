@@ -77,13 +77,13 @@ public class FirebasePointsParserTest {
     @Test
     public void testMapWithIndividualAccessType_parseFromMap_createPointWithCorrectAccessType() {
         //Given
-        map.put(FirebasePointsParser.ACCESS_TYPE_KEY, Point.INDIVIDUAL_ACCESS);
+        map.put(FirebasePointsParser.ACCESS_TYPE_KEY, Point.PARTICULAR_ACCESS);
 
         //When
         Point p = sut.parseFromMap(key, map);
 
         //Then
-        assertEquals("Wrong parsed accessType", Point.INDIVIDUAL_ACCESS, p.getAccessType());
+        assertEquals("Wrong parsed accessType", Point.PARTICULAR_ACCESS, p.getAccessType());
     }
 
     @Test

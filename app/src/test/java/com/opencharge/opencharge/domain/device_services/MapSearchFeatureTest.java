@@ -4,7 +4,7 @@ import android.location.Address;
 import android.location.Geocoder;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.opencharge.opencharge.domain.device_services.impl.MapSearchFeatureImpl;
+import com.opencharge.opencharge.domain.helpers.impl.MapSearchFeatureImpl;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,10 +19,8 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by Oriol on 20/4/2017.

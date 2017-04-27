@@ -2,6 +2,8 @@ package com.opencharge.opencharge.domain.Entities;
 
 import android.support.annotation.StringDef;
 
+import com.opencharge.opencharge.R;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -10,19 +12,19 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 public class Point {
-    public static final String UNKNOWN_ACCESS = "unknown";
-    public static final String PUBLIC_ACCESS = "public";
-    public static final String PRIVATE_ACCESS = "private";
-    public static final String INDIVIDUAL_ACCESS = "individual";
+    public static final String UNKNOWN_ACCESS = "Desconegut";
+    public static final String PUBLIC_ACCESS = "Public";
+    public static final String PRIVATE_ACCESS = "Privat";
+    public static final String PARTICULAR_ACCESS = "Particular";
 
-    @StringDef({UNKNOWN_ACCESS, PUBLIC_ACCESS, PRIVATE_ACCESS, INDIVIDUAL_ACCESS})
+    @StringDef({UNKNOWN_ACCESS, PUBLIC_ACCESS, PRIVATE_ACCESS, PARTICULAR_ACCESS})
     @Retention(RetentionPolicy.SOURCE)
     public @interface AccessType {}
 
-    public static final String UNKNOWN_CONNECTOR = "unknown";
-    public static final String SLOW_CONNECTOR = "slow";
-    public static final String FAST_CONNECTOR = "fast";
-    public static final String RAPID_CONNECTOR = "rapid";
+    public static final String UNKNOWN_CONNECTOR = "Desconegut";
+    public static final String SLOW_CONNECTOR = "Lent";
+    public static final String FAST_CONNECTOR = "Ràpid";
+    public static final String RAPID_CONNECTOR = "Molt ràpid";
 
     @StringDef({UNKNOWN_CONNECTOR, SLOW_CONNECTOR, FAST_CONNECTOR, RAPID_CONNECTOR})
     @Retention(RetentionPolicy.SOURCE)
@@ -131,5 +133,36 @@ public class Point {
                 ", connectorType='" + connectorType + '\'' +
                 ", schedule='" + schedule + '\'' +
                 '}';
+    }
+
+    public String getAddress() {
+        return street + " " + number + ", " + town;
+    }
+
+
+    public static final int getDrawableForAccess(String access) {
+        switch(access) {
+            case Point.PUBLIC_ACCESS:
+                return R.drawable.ic_point_public;
+            case Point.PRIVATE_ACCESS:
+                return R.drawable.ic_point_private;
+            case Point.PARTICULAR_ACCESS:
+                return R.drawable.ic_point_particular;
+            default:
+                return R.drawable.ic_point_unknown;
+        }
+    }
+
+    public static final int getDrawableForConnector(String connectorType) {
+        switch(connectorType) {
+            case Point.SLOW_CONNECTOR:
+                return R.drawable.ic_point_public;
+            case Point.FAST_CONNECTOR:
+                return R.drawable.ic_point_private;
+            case Point.RAPID_CONNECTOR:
+                return R.drawable.ic_point_particular;
+            default:
+                return R.drawable.ic_point_unknown;
+        }
     }
 }

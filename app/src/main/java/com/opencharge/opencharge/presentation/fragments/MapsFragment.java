@@ -2,40 +2,45 @@ package com.opencharge.opencharge.presentation.fragments;
 
 import android.Manifest;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Address;
 import android.location.Geocoder;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.opencharge.opencharge.R;
+
 import com.opencharge.opencharge.domain.Entities.Point;
-import com.opencharge.opencharge.domain.device_services.MapSearchFeature;
+import com.opencharge.opencharge.domain.helpers.MapSearchFeature;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.presentation.locators.ServicesLocator;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -53,6 +58,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
@@ -60,8 +66,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        //MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         getUserLocation();
@@ -74,7 +80,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         getUserLocation();
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
         }
     }
 
@@ -96,51 +102,70 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
             addMarkers();
-
-            //Test: Successful!
-            //searchInMap("Avinguda L'Eramprunyà 4, Gavà");
         }
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
             @Override
-            public View getInfoWindow(Marker arg0) {
+            public View getInfoWindow(Marker marker) {
                 return null;
             }
 
             @Override
             public View getInfoContents(Marker marker) {
 
-                Context context = getActivity(); //or getActivity(), YourActivity.this, etc.
+                View view = getActivity().getLayoutInflater().inflate(R.layout.content_tooltip, null);
 
-                LinearLayout info = new LinearLayout(context);
-                info.setOrientation(LinearLayout.VERTICAL);
+                TextView access = (TextView) view.findViewById(R.id.access);
+                TextView address = (TextView) view.findViewById(R.id.adreca);
+                ImageView image = (ImageView) view.findViewById(R.id.image);
 
-                TextView title = new TextView(context);
-                title.setTextColor(Color.BLACK);
-                title.setGravity(Gravity.CENTER);
-                title.setTypeface(null, Typeface.BOLD);
-                title.setText(marker.getTitle());
+                access.setText(" " + marker.getTitle());
+                address.setText(marker.getSnippet());
+                int drawable = Point.getDrawableForAccess(marker.getTitle());
+                image.setImageDrawable(getResources().getDrawable(drawable));
 
-                TextView snippet = new TextView(context);
-                snippet.setTextColor(Color.GRAY);
-                snippet.setText(marker.getSnippet());
-
-                info.addView(title);
-                info.addView(snippet);
-
-                return info;
+                return view;
             }
         });
+
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Point point = (Point)marker.getTag();
-                android.app.FragmentManager fm = getFragmentManager();
+                android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
                 PointInfoFragment fragment = PointInfoFragment.newInstance(point.getId());
-                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                ft.replace(R.id.content_frame, fragment).commit();
+            }
+        });
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.navigation, menu);
+        final MenuItem searchItem = menu.findItem(R.id.searchBar);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(getText(R.string.hint));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                LatLng searchLocation = searchInMap(query);
+                if (searchLocation != null) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                    searchView.setQuery("", false);
+                    //searchView.setIconified(true);
+                    searchView.clearFocus();
+                }
+                else Toast.makeText(getActivity(),"Address invalid!",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
             }
         });
     }
@@ -162,8 +187,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         LatLng position = new LatLng(point.getLatCoord(), point.getLonCoord());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(position);
-        markerOptions.title("Punt de càrrega:");
-        markerOptions.snippet("Accés: " + point.getAccessType() + "\n Direcció: " + point.getStreet());
+        markerOptions.title(point.getAccessType());
+        markerOptions.snippet(point.getAddress());
+
+        BitmapDescriptor icon;
+        switch(point.getAccessType()) {
+            case Point.PUBLIC_ACCESS:
+                icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                break;
+            case Point.PRIVATE_ACCESS:
+                icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                break;
+            case Point.PARTICULAR_ACCESS:
+                icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+                break;
+            default: icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW); break;
+        }
+        markerOptions.icon(icon);
 
         Marker marker = mMap.addMarker(markerOptions);
         marker.setTag(point);
@@ -207,11 +247,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         MapSearchFeature MapSearchFeature = servicesLocator.getMapSearchFeature(geocoder);
         LatLng searchLocation = MapSearchFeature.searchInMap(name);
-        if (searchLocation != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-        }
-
         return searchLocation;
     }
+
 }
