@@ -37,24 +37,15 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
         public void bindPoint(Point p) {
             //Posar la informació d'un punt a la vista
             adreca.setText(p.getLatCoord() + " " + p.getLonCoord());
+            adreca.setText(p.getAddress());
             access.setText(p.getAccessType());
             connector.setText(p.getConnectorType());
 
-            switch(p.getConnectorType()) {
-                case Point.UNKNOWN_CONNECTOR:
+            int drawable = Point.getDrawableForAccess(p.getAccessType());
+            access.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
 
-                    break;
-                case Point.SLOW_CONNECTOR:
-
-                    break;
-                case Point.FAST_CONNECTOR:
-
-                    break;
-                case Point.RAPID_CONNECTOR:
-
-                    break;
-                default: connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0); break;
-            }
+            drawable = Point.getDrawableForConnector(p.getConnectorType());
+            connector.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
         }
     }
 
@@ -66,7 +57,6 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     @Override
     public PointsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
-
 
         switch(viewType) {
             case 0: //Inflate the layout with point information
