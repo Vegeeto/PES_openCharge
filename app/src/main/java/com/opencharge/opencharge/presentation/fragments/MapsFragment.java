@@ -2,22 +2,17 @@ package com.opencharge.opencharge.presentation.fragments;
 
 import android.Manifest;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,7 +24,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.opencharge.opencharge.R;
+
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.helpers.MapSearchFeature;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
@@ -130,9 +127,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Point point = (Point)marker.getTag();
-                android.app.FragmentManager fm = getFragmentManager();
+                android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
                 PointInfoFragment fragment = PointInfoFragment.newInstance(point.getId());
-                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                ft.replace(R.id.content_frame, fragment).commit();
             }
         });
     }
@@ -165,7 +163,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             case Point.PRIVATE_ACCESS:
                 icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
                 break;
-            case Point.INDIVIDUAL_ACCESS:
+            case Point.PARTICULAR_ACCESS:
                 icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
                 break;
             default: icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW); break;

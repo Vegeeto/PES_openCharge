@@ -77,7 +77,7 @@ public class FirebasePointsParser implements PointsParser {
     }
 
     private boolean isCorrectAccessType(String accessType) {
-        String[] allowedTypes = new String[] {Point.PUBLIC_ACCESS, Point.PRIVATE_ACCESS, Point.INDIVIDUAL_ACCESS};
+        String[] allowedTypes = new String[] {Point.PUBLIC_ACCESS, Point.PRIVATE_ACCESS, Point.PARTICULAR_ACCESS};
         return Arrays.asList(allowedTypes).contains(accessType);
     }
 

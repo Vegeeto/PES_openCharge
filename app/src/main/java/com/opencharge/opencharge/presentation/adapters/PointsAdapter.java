@@ -42,23 +42,10 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
             connector.setText(p.getConnectorType());
 
             int drawable = Point.getDrawableForAccess(p.getAccessType());
-            access.setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0);
+            access.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
 
-            switch(p.getConnectorType()) {
-                case Point.UNKNOWN_CONNECTOR:
-                    connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0);
-                    break;
-                case Point.SLOW_CONNECTOR:
-                    connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0);
-                    break;
-                case Point.FAST_CONNECTOR:
-                    connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0);
-                    break;
-                case Point.RAPID_CONNECTOR:
-                    connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.common_full_open_on_phone, 0, 0, 0);
-                    break;
-                default: connector.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_point_unknown, 0, 0, 0); break;
-            }
+            drawable = Point.getDrawableForConnector(p.getConnectorType());
+            connector.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
         }
     }
 
@@ -70,7 +57,6 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     @Override
     public PointsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
-
 
         switch(viewType) {
             case 0: //Inflate the layout with point information
