@@ -30,6 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="24sp"
+                android:textColor="@color/black"
                 android:text="@string/afegir_punt_carrega"
                 android:gravity="center"
                 android:layout_weight="2" />
@@ -50,6 +51,7 @@
                 android:layout_height="match_parent"
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
+                android:textColor="@color/black"
                 android:text="@string/direccio"
                 android:gravity="start"
                 android:layout_weight="2" />
@@ -67,6 +69,8 @@
             <EditText
                 android:id="@+id/Poblacio"
                 android:inputType="text"
+                android:hint= "@string/poblacio"
+                android:textColorHint="@color/grey_hint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
@@ -89,6 +93,8 @@
                 android:id="@+id/Street"
                 android:layout_width="0dp"
                 android:inputType="text"
+                android:hint= "@string/carrer"
+                android:textColorHint="@color/grey_hint"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
@@ -98,6 +104,8 @@
                 android:id="@+id/Number"
                 android:layout_width="0dp"
                 android:inputType="number"
+                android:hint= "@string/numero"
+                android:textColorHint="@color/grey_hint"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
@@ -118,6 +126,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="24sp"
+                android:textColor="@color/black"
                 android:layout_marginStart="16dp"
                 android:text="@string/acces"
                 android:gravity="start"
@@ -173,6 +182,7 @@
                 android:layout_height="match_parent"
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
+                android:textColor="@color/black"
                 android:text="@string/horari"
                 android:gravity="start"
                 android:layout_weight="2" />
@@ -212,6 +222,7 @@
                 android:layout_height="match_parent"
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
+                android:textColor="@color/black"
                 android:text="@string/conector"
                 android:gravity="start"
                 android:layout_weight="2" />
@@ -261,6 +272,7 @@
             style="@android:style/ButtonBar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@color/parent"
             android:gravity="center"
             android:orientation="horizontal" >
 

@@ -11,8 +11,11 @@
     <string name="tipus1">Tipus 1</string>
     <string name="tipus2">Tipus 2</string>
     <string name="tipus3">Tipus 3</string>
-    <string name="slow">Slow</string>
-    <string name="fast">Fast" "</string>
+    <string name="slow">Slow" "</string>
+    <string name="poblacio">Poblacio</string>
+    <string name="carrer">Carrer</string>
+    <string name="numero">Numero</string>
+    <string name="fast">Fast"  "</string>
     <string name="rapid">Rapid</string>
     <string name="guardar">Guardar</string>
     <string name="cancelar">Cancel·lar</string>

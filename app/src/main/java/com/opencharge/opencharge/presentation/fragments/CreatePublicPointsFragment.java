@@ -1,6 +1,8 @@
 package com.opencharge.opencharge.presentation.fragments;
 
 
+import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
@@ -34,7 +37,6 @@ public class CreatePublicPointsFragment extends Fragment {
     private EditText editSchedule;
     private RadioGroup rdgAcces;
     private RadioGroup rdgTipus;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,9 +49,10 @@ public class CreatePublicPointsFragment extends Fragment {
         rdgAcces = (RadioGroup) view.findViewById(R.id.Public_or_private);
         rdgTipus = (RadioGroup) view.findViewById(R.id.tipus_connector);
 
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("CrearPunt","onClick Guardar!");
+                //Log.d("CrearPunt","onClick Guardar!");
                 guardarPunt(v);
             }
         });
@@ -67,16 +70,31 @@ public class CreatePublicPointsFragment extends Fragment {
 
 
     public void guardarPunt(View view) {
-        Log.d("CrearPunt","Entrando guardaPunt");
 
         String town = editTown.getText().toString();
-        Log.d("CrearPunt","town: "+town);
+        if (town.matches("")) {
+            Toast.makeText(getActivity(), "No has indicat la poblacio", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //Log.d("CrearPunt","town: "+town);
         String street = editStreet.getText().toString();
-        Log.d("CrearPunt","street: "+street);
+        if (street.matches("")) {
+            Toast.makeText(getActivity(), "No has indicat el carrer", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //Log.d("CrearPunt","street: "+street);
         String number = editNumber.getText().toString();
-        Log.d("CrearPunt","num: " +number);
+        if (number.matches("")) {
+            Toast.makeText(getActivity(), "No has indicat el numero", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //Log.d("CrearPunt","num: " +number);
         String schedule = editSchedule.getText().toString();
-        Log.d("CrearPunt","sch: "+schedule);
+        if (schedule.matches("")) {
+            Toast.makeText(getActivity(), "No has indicat el horari", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //Log.d("CrearPunt","sch: "+schedule);
 
         String accesType = "unkown";
         if (rdgAcces.getCheckedRadioButtonId() == R.id.Public) {
@@ -86,7 +104,7 @@ public class CreatePublicPointsFragment extends Fragment {
         } else if (rdgAcces.getCheckedRadioButtonId() == R.id.Particular) {
             accesType = "individual";
         }
-        Log.d("CrearPunt","accestype: "+accesType);
+        //Log.d("CrearPunt","accestype: "+accesType);
         String connectorType = "unkown";
         if (rdgTipus.getCheckedRadioButtonId() == R.id.Slow) {
             connectorType = "slow";
@@ -95,13 +113,13 @@ public class CreatePublicPointsFragment extends Fragment {
         } else if (rdgTipus.getCheckedRadioButtonId() == R.id.Rapid) {
             connectorType = "rapid";
         }
-        Log.d("CrearPunt","connector: "+connectorType);
-        Log.d("CrearPunt","Pre llamada usecase");
+        //Log.d("CrearPunt","connector: "+connectorType);
+        //Log.d("CrearPunt","Pre llamada usecase");
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(new PointsCreateUseCase.Callback(){
             @Override
             public void onPointCreated(String id) {
-                Log.d("CrearPunt","onPointCreatedCallback");
+                //Log.d("CrearPunt","onPointCreatedCallback");
                 android.app.FragmentManager fm = getFragmentManager();
                 PointInfoFragment fragment = PointInfoFragment.newInstance(id);
                 fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
