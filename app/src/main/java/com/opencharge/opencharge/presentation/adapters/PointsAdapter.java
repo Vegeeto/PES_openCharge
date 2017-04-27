@@ -12,26 +12,52 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Comment;
 import com.opencharge.opencharge.domain.Entities.Point;
-import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
-import com.opencharge.opencharge.domain.use_cases.impl.AddCommentUseCaseImpl;
-import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 /**
  * Created by Oriol on 10/4/2017.
  */
 
-public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder> implements View.OnClickListener {
+public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolderPoint> implements View.OnClickListener {
 
     private Point item;
+    private Comment new;
     private View.OnClickListener listener;
     private Context context;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolderPoint extends RecyclerView.ViewHolder {
 
         private TextView adreca;
         private TextView access;
         private TextView connector;
+
+        public ViewHolderPoint(View itemView) {
+            super(itemView);
+            adreca = (TextView) itemView.findViewById(R.id.adreca);
+            access = (TextView) itemView.findViewById(R.id.access);
+            connector = (TextView) itemView.findViewById(R.id.connector);
+        }
+
+        public void bindPoint(Point p) {
+            //Posar la informació d'un punt a la vista
+            adreca.setText(p.getLatCoord() + " " + p.getLonCoord());
+            adreca.setText(p.getAddress());
+            access.setText(p.getAccessType());
+            connector.setText(p.getConnectorType());
+
+            int drawable = Point.getDrawableForAccess(p.getAccessType());
+            access.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
+
+            drawable = Point.getDrawableForConnector(p.getConnectorType());
+            connector.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
+        }
+
+
+    }
+
+    public class ViewHolderComment extends RecyclerView.ViewHolder {
+
         private Button cancel;
         private Button send;
         private EditText comment;
@@ -57,11 +83,8 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
 
         };
 
-        public ViewHolder(View itemView) {
+        public ViewHolderComment(View itemView) {
             super(itemView);
-            adreca = (TextView) itemView.findViewById(R.id.adreca);
-            access = (TextView) itemView.findViewById(R.id.access);
-            connector = (TextView) itemView.findViewById(R.id.connector);
 
             cancel = (Button) itemView.findViewById(R.id.cancelBtn);
             send = (Button) itemView.findViewById(R.id.sendBtn);
@@ -86,18 +109,10 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
 
         }
 
-        public void bindPoint(Point p) {
-            //Posar la informació d'un punt a la vista
-            adreca.setText(p.getLatCoord() + " " + p.getLonCoord());
-            adreca.setText(p.getAddress());
-            access.setText(p.getAccessType());
-            connector.setText(p.getConnectorType());
+        public void bindComment(Comment c) {
+            //Posar la informació d'un comentari a la vista
+            //En aquest cas, com que l'estem creant no hem de posar res
 
-            int drawable = Point.getDrawableForAccess(p.getAccessType());
-            access.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
-
-            drawable = Point.getDrawableForConnector(p.getConnectorType());
-            connector.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
         }
 
 
@@ -109,7 +124,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     }
 
     @Override
-    public PointsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolderPoint onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
 
         switch(viewType) {
@@ -125,7 +140,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
                 break;
         }
 
-        return new ViewHolder(v);
+        return new ViewHolderPoint(v);
     }
 
     public void setOnClickListener(View.OnClickListener listener) {
@@ -140,13 +155,13 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolderPoint holder, int position) {
         switch(position) {
             case 0: holder.bindPoint(item);
                 break;
             case 1:
                 break;
-            default:
+            default: 
                 break;
         }
     }
