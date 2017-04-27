@@ -52,7 +52,7 @@ public class FirebasePointsRepository implements PointsRepository {
     public void getPointById(String pointId, final GetPointByIdCallback callback) {
         DatabaseReference myRef = database.getReference("Points").child(pointId);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Point point = parsePointFromSnapshot(dataSnapshot);
