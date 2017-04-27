@@ -2,6 +2,7 @@ package com.opencharge.opencharge.presentation.fragments;
 
 
 import android.content.Context;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -17,13 +18,18 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.helpers.AddressConversion;
+import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
+
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -126,7 +132,10 @@ public class CreatePublicPointsFragment extends Fragment {
             }
 
         });
-        getCreatePointsUseCase.setPointParameters(1.2f,1.3f, town,street,number,accesType,connectorType,schedule);
+        Geocoder   geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+        AddressConversion addressConversion = new AddressConversionImpl(geocoder);
+        LatLng latlng = addressConversion.AddressToLatLng(town, street, number);
+        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorType,schedule);
         //getCreatePointsUseCase.setPointParameters(1.0,1.0, "a","a","a","a","a","a");
         getCreatePointsUseCase.execute();
 
