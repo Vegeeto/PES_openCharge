@@ -6,9 +6,11 @@ import android.util.Log;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
+import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.PointByIdUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsListUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserLocationUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.AddCommentUseCaseImpl;
 
 /**
  * Created by ferran on 22/3/17.
@@ -54,6 +56,7 @@ public class UseCasesLocator {
                 callback
         );
     }
+
 
 
 }
