@@ -102,22 +102,22 @@ public class CreatePublicPointsFragment extends Fragment {
         }
         //Log.d("CrearPunt","sch: "+schedule);
 
-        String accesType = "unkown";
+        String accesType = "Desconegut";
         if (rdgAcces.getCheckedRadioButtonId() == R.id.Public) {
-            accesType = "public";
+            accesType = "Public";
         } else if (rdgAcces.getCheckedRadioButtonId() == R.id.Privat) {
-            accesType = "private";
+            accesType = "Privat";
         } else if (rdgAcces.getCheckedRadioButtonId() == R.id.Particular) {
-            accesType = "individual";
+            accesType = "Particular";
         }
         //Log.d("CrearPunt","accestype: "+accesType);
-        String connectorType = "unkown";
+        String connectorType = "Desconegut";
         if (rdgTipus.getCheckedRadioButtonId() == R.id.Slow) {
-            connectorType = "slow";
+            connectorType = "Lent";
         } else if (rdgTipus.getCheckedRadioButtonId() == R.id.Fast) {
-            connectorType = "fast";
+            connectorType = "Ràpid";
         } else if (rdgTipus.getCheckedRadioButtonId() == R.id.Rapid) {
-            connectorType = "rapid";
+            connectorType = "Molt ràpid";
         }
         //Log.d("CrearPunt","connector: "+connectorType);
         //Log.d("CrearPunt","Pre llamada usecase");
@@ -135,6 +135,10 @@ public class CreatePublicPointsFragment extends Fragment {
         Geocoder   geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         AddressConversion addressConversion = new AddressConversionImpl(geocoder);
         LatLng latlng = addressConversion.AddressToLatLng(town, street, number);
+        if (latlng == null) {
+            Toast.makeText(getActivity(), "Adreça invalida", Toast.LENGTH_SHORT).show();
+            return;
+        }
         getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorType,schedule);
         //getCreatePointsUseCase.setPointParameters(1.0,1.0, "a","a","a","a","a","a");
         getCreatePointsUseCase.execute();
