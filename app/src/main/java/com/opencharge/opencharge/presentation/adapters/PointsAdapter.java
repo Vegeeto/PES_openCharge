@@ -19,10 +19,10 @@ import com.opencharge.opencharge.domain.Entities.Point;
  * Created by Oriol on 10/4/2017.
  */
 
-public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolderPoint> implements View.OnClickListener {
+public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private Point item;
-    private Comment new;
+    private Comment comment;
     private View.OnClickListener listener;
     private Context context;
 
@@ -39,7 +39,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
             connector = (TextView) itemView.findViewById(R.id.connector);
         }
 
-        public void bindPoint(Point p) {
+        public final void bindPoint(Point p) {
             //Posar la informació d'un punt a la vista
             adreca.setText(p.getLatCoord() + " " + p.getLonCoord());
             adreca.setText(p.getAddress());
@@ -53,8 +53,26 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
             connector.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
         }
 
+    }
+
+
+    //Not implemented yet
+    public class ViewHolderSchedule extends RecyclerView.ViewHolder {
+
+        private TextView schedule;
+
+        public ViewHolderSchedule(View itemView) {
+            super(itemView);
+            //schedule = (TextView) itemView.findViewById(R.id.schedule);
+        }
+
+        public void bindSchedule(Object o) {
+            //Posar la informació d'un horari a la vista
+        }
+
 
     }
+
 
     public class ViewHolderComment extends RecyclerView.ViewHolder {
 
@@ -103,7 +121,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    //Enviar comentari a la base de dades
                 }
             });
 
@@ -112,7 +130,6 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
         public void bindComment(Comment c) {
             //Posar la informació d'un comentari a la vista
             //En aquest cas, com que l'estem creant no hem de posar res
-
         }
 
 
@@ -124,23 +141,26 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     }
 
     @Override
-    public ViewHolderPoint onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
-
+        RecyclerView.ViewHolder viewHolder;
         switch(viewType) {
             case 0: //Inflate the layout with point information
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler, parent, false);
+                viewHolder = new ViewHolderPoint(v);
                 v.setOnClickListener(this);
                 break;
             case 1: //Replace the layout: inflate with scheduler layout
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler, parent, false);
+                viewHolder = new ViewHolderSchedule(v);
                 break;
             default: //Replace the layout: inflate with comment layout
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler_comment, parent, false);
+                viewHolder = new ViewHolderComment(v);
                 break;
         }
 
-        return new ViewHolderPoint(v);
+        return viewHolder;
     }
 
     public void setOnClickListener(View.OnClickListener listener) {
@@ -155,13 +175,13 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolderPoint holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch(position) {
-            case 0: holder.bindPoint(item);
+            case 0:  ((ViewHolderPoint) holder).bindPoint(item);
                 break;
-            case 1:
+            case 1: ((ViewHolderSchedule) holder).bindSchedule(new Object());
                 break;
-            default: 
+            default:
                 break;
         }
     }
