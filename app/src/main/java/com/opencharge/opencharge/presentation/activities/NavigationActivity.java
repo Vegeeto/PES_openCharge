@@ -94,15 +94,17 @@ public class NavigationActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_maps) {
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
+<<<<<<< HEAD
 
         } else if (id == R.id.nav_slideshow) {
             fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
 
         } else if (id == R.id.nav_manage) {
+=======
+        } else if (id == R.id.nav_newpoint) {
+>>>>>>> bd60d5669845166a56d5e85b97da2361aa726ed9
 
         } else if (id == R.id.nav_share) {
 
