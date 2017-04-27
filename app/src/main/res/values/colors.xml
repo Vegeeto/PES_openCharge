@@ -7,6 +7,7 @@
     <color name="grey_hint">#808080</color>
     <color name="black">#000000</color>
     <color name="red">#FF0000</color>
+    <color name="yellow">#FFFF00</color>
     <color name="green">#00FF00</color>
     <color name="blue">#0000FF</color>
     <color name="weakblue">#b3e5fc</color>

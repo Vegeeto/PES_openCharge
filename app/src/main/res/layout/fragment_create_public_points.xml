@@ -14,6 +14,7 @@
             android:id="@+id/widget33"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             >
@@ -23,14 +24,15 @@
             android:layout_height="48dp"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
-            android:background="@color/weakblue"
+            android:background="@color/colorAccent"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="24sp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:textStyle="bold"
                 android:text="@string/afegir_punt_carrega"
                 android:gravity="center"
                 android:layout_weight="2" />
@@ -73,7 +75,7 @@
                 android:textColorHint="@color/grey_hint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:gravity="start"
                 android:layout_marginStart="16dp"
                 android:layout_weight="2" />
@@ -96,7 +98,7 @@
                 android:hint= "@string/carrer"
                 android:textColorHint="@color/grey_hint"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:layout_marginStart="16dp"
                 android:layout_weight="2"/>
 
@@ -107,7 +109,7 @@
                 android:hint= "@string/numero"
                 android:textColorHint="@color/grey_hint"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:layout_marginStart="16dp"
                 android:layout_weight="2" />
 
@@ -202,7 +204,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:layout_marginStart="16dp"
                 android:gravity="start"
                 android:layout_weight="2" />
@@ -234,6 +236,7 @@
             android:layout_height="170dp"
             android:gravity="center"
             android:orientation="vertical">
+
             <RadioButton
                 android:id="@+id/Slow"
                 android:layout_width="wrap_content"
@@ -272,8 +275,8 @@
             style="@android:style/ButtonBar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/parent"
             android:gravity="center"
+            android:background="@color/white"
             android:orientation="horizontal" >
 
             <Button
