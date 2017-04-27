@@ -7,13 +7,20 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,6 +58,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
@@ -135,6 +143,33 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.navigation, menu);
+        final MenuItem searchItem = menu.findItem(R.id.searchBar);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(getText(R.string.hint));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                LatLng searchLocation = searchInMap(query);
+                if (searchLocation != null) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                    searchView.setQuery("", false);
+                    //searchView.setIconified(true);
+                    searchView.clearFocus();
+                }
+                else Toast.makeText(getActivity(),"Address invalid!",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
+    }
+
     public void addMarkers() {
         PointsListUseCase pointsListUseCase = useCasesLocator.getPointsListUseCase(new PointsListUseCase.Callback() {
             @Override
@@ -212,11 +247,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         MapSearchFeature MapSearchFeature = servicesLocator.getMapSearchFeature(geocoder);
         LatLng searchLocation = MapSearchFeature.searchInMap(name);
-        if (searchLocation != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-        }
-
         return searchLocation;
     }
 
