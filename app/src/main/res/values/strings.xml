@@ -1,7 +1,25 @@
 <resources>
     <string name="app_name">OpenCharge</string>
     <string name="title_activity_navigation">OpenCharge</string>
-
+    <string name="afegir_punt_carrega">Afegir punt de carrega</string>
+    <string name="direccio">Direccio</string>
+    <string name="acces">Acces</string>
+    <string name="horari">Horari</string>
+    <string name="conector">Conector</string>
+    <string name="publics">Public</string>
+    <string name="privat">Privat</string>
+    <string name="tipus1">Tipus 1</string>
+    <string name="tipus2">Tipus 2</string>
+    <string name="tipus3">Tipus 3</string>
+    <string name="slow">Slow" "</string>
+    <string name="poblacio">Poblacio</string>
+    <string name="carrer">Carrer</string>
+    <string name="numero">Numero</string>
+    <string name="fast">Fast"   "</string>
+    <string name="rapid">Rapid</string>
+    <string name="guardar">Guardar</string>
+    <string name="cancelar">Cancel·lar</string>
+    <string name="particular">Particular</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
