@@ -75,14 +75,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         getUserLocation();
-        AddCommentUseCase addCommentUseCase = UseCasesLocator.getInstance().getAddCommentUseCase(new AddCommentUseCase.Callback() {
-            @Override
-            public void onCommentAdded(String id) {
-                Log.i("AddCommentTest", "Comment addded with id:" + id);
-            }
-        });
-        addCommentUseCase.setCommentParameters("1", "TestUser", "Comentari de prova", new Date());
-        addCommentUseCase.execute();
     }
 
     @Override
