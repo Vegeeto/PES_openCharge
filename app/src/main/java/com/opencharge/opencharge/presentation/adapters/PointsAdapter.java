@@ -10,10 +10,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Comment;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
+import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
+
+import java.util.Date;
 
 /**
  * Created by Oriol on 10/4/2017.
@@ -108,6 +113,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             send = (Button) itemView.findViewById(R.id.sendBtn);
             comment = (EditText) itemView.findViewById(R.id.commentBox);
 
+            send.setEnabled(false);
+
             comment.addTextChangedListener(filterTextWatcher);
 
             cancel.setOnClickListener(new View.OnClickListener() {
@@ -120,8 +127,17 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    //Enviar comentari a la base de dades
+                public void onClick(final View view) {
+                    UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+                    AddCommentUseCase getAddCommentUseCase = useCasesLocator.getAddCommentUseCase(new AddCommentUseCase.Callback(){
+                        @Override
+                        public void onCommentAdded(String id) {
+                            Toast.makeText(view.getContext(), "Missatge afegit!", Toast.LENGTH_SHORT).show();
+                            comment.setText("");
+                        }
+                    });
+                    getAddCommentUseCase.setCommentParameters(item.getId(), "Mock usuari", comment.getText().toString(), new Date());
+                    getAddCommentUseCase.execute();
                 }
             });
 

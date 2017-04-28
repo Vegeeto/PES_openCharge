@@ -35,7 +35,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
 
 import com.opencharge.opencharge.domain.Entities.Point;
-import com.opencharge.opencharge.domain.device_services.MapSearchFeature;
+import com.opencharge.opencharge.domain.helpers.MapSearchFeature;
+import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.presentation.locators.ServicesLocator;
