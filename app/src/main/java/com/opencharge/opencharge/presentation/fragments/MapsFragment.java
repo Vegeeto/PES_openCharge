@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -43,6 +44,7 @@ import com.opencharge.opencharge.presentation.locators.ServicesLocator;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Victor on 28/03/2017.
@@ -68,8 +70,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        MapFragment mapFragment;
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion < Build.VERSION_CODES.LOLLIPOP) {
+            mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        } else {
+            mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        }
         mapFragment.getMapAsync(this);
 
         getUserLocation();
@@ -175,13 +182,19 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
-            public boolean onClose() {
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                return false;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                 mySearch.visible(false);
                 return true;
             }
         });
+
     }
 
     public void addMarkers() {
