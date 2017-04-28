@@ -3,6 +3,10 @@ package com.opencharge.opencharge.presentation.locators;
 import android.content.Context;
 import android.util.Log;
 
+import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
+import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
+import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
@@ -55,5 +59,11 @@ public class UseCasesLocator {
         );
     }
 
-
+    public PointsCreateUseCase getPointsCreateUseCase(PointsCreateUseCase.Callback callback) {
+        return new PointsCreateUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getPointsRepository(),
+                callback);
+    }
 }
