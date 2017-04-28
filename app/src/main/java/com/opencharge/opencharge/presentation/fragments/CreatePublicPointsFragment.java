@@ -3,12 +3,8 @@ package com.opencharge.opencharge.presentation.fragments;
 
 import android.content.Context;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +13,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.helpers.AddressConversion;
 import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
-import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
-import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
-import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.util.Locale;
@@ -55,10 +48,26 @@ public class CreatePublicPointsFragment extends Fragment {
         rdgAcces = (RadioGroup) view.findViewById(R.id.Public_or_private);
         rdgTipus = (RadioGroup) view.findViewById(R.id.tipus_connector);
 
+        rdgAcces.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                amagarTeclat();
+            }
+        });
+
+        rdgTipus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                amagarTeclat();
+            }
+        });
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Log.d("CrearPunt","onClick Guardar!");
+                amagarTeclat();
                 guardarPunt(v);
             }
         });
@@ -66,6 +75,7 @@ public class CreatePublicPointsFragment extends Fragment {
         final Button cancelButton = (Button) view.findViewById(R.id.CancelarBtn);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                amagarTeclat();
                 cancelar(v);
             }
         });
@@ -149,5 +159,10 @@ public class CreatePublicPointsFragment extends Fragment {
         android.app.FragmentManager fm = getFragmentManager();
         MapsFragment mp = new MapsFragment();
         fm.beginTransaction().replace(R.id.content_frame, mp).commit();
+    }
+
+    private void amagarTeclat() {
+        InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
