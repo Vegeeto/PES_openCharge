@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -16,8 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +56,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private LatLng currentLocation;
     private UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
     private ServicesLocator servicesLocator = ServicesLocator.getInstance();
+    private MarkerOptions mySearch = new MarkerOptions();
+    private Marker myMarker;
 
     static final LatLng BARCELONA = new LatLng(41.390, 2.154);
 
@@ -70,8 +71,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        MapFragment mapFragment;
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion < Build.VERSION_CODES.LOLLIPOP) {
+            mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        } else {
+            mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        }
         mapFragment.getMapAsync(this);
 
         getUserLocation();
@@ -118,6 +124,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public View getInfoContents(Marker marker) {
+                if (marker.getSnippet() == null) return null;
 
                 View view = getActivity().getLayoutInflater().inflate(R.layout.content_tooltip, null);
 
@@ -156,13 +163,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             public boolean onQueryTextSubmit(String query) {
                 LatLng searchLocation = searchInMap(query);
                 if (searchLocation != null) {
+                    if (myMarker != null) myMarker.remove();
+                    mySearch.position(searchLocation);
+                    mySearch.title(query);
+                    mySearch.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                    myMarker = mMap.addMarker(mySearch);
+                    myMarker.hideInfoWindow();
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
                     searchView.setQuery("", false);
-                    //searchView.setIconified(true);
                     searchView.clearFocus();
                 }
-                else Toast.makeText(getActivity(),"Address invalid!",Toast.LENGTH_SHORT).show();
+                else Toast.makeText(getActivity(),"Addreça invalida!",Toast.LENGTH_SHORT).show();
                 return true;
             }
 
@@ -171,6 +183,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 return true;
             }
         });
+
+        MenuItemCompat.setOnActionExpandListener(searchItem,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                        // Return true to allow the action view to expand
+                        return true;
+                    }
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                        // When the action view is collapsed, reset the query
+                        myMarker.remove();
+                        // Return true to allow the action view to collapse
+                        return true;
+                    }
+                });
+
     }
 
     public void addMarkers() {
@@ -246,11 +275,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public LatLng searchInMap(String name) {
+    private LatLng searchInMap(String name) {
         Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         MapSearchFeature MapSearchFeature = servicesLocator.getMapSearchFeature(geocoder);
-        LatLng searchLocation = MapSearchFeature.searchInMap(name);
-        return searchLocation;
+        return MapSearchFeature.searchInMap(name);
     }
 
 }

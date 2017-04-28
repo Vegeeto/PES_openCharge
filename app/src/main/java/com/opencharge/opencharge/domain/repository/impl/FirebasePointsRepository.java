@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.opencharge.opencharge.domain.Entities.FirebasePoint;
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser;
@@ -51,7 +52,7 @@ public class FirebasePointsRepository implements PointsRepository {
     public void getPointById(String pointId, final GetPointByIdCallback callback) {
         DatabaseReference myRef = database.getReference("Points").child(pointId);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Point point = parsePointFromSnapshot(dataSnapshot);
@@ -87,5 +88,22 @@ public class FirebasePointsRepository implements PointsRepository {
             return pointsParser.parseFromMap(key, map);
         }
         return null;
+    }
+
+    public void createPoint(FirebasePoint point, final CreatePointCallback callback) {
+
+        DatabaseReference myRef = database.getReference("Points");
+        myRef.push().setValue(point, new DatabaseReference.CompletionListener() {
+
+            @Override
+            public void onComplete(DatabaseError de, DatabaseReference dr) {
+                System.out.println("Record saved!");
+                Log.d("CrearPunt","Record saved!");
+                String postId = dr.getKey();
+                callback.onPointCreated(postId);
+            }
+
+            ;
+        });
     }
 }

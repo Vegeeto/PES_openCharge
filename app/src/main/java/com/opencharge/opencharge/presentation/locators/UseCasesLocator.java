@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
@@ -57,6 +59,14 @@ public class UseCasesLocator {
         );
     }
 
+    public PointsCreateUseCase getPointsCreateUseCase(PointsCreateUseCase.Callback callback) {
+        return new PointsCreateUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getPointsRepository(),
+                callback);
+    }
+
     public AddCommentUseCase getAddCommentUseCase(AddCommentUseCase.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
         return new AddCommentUseCaseImpl(
@@ -66,6 +76,4 @@ public class UseCasesLocator {
                 callback
         );
     }
-
-
 }
