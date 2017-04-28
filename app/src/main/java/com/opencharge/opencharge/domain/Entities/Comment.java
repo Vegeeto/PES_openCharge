@@ -27,22 +27,22 @@ public class Comment {
 
 
     public String getId(){ return id; }
-    public String getAuthor() { return autor; }
+    public String getAutor() { return autor; }
     public String getText() {
         return text;
     }
-    public Date getDate() {
+    public Date getData() {
         return data;
     }
 
     public void setId(String id){ this.id = id; }
-    public void setAuthor(String autor) {
+    public void setAutor(String autor) {
         this.autor = autor;
     }
     public void setText(String text) {
         this.text = text;
     }
-    public void setDate(Date data) {
+    public void setData(Date data) {
         this.data = data;
     }
 
