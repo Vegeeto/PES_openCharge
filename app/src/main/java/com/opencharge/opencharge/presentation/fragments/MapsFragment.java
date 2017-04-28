@@ -35,11 +35,15 @@ import com.opencharge.opencharge.R;
 
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.helpers.MapSearchFeature;
+import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.presentation.locators.ServicesLocator;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -77,7 +81,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         getUserLocation();
-
     }
 
     @Override

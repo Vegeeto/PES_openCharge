@@ -37,4 +37,8 @@
 
     <string name="punt_de_recarrega">Punt de recàrrega</string>
     <string name="tipus_d_acces">Tipus d\'accés</string>
+    <string name="comment">Comment about this point</string>
+    <string name="comment_hint">Please provide your comments here.</string>
+    <string name="cancel">Cancel</string>
+    <string name="send">Send!</string>
 </resources>
