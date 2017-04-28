@@ -191,7 +191,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem menuItem) {
                         // When the action view is collapsed, reset the query
-                        myMarker.remove();
+                        if (myMarker != null) myMarker.remove();
                         // Return true to allow the action view to collapse
                         return true;
                     }
