@@ -17,8 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.LinearLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,14 +35,12 @@ import com.opencharge.opencharge.R;
 
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.helpers.MapSearchFeature;
-import com.opencharge.opencharge.domain.helpers.impl.MapSearchFeatureImpl;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.presentation.locators.ServicesLocator;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by Victor on 28/03/2017.
