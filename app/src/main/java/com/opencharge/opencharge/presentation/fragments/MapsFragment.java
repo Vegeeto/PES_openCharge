@@ -57,6 +57,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
     private ServicesLocator servicesLocator = ServicesLocator.getInstance();
     private MarkerOptions mySearch = new MarkerOptions();
+    private Marker myMarker;
 
     static final LatLng BARCELONA = new LatLng(41.390, 2.154);
 
@@ -162,11 +163,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             public boolean onQueryTextSubmit(String query) {
                 LatLng searchLocation = searchInMap(query);
                 if (searchLocation != null) {
-                    //mySearch = new MarkerOptions();
+                    if (myMarker != null) myMarker.remove();
                     mySearch.position(searchLocation);
                     mySearch.title(query);
                     mySearch.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                    mMap.addMarker(mySearch).hideInfoWindow();
+                    myMarker = mMap.addMarker(mySearch);
+                    myMarker.hideInfoWindow();
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchLocation, 10)); //40.000 km / 2^n, n=15
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
                     searchView.setQuery("", false);
@@ -182,18 +184,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem menuItem) {
-                return false;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-                mySearch.visible(false);
-                return true;
-            }
-        });
+        MenuItemCompat.setOnActionExpandListener(searchItem,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                        // Return true to allow the action view to expand
+                        return true;
+                    }
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                        // When the action view is collapsed, reset the query
+                        myMarker.remove();
+                        // Return true to allow the action view to collapse
+                        return true;
+                    }
+                });
 
     }
 
