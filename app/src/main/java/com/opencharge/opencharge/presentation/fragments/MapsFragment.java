@@ -125,6 +125,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public View getInfoContents(Marker marker) {
+                if (marker.getSnippet() == null) return null;
 
                 View view = getActivity().getLayoutInflater().inflate(R.layout.content_tooltip, null);
 
