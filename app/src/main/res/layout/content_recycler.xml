@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Tipus d'accés: "
+            android:text="@string/tipus_d_acces_text"
             android:textColor="@color/black"
             android:textSize="@dimen/normal_text_size"
             android:layout_weight="1" />
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Tipus de connector: "
+            android:text="@string/tipus_de_connector_text"
             android:textColor="@color/black"
             android:textSize="@dimen/normal_text_size"
             android:layout_weight="1" />
@@ -65,6 +65,15 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:text="@string/informacio_addicional"
+        android:textColor="@color/black"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_weight="1" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,16 +83,41 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Horari: "
+            android:text="Latitud:"
             android:textColor="@color/black"
             android:textSize="@dimen/normal_text_size"
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/horari"
+            android:id="@+id/lat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Horari"
+            android:text="latitud"
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Longitud:"
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/lng"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="longitud"
             android:textColor="@color/black"
             android:textSize="@dimen/normal_text_size"
             android:layout_weight="1" />
@@ -95,6 +129,6 @@
         android:layout_height="1dip"
         android:background="#D8D8D8"
         android:layout_marginLeft="125dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="20dp"/>
 
 </LinearLayout>

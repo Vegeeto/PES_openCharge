@@ -36,20 +36,25 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private TextView adreca;
         private TextView access;
         private TextView connector;
+        private TextView lat;
+        private TextView lng;
 
         public ViewHolderPoint(View itemView) {
             super(itemView);
             adreca = (TextView) itemView.findViewById(R.id.adreca);
             access = (TextView) itemView.findViewById(R.id.access);
             connector = (TextView) itemView.findViewById(R.id.connector);
+            lat = (TextView) itemView.findViewById(R.id.lat);
+            lng = (TextView) itemView.findViewById(R.id.lng);
         }
 
         public final void bindPoint(Point p) {
             //Posar la informació d'un punt a la vista
-            adreca.setText(p.getLatCoord() + " " + p.getLonCoord());
             adreca.setText(p.getAddress());
             access.setText(p.getAccessType());
             connector.setText(p.getConnectorType());
+            lat.setText(String.valueOf(p.getLatCoord()));
+            lng.setText(String.valueOf(p.getLonCoord()));
 
             int drawable = Point.getDrawableForAccess(p.getAccessType());
             access.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
@@ -68,7 +73,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public ViewHolderSchedule(View itemView) {
             super(itemView);
-            //schedule = (TextView) itemView.findViewById(R.id.schedule);
+            schedule = (TextView) itemView.findViewById(R.id.horari);
         }
 
         public void bindSchedule(Object o) {
@@ -167,7 +172,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 v.setOnClickListener(this);
                 break;
             case 1: //Replace the layout: inflate with scheduler layout
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler, parent, false);
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_schedule, parent, false);
                 viewHolder = new ViewHolderSchedule(v);
                 break;
             default: //Replace the layout: inflate with comment layout
