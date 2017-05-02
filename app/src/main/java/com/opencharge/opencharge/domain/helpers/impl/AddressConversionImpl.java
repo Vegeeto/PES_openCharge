@@ -40,7 +40,18 @@ public class AddressConversionImpl implements AddressConversion {
     }
 
     @Override
-    public boolean LatLongToAddress(double lat, double lng) {
+    public String LatLongToAddress(double lat, double lng) {
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            return addresses.get(0).getAddressLine(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean LatLongToParameters(double lat, double lng) {
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
 

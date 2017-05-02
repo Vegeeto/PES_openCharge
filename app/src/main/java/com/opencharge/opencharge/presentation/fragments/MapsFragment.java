@@ -34,7 +34,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
 
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.helpers.AddressConversion;
 import com.opencharge.opencharge.domain.helpers.MapSearchFeature;
+import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
@@ -58,6 +60,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private ServicesLocator servicesLocator = ServicesLocator.getInstance();
     private MarkerOptions mySearch = new MarkerOptions();
     private Marker myMarker;
+    private Geocoder geocoder;
 
     static final LatLng BARCELONA = new LatLng(41.390, 2.154);
 
@@ -164,8 +167,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 LatLng searchLocation = searchInMap(query);
                 if (searchLocation != null) {
                     if (myMarker != null) myMarker.remove();
+                    AddressConversion myConversion = new AddressConversionImpl(geocoder);
                     mySearch.position(searchLocation);
-                    mySearch.title(query);
+                    String address = myConversion.LatLongToAddress(searchLocation.latitude, searchLocation.longitude);
+                    mySearch.title(address);
                     mySearch.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
                     myMarker = mMap.addMarker(mySearch);
                     myMarker.hideInfoWindow();
@@ -276,7 +281,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
 
     private LatLng searchInMap(String name) {
-        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+        if (geocoder == null) geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         MapSearchFeature MapSearchFeature = servicesLocator.getMapSearchFeature(geocoder);
         return MapSearchFeature.searchInMap(name);
     }

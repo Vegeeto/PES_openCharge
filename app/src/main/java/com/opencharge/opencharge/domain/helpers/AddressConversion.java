@@ -10,7 +10,9 @@ public interface AddressConversion {
 
     LatLng AddressToLatLng(String town, String street, String number);
 
-    boolean LatLongToAddress(double lat, double lng);
+    boolean LatLongToParameters(double lat, double lng);
+
+    String LatLongToAddress(double lat, double lng);
 
     String getTown();
 
