@@ -19,6 +19,7 @@ public class FirebaseCommentsRepository implements CommentsRepository {
     }
 
 
+    @Override
     public void createComment(String point_id, Comment comment, final CreateCommentCallback callback) {
 
         //modificar aqui:
@@ -36,5 +37,13 @@ public class FirebaseCommentsRepository implements CommentsRepository {
 
             ;
         });
+    }
+
+    @Override
+    public void getComments(String point_id, final GetCommentsCallback callback) {
+        DatabaseReference myRef = database.getReference("Points");
+        myRef = myRef.child(point_id);
+        myRef = myRef.child("Comments");
+
     }
 }

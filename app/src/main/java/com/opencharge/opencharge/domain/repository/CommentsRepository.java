@@ -7,7 +7,7 @@ import com.opencharge.opencharge.domain.Entities.Comment;
  */
 
 public interface CommentsRepository {
-    /*
+
     public interface GetCommentsCallback {
         public void onCommentsRetrieved(Comment[] comments);
         public void onError();
@@ -17,7 +17,7 @@ public interface CommentsRepository {
         public void onPointRetrieved(Comment comment);
         public void onError();
     }
-*/
+
     public interface CreateCommentCallback {
         public void onCommentCreated(String id);
 
@@ -26,6 +26,6 @@ public interface CommentsRepository {
 
 
     void createComment(String point_id,Comment point, final CreateCommentCallback callback);
-  /*  void getComments(final GetCommentsCallback callback);
-    void getCommentById(String commentId, final GetCommentByIdCallback callback);*/
+    void getComments(String point_id, final GetCommentsCallback callback);
+    //void getCommentById(String commentId, final GetCommentByIdCallback callback);
 }
