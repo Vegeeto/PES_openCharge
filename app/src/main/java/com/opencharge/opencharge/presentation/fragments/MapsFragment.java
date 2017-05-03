@@ -67,7 +67,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+        View view = inflater.inflate(R.layout.fragment_maps, container, false);
+        return view;
     }
 
     @Override
@@ -147,11 +148,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Point point = (Point)marker.getTag();
-                android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
-                PointInfoFragment fragment = PointInfoFragment.newInstance(point.getId());
-                ft.replace(R.id.content_frame, fragment).commit();
+                Point point = (Point) marker.getTag();
+                try {
+                    android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+                    PointInfoFragment fragment = PointInfoFragment.newInstance(point.getId());
+                    ft.replace(R.id.content_frame, fragment).commit();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

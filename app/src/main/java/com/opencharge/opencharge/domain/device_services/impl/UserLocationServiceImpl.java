@@ -14,13 +14,11 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.app.Service;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.device_services.UserLocationService;
-import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 
 /**
  * Created by ferran on 24/3/17.
@@ -74,17 +72,15 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
                 if (ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // Check Permissions Now
                     ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
-                    Log.e("Error: ", "You don't have the right permissions to get User Location ");
+                    //Log.e("Error: ", "You don't have the right permissions to get User Location ");
                     callback.onCanNotGetLocationError();
                 } else {
-
                     mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
                     mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
                     if (isGpsEnabled && mLocationManager != null) {             //Get the user location using gps
                         //Log.e("LOCATION: ", "Getting user locations using GPS");
                         userLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    } else if (!isGpsEnabled) {
-                        showSettingsAlert();
+
                     } else { //Get the user location using network.
                         //Log.e("LOCATION: ", "Getting user locations using NETWORK");
                         userLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
