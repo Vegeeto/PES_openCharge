@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.helpers.AddressConversion;
 import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
@@ -35,6 +36,7 @@ public class CreatePublicPointsFragment extends Fragment {
     private EditText editSchedule;
     private RadioGroup rdgAcces;
     private RadioGroup rdgTipus;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,9 +83,7 @@ public class CreatePublicPointsFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
-
-
-
+    
     public void guardarPunt(View view) {
 
         String town = editTown.getText().toString();
@@ -111,7 +111,13 @@ public class CreatePublicPointsFragment extends Fragment {
         }
         //Log.d("CrearPunt","sch: "+schedule);
 
-        String accesType = "Desconegut";
+        String accesType;
+        switch (rdgAcces.getCheckedRadioButtonId()) {
+            case R.id.Particular: accesType = Point.PARTICULAR_ACCESS; break;
+            case R.id.Privat: accesType = Point.PRIVATE_ACCESS; break;
+            case R.id.Public: accesType = Point.PUBLIC_ACCESS; break;
+            default: accesType = Point.UNKNOWN_ACCESS; break;
+        }
         if (rdgAcces.getCheckedRadioButtonId() == R.id.Public) {
             accesType = "Public";
         } else if (rdgAcces.getCheckedRadioButtonId() == R.id.Privat) {
@@ -120,16 +126,17 @@ public class CreatePublicPointsFragment extends Fragment {
             accesType = "Particular";
         }
         //Log.d("CrearPunt","accestype: "+accesType);
-        String connectorType = "Desconegut";
-        if (rdgTipus.getCheckedRadioButtonId() == R.id.Slow) {
-            connectorType = "Lent";
-        } else if (rdgTipus.getCheckedRadioButtonId() == R.id.Fast) {
-            connectorType = "Ràpid";
-        } else if (rdgTipus.getCheckedRadioButtonId() == R.id.Rapid) {
-            connectorType = "Molt ràpid";
+        String connectorType;
+        switch(rdgTipus.getCheckedRadioButtonId()) {
+            case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
+            case R.id.Fast: connectorType = Point.FAST_CONNECTOR; break;
+            case R.id.Rapid: connectorType = Point.RAPID_CONNECTOR; break;
+            default: connectorType = Point.UNKNOWN_CONNECTOR; break;
         }
+        
         //Log.d("CrearPunt","connector: "+connectorType);
         //Log.d("CrearPunt","Pre llamada usecase");
+        
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(new PointsCreateUseCase.Callback(){
             @Override
@@ -141,15 +148,16 @@ public class CreatePublicPointsFragment extends Fragment {
             }
 
         });
+        
         Geocoder   geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         AddressConversion addressConversion = new AddressConversionImpl(geocoder);
         LatLng latlng = addressConversion.AddressToLatLng(town, street, number);
         if (latlng == null) {
-            Toast.makeText(getActivity(), "Adreça invalida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Adreça invàlida", Toast.LENGTH_SHORT).show();
             return;
         }
-        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorType,schedule);
         //getCreatePointsUseCase.setPointParameters(1.0,1.0, "a","a","a","a","a","a");
+        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorType,schedule);
         getCreatePointsUseCase.execute();
 
     }
