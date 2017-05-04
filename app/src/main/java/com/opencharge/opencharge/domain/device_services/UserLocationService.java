@@ -2,8 +2,6 @@ package com.opencharge.opencharge.domain.device_services;
 
 import android.location.Location;
 
-import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
-
 /**
  * Created by ferran on 24/3/17.
  */
