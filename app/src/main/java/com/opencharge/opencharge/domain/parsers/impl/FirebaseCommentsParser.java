@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by Oriol on 4/5/2017.
  */
 
-public class FirebaseCommentsParser implements CommentsParser {
+public class FirebaseCommentsParser extends AbstractParser implements CommentsParser {
 
     public static final String AUTHOR_KEY = "author";
     public static final String TEXT_KEY = "text";
@@ -18,7 +18,13 @@ public class FirebaseCommentsParser implements CommentsParser {
 
     @Override
     public Comment parseFromMap(String key, Map<String, Object> map) {
-        
-        return null;
+        Comment comment = new Comment(key);
+
+        comment.setAutor(parseStringKeyFromMap(AUTHOR_KEY, map));
+        comment.setText(parseStringKeyFromMap(TEXT_KEY, map));
+        comment.setData(parseDateKeyFromMap(DATE_KEY, map));
+
+        return comment;
     }
+
 }

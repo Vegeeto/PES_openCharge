@@ -16,6 +16,9 @@ public class Comment {
     //Empty constructor needed for Firebase
     public Comment() {}
 
+    public Comment(String id) {
+        this.id = id;
+    }
 
     public Comment(String autor, String text, Date data) {
         this.autor = autor;
