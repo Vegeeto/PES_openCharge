@@ -9,5 +9,5 @@ import java.util.Map;
  */
 
 public interface PointsParser {
-    public Point parseFromMap(String key, Map<String, Object> map);
+    Point parseFromMap(String key, Map<String, Object> map);
 }
