@@ -13,6 +13,8 @@ import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
  */
 
 public class CommentsListUseCaseImpl extends AbstractUseCase implements CommentsListUseCase {
+
+    private String commentId;
     private CommentsListUseCase.Callback callback;
     private CommentsRepository commentsRepository;
 
@@ -27,8 +29,13 @@ public class CommentsListUseCaseImpl extends AbstractUseCase implements Comments
     }
 
     @Override
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
+    @Override
     public void run() {
-        commentsRepository.getComments(new CommentsRepository.GetCommentsCallback() {
+        commentsRepository.getComments(this.commentId, new CommentsRepository.GetCommentsCallback() {
             @Override
             public void onCommentsRetrieved(Comment[] comments) {
                 postComments(comments);
@@ -45,7 +52,7 @@ public class CommentsListUseCaseImpl extends AbstractUseCase implements Comments
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                //callback.onCommentsRetrieved(comments);
+                callback.onCommentsRetrieved(comments);
             }
         });
     }

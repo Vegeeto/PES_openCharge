@@ -12,6 +12,5 @@ public interface PointByIdUseCase extends UseCase {
         void onPointRetrieved(Point point);
     }
 
-    // TODO: Add usecase methods here
-    public void setPointId(String pointId);
+    void setPointId(String pointId);
 }
