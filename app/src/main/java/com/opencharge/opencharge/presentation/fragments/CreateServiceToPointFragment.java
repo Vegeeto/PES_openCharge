@@ -3,6 +3,8 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +43,12 @@ public class CreateServiceToPointFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_service, container, false);
 
         date = (EditText) view.findViewById(R.id.date);
+        date.setInputType(InputType.TYPE_NULL);
+        date.requestFocus();
         showDate(date);
 
         dateEnd = (EditText) view.findViewById(R.id.dateEnd);
+        dateEnd.setInputType(InputType.TYPE_NULL);
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +57,8 @@ public class CreateServiceToPointFragment extends Fragment {
                         R.style.AppTheme, datePickerListener1, year, month, day);
                 datePicker.setCancelable(false);
                 datePicker.setTitle("Select the date");
+
+                datePicker.show();
             }
         });
 
@@ -62,6 +69,7 @@ public class CreateServiceToPointFragment extends Fragment {
                         R.style.AppTheme, datePickerListener2, year, month, day);
                 datePicker.setCancelable(true);
                 datePicker.setTitle("Select the date");
+                datePicker.show();
             }
         });
 
