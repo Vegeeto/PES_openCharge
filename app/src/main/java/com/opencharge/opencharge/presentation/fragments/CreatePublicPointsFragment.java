@@ -40,7 +40,7 @@ public class CreatePublicPointsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_public_points, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_point, container, false);
         final Button saveButton = (Button) view.findViewById(R.id.GuardarBtn);
         editTown = (EditText) view.findViewById(R.id.Poblacio);
         editStreet = (EditText) view.findViewById(R.id.Street);

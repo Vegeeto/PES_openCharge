@@ -45,4 +45,18 @@
     <string name="tipus_d_acces_text">Tipus d\'accés:</string>
     <string name="tipus_de_connector_text">Tipus de connector:</string>
     <string name="informacio_addicional"><u>Informació addicional</u></string>
+    <string name="seleccionar_data">Seleccionar data</string>
+    <string name="seleccionar_hora">Seleccionar hora</string>
+    <string name="dia">Dia:</string>
+    <string name="hora_inici">Hora inici:</string>
+    <string name="hora_fi">Hora fi:</string>
+    <string name="repetir">Repetir:</string>
+    <string name="dilluns">Dilluns</string>
+    <string name="dimarts">Dimarts</string>
+    <string name="dimecres">Dimecres</string>
+    <string name="dijous">Dijous</string>
+    <string name="divendres">Divendres</string>
+    <string name="dissabte">Dissabte</string>
+    <string name="diumenge">Diumenge</string>
+    <string name="fins_el_dia">Fins el dia:</string>
 </resources>
