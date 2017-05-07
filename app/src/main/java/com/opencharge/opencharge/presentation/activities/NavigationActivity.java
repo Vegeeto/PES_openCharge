@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment;
-import com.opencharge.opencharge.presentation.fragments.CreateServiceToPointFragment;
+import com.opencharge.opencharge.presentation.fragments.CreateServiceFragment;
 import com.opencharge.opencharge.presentation.fragments.MapsFragment;
 
 
@@ -92,7 +92,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_newpoint) {
             fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
         } else if (id == R.id.nav_newservice) {
-            fm.beginTransaction().replace(R.id.content_frame, new CreateServiceToPointFragment()).commit();
+            fm.beginTransaction().replace(R.id.content_frame, new CreateServiceFragment()).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

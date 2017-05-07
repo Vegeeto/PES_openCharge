@@ -1,5 +1,6 @@
 package com.opencharge.opencharge.presentation.fragments;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateServiceToPointFragment extends Fragment {
+public class CreateServiceFragment extends Fragment {
 
     final Calendar calendar = Calendar.getInstance();
     int year;
@@ -30,8 +31,9 @@ public class CreateServiceToPointFragment extends Fragment {
     int day;
     private EditText date;
     private EditText dateEnd;
+    private EditText
 
-    public CreateServiceToPointFragment() {
+    public CreateServiceFragment() {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -48,16 +50,15 @@ public class CreateServiceToPointFragment extends Fragment {
         showDate(date);
 
         dateEnd = (EditText) view.findViewById(R.id.dateEnd);
+        dateEnd.setFocusable(false);
         dateEnd.setInputType(InputType.TYPE_NULL);
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePicker = new DatePickerDialog(getActivity().getApplicationContext(),
-                        R.style.AppTheme, datePickerListener1, year, month, day);
+                DatePickerDialog datePicker = new DatePickerDialog(getActivity(),datePickerListener1, year, month, day);
                 datePicker.setCancelable(false);
-                datePicker.setTitle("Select the date");
-
+                datePicker.setTitle("Seleccionar data");
                 datePicker.show();
             }
         });
@@ -65,13 +66,14 @@ public class CreateServiceToPointFragment extends Fragment {
         dateEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePicker = new DatePickerDialog(getActivity().getApplicationContext(),
-                        R.style.AppTheme, datePickerListener2, year, month, day);
+                DatePickerDialog datePicker = new DatePickerDialog(getActivity(), datePickerListener2, year, month, day);
                 datePicker.setCancelable(true);
-                datePicker.setTitle("Select the date");
+                datePicker.setTitle("Seleccionar data");
                 datePicker.show();
             }
         });
+
+
 
         return view;
     }
@@ -99,7 +101,7 @@ public class CreateServiceToPointFragment extends Fragment {
     }
 
     private void showDate(EditText text) {
-        text.setText(day + "/" + month + "/" + year);
+        text.setText(day + "/" + (month+1) + "/" + year);
     }
 
 }
