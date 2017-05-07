@@ -3,6 +3,7 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
 import android.text.InputType;
@@ -11,10 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import com.opencharge.opencharge.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Oriol on 5/5/2017.
@@ -31,7 +35,8 @@ public class CreateServiceFragment extends Fragment {
     int day;
     private EditText date;
     private EditText dateEnd;
-    private EditText
+    private EditText inici;
+    private EditText fi;
 
     public CreateServiceFragment() {
         year = calendar.get(Calendar.YEAR);
@@ -53,6 +58,14 @@ public class CreateServiceFragment extends Fragment {
         dateEnd.setFocusable(false);
         dateEnd.setInputType(InputType.TYPE_NULL);
 
+        inici = (EditText) view.findViewById(R.id.ini);
+        inici.setFocusable(false);
+        inici.setInputType(InputType.TYPE_NULL);
+        
+        fi = (EditText) view.findViewById(R.id.fi);
+        fi.setFocusable(false);
+        fi.setInputType(InputType.TYPE_NULL);
+
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,7 +86,21 @@ public class CreateServiceFragment extends Fragment {
             }
         });
 
+        inici.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePicker = new TimePickerDialog(getActivity(), timePickerListener1, 0, 0, true);
+                createTimePicker(timePicker);
+            }
+        });
 
+        fi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePicker = new TimePickerDialog(getActivity(), timePickerListener2, 0, 0, true);
+                createTimePicker(timePicker);
+            }
+        });
 
         return view;
     }
@@ -102,6 +129,32 @@ public class CreateServiceFragment extends Fragment {
 
     private void showDate(EditText text) {
         text.setText(day + "/" + (month+1) + "/" + year);
+    }
+
+    private void createTimePicker(TimePickerDialog timePicker) {
+        timePicker.setCancelable(true);
+        timePicker.setTitle("Seleccionar hora");
+        timePicker.show();
+    }
+
+    private TimePickerDialog.OnTimeSetListener timePickerListener1 = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker timePicker, int i, int i1) {
+            showTime(i, i1, inici);
+        }
+    };
+
+    private TimePickerDialog.OnTimeSetListener timePickerListener2 = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker timePicker, int i, int i1) {
+            showTime(i, i1, fi);
+        }
+    };
+
+    private void showTime(int h, int m, EditText text) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
+        String time = simpleDateFormat.format(new Date(0, 0, 0, h, m));
+        text.setText(time);
     }
 
 }
