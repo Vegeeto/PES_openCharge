@@ -22,7 +22,7 @@ public class CommentFactory {
         return instance;
     }
 
-    public Comment createNewComment(String autor, String text, Date data) {
+    public Comment createNewComment(String autor, String text, String data) {
 
         Comment c = new Comment(autor, text, data);
         return c;

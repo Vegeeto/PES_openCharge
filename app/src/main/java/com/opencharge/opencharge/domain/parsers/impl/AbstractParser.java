@@ -1,5 +1,7 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
+import com.opencharge.opencharge.domain.helpers.DateConversion;
+import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.parsers.Parser;
 
 import java.util.Date;
@@ -29,10 +31,11 @@ public abstract class AbstractParser implements Parser {
     }
 
     public Date parseDateKeyFromMap(String key, Map<String, Object> map) {
-        Date date = new Date();
+        String date = "";
         if (map.containsKey(key)) {
-            date = (Date)map.get(key);
+            date = (String)map.get(key);
         }
-        return date;
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.StringToDate(date);
     }
 }

@@ -11,7 +11,7 @@ public class FirebaseComment {
     public String id;
     public String autor;
     public String text;
-    public Date data;
+    public String data;
 
     //Empty constructor needed for Firebase
     public FirebaseComment() {}
@@ -31,7 +31,7 @@ public class FirebaseComment {
         return text;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 
@@ -45,7 +45,7 @@ public class FirebaseComment {
         this.text = text;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 

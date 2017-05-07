@@ -12,4 +12,6 @@ public interface DateConversion {
 
     Date longToDate(long time);
 
+    Date StringToDate(String time);
+
 }

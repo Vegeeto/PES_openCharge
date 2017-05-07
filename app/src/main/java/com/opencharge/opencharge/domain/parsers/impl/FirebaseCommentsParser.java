@@ -22,7 +22,7 @@ public class FirebaseCommentsParser extends AbstractParser implements CommentsPa
 
         comment.setAutor(parseStringKeyFromMap(AUTHOR_KEY, map));
         comment.setText(parseStringKeyFromMap(TEXT_KEY, map));
-        comment.setData(parseDateKeyFromMap(DATE_KEY, map));
+        comment.setData(parseStringKeyFromMap(DATE_KEY, map));
 
         return comment;
     }

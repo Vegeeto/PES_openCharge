@@ -19,4 +19,10 @@ public class DateConversionImpl implements DateConversion {
     public Date longToDate(long time) {
         return new Date(time);
     }
+
+    @Override
+    public Date StringToDate(String time) {
+        return longToDate(Long.parseLong(time));
+    }
+
 }
