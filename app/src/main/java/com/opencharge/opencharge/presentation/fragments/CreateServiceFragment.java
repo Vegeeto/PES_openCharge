@@ -1,15 +1,14 @@
 package com.opencharge.opencharge.presentation.fragments;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -30,9 +29,7 @@ import java.util.Date;
 public class CreateServiceFragment extends Fragment {
 
     final Calendar calendar = Calendar.getInstance();
-    int year;
-    int month;
-    int day;
+    int year, month, day, hour, min;
     private EditText date;
     private EditText dateEnd;
     private EditText inici;
@@ -42,6 +39,8 @@ public class CreateServiceFragment extends Fragment {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        min = calendar.get(Calendar.MINUTE);
     }
 
     @Override
@@ -51,8 +50,8 @@ public class CreateServiceFragment extends Fragment {
 
         date = (EditText) view.findViewById(R.id.date);
         date.setInputType(InputType.TYPE_NULL);
-        date.requestFocus();
-        showDate(date);
+        date.setFocusable(false);
+        showDate(year, month, day, date);
 
         dateEnd = (EditText) view.findViewById(R.id.dateEnd);
         dateEnd.setFocusable(false);
@@ -65,6 +64,9 @@ public class CreateServiceFragment extends Fragment {
         fi = (EditText) view.findViewById(R.id.fi);
         fi.setFocusable(false);
         fi.setInputType(InputType.TYPE_NULL);
+
+        Button save = (Button) view.findViewById(R.id.saveBtn);
+        Button cancel = (Button) view.findViewById(R.id.cancelBtn);
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +91,7 @@ public class CreateServiceFragment extends Fragment {
         inici.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimePickerDialog timePicker = new TimePickerDialog(getActivity(), timePickerListener1, 0, 0, true);
+                TimePickerDialog timePicker = new TimePickerDialog(getActivity(), timePickerListener1, hour+1, 0, true);
                 createTimePicker(timePicker);
             }
         });
@@ -97,8 +99,22 @@ public class CreateServiceFragment extends Fragment {
         fi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimePickerDialog timePicker = new TimePickerDialog(getActivity(), timePickerListener2, 0, 0, true);
+                TimePickerDialog timePicker = new TimePickerDialog(getActivity(), timePickerListener2, hour+2, 0, true);
                 createTimePicker(timePicker);
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: Implement listener
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStackImmediate();
             }
         });
 
@@ -108,28 +124,16 @@ public class CreateServiceFragment extends Fragment {
     private  DatePickerDialog.OnDateSetListener datePickerListener1 = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-            setDate(i, i1, i2);
-            showDate(date);
+            showDate(i, i1, i2, date);
         }
     };
 
     private  DatePickerDialog.OnDateSetListener datePickerListener2 = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-            setDate(i, i1, i2);
-            showDate(dateEnd);
+            showDate(i, i1, i2, dateEnd);
         }
     };
-
-    private void setDate(int i, int i1, int i2) {
-        year = i;
-        month = i1;
-        day = i2;
-    }
-
-    private void showDate(EditText text) {
-        text.setText(day + "/" + (month+1) + "/" + year);
-    }
 
     private void createTimePicker(TimePickerDialog timePicker) {
         timePicker.setCancelable(true);
@@ -151,8 +155,12 @@ public class CreateServiceFragment extends Fragment {
         }
     };
 
+    private void showDate(int year, int month, int day, EditText text) {
+        text.setText(day + "/" + (month+1) + "/" + year);
+    }
+
     private void showTime(int h, int m, EditText text) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         String time = simpleDateFormat.format(new Date(0, 0, 0, h, m));
         text.setText(time);
     }
