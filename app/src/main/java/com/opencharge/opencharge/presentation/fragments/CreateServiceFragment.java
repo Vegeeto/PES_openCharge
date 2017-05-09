@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.Entities.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,6 +37,13 @@ public class CreateServiceFragment extends Fragment {
     private EditText dateEnd;
     private EditText inici;
     private EditText fi;
+    private CheckBox mon;
+    private CheckBox tue;
+    private CheckBox wed;
+    private CheckBox thu;
+    private CheckBox fri;
+    private CheckBox sat;
+    private CheckBox sun;
 
     public CreateServiceFragment() {
         year = calendar.get(Calendar.YEAR);
@@ -67,6 +74,14 @@ public class CreateServiceFragment extends Fragment {
         fi = (EditText) view.findViewById(R.id.fi);
         fi.setFocusable(false);
         fi.setInputType(InputType.TYPE_NULL);
+
+        mon = (CheckBox) view.findViewById(R.id.mon);
+        tue = (CheckBox) view.findViewById(R.id.tue);
+        wed = (CheckBox) view.findViewById(R.id.wed);
+        thu = (CheckBox) view.findViewById(R.id.thu);
+        fri = (CheckBox) view.findViewById(R.id.fri);
+        sat = (CheckBox) view.findViewById(R.id.sat);
+        sun = (CheckBox) view.findViewById(R.id.sun);
 
         Button save = (Button) view.findViewById(R.id.saveBtn);
         final Button cancel = (Button) view.findViewById(R.id.cancelBtn);
@@ -170,7 +185,35 @@ public class CreateServiceFragment extends Fragment {
     }
 
     private void save() {
+        String day = date.getText().toString();
+        String startHour = inici.getText().toString();
+        String endHour = fi.getText().toString();
+        String endRepeat = dateEnd.getText().toString();
+
         //Service s = new Service();
+
+        if (mon.isChecked()) {
+
+        }
+        if (tue.isChecked()) {
+
+        }
+        if (wed.isChecked()) {
+
+        }
+        if (thu.isChecked()) {
+
+        }
+        if (fri.isChecked()) {
+
+        }
+        if (sat.isChecked()) {
+
+        }
+        if (sun.isChecked()) {
+
+        }
+
     }
 
     private void cancel() {
