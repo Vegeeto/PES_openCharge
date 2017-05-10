@@ -2,7 +2,8 @@ package com.opencharge.opencharge.domain.Entities;
 
 import java.sql.Time;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Oriol on 9/5/2017.
@@ -12,14 +13,19 @@ public class Service {
 
     private String id;
     private Date day;
-    private Time startHour;
-    private Time endHour;
-    private List<String> repeat;
+    private Date startHour;
+    private Date endHour;
+    private Map<Integer, Integer> repeat;
     private Date lastRepeat;
 
-    public Service(Date day, Time startHour) {
+    //Empty constructor needed for Firebase
+    public Service() {}
+
+    public Service(Date day, Time startHour, Time endHour) {
         this.day = day;
         this.startHour = startHour;
+        this.endHour = endHour;
+        repeat = new HashMap<>();
     }
 
     public String getId() {
@@ -38,7 +44,7 @@ public class Service {
         this.day = day;
     }
 
-    public Time getStartHour() {
+    public Date getStartHour() {
         return startHour;
     }
 
@@ -46,7 +52,7 @@ public class Service {
         this.startHour = startHour;
     }
 
-    public Time getEndHour() {
+    public Date getEndHour() {
         return endHour;
     }
 
@@ -54,12 +60,36 @@ public class Service {
         this.endHour = endHour;
     }
 
-    public List<String> getRepeat() {
+    public Map<Integer, Integer> getRepeat() {
         return repeat;
     }
 
-    public void setRepeat(List<String> repeat) {
-        this.repeat = repeat;
+    public void setRepeatMonday() {
+        repeat.put(0, 1);
+    }
+
+    public void setRepeatTuesday() {
+        repeat.put(1, 1);
+    }
+
+    public void setRepeatWednesday() {
+        repeat.put(2, 1);
+    }
+
+    public void setRepeatThursday() {
+        repeat.put(3, 1);
+    }
+
+    public void setRepeatFriday() {
+        repeat.put(4, 1);
+    }
+
+    public void setRepeatSaturday() {
+        repeat.put(5, 1);
+    }
+
+    public void setRepeatSunday() {
+        repeat.put(6, 1);
     }
 
     public Date getLastRepeat() {

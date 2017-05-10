@@ -15,8 +15,10 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -184,34 +186,48 @@ public class CreateServiceFragment extends Fragment {
         text.setText(time);
     }
 
+    private boolean canSave() {
+        return date.getText().toString().isEmpty() && inici.getText().toString().isEmpty() && fi.getText().toString().isEmpty();
+    }
+
     private void save() {
+
+        if (!canSave()) {
+            Toast.makeText(getActivity(), "Camps incomplets!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String day = date.getText().toString();
         String startHour = inici.getText().toString();
         String endHour = fi.getText().toString();
         String endRepeat = dateEnd.getText().toString();
 
-        //Service s = new Service();
+        Service s = new Service();
+
+        if (!endRepeat.isEmpty()) {
+            //s.setLastRepeat();
+        }
 
         if (mon.isChecked()) {
-
+            s.setRepeatMonday();
         }
         if (tue.isChecked()) {
-
+            s.setRepeatTuesday();
         }
         if (wed.isChecked()) {
-
+            s.setRepeatWednesday();
         }
         if (thu.isChecked()) {
-
+            s.setRepeatThursday();
         }
         if (fri.isChecked()) {
-
+            s.setRepeatFriday();
         }
         if (sat.isChecked()) {
-
+            s.setRepeatSaturday();
         }
         if (sun.isChecked()) {
-
+            s.setRepeatSunday();
         }
 
     }
