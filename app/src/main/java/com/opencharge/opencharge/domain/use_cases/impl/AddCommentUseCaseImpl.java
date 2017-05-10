@@ -21,7 +21,7 @@ public class AddCommentUseCaseImpl extends AbstractUseCase implements AddComment
     private String point_id;
     private String autor;
     private String text;
-    private Date data;
+    private String data;
 
     public AddCommentUseCaseImpl(Executor threadExecutor,
                                    MainThread mainThread,
@@ -33,7 +33,7 @@ public class AddCommentUseCaseImpl extends AbstractUseCase implements AddComment
         this.callback = callback;
     }
     @Override
-    public void setCommentParameters( String point_id, String autor, String text, Date data){
+    public void setCommentParameters(String point_id, String autor, String text, String data){
 
         this.point_id = point_id;
         this.autor = autor;
