@@ -3,12 +3,15 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -34,6 +37,13 @@ public class CreateServiceFragment extends Fragment {
     private EditText dateEnd;
     private EditText inici;
     private EditText fi;
+    private CheckBox mon;
+    private CheckBox tue;
+    private CheckBox wed;
+    private CheckBox thu;
+    private CheckBox fri;
+    private CheckBox sat;
+    private CheckBox sun;
 
     public CreateServiceFragment() {
         year = calendar.get(Calendar.YEAR);
@@ -65,8 +75,16 @@ public class CreateServiceFragment extends Fragment {
         fi.setFocusable(false);
         fi.setInputType(InputType.TYPE_NULL);
 
+        mon = (CheckBox) view.findViewById(R.id.mon);
+        tue = (CheckBox) view.findViewById(R.id.tue);
+        wed = (CheckBox) view.findViewById(R.id.wed);
+        thu = (CheckBox) view.findViewById(R.id.thu);
+        fri = (CheckBox) view.findViewById(R.id.fri);
+        sat = (CheckBox) view.findViewById(R.id.sat);
+        sun = (CheckBox) view.findViewById(R.id.sun);
+
         Button save = (Button) view.findViewById(R.id.saveBtn);
-        Button cancel = (Button) view.findViewById(R.id.cancelBtn);
+        final Button cancel = (Button) view.findViewById(R.id.cancelBtn);
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,14 +125,15 @@ public class CreateServiceFragment extends Fragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Implement listener
+                save();
             }
         });
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().popBackStackImmediate();
+                hideInput();
+                cancel();
             }
         });
 
@@ -163,6 +182,49 @@ public class CreateServiceFragment extends Fragment {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         String time = simpleDateFormat.format(new Date(0, 0, 0, h, m));
         text.setText(time);
+    }
+
+    private void save() {
+        String day = date.getText().toString();
+        String startHour = inici.getText().toString();
+        String endHour = fi.getText().toString();
+        String endRepeat = dateEnd.getText().toString();
+
+        //Service s = new Service();
+
+        if (mon.isChecked()) {
+
+        }
+        if (tue.isChecked()) {
+
+        }
+        if (wed.isChecked()) {
+
+        }
+        if (thu.isChecked()) {
+
+        }
+        if (fri.isChecked()) {
+
+        }
+        if (sat.isChecked()) {
+
+        }
+        if (sun.isChecked()) {
+
+        }
+
+    }
+
+    private void cancel() {
+        android.app.FragmentManager fm = getFragmentManager();
+        MapsFragment mp = new MapsFragment();
+        fm.beginTransaction().replace(R.id.content_frame, mp).commit();
+    }
+
+    private void hideInput() {
+        InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
 }

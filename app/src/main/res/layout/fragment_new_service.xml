@@ -93,36 +93,43 @@
                 android:layout_weight="1">
 
                 <CheckBox
+                    android:id="@+id/mon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dilluns"/>
 
                 <CheckBox
+                    android:id="@+id/tue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dimarts"/>
 
                 <CheckBox
+                    android:id="@+id/wed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dimecres"/>
 
                 <CheckBox
+                    android:id="@+id/thu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dijous"/>
 
                 <CheckBox
+                    android:id="@+id/fri"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/divendres"/>
 
                 <CheckBox
+                    android:id="@+id/sat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dissabte"/>
 
                 <CheckBox
+                    android:id="@+id/sun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/diumenge"/>

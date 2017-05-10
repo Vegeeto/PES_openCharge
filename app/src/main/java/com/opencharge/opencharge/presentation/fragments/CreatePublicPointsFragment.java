@@ -69,22 +69,22 @@ public class CreatePublicPointsFragment extends Fragment {
             public void onClick(View v) {
                 //Log.d("CrearPunt","onClick Guardar!");
                 amagarTeclat();
-                guardarPunt(v);
+                guardarPunt();
             }
         });
 
-        final Button cancelButton = (Button) view.findViewById(R.id.CancelarBtn);
+        Button cancelButton = (Button) view.findViewById(R.id.CancelarBtn);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 amagarTeclat();
-                cancelar(v);
+                cancelar();
             }
         });
         // Inflate the layout for this fragment
         return view;
     }
     
-    public void guardarPunt(View view) {
+    public void guardarPunt() {
 
         String town = editTown.getText().toString();
         if (town.matches("")) {
@@ -162,7 +162,7 @@ public class CreatePublicPointsFragment extends Fragment {
 
     }
 
-    public void cancelar(View view) {
+    public void cancelar() {
         android.app.FragmentManager fm = getFragmentManager();
         MapsFragment mp = new MapsFragment();
         fm.beginTransaction().replace(R.id.content_frame, mp).commit();
