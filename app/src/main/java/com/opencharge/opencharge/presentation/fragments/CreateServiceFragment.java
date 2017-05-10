@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Service;
+import com.opencharge.opencharge.domain.helpers.DateConversion;
+import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -201,6 +203,8 @@ public class CreateServiceFragment extends Fragment {
         String startHour = inici.getText().toString();
         String endHour = fi.getText().toString();
         String endRepeat = dateEnd.getText().toString();
+
+        DateConversion dateConversion = new DateConversionImpl();
 
         Service s = new Service();
 

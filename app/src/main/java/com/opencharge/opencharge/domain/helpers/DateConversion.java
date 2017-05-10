@@ -14,4 +14,8 @@ public interface DateConversion {
 
     Date StringToDate(String time);
 
+    Date ConvertStringToDate(String dateString);
+
+    Date ConvertStringToTime(String dateString);
+
 }
