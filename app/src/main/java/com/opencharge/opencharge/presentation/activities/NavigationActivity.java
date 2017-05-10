@@ -13,6 +13,7 @@ import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment;
 import com.opencharge.opencharge.presentation.fragments.CreateServiceFragment;
 import com.opencharge.opencharge.presentation.fragments.MapsFragment;
+import com.opencharge.opencharge.presentation.fragments.ReservationShiftsFragment;
 
 
 public class NavigationActivity extends AppCompatActivity
@@ -44,7 +45,8 @@ public class NavigationActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         android.app.FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
+//        fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
+        fm.beginTransaction().replace(R.id.content_frame, new ReservationShiftsFragment()).commit();
 
     }
 
