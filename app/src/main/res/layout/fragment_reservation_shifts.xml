@@ -7,13 +7,19 @@
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:background="@color/blue">
 
-        <LinearLayout
-            android:id="@+id/hours_wrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            <RelativeLayout
+                android:id="@+id/hours_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/orange">
+
+                </RelativeLayout>
+
+
     </ScrollView>
 
 </FrameLayout>

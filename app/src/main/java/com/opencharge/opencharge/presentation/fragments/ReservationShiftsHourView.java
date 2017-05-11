@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -48,12 +47,15 @@ public class ReservationShiftsHourView extends LinearLayout {
         mHora = (TextView)this.findViewById(R.id.hora);
         mLine = this.findViewById(R.id.line);
 
-        mHora.setText("12:00");
-
-        this.setMinimumHeight(150);
         this.setBackgroundColor(Color.parseColor("#FFFFFF"));
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int height = (int) getResources().getDimension(R.dimen.day_view_hour_height);
+        setMeasuredDimension(widthMeasureSpec, height);
+    }
 
     public void setHour(String hour) {
         mHora.setText(hour);

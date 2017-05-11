@@ -1,19 +1,15 @@
 package com.opencharge.opencharge.presentation.fragments;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import com.opencharge.opencharge.R;
-
-import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,21 +29,36 @@ public class ReservationShiftsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View parentView = inflater.inflate(R.layout.fragment_reservation_shifts, container, false);
-
-        LinearLayout wrapper = (LinearLayout)parentView.findViewById(R.id.hours_wrapper);
-
-        for (int i = 0 ; i < 23 ; i++) {
-            ReservationShiftsHourView tests = new ReservationShiftsHourView(getActivity().getApplicationContext());
-
-            String hourFormatted = String.format("%02d", i) + ":00";
-            tests.setHour(hourFormatted);
-
-            wrapper.addView(tests);
-        }
+        RelativeLayout wrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
+        createDayLayout(wrapper);
 
         return parentView;
+    }
+
+    private void createDayLayout(RelativeLayout wrapper) {
+        int previousId = 0;
+        for (int i = 0; i < 24; i++) {
+            int height = (int) getResources().getDimension(R.dimen.day_view_hour_height);
+
+            ReservationShiftsHourView hourView = new ReservationShiftsHourView(getActivity().getApplicationContext());
+            int newId = View.generateViewId();
+            hourView.setId(newId);
+
+            String hourFormatted = String.format("%02d", i) + ":00";
+            hourView.setHour(hourFormatted);
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+            if (i == 0) {
+                params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            } else {
+                params.addRule(RelativeLayout.BELOW, previousId);
+            }
+            hourView.setLayoutParams(params);
+
+            wrapper.addView(hourView);
+            previousId = newId;
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
