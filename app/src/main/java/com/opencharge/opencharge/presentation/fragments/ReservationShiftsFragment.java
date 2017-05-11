@@ -1,9 +1,11 @@
 package com.opencharge.opencharge.presentation.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ public class ReservationShiftsFragment extends Fragment {
         View parentView = inflater.inflate(R.layout.fragment_reservation_shifts, container, false);
         RelativeLayout wrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
         createDayLayout(wrapper);
+        createReservationShiftsViews(wrapper);
 
         return parentView;
     }
@@ -59,6 +62,38 @@ public class ReservationShiftsFragment extends Fragment {
             wrapper.addView(hourView);
             previousId = newId;
         }
+    }
+
+    private void createReservationShiftsViews(RelativeLayout wrapper) {
+        createReservationShiftView(1, 0, 60, wrapper);
+        createReservationShiftView(6, 0, 30, wrapper);
+        createReservationShiftView(8, 0, 120, wrapper);
+    }
+
+    private void createReservationShiftView(int hourStart, int minutesStart, int minutesDuration, RelativeLayout wrapper) {
+        int hourHeight = (int) getResources().getDimension(R.dimen.day_view_hour_height);
+        float minutesHeight = hourHeight/(float)60;
+
+        int horizontalMargins = (int) getResources().getDimension(R.dimen.day_view_hour_padding);
+        int leftMargin = (int) getResources().getDimension(R.dimen.day_view_hour_width);
+
+        int topMargin = hourHeight/2;
+        int minuteToStart = (hourStart*60) + minutesStart;
+
+        int Y = (int)(topMargin + (minuteToStart*minutesHeight));
+        int shiftViewHeight = (int)(minutesDuration*minutesHeight);
+
+        View shiftView = new View(getActivity().getApplicationContext());
+        shiftView.setBackgroundColor(Color.parseColor("#FF0000"));
+
+        shiftView.setY(Y);
+        shiftView.setMinimumHeight(shiftViewHeight);
+
+        wrapper.addView(shiftView);
+
+        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) shiftView.getLayoutParams();
+        p.setMargins(leftMargin, 0, horizontalMargins, 0);
+        shiftView.requestLayout();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
