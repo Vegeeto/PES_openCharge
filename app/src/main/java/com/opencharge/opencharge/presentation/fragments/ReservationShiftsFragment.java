@@ -94,6 +94,15 @@ public class ReservationShiftsFragment extends Fragment {
         ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) shiftView.getLayoutParams();
         p.setMargins(leftMargin, 0, horizontalMargins, 0);
         shiftView.requestLayout();
+
+        shiftView.setClickable(true);
+        shiftView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("shiftView", "CLIKED!!! at " + view.getY() + " + " + view.getHeight());
+
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
