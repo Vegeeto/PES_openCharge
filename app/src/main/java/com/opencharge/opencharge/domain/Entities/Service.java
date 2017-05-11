@@ -21,7 +21,7 @@ public class Service {
     //Empty constructor needed for Firebase
     public Service() {}
 
-    public Service(Date day, Time startHour, Time endHour) {
+    public Service(Date day, Date startHour, Date endHour) {
         this.day = day;
         this.startHour = startHour;
         this.endHour = endHour;

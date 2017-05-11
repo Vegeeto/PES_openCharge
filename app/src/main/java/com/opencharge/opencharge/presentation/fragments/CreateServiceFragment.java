@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Service;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
+import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
+import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -188,51 +191,86 @@ public class CreateServiceFragment extends Fragment {
         text.setText(time);
     }
 
-    private boolean canSave() {
-        return date.getText().toString().isEmpty() && inici.getText().toString().isEmpty() && fi.getText().toString().isEmpty();
-    }
-
     private void save() {
 
-        if (!canSave()) {
-            Toast.makeText(getActivity(), "Camps incomplets!", Toast.LENGTH_SHORT).show();
+        String day = date.getText().toString();
+        if (day.isEmpty()) {
+            Toast.makeText(getActivity(), "Ha d'indicar el dia de la reserva!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String startHour = inici.getText().toString();
+        if (startHour.isEmpty()) {
+            Toast.makeText(getActivity(), "Ha d'indicar l'hora d'inici!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String endHour = fi.getText().toString();
+        if (endHour.isEmpty()) {
+            Toast.makeText(getActivity(), "Ha d'indicar l'hora de finalització!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String day = date.getText().toString();
-        String startHour = inici.getText().toString();
-        String endHour = fi.getText().toString();
-        String endRepeat = dateEnd.getText().toString();
-
         DateConversion dateConversion = new DateConversionImpl();
+        Date startDay = dateConversion.ConvertStringToDate(day);
+        Date startTime = dateConversion.ConvertStringToTime(startHour);
+        Date endTime = dateConversion.ConvertStringToTime(endHour);
 
-        Service s = new Service();
+        Service s = new Service(startDay, startTime, endTime);
 
+        String endRepeat = dateEnd.getText().toString();
         if (!endRepeat.isEmpty()) {
-            //s.setLastRepeat();
+            Date lastRepeat = dateConversion.ConvertStringToDate(endRepeat);
+            s.setLastRepeat(lastRepeat);
+
+            boolean selected = false;
+            if (mon.isChecked()) {
+                selected = true;
+                s.setRepeatMonday();
+            }
+            if (tue.isChecked()) {
+                selected = true;
+                s.setRepeatTuesday();
+            }
+            if (wed.isChecked()) {
+                selected = true;
+                s.setRepeatWednesday();
+            }
+            if (thu.isChecked()) {
+                selected = true;
+                s.setRepeatThursday();
+            }
+            if (fri.isChecked()) {
+                selected = true;
+                s.setRepeatFriday();
+            }
+            if (sat.isChecked()) {
+                selected = true;
+                s.setRepeatSaturday();
+            }
+            if (sun.isChecked()) {
+                selected = true;
+                s.setRepeatSunday();
+            }
+
+            if (!selected) {
+                Toast.makeText(getActivity(), "Seleccioni quins dies vol repetir", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        } else if (mon.isChecked() || tue.isChecked() || wed.isChecked() || thu.isChecked() || fri.isChecked() || sat.isChecked() || sun.isChecked()) {
+            Toast.makeText(getActivity(), "Ha d'indicar data de finalització de repeticions!", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        if (mon.isChecked()) {
-            s.setRepeatMonday();
-        }
-        if (tue.isChecked()) {
-            s.setRepeatTuesday();
-        }
-        if (wed.isChecked()) {
-            s.setRepeatWednesday();
-        }
-        if (thu.isChecked()) {
-            s.setRepeatThursday();
-        }
-        if (fri.isChecked()) {
-            s.setRepeatFriday();
-        }
-        if (sat.isChecked()) {
-            s.setRepeatSaturday();
-        }
-        if (sun.isChecked()) {
-            s.setRepeatSunday();
-        }
+        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        ServiceCreateUseCase getServiceCreateUseCase = useCasesLocator.getServiceCreateUseCase(new ServiceCreateUseCase.Callback(){
+            @Override
+            public void onServiceCreated(String id) {
+                android.app.FragmentManager fm = getFragmentManager();
+                PointInfoFragment fragment = PointInfoFragment.newInstance(id);
+                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            }
+
+        });
 
     }
 

@@ -2,6 +2,7 @@ package com.opencharge.opencharge.presentation.locators;
 
 import android.util.Log;
 
+import com.opencharge.opencharge.domain.Entities.FirebaseService;
 import com.opencharge.opencharge.domain.repository.CommentsRepository;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
 import com.opencharge.opencharge.domain.repository.impl.FirebaseCommentsRepository;
@@ -31,4 +32,9 @@ public class RepositoriesLocator {
     public CommentsRepository getCommnetsRepository() {
         return new FirebaseCommentsRepository();
     }
+
+    /*public ServiceRepository getServiceRepository() {
+        //TODO: Replace with FirebaseServiceRepository
+        return null;
+    }*/
 }
