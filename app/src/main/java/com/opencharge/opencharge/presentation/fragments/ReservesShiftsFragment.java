@@ -34,7 +34,7 @@ public class ReservesShiftsFragment extends Fragment {
         for (int i = 0; i < 24; i++) {
             int height = (int) getResources().getDimension(R.dimen.day_view_hour_height);
 
-            ReservationShiftsHourView hourView = new ReservationShiftsHourView(getActivity().getApplicationContext());
+            HourDayView hourView = new HourDayView(getActivity().getApplicationContext());
             int newId = View.generateViewId();
             hourView.setId(newId);
 

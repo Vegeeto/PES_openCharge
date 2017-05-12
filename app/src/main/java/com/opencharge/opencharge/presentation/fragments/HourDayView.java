@@ -15,21 +15,21 @@ import com.opencharge.opencharge.R;
  * Created by ferran on 3/5/17.
  */
 
-public class ReservationShiftsHourView extends LinearLayout {
+public class HourDayView extends LinearLayout {
     private TextView mHora;
     private View mLine;
 
-    public ReservationShiftsHourView(Context context) {
+    public HourDayView(Context context) {
         super(context);
         initializeView(context);
     }
 
-    public ReservationShiftsHourView(Context context, @Nullable AttributeSet attrs) {
+    public HourDayView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initializeView(context);
     }
 
-    public ReservationShiftsHourView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public HourDayView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initializeView(context);
     }
@@ -42,7 +42,7 @@ public class ReservationShiftsHourView extends LinearLayout {
     private void initializeView(Context context) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.reservation_shifts_hour_view, this);
+        inflater.inflate(R.layout.hour_day_view, this);
 
         mHora = (TextView)this.findViewById(R.id.hora);
         mLine = this.findViewById(R.id.line);
