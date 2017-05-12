@@ -2,6 +2,7 @@ package com.opencharge.opencharge.presentation.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -44,7 +45,7 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
 
     }
