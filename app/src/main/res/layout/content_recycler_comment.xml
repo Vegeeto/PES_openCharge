@@ -49,5 +49,11 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="100sp"
+        android:layout_height="1dip"
+        android:background="#D8D8D8"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="20dp"/>
 
 </LinearLayout>

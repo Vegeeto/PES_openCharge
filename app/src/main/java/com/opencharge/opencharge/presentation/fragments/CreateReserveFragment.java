@@ -6,15 +6,16 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateReserveFragment extends Fragment {
+public class CreateReserveFragment extends Fragment implements CheckBox.OnCheckedChangeListener  {
 
     final Calendar calendar = Calendar.getInstance();
     int year, month, day, hour, min;
@@ -51,6 +52,16 @@ public class CreateReserveFragment extends Fragment {
     private CheckBox fri;
     private CheckBox sat;
     private CheckBox sun;
+    private LinearLayout endLayout;
+
+    private static final String ARG_POINT_ID = "point_id";
+    private String pointId;
+    private static final String ARG_DAY = "day";
+    private String day_arg;
+    private static final String ARG_START_TIME = "start_time";
+    private String start_arg;
+
+    Service s;
 
     public CreateReserveFragment() {
         year = calendar.get(Calendar.YEAR);
@@ -58,6 +69,28 @@ public class CreateReserveFragment extends Fragment {
         day = calendar.get(Calendar.DAY_OF_MONTH);
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         min = calendar.get(Calendar.MINUTE);
+        s = new Service();
+    }
+
+    public static CreateReserveFragment newInstance(String pointId, String date, String start) {
+        CreateReserveFragment fragment = new CreateReserveFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_POINT_ID, pointId);
+        args.putString(ARG_DAY, date);
+        args.putString(ARG_START_TIME, start);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.pointId = getArguments().getString(ARG_POINT_ID);
+            this.day_arg = getArguments().getString(ARG_DAY);
+            this.start_arg = getArguments().getString(ARG_START_TIME);
+        }
     }
 
     @Override
@@ -68,7 +101,7 @@ public class CreateReserveFragment extends Fragment {
         date = (EditText) view.findViewById(R.id.date);
         date.setInputType(InputType.TYPE_NULL);
         date.setFocusable(false);
-        showDate(year, month, day, date);
+        date.setText(day_arg);
 
         dateEnd = (EditText) view.findViewById(R.id.dateEnd);
         dateEnd.setFocusable(false);
@@ -77,10 +110,13 @@ public class CreateReserveFragment extends Fragment {
         inici = (EditText) view.findViewById(R.id.ini);
         inici.setFocusable(false);
         inici.setInputType(InputType.TYPE_NULL);
+        inici.setText(start_arg);
         
         fi = (EditText) view.findViewById(R.id.fi);
         fi.setFocusable(false);
         fi.setInputType(InputType.TYPE_NULL);
+
+        endLayout = (LinearLayout) view.findViewById(R.id.endLayout);
 
         mon = (CheckBox) view.findViewById(R.id.mon);
         tue = (CheckBox) view.findViewById(R.id.tue);
@@ -89,6 +125,15 @@ public class CreateReserveFragment extends Fragment {
         fri = (CheckBox) view.findViewById(R.id.fri);
         sat = (CheckBox) view.findViewById(R.id.sat);
         sun = (CheckBox) view.findViewById(R.id.sun);
+
+        mon.setOnCheckedChangeListener(this);
+        tue.setOnCheckedChangeListener(this);
+        wed.setOnCheckedChangeListener(this);
+        thu.setOnCheckedChangeListener(this);
+        fri.setOnCheckedChangeListener(this);
+        sat.setOnCheckedChangeListener(this);
+        tue.setOnCheckedChangeListener(this);
+        sun.setOnCheckedChangeListener(this);
 
         Button save = (Button) view.findViewById(R.id.saveBtn);
         final Button cancel = (Button) view.findViewById(R.id.cancelBtn);
@@ -124,7 +169,13 @@ public class CreateReserveFragment extends Fragment {
         fi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimePickerDialog timePicker = new TimePickerDialog(getActivity(), timePickerListener2, hour+2, 0, true);
+                TimePickerDialog timePicker = new TimePickerDialog(getActivity(), timePickerListener2, hour+2, 0, true) {
+                    @Override
+                    public void updateTime(int hourOfDay, int minuteOfHour) {
+                        minuteOfHour = + 15;
+                        super.updateTime(hourOfDay, minuteOfHour);
+                    }
+                };
                 createTimePicker(timePicker);
             }
         });
@@ -214,11 +265,22 @@ public class CreateReserveFragment extends Fragment {
         Date startTime = dateConversion.ConvertStringToTime(startHour);
         Date endTime = dateConversion.ConvertStringToTime(endHour);
 
+        if (endTime.before(startTime)) {
+            Toast.makeText(getActivity(), "Hora de finalització incorrecte!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Service s = new Service(startDay, startTime, endTime);
 
         String endRepeat = dateEnd.getText().toString();
         if (!endRepeat.isEmpty()) {
+
             Date lastRepeat = dateConversion.ConvertStringToDate(endRepeat);
+            if (lastRepeat.before(startDay)) {
+                Toast.makeText(getActivity(), "Data de finalització incorrecte!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             s.setLastRepeat(lastRepeat);
 
             boolean selected = false;
@@ -287,6 +349,11 @@ public class CreateReserveFragment extends Fragment {
     private void hideInput() {
         InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        endLayout.setVisibility(View.VISIBLE);
     }
 
 }

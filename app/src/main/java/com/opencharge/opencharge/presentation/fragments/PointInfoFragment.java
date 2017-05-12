@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
@@ -26,6 +27,7 @@ public class PointInfoFragment extends Fragment {
 
     private PointsAdapter pointsAdapter;
     private RecyclerView recyclerView;
+    private Button horari;
 
     private static final String ARG_POINT_ID = "point_id";
     private String pointId;
@@ -64,7 +66,10 @@ public class PointInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_point_info, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.rv);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+        horari = (Button) view.findViewById(R.id.horari);
+
         return view;
     }
 
@@ -88,5 +93,13 @@ public class PointInfoFragment extends Fragment {
 
         getPointUseCase.setPointId(pointId);
         getPointUseCase.execute();
+
+        horari.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 }
