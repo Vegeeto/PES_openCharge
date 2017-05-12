@@ -272,6 +272,10 @@ public class CreateServiceFragment extends Fragment {
 
         });
 
+        //TODO: finish this
+        //getServiceCreateUseCase.setServiceParameters();
+        getServiceCreateUseCase.execute();
+
     }
 
     private void cancel() {

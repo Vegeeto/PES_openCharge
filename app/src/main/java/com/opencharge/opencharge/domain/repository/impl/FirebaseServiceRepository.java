@@ -3,36 +3,33 @@ package com.opencharge.opencharge.domain.repository.impl;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.opencharge.opencharge.domain.Entities.Comment;
-import com.opencharge.opencharge.domain.repository.CommentsRepository;
+import com.opencharge.opencharge.domain.Entities.FirebaseService;
+import com.opencharge.opencharge.domain.repository.ServiceRepository;
 
 /**
- * Created by DmnT on 26/04/2017.
+ * Created by Oriol on 12/5/2017.
  */
 
-public class FirebaseCommentsRepository implements CommentsRepository {
+public class FirebaseServiceRepository implements ServiceRepository {
 
     private FirebaseDatabase database;
 
-    public FirebaseCommentsRepository() {
+    public FirebaseServiceRepository() {
         this.database = FirebaseDatabase.getInstance();
     }
 
-
     @Override
-    public void createComment(String point_id, Comment comment, final CreateCommentCallback callback) {
-
-        //modificar aqui:
+    public void createService(String point_id, final FirebaseService service, final CreateServiceCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(point_id);
-        myRef = myRef.child("Comments");
-        myRef.push().setValue(comment, new DatabaseReference.CompletionListener() {
+        myRef = myRef.child("Services");
+        myRef.push().setValue(service, new DatabaseReference.CompletionListener() {
 
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
                 System.out.println("Record saved!");
-                String commentId = dr.getKey();
-                callback.onCommentCreated(commentId);
+                String serviceId = dr.getKey();
+                callback.onServiceCreated(serviceId);
             }
 
             ;
@@ -40,10 +37,10 @@ public class FirebaseCommentsRepository implements CommentsRepository {
     }
 
     @Override
-    public void getComments(String point_id, final GetCommentsCallback callback) {
+    public void getServices(String point_id, GetServicesCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(point_id);
-        myRef = myRef.child("Comments");
+        myRef = myRef.child("Services");
 
         //TODO: continue this
     }

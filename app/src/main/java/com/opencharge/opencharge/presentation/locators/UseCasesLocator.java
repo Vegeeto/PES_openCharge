@@ -76,20 +76,19 @@ public class UseCasesLocator {
         return new AddCommentUseCaseImpl(
                 sl.getExecutor(),
                 sl.getMainThread(),
-                RepositoriesLocator.getInstance().getCommnetsRepository(),
+                RepositoriesLocator.getInstance().getCommentsRepository(),
                 callback
         );
     }
 
     public ServiceCreateUseCase getServiceCreateUseCase(ServiceCreateUseCase.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
-        return null;
         //TODO: replace this
-        /*return new ServiceCreateUseCaseImpl(
+        return new ServiceCreateUseCaseImpl(
                 sl.getExecutor(),
                 sl.getMainThread(),
                 RepositoriesLocator.getInstance().getServiceRepository(),
                 callback
-        );*/
+        );
     }
 }
