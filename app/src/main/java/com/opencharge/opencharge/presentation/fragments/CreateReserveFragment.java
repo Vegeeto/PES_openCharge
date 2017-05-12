@@ -36,7 +36,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateServiceFragment extends Fragment {
+public class CreateReserveFragment extends Fragment {
 
     final Calendar calendar = Calendar.getInstance();
     int year, month, day, hour, min;
@@ -52,7 +52,7 @@ public class CreateServiceFragment extends Fragment {
     private CheckBox sat;
     private CheckBox sun;
 
-    public CreateServiceFragment() {
+    public CreateReserveFragment() {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);

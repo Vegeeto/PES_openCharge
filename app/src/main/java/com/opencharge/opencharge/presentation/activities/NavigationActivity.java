@@ -11,11 +11,9 @@ import android.view.MenuItem;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment;
-import com.opencharge.opencharge.presentation.fragments.CreateServiceFragment;
+import com.opencharge.opencharge.presentation.fragments.CreateReserveFragment;
 import com.opencharge.opencharge.presentation.fragments.DaysPagerFragment;
 import com.opencharge.opencharge.presentation.fragments.MapsFragment;
-import com.opencharge.opencharge.presentation.fragments.ReservationShiftsFragment;
-import com.opencharge.opencharge.presentation.fragments.DaysPagerFragment;
 
 
 public class NavigationActivity extends AppCompatActivity
@@ -96,7 +94,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_newpoint) {
             fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
         } else if (id == R.id.nav_newservice) {
-            fm.beginTransaction().replace(R.id.content_frame, new CreateServiceFragment()).commit();
+            fm.beginTransaction().replace(R.id.content_frame, new CreateReserveFragment()).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
