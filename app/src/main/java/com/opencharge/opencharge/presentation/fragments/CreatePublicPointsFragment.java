@@ -88,25 +88,25 @@ public class CreatePublicPointsFragment extends Fragment {
 
         String town = editTown.getText().toString();
         if (town.matches("")) {
-            Toast.makeText(getActivity(), "No has indicat la poblacio", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ha d'indicar la població", Toast.LENGTH_SHORT).show();
             return;
         }
         //Log.d("CrearPunt","town: "+town);
         String street = editStreet.getText().toString();
         if (street.matches("")) {
-            Toast.makeText(getActivity(), "No has indicat el carrer", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ha d'indicar el carrer", Toast.LENGTH_SHORT).show();
             return;
         }
         //Log.d("CrearPunt","street: "+street);
         String number = editNumber.getText().toString();
         if (number.matches("")) {
-            Toast.makeText(getActivity(), "No has indicat el numero", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ha d'indicar el número", Toast.LENGTH_SHORT).show();
             return;
         }
         //Log.d("CrearPunt","num: " +number);
         String schedule = editSchedule.getText().toString();
         if (schedule.matches("")) {
-            Toast.makeText(getActivity(), "No has indicat el horari", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ha d'indicar l'horari", Toast.LENGTH_SHORT).show();
             return;
         }
         //Log.d("CrearPunt","sch: "+schedule);

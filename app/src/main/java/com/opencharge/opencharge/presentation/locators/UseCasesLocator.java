@@ -5,14 +5,18 @@ import android.util.Log;
 
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.PointByIdUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsListUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ServiceCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserLocationUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.AddCommentUseCaseImpl;
+
+import java.util.List;
 
 /**
  * Created by ferran on 22/3/17.
@@ -72,7 +76,18 @@ public class UseCasesLocator {
         return new AddCommentUseCaseImpl(
                 sl.getExecutor(),
                 sl.getMainThread(),
-                RepositoriesLocator.getInstance().getCommnetsRepository(),
+                RepositoriesLocator.getInstance().getCommentsRepository(),
+                callback
+        );
+    }
+
+    public ServiceCreateUseCase getServiceCreateUseCase(ServiceCreateUseCase.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        //TODO: replace this
+        return new ServiceCreateUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getServiceRepository(),
                 callback
         );
     }

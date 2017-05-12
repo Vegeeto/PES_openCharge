@@ -141,7 +141,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             comment.setText("");
                         }
                     });
-                    getAddCommentUseCase.setCommentParameters(item.getId(), "Mock usuari", comment.getText().toString(), new Date());
+                    getAddCommentUseCase.setCommentParameters(item.getId(), "Mock usuari", comment.getText().toString(), new Date().toString());
                     getAddCommentUseCase.execute();
                 }
             });
