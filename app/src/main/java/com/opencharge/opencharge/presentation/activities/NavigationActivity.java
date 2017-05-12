@@ -12,8 +12,10 @@ import android.view.MenuItem;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment;
 import com.opencharge.opencharge.presentation.fragments.CreateServiceFragment;
+import com.opencharge.opencharge.presentation.fragments.DaysPagerFragment;
 import com.opencharge.opencharge.presentation.fragments.MapsFragment;
 import com.opencharge.opencharge.presentation.fragments.ReservationShiftsFragment;
+import com.opencharge.opencharge.presentation.fragments.DaysPagerFragment;
 
 
 public class NavigationActivity extends AppCompatActivity
@@ -44,9 +46,9 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        android.app.FragmentManager fm = getFragmentManager();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 //        fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
-        fm.beginTransaction().replace(R.id.content_frame, new ReservationShiftsFragment()).commit();
+        fm.beginTransaction().replace(R.id.content_frame, new DaysPagerFragment()).commit();
 
     }
 
