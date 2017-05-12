@@ -1,8 +1,6 @@
 package com.opencharge.opencharge.presentation.fragments;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,9 +11,9 @@ import android.widget.RelativeLayout;
 
 import com.opencharge.opencharge.R;
 
-public class ReservationShiftsFragment extends Fragment {
+public class ReservesShiftsFragment extends Fragment {
 
-    public ReservationShiftsFragment() {
+    public ReservesShiftsFragment() {
         // Required empty public constructor
     }
 
@@ -23,7 +21,7 @@ public class ReservationShiftsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View parentView = inflater.inflate(R.layout.fragment_reservation_shifts, container, false);
+        View parentView = inflater.inflate(R.layout.fragment_reserves_shifts, container, false);
         RelativeLayout wrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
         createDayLayout(wrapper);
         createReservationShiftsViews(wrapper);

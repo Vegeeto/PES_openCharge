@@ -1,7 +1,5 @@
 package com.opencharge.opencharge.presentation.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -52,7 +50,7 @@ public class DaysPagerFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             //TODO: calcular data per position i passarla al fragment
-            return new ReservationShiftsFragment();
+            return new ReservesShiftsFragment();
         }
 
         @Override
