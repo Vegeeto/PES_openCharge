@@ -45,8 +45,7 @@ public class NavigationActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-//        fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
-        fm.beginTransaction().replace(R.id.content_frame, new DaysPagerFragment()).commit();
+        fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
 
     }
 

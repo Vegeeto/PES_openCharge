@@ -97,7 +97,14 @@ public class PointInfoFragment extends Fragment {
         horari.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                try {
+                    android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+                    DaysPagerFragment fragment = DaysPagerFragment.newInstance(pointId);
+                    ft.replace(R.id.content_frame, fragment).commit();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

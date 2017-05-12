@@ -18,8 +18,28 @@ public class DaysPagerFragment extends Fragment {
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
+    private static final String ARG_POINT_ID = "point_id";
+    private String pointId;
+
     public DaysPagerFragment() {
         // Required empty public constructor
+    }
+
+    public static DaysPagerFragment newInstance(String pointId) {
+        DaysPagerFragment fragment = new DaysPagerFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_POINT_ID, pointId);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.pointId = getArguments().getString(ARG_POINT_ID);
+        }
     }
 
     @Override
