@@ -80,9 +80,9 @@ public class DaysPagerFragment extends Fragment {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(today);
             calendar.add(Calendar.DATE, position - (TOTAL_DAYS/2));
-            Date itemDate = calendar.getTime();
 
-            return new ReservesShiftsFragment();
+            long itemTime = calendar.getTimeInMillis();
+            return ReservesShiftsFragment.newInstance(itemTime);
         }
 
         @Override

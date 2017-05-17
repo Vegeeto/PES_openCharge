@@ -8,28 +8,73 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class ReservesShiftsFragment extends Fragment {
+
+    private static final String ARG_DAY_TIME = "point_id";
+    private Date dayDate;
+
+    private RelativeLayout mHoursWrapper;
+    private TextView mDayMonthLabel;
+    private TextView mDayWeekLabel;
 
     public ReservesShiftsFragment() {
         // Required empty public constructor
     }
 
+    public static ReservesShiftsFragment newInstance(long dayTime) {
+        ReservesShiftsFragment fragment = new ReservesShiftsFragment();
+        Bundle args = new Bundle();
+        args.putLong(ARG_DAY_TIME, dayTime);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            long dayTime = getArguments().getLong(ARG_DAY_TIME);
+            this.dayDate = new Date();
+            this.dayDate.setTime(dayTime);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_reserves_shifts, container, false);
-        RelativeLayout wrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
-        createDayLayout(wrapper);
-        createReservationShiftsViews(wrapper);
+
+        this.mHoursWrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
+        this.mDayMonthLabel = (TextView) parentView.findViewById(R.id.calendar_day_month_label);
+        this.mDayWeekLabel = (TextView) parentView.findViewById(R.id.calendar_day_week_label);
+
+        setUpDayLabels();
+        createDayLayout();
+        createReservationShiftsViews();
 
         return parentView;
     }
 
-    private void createDayLayout(RelativeLayout wrapper) {
+    private void setUpDayLabels() {
+        SimpleDateFormat dayMonthFormat = new SimpleDateFormat("d");
+        String dayOfMonth = dayMonthFormat.format(this.dayDate);
+        this.mDayMonthLabel.setText(dayOfMonth);
+
+        SimpleDateFormat dayWeekFormat = new SimpleDateFormat("E");
+        String dayOfWeek = dayWeekFormat.format(this.dayDate);
+        this.mDayWeekLabel.setText(dayOfWeek);
+    }
+
+    private void createDayLayout() {
         int previousId = 0;
         for (int i = 0; i < 24; i++) {
             int height = (int) getResources().getDimension(R.dimen.day_view_hour_height);
@@ -49,29 +94,30 @@ public class ReservesShiftsFragment extends Fragment {
             }
             hourView.setLayoutParams(params);
 
-            wrapper.addView(hourView);
+            this.mHoursWrapper.addView(hourView);
             previousId = newId;
         }
     }
 
-    private void createReservationShiftsViews(RelativeLayout wrapper) {
-        createReservationShiftView(1, 0, 60, wrapper);
-        createReservationShiftView(6, 0, 30, wrapper);
-        createReservationShiftView(8, 0, 120, wrapper);
+
+    private void createReservationShiftsViews() {
+        createReservationShiftView(1, 0, 60);
+        createReservationShiftView(6, 0, 30);
+        createReservationShiftView(8, 0, 120);
     }
 
-    private void createReservationShiftView(int hourStart, int minutesStart, int minutesDuration, RelativeLayout wrapper) {
+    private void createReservationShiftView(int hourStart, int minutesStart, int minutesDuration) {
         int hourHeight = (int) getResources().getDimension(R.dimen.day_view_hour_height);
-        float minutesHeight = hourHeight/(float)60;
+        float minutesHeight = hourHeight / (float) 60;
 
         int horizontalMargins = (int) getResources().getDimension(R.dimen.day_view_hour_padding);
         int leftMargin = (int) getResources().getDimension(R.dimen.day_view_hour_width);
 
-        int topMargin = hourHeight/2;
-        int minuteToStart = (hourStart*60) + minutesStart;
+        int topMargin = hourHeight / 2;
+        int minuteToStart = (hourStart * 60) + minutesStart;
 
-        int Y = (int)(topMargin + (minuteToStart*minutesHeight));
-        int shiftViewHeight = (int)(minutesDuration*minutesHeight);
+        int Y = (int) (topMargin + (minuteToStart * minutesHeight));
+        int shiftViewHeight = (int) (minutesDuration * minutesHeight);
 
         View shiftView = new View(getActivity().getApplicationContext());
         shiftView.setBackgroundColor(Color.parseColor("#FF0000"));
@@ -79,7 +125,7 @@ public class ReservesShiftsFragment extends Fragment {
         shiftView.setY(Y);
         shiftView.setMinimumHeight(shiftViewHeight);
 
-        wrapper.addView(shiftView);
+        mHoursWrapper.addView(shiftView);
 
         ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) shiftView.getLayoutParams();
         p.setMargins(leftMargin, 0, horizontalMargins, 0);
