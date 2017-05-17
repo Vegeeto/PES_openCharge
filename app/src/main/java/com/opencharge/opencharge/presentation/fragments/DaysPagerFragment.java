@@ -5,14 +5,25 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.helpers.AddressConversion;
+import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -51,7 +62,7 @@ public class DaysPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         View parentView = inflater.inflate(R.layout.fragment_days_pager, container, false);
 
         mPager = (ViewPager) parentView.findViewById(R.id.pager);
@@ -65,6 +76,22 @@ public class DaysPagerFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mPager.setCurrentItem(TOTAL_DAYS/2, false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.calendar_navigation, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.go_today_button:
+                mPager.setCurrentItem(TOTAL_DAYS/2, true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private class DaysPagerAdapter extends FragmentStatePagerAdapter {

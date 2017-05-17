@@ -71,6 +71,12 @@ public class ReservesShiftsFragment extends Fragment {
     private void setUpAddButton() {
         this.mAddButton.setRippleColor(Color.BLUE);
         this.mAddButton.setBackgroundColor(Color.RED);
+        this.mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void setUpDayLabels() {
