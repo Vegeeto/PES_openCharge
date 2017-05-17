@@ -7,11 +7,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.opencharge.opencharge.R;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class DaysPagerFragment extends Fragment {
 
@@ -20,6 +24,8 @@ public class DaysPagerFragment extends Fragment {
 
     private static final String ARG_POINT_ID = "point_id";
     private String pointId;
+
+    private static final int TOTAL_DAYS = 1000;
 
     public DaysPagerFragment() {
         // Required empty public constructor
@@ -58,7 +64,7 @@ public class DaysPagerFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPager.setCurrentItem(500, false);
+        mPager.setCurrentItem(TOTAL_DAYS/2, false);
     }
 
     private class DaysPagerAdapter extends FragmentStatePagerAdapter {
@@ -70,12 +76,18 @@ public class DaysPagerFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             //TODO: calcular data per position i passarla al fragment
+            Date today = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(today);
+            calendar.add(Calendar.DATE, position - (TOTAL_DAYS/2));
+            Date itemDate = calendar.getTime();
+
             return new ReservesShiftsFragment();
         }
 
         @Override
         public int getCount() {
-            return 1000;
+            return TOTAL_DAYS;
         }
     }
 }
