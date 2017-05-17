@@ -2,7 +2,6 @@ package com.opencharge.opencharge.presentation.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,7 +24,6 @@ public class ReservesShiftsFragment extends Fragment {
     private RelativeLayout mHoursWrapper;
     private TextView mDayMonthLabel;
     private TextView mDayWeekLabel;
-    private FloatingActionButton mAddButton;
 
     public ReservesShiftsFragment() {
         // Required empty public constructor
@@ -53,24 +51,24 @@ public class ReservesShiftsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View parentView = inflater.inflate(R.layout.fragment_calendar_day, container, false);
+<<<<<<< HEAD
+        View parentView = inflater.inflate(R.layout.fragment_reserves_shifts, container, false);
 
         this.mHoursWrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
         this.mDayMonthLabel = (TextView) parentView.findViewById(R.id.calendar_day_month_label);
         this.mDayWeekLabel = (TextView) parentView.findViewById(R.id.calendar_day_week_label);
-        this.mAddButton = (FloatingActionButton) parentView.findViewById(R.id.calendar_new_service);
 
-        setUpAddButton();
         setUpDayLabels();
         createDayLayout();
         createReservationShiftsViews();
+=======
+        View parentView = inflater.inflate(R.layout.fragment_calendar_day, container, false);
+        RelativeLayout wrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
+        createDayLayout(wrapper);
+        createReservationShiftsViews(wrapper);
+>>>>>>> 005b280b9b775a0170a6bed33ccbaa21c0164ae6
 
         return parentView;
-    }
-
-    private void setUpAddButton() {
-        this.mAddButton.setRippleColor(Color.BLUE);
-        this.mAddButton.setBackgroundColor(Color.RED);
     }
 
     private void setUpDayLabels() {
