@@ -21,6 +21,11 @@ public class Service {
     //Empty constructor needed for Firebase
     public Service() {}
 
+    //Empty constructor needed for Firebase
+    public Service(String id) {
+        this.id = id;
+    }
+
     public Service(Date day, Date startHour, Date endHour) {
         this.day = day;
         this.startHour = startHour;
@@ -48,7 +53,7 @@ public class Service {
         return startHour;
     }
 
-    public void setStartHour(Time startHour) {
+    public void setStartHour(Date startHour) {
         this.startHour = startHour;
     }
 
@@ -56,7 +61,7 @@ public class Service {
         return endHour;
     }
 
-    public void setEndHour(Time endHour) {
+    public void setEndHour(Date endHour) {
         this.endHour = endHour;
     }
 

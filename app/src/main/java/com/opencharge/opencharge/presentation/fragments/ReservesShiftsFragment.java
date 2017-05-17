@@ -21,7 +21,7 @@ public class ReservesShiftsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View parentView = inflater.inflate(R.layout.fragment_reserves_shifts, container, false);
+        View parentView = inflater.inflate(R.layout.fragment_calendar_day, container, false);
         RelativeLayout wrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
         createDayLayout(wrapper);
         createReservationShiftsViews(wrapper);

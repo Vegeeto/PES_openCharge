@@ -97,7 +97,7 @@ public class CreateReserveFragment extends Fragment implements CheckBox.OnChecke
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_reserve_shift, container, false);
+        View view = inflater.inflate(R.layout.fragment_service, container, false);
 
         date = (EditText) view.findViewById(R.id.date);
         date.setInputType(InputType.TYPE_NULL);
