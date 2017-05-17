@@ -73,13 +73,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState);
 
         SupportMapFragment mapFragment;
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        /*if (currentapiVersion < Build.VERSION_CODES.LOLLIPOP) {
-            mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
-        } else {
-
-        }*/
         mapFragment.getMapAsync(this);
 
         getUserLocation();
