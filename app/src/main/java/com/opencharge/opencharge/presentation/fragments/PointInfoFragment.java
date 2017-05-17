@@ -1,8 +1,9 @@
 package com.opencharge.opencharge.presentation.fragments;
 
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -98,8 +99,7 @@ public class PointInfoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     DaysPagerFragment fragment = DaysPagerFragment.newInstance(pointId);
                     ft.replace(R.id.content_frame, fragment).commit();
                 } catch (NullPointerException e) {

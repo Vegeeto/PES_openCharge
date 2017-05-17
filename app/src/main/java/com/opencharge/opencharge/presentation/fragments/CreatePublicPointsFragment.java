@@ -4,13 +4,13 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.content.Context;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.view.inputmethod.InputMethodManager;
@@ -143,7 +143,7 @@ public class CreatePublicPointsFragment extends Fragment {
             @Override
             public void onPointCreated(String id) {
                 //Log.d("CrearPunt","onPointCreatedCallback");
-                android.app.FragmentManager fm = getFragmentManager();
+                FragmentManager fm = getFragmentManager();
                 PointInfoFragment fragment = PointInfoFragment.newInstance(id);
                 fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
             }
@@ -164,7 +164,7 @@ public class CreatePublicPointsFragment extends Fragment {
     }
 
     public void cancelar() {
-        android.app.FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getFragmentManager();
         MapsFragment mp = new MapsFragment();
         fm.beginTransaction().replace(R.id.content_frame, mp).commit();
     }

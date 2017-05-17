@@ -1,13 +1,14 @@
 package com.opencharge.opencharge.presentation.fragments;
 
 import android.Manifest;
-import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -75,12 +77,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MapFragment mapFragment;
+        SupportMapFragment mapFragment;
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion < Build.VERSION_CODES.LOLLIPOP) {
-            mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+            mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map);
         } else {
-            mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         }
         mapFragment.getMapAsync(this);
 
@@ -150,8 +152,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             public void onInfoWindowClick(Marker marker) {
                 Point point = (Point) marker.getTag();
                 try {
-                    android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    //ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
                     PointInfoFragment fragment = PointInfoFragment.newInstance(point.getId());
                     ft.replace(R.id.content_frame, fragment).commit();
                 } catch (NullPointerException e) {

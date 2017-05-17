@@ -1,11 +1,12 @@
 package com.opencharge.opencharge.presentation.fragments;
 
 import android.app.DatePickerDialog;
-import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.text.InputType;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +97,7 @@ public class CreateReserveFragment extends Fragment implements CheckBox.OnChecke
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_service, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_reserve_shift, container, false);
 
         date = (EditText) view.findViewById(R.id.date);
         date.setInputType(InputType.TYPE_NULL);
@@ -327,7 +328,7 @@ public class CreateReserveFragment extends Fragment implements CheckBox.OnChecke
         ServiceCreateUseCase getServiceCreateUseCase = useCasesLocator.getServiceCreateUseCase(new ServiceCreateUseCase.Callback(){
             @Override
             public void onServiceCreated(String id) {
-                android.app.FragmentManager fm = getFragmentManager();
+                FragmentManager fm = getFragmentManager();
                 PointInfoFragment fragment = PointInfoFragment.newInstance(id);
                 fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
             }
@@ -341,7 +342,7 @@ public class CreateReserveFragment extends Fragment implements CheckBox.OnChecke
     }
 
     private void cancel() {
-        android.app.FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getFragmentManager();
         MapsFragment mp = new MapsFragment();
         fm.beginTransaction().replace(R.id.content_frame, mp).commit();
     }
