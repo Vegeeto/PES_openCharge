@@ -5,8 +5,6 @@ import android.support.annotation.StringDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Oriol on 9/5/2017.
@@ -15,21 +13,23 @@ import java.util.Map;
 public class Reserve {
 
     private String id;
+    private String serviceId;
     private Date day;
     private Date startHour;
     private Date endHour;
-    private String userid;
+    private String userId;
+    private boolean ownerFinish;
+    private boolean userFinish;
 
-    public static final String UNKNOWN = "Desconegut";
+    public static final String CREATED = "Creada";
     public static final String ACCEPTED = "Rebutjada";
     public static final String REJECTED = "Acceptada";
 
-    @StringDef({UNKNOWN, ACCEPTED, REJECTED})
+    @StringDef({CREATED, ACCEPTED, REJECTED})
     @Retention(RetentionPolicy.SOURCE)
     public @interface State {}
 
     private @Reserve.State String state;
-
 
     //Empty constructor needed for Firebase
     public Reserve() {}
@@ -51,6 +51,14 @@ public class Reserve {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 
     public Date getDay() {
@@ -77,12 +85,12 @@ public class Reserve {
         this.endHour = endHour;
     }
 
-    public String getUserid() {
-        return userid;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public @State String getState() {
@@ -93,6 +101,20 @@ public class Reserve {
         this.state = state;
     }
 
+    public boolean isOwnerFinish() {
+        return ownerFinish;
+    }
 
+    public void setOwnerFinish(boolean ownerFinish) {
+        this.ownerFinish = ownerFinish;
+    }
+
+    public boolean isUserFinish() {
+        return userFinish;
+    }
+
+    public void setUserFinish(boolean userFinish) {
+        this.userFinish = userFinish;
+    }
 
 }
