@@ -77,21 +77,12 @@ public class DaysPagerFragment extends Fragment {
         setHasOptionsMenu(true);
         View parentView = inflater.inflate(R.layout.fragment_days_pager, container, false);
 
-        final AppBarLayout appBar = (AppBarLayout) getActivity().findViewById(R.id.app_bar_layout);
-        /*CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) getActivity().findViewById(R.id.collapsingToolbarLayout);
-        AppBarLayout.LayoutParams p = (AppBarLayout.LayoutParams) collapsingToolbar.getLayoutParams();
-        p.setScrollFlags(0);
-        collapsingToolbar.setLayoutParams(p);
-        appBar.setExpanded(false, false);*/
-
         // Set up the CompactCalendarView
         mCompactCalendarView = (CompactCalendarView) getActivity().findViewById(R.id.compactcalendar_view);
 
         // Force English
         mCompactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
-
         mCompactCalendarView.setShouldDrawDaysHeader(true);
-
         mCompactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
@@ -108,9 +99,9 @@ public class DaysPagerFragment extends Fragment {
         setCurrentDate(new Date());
 
         final ImageView arrow = (ImageView) getActivity().findViewById(R.id.date_picker_arrow);
-
+        final AppBarLayout appBar = (AppBarLayout) getActivity().findViewById(R.id.app_bar_layout);
         RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
-
+        datePickerButton.setVisibility(View.VISIBLE);
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,13 +129,11 @@ public class DaysPagerFragment extends Fragment {
         if (mCompactCalendarView != null) {
             mCompactCalendarView.setCurrentDate(date);
         }
-
     }
 
 
     public void setTitle(String title) {
         TextView datePickerTextView = (TextView) getActivity().findViewById(R.id.date_picker_title);
-
         if (datePickerTextView != null) {
             datePickerTextView.setText(title);
         }
@@ -159,16 +148,6 @@ public class DaysPagerFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.calendar_navigation, menu);
-
-        final AppBarLayout appBar = (AppBarLayout)  getActivity().findViewById(R.id.app_bar_layout);
-        appBar.setExpanded(false, false);
-
-        final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) getActivity().findViewById(R.id.collapsingToolbarLayout);
-        AppBarLayout.LayoutParams p = (AppBarLayout.LayoutParams) collapsingToolbar.getLayoutParams();
-        p.setScrollFlags(0);
-        collapsingToolbar.setLayoutParams(p);
-        final RelativeLayout relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
-        relativeLayout.setVisibility(View.VISIBLE);
     }
 
     @Override

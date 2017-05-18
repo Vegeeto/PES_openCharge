@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -144,6 +145,9 @@ public class CreateReserveFragment extends Fragment {
                 cancel();
             }
         });
+
+        RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
+        datePickerButton.setVisibility(View.GONE);
 
         return view;
     }

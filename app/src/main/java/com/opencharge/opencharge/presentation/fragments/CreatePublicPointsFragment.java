@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.view.inputmethod.InputMethodManager;
 
@@ -81,7 +82,10 @@ public class CreatePublicPointsFragment extends Fragment {
                 cancelar();
             }
         });
-        // Inflate the layout for this fragment
+
+        RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
+        datePickerButton.setVisibility(View.GONE);
+
         return view;
     }
     
