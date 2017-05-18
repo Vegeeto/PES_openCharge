@@ -22,6 +22,9 @@ public class ReservesShiftsFragment extends Fragment {
     private static final String ARG_DAY_TIME = "day_time";
     private Date dayDate;
 
+    private static final String ARG_POINT_ID = "point_id";
+    private String pointId;
+
     private RelativeLayout mHoursWrapper;
     private TextView mDayMonthLabel;
     private TextView mDayWeekLabel;
@@ -31,10 +34,11 @@ public class ReservesShiftsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ReservesShiftsFragment newInstance(long dayTime) {
+    public static ReservesShiftsFragment newInstance(long dayTime, String pointId) {
         ReservesShiftsFragment fragment = new ReservesShiftsFragment();
         Bundle args = new Bundle();
         args.putLong(ARG_DAY_TIME, dayTime);
+        args.putString(ARG_POINT_ID, pointId);
         fragment.setArguments(args);
 
         return fragment;
@@ -44,6 +48,8 @@ public class ReservesShiftsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            this.pointId = getArguments().getString(ARG_POINT_ID);
+            
             long dayTime = getArguments().getLong(ARG_DAY_TIME);
             this.dayDate = new Date();
             this.dayDate.setTime(dayTime);

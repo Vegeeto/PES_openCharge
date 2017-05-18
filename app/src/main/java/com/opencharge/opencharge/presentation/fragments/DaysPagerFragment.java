@@ -180,7 +180,7 @@ public class DaysPagerFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             Date positionDate = getDateForPosition(position);
-            return ReservesShiftsFragment.newInstance(positionDate.getTime());
+            return ReservesShiftsFragment.newInstance(positionDate.getTime(), pointId);
         }
 
         @Override
