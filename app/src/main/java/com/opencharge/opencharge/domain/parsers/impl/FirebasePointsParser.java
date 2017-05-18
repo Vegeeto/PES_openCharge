@@ -10,7 +10,7 @@ import java.util.Map;
  * Created by ferran on 15/4/17.
  */
 
-public class FirebasePointsParser implements PointsParser {
+public class FirebasePointsParser extends AbstractParser implements PointsParser {
     public static final double COORDINATES_PRECISION = 0.0001;
 
     public static final String TOWN_KEY = "town";
@@ -57,23 +57,6 @@ public class FirebasePointsParser implements PointsParser {
         }
 
         return connectorType;
-    }
-
-    private double parseDoubleKeyFromMap(String key, Map<String, Object> map) {
-        double value = 0.0;
-        if (map.containsKey(key)) {
-            value = (double)map.get(key);
-        }
-        return value;
-    }
-
-    private String parseStringKeyFromMap(String key, Map<String, Object> map) {
-        if (map.containsKey(key)) {
-            return (String)map.get(key);
-        }
-        else {
-            return null;
-        }
     }
 
     private boolean isCorrectAccessType(String accessType) {

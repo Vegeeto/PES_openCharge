@@ -40,6 +40,7 @@ public class FirebasePoint {
 
     public @Point.AccessType String accessType;
     public @Point.ConnectorType String connectorType;
+
     public String schedule;
 
     //Empty constructor needed for Firebase

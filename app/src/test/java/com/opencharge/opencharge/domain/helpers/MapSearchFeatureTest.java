@@ -1,4 +1,4 @@
-package com.opencharge.opencharge.domain.device_services;
+package com.opencharge.opencharge.domain.helpers;
 
 import android.location.Address;
 import android.location.Geocoder;

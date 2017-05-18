@@ -91,7 +91,6 @@ public class FirebasePointsRepository implements PointsRepository {
     }
 
     public void createPoint(FirebasePoint point, final CreatePointCallback callback) {
-
         DatabaseReference myRef = database.getReference("Points");
         myRef.push().setValue(point, new DatabaseReference.CompletionListener() {
 
