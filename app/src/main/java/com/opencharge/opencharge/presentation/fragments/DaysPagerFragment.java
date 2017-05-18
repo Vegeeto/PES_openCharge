@@ -102,7 +102,6 @@ public class DaysPagerFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            //TODO: calcular data per position i passarla al fragment
             Date today = new Date();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(today);
