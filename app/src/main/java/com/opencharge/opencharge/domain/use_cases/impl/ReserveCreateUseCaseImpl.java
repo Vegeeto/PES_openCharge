@@ -2,37 +2,37 @@ package com.opencharge.opencharge.domain.use_cases.impl;
 
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
+import com.opencharge.opencharge.domain.repository.ReserveRepository;
 import com.opencharge.opencharge.domain.repository.ServiceRepository;
+import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
-
-import java.util.List;
 
 /**
  * Created by Oriol on 9/5/2017.
  */
 
-public class ServiceCreateUseCaseImpl extends AbstractUseCase implements ServiceCreateUseCase {
+public class ReserveCreateUseCaseImpl extends AbstractUseCase implements ReserveCreateUseCase {
 
-    private ServiceCreateUseCase.Callback callback;
-    private ServiceRepository serviceRepository;
-    private String service_id;
+    private Callback callback;
+    private ReserveRepository reserveRepository;
+    private String reserve_id;
     private String date;
     private String startTime;
     private String endTime;
 
-    public ServiceCreateUseCaseImpl(Executor threadExecutor,
+    public ReserveCreateUseCaseImpl(Executor threadExecutor,
                                     MainThread mainThread,
-                                    ServiceRepository serviceRepository,
-                                    ServiceCreateUseCase.Callback callback) {
+                                    ReserveRepository reserveRepository,
+                                    Callback callback) {
         super(threadExecutor, mainThread);
 
-        this.serviceRepository = serviceRepository;
+        this.reserveRepository = reserveRepository;
         this.callback = callback;
     }
 
     @Override
-    public void setServiceParameters(long date, long startTime, long endTime) {
+    public void setReserveParameters(long date, long startTime, long endTime) {
         //TODO: implement method
     }
 
@@ -41,11 +41,11 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
         //TODO: implement method
     }
 
-    private void postService(final String id) {
+    private void postReserve(final String id) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                callback.onServiceCreated(id);
+                callback.onReserveCreated(id);
             }
         });
     }

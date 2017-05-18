@@ -21,22 +21,22 @@ import java.util.Map;
 
 public class FirebaseReserveRepository implements ReserveRepository {
 
-    private ReserveParser serviceParser;
+    private ReserveParser reserveParser;
     private FirebaseDatabase database;
 
     //TODO: finish this class => ORIOL
 
     public FirebaseReserveRepository() {
-        this.serviceParser = new FirebaseReserveParser();
+        this.reserveParser = new FirebaseReserveParser();
         this.database = FirebaseDatabase.getInstance();
     }
 
     @Override
-    public void createReserve(String point_id, final FirebaseReserve service, final CreateReserveCallback callback) {
+    public void createReserve(String point_id, final FirebaseReserve reserve, final CreateReserveCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(point_id);
         myRef = myRef.child("Reserves");
-        myRef.push().setValue(service, new DatabaseReference.CompletionListener() {
+        myRef.push().setValue(reserve, new DatabaseReference.CompletionListener() {
 
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
@@ -72,24 +72,24 @@ public class FirebaseReserveRepository implements ReserveRepository {
     }
 
     private Reserve[] parseReservesFromDataSnapshot(DataSnapshot dataSnapshot) {
-        Reserve[] services = new Reserve[(int)dataSnapshot.getChildrenCount()];
+        Reserve[] reserves = new Reserve[(int)dataSnapshot.getChildrenCount()];
         int index = 0;
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            Reserve service = parseReserveFromSnapshot(snapshot);
-            if (service != null) {
-                services[index] = service;
+            Reserve reserve = parseReserveFromSnapshot(snapshot);
+            if (reserve != null) {
+                reserves[index] = reserve;
                 ++index;
             }
         }
 
-        return services;
+        return reserves;
     }
 
     private Reserve parseReserveFromSnapshot(DataSnapshot snapshot) {
         if (snapshot.getValue() instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
             String key = snapshot.getKey();
-            return serviceParser.parseFromMap(key, map);
+            return reserveParser.parseFromMap(key, map);
         }
         return null;
     }

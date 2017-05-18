@@ -3,20 +3,23 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.InputType;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.Entities.Reserve;
+import com.opencharge.opencharge.domain.Entities.Service;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
@@ -33,13 +36,22 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateReserveFragment extends Fragment {
+public class CreateServiceFragment extends Fragment implements CheckBox.OnCheckedChangeListener  {
 
     final Calendar calendar = Calendar.getInstance();
     int year, month, day, hour, min;
     private EditText date;
+    private EditText dateEnd;
     private EditText inici;
     private EditText fi;
+    private CheckBox mon;
+    private CheckBox tue;
+    private CheckBox wed;
+    private CheckBox thu;
+    private CheckBox fri;
+    private CheckBox sat;
+    private CheckBox sun;
+    private LinearLayout endLayout;
 
     private static final String ARG_POINT_ID = "point_id";
     private String pointId;
@@ -48,16 +60,19 @@ public class CreateReserveFragment extends Fragment {
     private static final String ARG_START_TIME = "start_time";
     private String start_arg;
 
-    public CreateReserveFragment() {
+    Service s;
+
+    public CreateServiceFragment() {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         min = calendar.get(Calendar.MINUTE);
+        s = new Service();
     }
 
-    public static CreateReserveFragment newInstance(String pointId, String date, String start) {
-        CreateReserveFragment fragment = new CreateReserveFragment();
+    public static CreateServiceFragment newInstance(String pointId, String date, String start) {
+        CreateServiceFragment fragment = new CreateServiceFragment();
         Bundle args = new Bundle();
         args.putString(ARG_POINT_ID, pointId);
         args.putString(ARG_DAY, date);
@@ -80,12 +95,16 @@ public class CreateReserveFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_reserve, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_service, container, false);
 
         date = (EditText) view.findViewById(R.id.date);
         date.setInputType(InputType.TYPE_NULL);
         date.setFocusable(false);
         date.setText(day_arg);
+
+        dateEnd = (EditText) view.findViewById(R.id.dateEnd);
+        dateEnd.setFocusable(false);
+        dateEnd.setInputType(InputType.TYPE_NULL);
 
         inici = (EditText) view.findViewById(R.id.ini);
         inici.setFocusable(false);
@@ -96,14 +115,43 @@ public class CreateReserveFragment extends Fragment {
         fi.setFocusable(false);
         fi.setInputType(InputType.TYPE_NULL);
 
+        endLayout = (LinearLayout) view.findViewById(R.id.endLayout);
+
+        mon = (CheckBox) view.findViewById(R.id.mon);
+        tue = (CheckBox) view.findViewById(R.id.tue);
+        wed = (CheckBox) view.findViewById(R.id.wed);
+        thu = (CheckBox) view.findViewById(R.id.thu);
+        fri = (CheckBox) view.findViewById(R.id.fri);
+        sat = (CheckBox) view.findViewById(R.id.sat);
+        sun = (CheckBox) view.findViewById(R.id.sun);
+
+        mon.setOnCheckedChangeListener(this);
+        tue.setOnCheckedChangeListener(this);
+        wed.setOnCheckedChangeListener(this);
+        thu.setOnCheckedChangeListener(this);
+        fri.setOnCheckedChangeListener(this);
+        sat.setOnCheckedChangeListener(this);
+        tue.setOnCheckedChangeListener(this);
+        sun.setOnCheckedChangeListener(this);
+
         Button save = (Button) view.findViewById(R.id.saveBtn);
-        Button cancel = (Button) view.findViewById(R.id.cancelBtn);
+        final Button cancel = (Button) view.findViewById(R.id.cancelBtn);
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePicker = new DatePickerDialog(getActivity(),datePickerListener1, year, month, day);
                 datePicker.setCancelable(false);
+                datePicker.setTitle("Seleccionar data");
+                datePicker.show();
+            }
+        });
+
+        dateEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePicker = new DatePickerDialog(getActivity(), datePickerListener2, year, month, day);
+                datePicker.setCancelable(true);
                 datePicker.setTitle("Seleccionar data");
                 datePicker.show();
             }
@@ -152,6 +200,13 @@ public class CreateReserveFragment extends Fragment {
         @Override
         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
             showDate(i, i1, i2, date);
+        }
+    };
+
+    private  DatePickerDialog.OnDateSetListener datePickerListener2 = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+            showDate(i, i1, i2, dateEnd);
         }
     };
 
@@ -213,10 +268,61 @@ public class CreateReserveFragment extends Fragment {
             return;
         }
 
-        Reserve r = new Reserve(startDay, startTime, endTime);
+        Service s = new Service(startDay, startTime, endTime);
+
+        String endRepeat = dateEnd.getText().toString();
+        if (!endRepeat.isEmpty()) {
+
+            Date lastRepeat = dateConversion.ConvertStringToDate(endRepeat);
+            if (lastRepeat.before(startDay)) {
+                Toast.makeText(getActivity(), "Data de finalització incorrecte!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            s.setLastRepeat(lastRepeat);
+
+            boolean selected = false;
+            if (mon.isChecked()) {
+                selected = true;
+                s.setRepeatMonday();
+            }
+            if (tue.isChecked()) {
+                selected = true;
+                s.setRepeatTuesday();
+            }
+            if (wed.isChecked()) {
+                selected = true;
+                s.setRepeatWednesday();
+            }
+            if (thu.isChecked()) {
+                selected = true;
+                s.setRepeatThursday();
+            }
+            if (fri.isChecked()) {
+                selected = true;
+                s.setRepeatFriday();
+            }
+            if (sat.isChecked()) {
+                selected = true;
+                s.setRepeatSaturday();
+            }
+            if (sun.isChecked()) {
+                selected = true;
+                s.setRepeatSunday();
+            }
+
+            if (!selected) {
+                Toast.makeText(getActivity(), "Seleccioni quins dies vol repetir", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        } else if (mon.isChecked() || tue.isChecked() || wed.isChecked() || thu.isChecked() || fri.isChecked() || sat.isChecked() || sun.isChecked()) {
+            Toast.makeText(getActivity(), "Ha d'indicar data de finalització de repeticions!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        ServiceCreateUseCase getReserveCreateUseCase = useCasesLocator.getServiceCreateUseCase(new ServiceCreateUseCase.Callback(){
+        ServiceCreateUseCase getServiceCreateUseCase = useCasesLocator.getServiceCreateUseCase(new ServiceCreateUseCase.Callback(){
             @Override
             public void onServiceCreated(String id) {
                 FragmentManager fm = getFragmentManager();
@@ -227,7 +333,8 @@ public class CreateReserveFragment extends Fragment {
         });
 
         //TODO: finish this
-        //getReserveCreateUseCase.setServiceParameters();
+        //getServiceCreateUseCase.setServiceParameters();
+        getServiceCreateUseCase.execute();
 
     }
 
@@ -235,6 +342,15 @@ public class CreateReserveFragment extends Fragment {
         FragmentManager fm = getFragmentManager();
         MapsFragment mp = new MapsFragment();
         fm.beginTransaction().replace(R.id.content_frame, mp).commit();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if (!mon.isChecked() && !tue.isChecked() && !wed.isChecked() && !thu.isChecked() && !fri.isChecked() && !sat.isChecked() && !sun.isChecked()) {
+            endLayout.setVisibility(View.INVISIBLE);
+        } else {
+            endLayout.setVisibility(View.VISIBLE);
+        }
     }
 
 }

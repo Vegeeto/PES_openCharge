@@ -43,6 +43,7 @@ public class Reserve {
         this.day = day;
         this.startHour = startHour;
         this.endHour = endHour;
+        this.state = CREATED;
     }
 
     public String getId() {
