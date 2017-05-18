@@ -38,6 +38,7 @@ dependencies {
     compile 'com.github.sundeepk:compact-calendar-view:2.0.2'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.17'
+    compile 'joda-time:joda-time:2.9.9'
 }
 
 apply plugin: 'com.google.gms.google-services'
