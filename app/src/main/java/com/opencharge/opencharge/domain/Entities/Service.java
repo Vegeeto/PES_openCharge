@@ -1,6 +1,5 @@
 package com.opencharge.opencharge.domain.Entities;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;

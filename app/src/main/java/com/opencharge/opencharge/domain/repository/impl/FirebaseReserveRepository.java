@@ -7,11 +7,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.opencharge.opencharge.domain.Entities.FirebaseService;
-import com.opencharge.opencharge.domain.Entities.Service;
-import com.opencharge.opencharge.domain.parsers.ServiceParser;
-import com.opencharge.opencharge.domain.parsers.impl.FirebaseServiceParser;
-import com.opencharge.opencharge.domain.repository.ServiceRepository;
+import com.opencharge.opencharge.domain.Entities.FirebaseReserve;
+import com.opencharge.opencharge.domain.Entities.Reserve;
+import com.opencharge.opencharge.domain.parsers.ReserveParser;
+import com.opencharge.opencharge.domain.parsers.impl.FirebaseReserveParser;
+import com.opencharge.opencharge.domain.repository.ReserveRepository;
 
 import java.util.Map;
 
@@ -19,28 +19,30 @@ import java.util.Map;
  * Created by Oriol on 12/5/2017.
  */
 
-public class FirebaseServiceRepository implements ServiceRepository {
+public class FirebaseReserveRepository implements ReserveRepository {
 
-    private ServiceParser serviceParser;
+    private ReserveParser serviceParser;
     private FirebaseDatabase database;
 
-    public FirebaseServiceRepository() {
-        this.serviceParser = new FirebaseServiceParser();
+    //TODO: finish this class => ORIOL
+
+    public FirebaseReserveRepository() {
+        this.serviceParser = new FirebaseReserveParser();
         this.database = FirebaseDatabase.getInstance();
     }
 
     @Override
-    public void createService(String point_id, final FirebaseService service, final CreateServiceCallback callback) {
+    public void createReserve(String point_id, final FirebaseReserve service, final CreateReserveCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(point_id);
-        myRef = myRef.child("Services");
+        myRef = myRef.child("Reserves");
         myRef.push().setValue(service, new DatabaseReference.CompletionListener() {
 
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
                 System.out.println("Record saved!");
                 String serviceId = dr.getKey();
-                callback.onServiceCreated(serviceId);
+                callback.onReserveCreated(serviceId);
             }
 
             ;
@@ -48,16 +50,16 @@ public class FirebaseServiceRepository implements ServiceRepository {
     }
 
     @Override
-    public void getServices(String point_id, final GetServicesCallback callback) {
+    public void getReserves(String point_id, final GetReservesCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(point_id);
-        myRef = myRef.child("Services");
+        myRef = myRef.child("Reserves");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Service[] services = parseServicesFromDataSnapshot(dataSnapshot);
-                callback.onServicesRetrieved(services);
+                Reserve[] services = parseReservesFromDataSnapshot(dataSnapshot);
+                callback.onReservesRetrieved(services);
             }
 
             @Override
@@ -69,11 +71,11 @@ public class FirebaseServiceRepository implements ServiceRepository {
 
     }
 
-    private Service[] parseServicesFromDataSnapshot(DataSnapshot dataSnapshot) {
-        Service[] services = new Service[(int)dataSnapshot.getChildrenCount()];
+    private Reserve[] parseReservesFromDataSnapshot(DataSnapshot dataSnapshot) {
+        Reserve[] services = new Reserve[(int)dataSnapshot.getChildrenCount()];
         int index = 0;
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            Service service = parseServiceFromSnapshot(snapshot);
+            Reserve service = parseReserveFromSnapshot(snapshot);
             if (service != null) {
                 services[index] = service;
                 ++index;
@@ -83,7 +85,7 @@ public class FirebaseServiceRepository implements ServiceRepository {
         return services;
     }
 
-    private Service parseServiceFromSnapshot(DataSnapshot snapshot) {
+    private Reserve parseReserveFromSnapshot(DataSnapshot snapshot) {
         if (snapshot.getValue() instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
             String key = snapshot.getKey();

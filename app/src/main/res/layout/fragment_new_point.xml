@@ -5,7 +5,7 @@
     android:orientation="vertical"
     tools:context="com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Material Design => VICTOR -->
     <ScrollView
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"

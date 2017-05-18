@@ -44,7 +44,6 @@ public class PointInfoFragment extends Fragment {
      * @param pointId String
      * @return A new instance of fragment PointInfoFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static PointInfoFragment newInstance(String pointId) {
         PointInfoFragment fragment = new PointInfoFragment();
         Bundle args = new Bundle();

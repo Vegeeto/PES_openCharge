@@ -83,7 +83,6 @@ public class UseCasesLocator {
 
     public ServiceCreateUseCase getServiceCreateUseCase(ServiceCreateUseCase.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
-        //TODO: replace this
         return new ServiceCreateUseCaseImpl(
                 sl.getExecutor(),
                 sl.getMainThread(),

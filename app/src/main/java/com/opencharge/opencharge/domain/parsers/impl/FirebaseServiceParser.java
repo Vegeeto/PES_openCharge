@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by Oriol on 17/5/2017.
  */
 
-public class FirebaseServicePaser extends AbstractParser implements ServiceParser {
+public class FirebaseServiceParser extends AbstractParser implements ServiceParser {
 
     public static final String DAY_KEY = "day";
     public static final String START_HOUR_KEY = "startHour";
