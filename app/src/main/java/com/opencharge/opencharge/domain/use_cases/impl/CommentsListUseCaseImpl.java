@@ -4,8 +4,8 @@ import com.opencharge.opencharge.domain.Entities.Comment;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.CommentsRepository;
-import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
+import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 
 
 /**
@@ -21,7 +21,7 @@ public class CommentsListUseCaseImpl extends AbstractUseCase implements Comments
     public CommentsListUseCaseImpl(Executor threadExecutor,
                                  MainThread mainThread,
                                  CommentsRepository commentsRepository,
-                                 CommentsListUseCase.Callback callback) {
+                                 Callback callback) {
         super(threadExecutor, mainThread);
 
         this.commentsRepository = commentsRepository;

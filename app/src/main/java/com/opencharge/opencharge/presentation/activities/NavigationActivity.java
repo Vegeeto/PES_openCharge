@@ -42,15 +42,13 @@ public class NavigationActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.content_frame, new DaysPagerFragment()).commit();
 
-        AppBarLayout appBar = (AppBarLayout) findViewById(R.id.app_bar_layout);
-        appBar.setExpanded(false, false);
+        AppBarLayout appBar = (AppBarLayout)  findViewById(R.id.app_bar_layout);
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
         AppBarLayout.LayoutParams p = (AppBarLayout.LayoutParams) collapsingToolbar.getLayoutParams();
         p.setScrollFlags(0);
         collapsingToolbar.setLayoutParams(p);
         appBar.setExpanded(false, false);
 
-        appBar.setExpanded(false,false);
         //CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)appBar.getLayoutParams();
         //lp.height = (int) getResources().getDimension(R.dimen.toolbar_height);
     }

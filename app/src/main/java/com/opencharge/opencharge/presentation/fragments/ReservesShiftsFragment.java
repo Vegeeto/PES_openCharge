@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,11 @@ import android.widget.TextView;
 import com.opencharge.opencharge.R;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class ReservesShiftsFragment extends Fragment {
 
-    private static final String ARG_DAY_TIME = "point_id";
+    private static final String ARG_DAY_TIME = "day_time";
     private Date dayDate;
 
     private RelativeLayout mHoursWrapper;
@@ -74,7 +74,10 @@ public class ReservesShiftsFragment extends Fragment {
         this.mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                //TODO: replace this to put arguments.
+                CreateServiceFragment fragment = new CreateServiceFragment();
+                ft.replace(R.id.content_frame, fragment).commit();
             }
         });
     }
