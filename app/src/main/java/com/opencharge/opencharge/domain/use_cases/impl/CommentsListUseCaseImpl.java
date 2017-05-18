@@ -14,7 +14,7 @@ import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
 
 public class CommentsListUseCaseImpl extends AbstractUseCase implements CommentsListUseCase {
 
-    private String commentId;
+    private String pointId;
     private CommentsListUseCase.Callback callback;
     private CommentsRepository commentsRepository;
 
@@ -29,13 +29,13 @@ public class CommentsListUseCaseImpl extends AbstractUseCase implements Comments
     }
 
     @Override
-    public void setCommentId(String commentId) {
-        this.commentId = commentId;
+    public void setPointId(String pointId) {
+        this.pointId = pointId;
     }
 
     @Override
     public void run() {
-        commentsRepository.getComments(this.commentId, new CommentsRepository.GetCommentsCallback() {
+        commentsRepository.getComments(this.pointId, new CommentsRepository.GetCommentsCallback() {
             @Override
             public void onCommentsRetrieved(Comment[] comments) {
                 postComments(comments);

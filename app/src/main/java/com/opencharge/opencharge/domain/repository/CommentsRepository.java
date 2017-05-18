@@ -25,7 +25,7 @@ public interface CommentsRepository {
     }
 
 
-    void createComment(String point_id,Comment point, final CreateCommentCallback callback);
+    void createComment(String point_id, Comment point, final CreateCommentCallback callback);
     void getComments(String point_id, final GetCommentsCallback callback);
     //void getCommentById(String commentId, final GetCommentByIdCallback callback);
 }

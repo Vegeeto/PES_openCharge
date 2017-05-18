@@ -1,5 +1,6 @@
 package com.opencharge.opencharge.presentation.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Comment;
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
+import com.opencharge.opencharge.presentation.fragments.ShowCommentsFragment;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.util.Date;
@@ -89,6 +92,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private Button cancel;
         private Button send;
         private EditText comment;
+        private ImageButton morecomments;
 
         private TextWatcher filterTextWatcher = new TextWatcher() {
 
@@ -99,7 +103,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count != 0) send.setEnabled(true);
+                if (s.length()!=0) send.setEnabled(true);
                 else send.setEnabled(false);
             }
 
@@ -117,6 +121,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             cancel = (Button) itemView.findViewById(R.id.cancelBtn);
             send = (Button) itemView.findViewById(R.id.sendBtn);
             comment = (EditText) itemView.findViewById(R.id.commentBox);
+            morecomments = (ImageButton) itemView.findViewById(R.id.moreCommentsBtn);
 
             send.setEnabled(false);
 
@@ -141,8 +146,20 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             comment.setText("");
                         }
                     });
-                    getAddCommentUseCase.setCommentParameters(item.getId(), "Mock usuari", comment.getText().toString(), new Date());
+                    getAddCommentUseCase.setCommentParameters(item.getId(), "Mock usuari", comment.getText().toString(), new Date().toString());
                     getAddCommentUseCase.execute();
+                }
+            });
+
+            morecomments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    android.app.FragmentTransaction ft = ((Activity) context).getFragmentManager().beginTransaction();
+                    ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+                    ShowCommentsFragment fragment = ShowCommentsFragment.newInstance(item.getId());
+                    ft.replace(R.id.content_frame, fragment);
+                    ft.addToBackStack(null);
+                    ft.commit();
                 }
             });
 
@@ -156,7 +173,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
-    public PointsAdapter(Context context, Point item) {
+    public PointsAdapter(Activity context, Point item) {
         this.context = context;
         this.item = item;
     }
