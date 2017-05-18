@@ -7,12 +7,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.opencharge.opencharge.domain.Entities.FirebaseService;
 import com.opencharge.opencharge.domain.Entities.Service;
 import com.opencharge.opencharge.domain.parsers.ServiceParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebaseServiceParser;
 import com.opencharge.opencharge.domain.repository.ServiceRepository;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -30,34 +31,36 @@ public class FirebaseServiceRepository implements ServiceRepository {
     }
 
     @Override
-    public void createService(String point_id, final FirebaseService service, final CreateServiceCallback callback) {
+    public void createService(String point_id, Service service, final CreateServiceCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(point_id);
         myRef = myRef.child("Services");
-        myRef.push().setValue(service, new DatabaseReference.CompletionListener() {
+        Map<String, Object> serializedService = serviceParser.serializeService(service);
+        myRef.push().setValue(serializedService, new DatabaseReference.CompletionListener() {
 
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
-                System.out.println("Record saved!");
-                String serviceId = dr.getKey();
-                callback.onServiceCreated(serviceId);
+                callback.onServiceCreated();
             }
 
-            ;
         });
     }
 
     @Override
-    public void getServices(String point_id, final GetServicesCallback callback) {
+    public void getServicesForPointAtDay(String point_id, Date day, final GetServicesForPointAtDayCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(point_id);
         myRef = myRef.child("Services");
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Service[] services = parseServicesFromDataSnapshot(dataSnapshot);
-                callback.onServicesRetrieved(services);
+                try {
+                    Service[] services = parseServicesFromDataSnapshot(dataSnapshot);
+                    callback.onServicesRetrieved(services);
+                } catch (ParseException e) {
+                    callback.onError();
+                }
             }
 
             @Override
@@ -69,7 +72,7 @@ public class FirebaseServiceRepository implements ServiceRepository {
 
     }
 
-    private Service[] parseServicesFromDataSnapshot(DataSnapshot dataSnapshot) {
+    private Service[] parseServicesFromDataSnapshot(DataSnapshot dataSnapshot) throws ParseException {
         Service[] services = new Service[(int)dataSnapshot.getChildrenCount()];
         int index = 0;
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -83,7 +86,7 @@ public class FirebaseServiceRepository implements ServiceRepository {
         return services;
     }
 
-    private Service parseServiceFromSnapshot(DataSnapshot snapshot) {
+    private Service parseServiceFromSnapshot(DataSnapshot snapshot) throws ParseException {
         if (snapshot.getValue() instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
             String key = snapshot.getKey();

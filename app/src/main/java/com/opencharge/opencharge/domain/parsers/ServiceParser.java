@@ -2,6 +2,7 @@ package com.opencharge.opencharge.domain.parsers;
 
 import com.opencharge.opencharge.domain.Entities.Service;
 
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -9,5 +10,6 @@ import java.util.Map;
  */
 
 public interface ServiceParser {
-    Service parseFromMap(String key, Map<String, Object> map);
+    Service parseFromMap(String key, Map<String, Object> map) throws ParseException;
+    Map<String, Object>  serializeService(Service service);
 }
