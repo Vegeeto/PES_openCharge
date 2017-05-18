@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
@@ -69,6 +70,9 @@ public class PointInfoFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         horari = (Button) view.findViewById(R.id.horari);
+
+        RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
+        datePickerButton.setVisibility(View.GONE);
 
         return view;
     }
