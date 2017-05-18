@@ -32,7 +32,7 @@ public class CommentFactory {
         c.id = id;
     }
 
-    public FirebaseComment pointToFirebaseComment(Comment c){
+    public FirebaseComment commentToFirebaseComment(Comment c){
 
         FirebaseComment o = new FirebaseComment();
         o.id = c.id;

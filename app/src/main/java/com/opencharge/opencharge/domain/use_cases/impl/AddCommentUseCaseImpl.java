@@ -1,7 +1,10 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
 
+import android.util.Log;
+
 import com.opencharge.opencharge.domain.Entities.Comment;
+import com.opencharge.opencharge.domain.Entities.FirebaseComment;
 import com.opencharge.opencharge.domain.Factories.CommentFactory;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
@@ -34,28 +37,28 @@ public class AddCommentUseCaseImpl extends AbstractUseCase implements AddComment
     }
     @Override
     public void setCommentParameters(String point_id, String autor, String text, String data){
-
         this.point_id = point_id;
         this.autor = autor;
         this.text = text;
         this.data = data;
     }
+
     @Override
     public void run() {
         System.out.println("Enter AddComment.run()");
         final Comment comment = CommentFactory.getInstance().createNewComment(autor, text, data);
-        System.out.println("Created Comment: "+comment.toString());
-        commentsRepository.createComment(point_id,comment, new CommentsRepository.CreateCommentCallback(){
+        System.out.println("Created Comment: "+ comment.toString());
+        final FirebaseComment firebaseComment = CommentFactory.getInstance().commentToFirebaseComment(comment);
+        commentsRepository.createComment(point_id, firebaseComment, new CommentsRepository.CreateCommentCallback(){
             @Override
-            public void onCommentCreated(String id)
-            {
+            public void onCommentCreated(String id) {
                 CommentFactory.getInstance().setCommentId(comment, id);
                 postComment(id);
             }
 
             @Override
             public void onError() {
-
+                Log.e("ERROR: ", "on create comment");
             }
         });
     }

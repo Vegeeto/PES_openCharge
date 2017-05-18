@@ -17,10 +17,13 @@ import android.widget.Toast;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Comment;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.helpers.DateConversion;
+import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.presentation.fragments.ShowCommentsFragment;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -68,7 +71,6 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
-
     //Not implemented yet
     public class ViewHolderSchedule extends RecyclerView.ViewHolder {
 
@@ -85,7 +87,6 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     }
-
 
     public class ViewHolderComment extends RecyclerView.ViewHolder {
 
@@ -134,7 +135,6 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
@@ -146,7 +146,9 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             comment.setText("");
                         }
                     });
-                    getAddCommentUseCase.setCommentParameters(item.getId(), "Mock usuari", comment.getText().toString(), new Date().toString());
+                    DateConversion dc = new DateConversionImpl();
+                    String date = dc.ConvertLongToDateFormat(System.currentTimeMillis());
+                    getAddCommentUseCase.setCommentParameters(item.getId(), "Mock usuari", comment.getText().toString(), date);
                     getAddCommentUseCase.execute();
                 }
             });

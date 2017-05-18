@@ -14,4 +14,6 @@ public interface DateConversion {
 
     Date StringToDate(String time);
 
+    String ConvertLongToDateFormat(long time);
+
 }
