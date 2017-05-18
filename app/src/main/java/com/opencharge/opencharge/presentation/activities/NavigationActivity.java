@@ -1,5 +1,6 @@
 package com.opencharge.opencharge.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -95,7 +96,7 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_maps) {
-            fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
+            startActivity(new Intent(NavigationActivity.this,SignInActivity.class ));
         } else if (id == R.id.nav_newpoint) {
             fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
         } else if (id == R.id.nav_share) {
