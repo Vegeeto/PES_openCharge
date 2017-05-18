@@ -2,6 +2,7 @@ package com.opencharge.opencharge.domain.use_cases;
 
 import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,10 +11,16 @@ import java.util.List;
 
 public interface ServiceCreateUseCase extends UseCase {
     interface Callback {
-        void onServiceCreated(String id);
+        void onServiceCreated(String serviceId);
     }
 
-    void setServiceParameters(long date, long startTime, long endTime);
-
-
+    void setServiceParameters(Date day, Date startHour, Date endHour);
+    void setRepeatMonday();
+    void setRepeatTuesday();
+    void setRepeatWednesday();
+    void setRepeatThursday();
+    void setRepeatFriday();
+    void setRepeatSaturday();
+    void setRepeatSunday();
+    void setLastRepeat(Date lastRepeat);
 }

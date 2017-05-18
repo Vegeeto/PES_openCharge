@@ -6,7 +6,10 @@ import com.opencharge.opencharge.domain.repository.ServiceRepository;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Oriol on 9/5/2017.
@@ -16,10 +19,14 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
 
     private ServiceCreateUseCase.Callback callback;
     private ServiceRepository serviceRepository;
-    private String service_id;
-    private String date;
-    private String startTime;
-    private String endTime;
+
+    private Date day;
+    private Date startHour;
+    private Date endHour;
+    private Map<Integer, Boolean> repeat;
+    private Date lastRepeat;
+
+
 
     public ServiceCreateUseCaseImpl(Executor threadExecutor,
                                     MainThread mainThread,
@@ -29,11 +36,7 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
 
         this.serviceRepository = serviceRepository;
         this.callback = callback;
-    }
-
-    @Override
-    public void setServiceParameters(long date, long startTime, long endTime) {
-        //TODO: implement method
+        this.repeat = new HashMap<>();
     }
 
     @Override
@@ -50,4 +53,50 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
         });
     }
 
+    @Override
+    public void setServiceParameters(Date day, Date startHour, Date endHour) {
+        this.day = day;
+        this.startHour = startHour;
+        this.endHour = endHour;
+    }
+
+    @Override
+    public void setRepeatMonday() {
+        repeat.put(0, true);
+    }
+
+    @Override
+    public void setRepeatTuesday() {
+        repeat.put(1, true);
+    }
+
+    @Override
+    public void setRepeatWednesday() {
+        repeat.put(2, true);
+    }
+
+    @Override
+    public void setRepeatThursday() {
+        repeat.put(3, true);
+    }
+
+    @Override
+    public void setRepeatFriday() {
+        repeat.put(4, true);
+    }
+
+    @Override
+    public void setRepeatSaturday() {
+        repeat.put(5, true);
+    }
+
+    @Override
+    public void setRepeatSunday() {
+        repeat.put(6, true);
+    }
+
+    @Override
+    public void setLastRepeat(Date lastRepeat) {
+        this.lastRepeat = lastRepeat;
+    }
 }

@@ -245,6 +245,15 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
     }
 
     private void save() {
+        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        ServiceCreateUseCase getServiceCreateUseCase = useCasesLocator.getServiceCreateUseCase(new ServiceCreateUseCase.Callback(){
+            @Override
+            public void onServiceCreated(String serviceId) {
+                FragmentManager fm = getFragmentManager();
+                PointInfoFragment fragment = PointInfoFragment.newInstance(serviceId);
+                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            }
+        });
 
         String day = date.getText().toString();
         if (day.isEmpty()) {
@@ -272,7 +281,7 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
             return;
         }
 
-        Service s = new Service(startDay, startTime, endTime);
+        getServiceCreateUseCase.setServiceParameters(startDay, startTime, endTime);
 
         String endRepeat = dateEnd.getText().toString();
         if (!endRepeat.isEmpty()) {
@@ -283,36 +292,36 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
                 return;
             }
 
-            s.setLastRepeat(lastRepeat);
+            getServiceCreateUseCase.setLastRepeat(lastRepeat);
 
             boolean selected = false;
             if (mon.isChecked()) {
                 selected = true;
-                s.setRepeatMonday();
+                getServiceCreateUseCase.setRepeatMonday();
             }
             if (tue.isChecked()) {
                 selected = true;
-                s.setRepeatTuesday();
+                getServiceCreateUseCase.setRepeatTuesday();
             }
             if (wed.isChecked()) {
                 selected = true;
-                s.setRepeatWednesday();
+                getServiceCreateUseCase.setRepeatWednesday();
             }
             if (thu.isChecked()) {
                 selected = true;
-                s.setRepeatThursday();
+                getServiceCreateUseCase.setRepeatThursday();
             }
             if (fri.isChecked()) {
                 selected = true;
-                s.setRepeatFriday();
+                getServiceCreateUseCase.setRepeatFriday();
             }
             if (sat.isChecked()) {
                 selected = true;
-                s.setRepeatSaturday();
+                getServiceCreateUseCase.setRepeatSaturday();
             }
             if (sun.isChecked()) {
                 selected = true;
-                s.setRepeatSunday();
+                getServiceCreateUseCase.setRepeatSunday();
             }
 
             if (!selected) {
@@ -325,21 +334,7 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
             return;
         }
 
-        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        ServiceCreateUseCase getServiceCreateUseCase = useCasesLocator.getServiceCreateUseCase(new ServiceCreateUseCase.Callback(){
-            @Override
-            public void onServiceCreated(String id) {
-                FragmentManager fm = getFragmentManager();
-                PointInfoFragment fragment = PointInfoFragment.newInstance(id);
-                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
-            }
-
-        });
-
-        //TODO: finish this
-        //getServiceCreateUseCase.setServiceParameters();
         getServiceCreateUseCase.execute();
-
     }
 
     private void cancel() {
