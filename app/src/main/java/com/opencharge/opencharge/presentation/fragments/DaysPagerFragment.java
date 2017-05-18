@@ -87,6 +87,7 @@ public class DaysPagerFragment extends Fragment {
             @Override
             public void onDayClick(Date dateClicked) {
                 setTitle(dateFormat.format(dateClicked));
+                toggleDatePicker();
             }
 
             @Override
@@ -98,22 +99,12 @@ public class DaysPagerFragment extends Fragment {
         // Set current date to today
         setCurrentDate(new Date());
 
-        final ImageView arrow = (ImageView) getActivity().findViewById(R.id.date_picker_arrow);
-        final AppBarLayout appBar = (AppBarLayout) getActivity().findViewById(R.id.app_bar_layout);
         RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
         datePickerButton.setVisibility(View.VISIBLE);
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isExpanded) {
-                    ViewCompat.animate(arrow).rotation(0).start();
-                    appBar.setExpanded(false, true);
-                    isExpanded = false;
-                } else {
-                    ViewCompat.animate(arrow).rotation(180).start();
-                    appBar.setExpanded(true, true);
-                    isExpanded = true;
-                }
+                toggleDatePicker();
             }
         });
 
@@ -122,6 +113,20 @@ public class DaysPagerFragment extends Fragment {
         mPager.setAdapter(mPagerAdapter);
 
         return parentView;
+    }
+
+    private void toggleDatePicker() {
+        ImageView arrow = (ImageView) getActivity().findViewById(R.id.date_picker_arrow);
+        AppBarLayout appBar = (AppBarLayout) getActivity().findViewById(R.id.app_bar_layout);
+        if (isExpanded) {
+            ViewCompat.animate(arrow).rotation(0).start();
+            appBar.setExpanded(false, true);
+            isExpanded = false;
+        } else {
+            ViewCompat.animate(arrow).rotation(180).start();
+            appBar.setExpanded(true, true);
+            isExpanded = true;
+        }
     }
 
     public void setCurrentDate(Date date) {
