@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RadioGroup
+        android:id="@+id/tipus_connector_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+
+        <RadioButton
+            android:id="@+id/Fast"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:checked="false"
+            android:drawableStart="@mipmap/fast_acces"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="@string/fast"
+            android:textSize="20sp" />
+
+        <RadioButton
+            android:id="@+id/Rapid"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:checked="false"
+            android:drawableStart="@mipmap/rapid_acces"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="@string/rapid"
+            android:textSize="20sp" />
+
+        <RadioButton
+            android:id="@+id/Slow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:checked="false"
+            android:drawableStart="@mipmap/slow_acces"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="@string/slow"
+            android:textSize="20sp" />
+    </RadioGroup>
+</LinearLayout>
