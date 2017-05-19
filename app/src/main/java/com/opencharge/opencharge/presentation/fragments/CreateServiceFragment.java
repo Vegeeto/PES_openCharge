@@ -246,12 +246,17 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
 
     private void save() {
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        ServiceCreateUseCase getServiceCreateUseCase = useCasesLocator.getServiceCreateUseCase(new ServiceCreateUseCase.Callback(){
+        ServiceCreateUseCase getServiceCreateUseCase = useCasesLocator.getServiceCreateUseCase(new ServiceCreateUseCase.Callback() {
             @Override
-            public void onServiceCreated(String serviceId) {
+            public void onServiceCreated() {
                 FragmentManager fm = getFragmentManager();
-                PointInfoFragment fragment = PointInfoFragment.newInstance(serviceId);
+                PointInfoFragment fragment = PointInfoFragment.newInstance(pointId);
                 fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            }
+
+            @Override
+            public void onError() {
+                Toast.makeText(getActivity(), "Hi ha hagut algun error al guardar les dades!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -281,7 +286,7 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
             return;
         }
 
-        getServiceCreateUseCase.setServiceParameters(startDay, startTime, endTime);
+        getServiceCreateUseCase.setServiceParameters(pointId, startDay, startTime, endTime);
 
         String endRepeat = dateEnd.getText().toString();
         if (!endRepeat.isEmpty()) {

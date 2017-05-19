@@ -11,10 +11,11 @@ import java.util.List;
 
 public interface ServiceCreateUseCase extends UseCase {
     interface Callback {
-        void onServiceCreated(String serviceId);
+        void onServiceCreated();
+        void onError();
     }
 
-    void setServiceParameters(Date day, Date startHour, Date endHour);
+    void setServiceParameters(String pointId, Date day, Date startHour, Date endHour);
     void setRepeatMonday();
     void setRepeatTuesday();
     void setRepeatWednesday();
