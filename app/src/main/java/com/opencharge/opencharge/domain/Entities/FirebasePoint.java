@@ -4,6 +4,7 @@ import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.List;
 
 /**
  * Created by Crjs on 26/04/2017.
@@ -39,7 +40,8 @@ public class FirebasePoint {
     public String number;
 
     public @Point.AccessType String accessType;
-    public @Point.ConnectorType String connectorType;
+    //public @Point.ConnectorType String connectorType;
+    public List<String> connectorTypeList;
     public String schedule;
 
     //Empty constructor needed for Firebase
@@ -79,9 +81,8 @@ public class FirebasePoint {
         return accessType;
     }
 
-    public @Point.ConnectorType
-    String getConnectorType() {
-        return connectorType;
+    public List<String> getConnectorTypeList() {
+        return connectorTypeList;
     }
 
     public String getSchedule() {
@@ -112,8 +113,8 @@ public class FirebasePoint {
         this.accessType = accessType;
     }
 
-    public void setConnectorType(@Point.ConnectorType String connectorType) {
-        this.connectorType = connectorType;
+    public void setConnectorTypeList(List<String> connectorTypeList) {
+        this.connectorTypeList = connectorTypeList;
     }
 
     public void setSchedule(String schedule) {
