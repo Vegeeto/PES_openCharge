@@ -20,7 +20,13 @@ public interface ServiceRepository {
         void onError();
     }
 
+    interface CreateServicesCallback {
+        void onServicesCreated();
+        void onError();
+    }
+
     void createService(String point_id, Service service, final CreateServiceCallback callback);
+    void createServices(String point_id, Service[] services, final CreateServicesCallback callback);
     void getServicesForPointAtDay(String point_id, Date day, final GetServicesForPointAtDayCallback callback);
 
 }

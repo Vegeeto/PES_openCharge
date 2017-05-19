@@ -37,13 +37,35 @@ public class FirebaseServiceRepository implements ServiceRepository {
         myRef = myRef.child("Services");
         Map<String, Object> serializedService = serviceParser.serializeService(service);
         myRef.push().setValue(serializedService, new DatabaseReference.CompletionListener() {
-
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
                 callback.onServiceCreated();
             }
-
         });
+    }
+
+    @Override
+    public void createServices(String point_id, Service[] services, final CreateServicesCallback callback) {
+        DatabaseReference myRef = database.getReference("Points");
+        myRef = myRef.child(point_id);
+        myRef = myRef.child("Services");
+
+        for (int i = 0 ; i < services.length ; i++) {
+            Map<String, Object> serializedService = serviceParser.serializeService(services[i]);
+
+            boolean isLast = (i == services.length - 1);
+            if (!isLast) {
+                myRef.push().setValue(serializedService);
+            }
+            else {
+                myRef.push().setValue(serializedService, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError de, DatabaseReference dr) {
+                        callback.onServicesCreated();
+                    }
+                });
+            }
+        }
     }
 
     @Override
