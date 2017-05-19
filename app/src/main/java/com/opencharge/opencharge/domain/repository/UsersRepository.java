@@ -1,15 +1,24 @@
 package com.opencharge.opencharge.domain.repository;
 
+import com.opencharge.opencharge.domain.Entities.User;
+
 /**
- * Created by Usuario on 17/05/2017.
+ * Created by DmnT on 18/05/2017.
  */
 
 public interface UsersRepository {
 
-    public interface CreateUserCallback {
+     public interface CreateUserCallback {
         public void onUserCreated(String id);
 
         public void onError();
     }
 
+    public interface GetUserByIdCallback {
+        public void onUserRetrieved(User user);
+
+        public void onError();
+    }
+
+    void getUserById(String userId, final GetUserByIdCallback callback);
 }

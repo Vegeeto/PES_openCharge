@@ -11,6 +11,8 @@ import com.opencharge.opencharge.domain.repository.PointsRepository;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
 
+import java.util.List;
+
 /**
  * Created by Crjs on 16/04/2017.
  */
@@ -24,7 +26,7 @@ public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCr
     private String street;
     private String number;
     private String accessType;
-    private String connectorType;
+    private List<String> connectorTypeList;
     private String schedule;
 
     public PointsCreateUseCaseImpl(Executor threadExecutor,
@@ -37,28 +39,22 @@ public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCr
         this.callback = callback;
     }
     @Override
-    public void setPointParameters( double lat,double lon, String town,
-                                    String street,String number, String accessType,
-                                    String connectorType, String schedule){
-
-        Log.d("CrearPunt","Llamada set Parameters Point");
+    public void setPointParameters(double lat, double lon, String town,
+                                   String street, String number, String accessType,
+                                   List<String> connectorTypeList, String schedule){
         this.lat = lat;
         this.lon = lon;
         this.town = town;
         this.street = street;
         this.number = number;
         this.accessType = accessType;
-        this.connectorType = connectorType;
+        this.connectorTypeList = connectorTypeList;
         this.schedule =  schedule;
     }
     @Override
     public void run() {
-        System.out.println("Enter PointsCreate.run()");
-        Log.d("CrearPunt","Enter PointsCreate.run()");
-        final Point point = PointFactory.getInstance().createNewPoint(lat,lon,town,street,number,accessType,connectorType,schedule);
+        final Point point = PointFactory.getInstance().createNewPoint(lat,lon,town,street,number,accessType,connectorTypeList,schedule);
         final FirebasePoint firebasePoint = PointFactory.getInstance().pointToFirebasePoint(point);
-        System.out.println("Created Point: "+point.toString());
-        Log.d("CrearPunt","Created Point: "+point.toString());
         pointsRepository.createPoint(firebasePoint, new PointsRepository.CreatePointCallback(){
             @Override
             public void onPointCreated(String id)

@@ -43,7 +43,7 @@ public class AddressConversionImpl implements AddressConversion {
     public String LatLongToAddress(double lat, double lng) {
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            return addresses.get(0).getAddressLine(0);
+            return addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,9 +55,9 @@ public class AddressConversionImpl implements AddressConversion {
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
 
-            this.street = addresses.get(0).getAddressLine(0);
+            this.street = addresses.get(0).getThoroughfare();
+            this.number = addresses.get(0).getSubThoroughfare();
             this.town = addresses.get(0).getLocality();
-            this.number = addresses.get(0).getThoroughfare();
             return true;
         } catch (IOException e) {
             e.printStackTrace();

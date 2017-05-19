@@ -76,7 +76,7 @@ public class PointInfoFragment extends Fragment {
         PointByIdUseCase getPointUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
             @Override
             public void onPointRetrieved(Point point) {
-                pointsAdapter = new PointsAdapter(getActivity().getApplicationContext(), point);
+                pointsAdapter = new PointsAdapter(getActivity(), point);
 
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                 recyclerView.setHasFixedSize(true);
