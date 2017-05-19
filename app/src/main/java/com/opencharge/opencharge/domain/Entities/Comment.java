@@ -1,5 +1,8 @@
 package com.opencharge.opencharge.domain.Entities;
 
+import com.opencharge.opencharge.domain.helpers.DateConversion;
+import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
+
 import java.util.Date;
 
 /**
@@ -11,13 +14,16 @@ public class Comment {
     public String id;
     public String autor;
     public String text;
-    public Date data;
+    public String data;
 
     //Empty constructor needed for Firebase
     public Comment() {}
 
+    public Comment(String id) {
+        this.id = id;
+    }
 
-    public Comment(String autor, String text, Date data) {
+    public Comment(String autor, String text, String data) {
         this.autor = autor;
         this.text = text;
         this.data = data;
@@ -31,9 +37,7 @@ public class Comment {
     public String getText() {
         return text;
     }
-    public Date getData() {
-        return data;
-    }
+    public String getData() { return data; }
 
     public void setId(String id){ this.id = id; }
     public void setAutor(String autor) {
@@ -42,8 +46,11 @@ public class Comment {
     public void setText(String text) {
         this.text = text;
     }
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
+    }
+    public void setData(long data) {
+        this.data = String.valueOf(data);
     }
 
 

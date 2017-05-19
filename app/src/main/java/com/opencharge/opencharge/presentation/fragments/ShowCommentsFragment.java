@@ -1,8 +1,9 @@
 package com.opencharge.opencharge.presentation.fragments;
 
+
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.Nullable;
+import android.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,26 +12,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Comment;
 import com.opencharge.opencharge.domain.Entities.Point;
-import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
+import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
+import com.opencharge.opencharge.presentation.adapters.CommentsAdapter;
 import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
-import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PointInfoFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
-public class PointInfoFragment extends Fragment {
+public class ShowCommentsFragment extends Fragment {
 
-    private PointsAdapter pointsAdapter;
+    private CommentsAdapter commentsAdapter;
     private RecyclerView recyclerView;
 
-    private static final String ARG_POINT_ID = "point_id";
     private String pointId;
+    private static final String ARG_POINT_ID = "point_id";
 
-    public PointInfoFragment() {
+    public ShowCommentsFragment() {
         // Required empty public constructor
     }
 
@@ -42,8 +45,8 @@ public class PointInfoFragment extends Fragment {
      * @return A new instance of fragment PointInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PointInfoFragment newInstance(String pointId) {
-        PointInfoFragment fragment = new PointInfoFragment();
+    public static ShowCommentsFragment newInstance(String pointId) {
+        ShowCommentsFragment fragment = new ShowCommentsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_POINT_ID, pointId);
         fragment.setArguments(args);
@@ -73,20 +76,22 @@ public class PointInfoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        PointByIdUseCase getPointUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
+        CommentsListUseCase getCommentsUseCase = useCasesLocator.getCommentsListUseCase(new CommentsListUseCase.Callback() {
             @Override
-            public void onPointRetrieved(Point point) {
-                pointsAdapter = new PointsAdapter(getActivity(), point);
+            public void onCommentsRetrieved(Comment[] comments) {
+                commentsAdapter = new CommentsAdapter(getActivity(), new ArrayList<>(Arrays.asList(comments)));
 
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                 recyclerView.setHasFixedSize(true);
-                recyclerView.setAdapter(pointsAdapter);
-                recyclerView.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
+                recyclerView.setAdapter(commentsAdapter);
+                //recyclerView.addItemDecoration(new ItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
             }
         });
 
-        getPointUseCase.setPointId(pointId);
-        getPointUseCase.execute();
+        getCommentsUseCase.setPointId(pointId);
+        getCommentsUseCase.execute();
+
     }
+
 }
