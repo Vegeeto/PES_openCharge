@@ -46,7 +46,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         public void bindComment(Comment comment) {
             //profilePhoto.setImageBitmap();
             username.setText(comment.getAutor());
-            //date.setText(DateConversionImpl new DateConversionImpl());
+            date.setText(comment.getData());
             content.setText(comment.getText());
         }
 
