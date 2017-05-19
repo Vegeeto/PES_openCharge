@@ -4,8 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
+import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
+import com.opencharge.opencharge.domain.use_cases.impl.CommentsListUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
@@ -84,6 +86,15 @@ public class UseCasesLocator {
                 ServicesLocator.getInstance().getExecutor(),
                 ServicesLocator.getInstance().getMainThread(),
                 RepositoriesLocator.getInstance().getUsersRepository(),
+                callback
+        );
+    }
+
+    public CommentsListUseCase getCommentsListUseCase(CommentsListUseCase.Callback callback) {
+        return new CommentsListUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getCommnetsRepository(),
                 callback
         );
     }

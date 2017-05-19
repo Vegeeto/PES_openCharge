@@ -45,4 +45,5 @@
     <string name="tipus_d_acces_text">Tipus d\'accés:</string>
     <string name="tipus_de_connector_text">Tipus de connector:</string>
     <string name="informacio_addicional"><u>Informació addicional</u></string>
+    <string name="carrega_m_s_comentaris">Visualitza tots els comentaris</string>
 </resources>

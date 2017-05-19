@@ -59,7 +59,7 @@ public class AddCommentUseCaseImplTest {
         String point_id = "1";
         String autor = "Tester";
         String text = "Això és un comentari";
-        Date data = new java.util.Date();
+        String data = new java.util.Date();
 
         //When
         sut.setCommentParameters(point_id, autor, text,data);
