@@ -4,6 +4,7 @@ import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ public class FirebasePointsParser extends AbstractParser implements PointsParser
     public static final String LON_KEY = "lon";
     public static final String LAT_KEY = "lat";
     public static final String ACCESS_TYPE_KEY = "accessType";
-    public static final String CONNECTOR_TYPE_KEY = "connectorType";
+    public static final String CONNECTOR_TYPE_LIST_KEY = "connectorTypeList";
     public static final String SCHEDULE_KEY = "schedule";
 
     @Override
@@ -27,7 +28,7 @@ public class FirebasePointsParser extends AbstractParser implements PointsParser
         Point point = new Point(key);
 
         point.setAccessType(parseAccessTypeFromMap(map));
-        point.setConnectorType(parseConnectorTypeFromMap(map));
+        point.setConnectorTypeList(parseConnectorTypeFromMap(map));
 
         point.setLat(parseDoubleKeyFromMap(LAT_KEY, map));
         point.setLon(parseDoubleKeyFromMap(LON_KEY, map));
@@ -50,13 +51,14 @@ public class FirebasePointsParser extends AbstractParser implements PointsParser
         return accessType;
     }
 
-    private @Point.ConnectorType String parseConnectorTypeFromMap(Map<String, Object> map) {
-        @Point.ConnectorType String connectorType = (String)map.get(CONNECTOR_TYPE_KEY);
-        if (!isCorrectConnectorType(connectorType)) {
-            connectorType = Point.UNKNOWN_CONNECTOR;
+    private @Point.ConnectorType List<String> parseConnectorTypeFromMap(Map<String, Object> map) {
+        List<String> connectorTypeList = (List<String>) map.get(CONNECTOR_TYPE_LIST_KEY);
+        for (@Point.ConnectorType String conn:connectorTypeList) {
+            if (!isCorrectConnectorType(conn)) {
+                conn = Point.UNKNOWN_CONNECTOR;
+            }
         }
-
-        return connectorType;
+        return connectorTypeList;
     }
 
     private boolean isCorrectAccessType(String accessType) {

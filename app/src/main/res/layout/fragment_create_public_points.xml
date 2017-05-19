@@ -220,65 +220,95 @@
                 android:orientation="horizontal"
                 android:paddingTop="16dp">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:text="@string/conector"
-                    android:textColor="@color/black"
-                    android:textSize="24sp" />
-            </LinearLayout>
-
-            <RadioGroup
-                android:id="@+id/tipus_connector"
-                android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <RadioButton
-                    android:id="@+id/Slow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/slow_acces"
-                    android:gravity="center"
-                    android:text="@string/slow"
-                    android:textSize="20sp" />
-
-
-                <RadioButton
-                    android:id="@+id/Fast"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/fast_acces"
-                    android:gravity="center"
-                    android:text="@string/fast"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/Rapid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/rapid_acces"
-                    android:gravity="center"
-                    android:text="@string/rapid"
-                    android:textSize="20sp" />
-            </RadioGroup>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="24sp"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/black"
+                android:text="@string/conector"
+                android:gravity="start"
+                android:layout_weight="2"
+                android:gravity="start"
+                android:text="@string/conector"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                tools:text="Conector (max 3)" />
+        </LinearLayout>
 
             <LinearLayout
-                style="@android:style/ButtonBar"
-                android:layout_width="fill_parent"
+                android:id="@+id/connector_type_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/connector_type_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RadioGroup
+                        android:id="@+id/tipus_connector_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+
+                        <RadioButton
+                            android:id="@+id/Fast"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="16dp"
+                            android:checked="false"
+                            android:drawableStart="@mipmap/fast_acces"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:text="@string/fast"
+                            android:textSize="20sp" />
+
+                        <RadioButton
+                            android:id="@+id/Rapid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="16dp"
+                            android:checked="false"
+                            android:drawableStart="@mipmap/rapid_acces"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:text="@string/rapid"
+                            android:textSize="20sp" />
+
+                        <RadioButton
+                            android:id="@+id/Slow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="16dp"
+                            android:checked="false"
+                            android:drawableStart="@mipmap/slow_acces"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:text="@string/slow"
+                            android:textSize="20sp" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/add_more_connectors_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:text="+" />
+
+        <LinearLayout
+            style="@android:style/ButtonBar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@color/white"
+            android:orientation="horizontal" >
 
                 <Button
                     android:id="@+id/GuardarBtn"
