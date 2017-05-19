@@ -132,7 +132,7 @@ public class ReservesShiftsFragment extends Fragment {
         createReservationShiftView(8, 0, 120);
     }
 
-    private void createReservationShiftView(final int hourStart, int minutesStart, int minutesDuration) {
+    private void createReservationShiftView(final int hourStart, int minutesStart, final int minutesDuration) {
         int hourHeight = (int) getResources().getDimension(R.dimen.day_view_hour_height);
         float minutesHeight = hourHeight / (float) 60;
 
@@ -161,10 +161,11 @@ public class ReservesShiftsFragment extends Fragment {
         shiftView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Log.d("shiftView", "CLIKED!!! at " + view.getY() + " + " + view.getHeight());
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 DateConversion dc = new DateConversionImpl();
-                CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertIntToTimeString(hourStart, 0));
+                int hourEnd = hourStart + minutesDuration/60;
+                int minEnd = minutesDuration%60;
+                CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertIntToTimeString(hourStart, 0), dc.ConvertIntToTimeString(hourEnd, minEnd));
                 ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             }
         });

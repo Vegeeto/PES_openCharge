@@ -344,8 +344,9 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
 
     private void cancel() {
         FragmentManager fm = getFragmentManager();
-        MapsFragment mp = new MapsFragment();
-        fm.beginTransaction().replace(R.id.content_frame, mp).commit();
+        fm.popBackStackImmediate();
+        /*MapsFragment mp = new MapsFragment();
+        fm.beginTransaction().replace(R.id.content_frame, mp).commit();*/
     }
 
     @Override

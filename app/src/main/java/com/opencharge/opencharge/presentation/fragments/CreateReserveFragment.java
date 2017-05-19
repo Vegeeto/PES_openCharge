@@ -21,7 +21,6 @@ import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
-import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.text.SimpleDateFormat;
@@ -49,6 +48,8 @@ public class CreateReserveFragment extends Fragment {
     private String day_arg;
     private static final String ARG_START_TIME = "start_time";
     private String start_arg;
+    private static final String ARG_END_TIME = "end_time";
+    private String end_arg;
 
     public CreateReserveFragment() {
         year = calendar.get(Calendar.YEAR);
@@ -58,12 +59,13 @@ public class CreateReserveFragment extends Fragment {
         min = calendar.get(Calendar.MINUTE);
     }
 
-    public static CreateReserveFragment newInstance(String pointId, String date, String start) {
+    public static CreateReserveFragment newInstance(String pointId, String date, String start, String end) {
         CreateReserveFragment fragment = new CreateReserveFragment();
         Bundle args = new Bundle();
         args.putString(ARG_POINT_ID, pointId);
         args.putString(ARG_DAY, date);
         args.putString(ARG_START_TIME, start);
+        args.putString(ARG_END_TIME, end);
         fragment.setArguments(args);
 
         return fragment;
@@ -76,6 +78,7 @@ public class CreateReserveFragment extends Fragment {
             this.pointId = getArguments().getString(ARG_POINT_ID);
             this.day_arg = getArguments().getString(ARG_DAY);
             this.start_arg = getArguments().getString(ARG_START_TIME);
+            this.end_arg = getArguments().getString(ARG_END_TIME);
         }
     }
 
@@ -104,10 +107,11 @@ public class CreateReserveFragment extends Fragment {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePicker = new DatePickerDialog(getActivity(),datePickerListener1, year, month, day);
+                /*DatePickerDialog datePicker = new DatePickerDialog(getActivity(),datePickerListener1, year, month, day);
                 datePicker.setCancelable(false);
                 datePicker.setTitle("Seleccionar data");
-                datePicker.show();
+                datePicker.show();*/
+                Toast.makeText(getActivity(), "Si vol canviar el dia torni endarrere", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -187,7 +191,11 @@ public class CreateReserveFragment extends Fragment {
     private void showTime(int h, int m, EditText text) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         String time = simpleDateFormat.format(new Date(0, 0, 0, h, m));
-        text.setText(time);
+        if (time.compareTo(start_arg) >= 0 && time.compareTo(end_arg) <= 0) {
+            text.setText(time);
+        } else {
+            Toast.makeText(getActivity(), "La reserva no pot començar o acabar a aquesta hora", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void save() {
@@ -245,8 +253,9 @@ public class CreateReserveFragment extends Fragment {
 
     private void cancel() {
         FragmentManager fm = getFragmentManager();
-        MapsFragment mp = new MapsFragment();
-        fm.beginTransaction().replace(R.id.content_frame, mp).commit();
+        fm.popBackStackImmediate();
+        /*MapsFragment mp = new MapsFragment();
+        fm.beginTransaction().replace(R.id.content_frame, mp).commit();*/
     }
 
 }
