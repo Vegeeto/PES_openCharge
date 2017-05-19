@@ -5,6 +5,7 @@ package com.opencharge.opencharge.domain.use_cases.impl;
  */
 
 import com.opencharge.opencharge.domain.Entities.Comment;
+import com.opencharge.opencharge.domain.Entities.FirebaseComment;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.CommentsRepository;
@@ -59,13 +60,13 @@ public class AddCommentUseCaseImplTest {
         String point_id = "1";
         String autor = "Tester";
         String text = "Això és un comentari";
-        String data = new java.util.Date();
+        String data = "19/05/2017";
 
         //When
         sut.setCommentParameters(point_id, autor, text,data);
         sut.run();
 
         //Then
-        verify(mockCommentsRepository).createComment(any(String.class),any(Comment.class),any(CommentsRepository.CreateCommentCallback.class));
+        verify(mockCommentsRepository).createComment(any(String.class),any(FirebaseComment.class),any(CommentsRepository.CreateCommentCallback.class));
     }
 }
