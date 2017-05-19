@@ -1,7 +1,7 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
 
-import com.opencharge.opencharge.domain.Entities.MockUser;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.UsersRepository;
@@ -38,7 +38,7 @@ public class UserByIdUseCaseImpl extends AbstractUseCase implements UserByIdUseC
     public void run() {
         usersRepository.getUserById(this.userId, new UsersRepository.GetUserByIdCallback() {
             @Override
-            public void onUserRetrieved(MockUser user) {
+            public void onUserRetrieved(User user) {
                 postUser(user);
             }
 
@@ -49,7 +49,7 @@ public class UserByIdUseCaseImpl extends AbstractUseCase implements UserByIdUseC
         });
     }
 
-    private void postUser(final MockUser user) {
+    private void postUser(final User user) {
         mMainThread.post(new Runnable() {
             @Override
             public void run() {

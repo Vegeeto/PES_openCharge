@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.use_cases;
 
-import com.opencharge.opencharge.domain.Entities.MockUser;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 /**
@@ -9,7 +9,7 @@ import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 public interface UserByIdUseCase extends UseCase {
     interface Callback {
-        void onUserRetrieved(MockUser user);
+        void onUserRetrieved(User user);
     }
 
     public void setUserId(String pointId);

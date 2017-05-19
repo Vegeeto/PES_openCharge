@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Created by DmnT on 10/05/2017.
  */
 
-public class MockUser {
+public class User {
 
     private String email;
     private String username;

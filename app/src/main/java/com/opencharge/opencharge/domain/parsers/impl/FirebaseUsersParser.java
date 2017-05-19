@@ -1,9 +1,8 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
-import com.opencharge.opencharge.domain.Entities.MockUser;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.parsers.UsersParser;
 
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -23,8 +22,8 @@ public class FirebaseUsersParser implements UsersParser {
     public static final String SCHEDULE_KEY = "schedule";
 
     @Override
-    public MockUser parseFromMap(String key, Map<String, Object> map) {
-        MockUser user = new MockUser();
+    public User parseFromMap(String key, Map<String, Object> map) {
+        User user = new User();
 
         //TODO aquesta part, i la resta també, s'ha d'emplenar correctament quan es sàpiga com es guarden els usuaris al firebase
         /*

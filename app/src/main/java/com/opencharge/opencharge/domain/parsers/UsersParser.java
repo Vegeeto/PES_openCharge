@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.parsers;
 
-import com.opencharge.opencharge.domain.Entities.MockUser;
+import com.opencharge.opencharge.domain.Entities.User;
 
 import java.util.Map;
 
@@ -9,5 +9,5 @@ import java.util.Map;
  */
 
 public interface UsersParser {
-    public MockUser parseFromMap(String key, Map<String, Object> map);
+    public User parseFromMap(String key, Map<String, Object> map);
 }

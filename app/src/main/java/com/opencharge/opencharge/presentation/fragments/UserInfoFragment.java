@@ -3,23 +3,16 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
-import com.opencharge.opencharge.domain.Entities.MockUser;
-import com.opencharge.opencharge.domain.Entities.Point;
-import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.CustomUserPointsAdapter;
-import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
@@ -88,7 +81,7 @@ public class UserInfoFragment extends Fragment {
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         UserByIdUseCase getUserUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
             @Override
-            public void onUserRetrieved(MockUser user) {
+            public void onUserRetrieved(User user) {
 
                 nomUsuari.setText(user.getUsername());
                 emailUsuari.setText(user.getEmail());

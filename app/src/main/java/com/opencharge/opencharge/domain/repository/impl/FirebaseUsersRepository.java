@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.opencharge.opencharge.domain.Entities.MockUser;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.parsers.UsersParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebaseUsersParser;
 import com.opencharge.opencharge.domain.repository.UsersRepository;
@@ -36,7 +36,7 @@ public class FirebaseUsersRepository implements UsersRepository {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                MockUser user = parseUserFromSnapshot(dataSnapshot);
+                User user = parseUserFromSnapshot(dataSnapshot);
                 callback.onUserRetrieved(user);
             }
 
@@ -48,7 +48,7 @@ public class FirebaseUsersRepository implements UsersRepository {
         });
     }
 
-    private MockUser parseUserFromSnapshot(DataSnapshot snapshot) {
+    private User parseUserFromSnapshot(DataSnapshot snapshot) {
         if (snapshot.getValue() instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
             String key = snapshot.getKey();
