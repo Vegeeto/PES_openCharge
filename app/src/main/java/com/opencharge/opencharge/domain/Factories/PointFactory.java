@@ -4,6 +4,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.opencharge.opencharge.domain.Entities.FirebasePoint;
 import com.opencharge.opencharge.domain.Entities.Point;
 
+import java.util.List;
+
 /**
  * Created by Crjs on 19/04/2017.
  */
@@ -22,7 +24,7 @@ public class PointFactory {
     }
 
     public Point createNewPoint(double lat, double lon, String town, String street, String number,
-                                String accesType, String connectorType, String schedule) {
+                                String accesType, List<String> connectorTypeList, String schedule) {
 
         Point p = new Point();
         p.setLat(lat);
@@ -31,7 +33,7 @@ public class PointFactory {
         p.setStreet(street);
         p.setNumber(number);
         p.setAccessType(accesType);
-        p.setConnectorType(connectorType);
+        p.setConnectorTypeList(connectorTypeList);
         p.setSchedule(schedule);
         return p;
     }
@@ -48,7 +50,7 @@ public class PointFactory {
         o.street = p.street;
         o.number = p.number;
         o.accessType = p.accessType;
-        o.connectorType = p.connectorType;
+        o.connectorTypeList = p.connectorTypeList;
         o.schedule = p.schedule;
 
         return o;
