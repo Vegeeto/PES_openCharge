@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.helpers.DateConversion;
+import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -81,9 +83,9 @@ public class ReservesShiftsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                //TODO: replace this to put arguments.
-                CreateServiceFragment fragment = new CreateServiceFragment();
-                ft.replace(R.id.content_frame, fragment).commit();
+                DateConversion dc = new DateConversionImpl();
+                CreateServiceFragment fragment = CreateServiceFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), "10:00");
+                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             }
         });
     }
@@ -130,7 +132,7 @@ public class ReservesShiftsFragment extends Fragment {
         createReservationShiftView(8, 0, 120);
     }
 
-    private void createReservationShiftView(int hourStart, int minutesStart, int minutesDuration) {
+    private void createReservationShiftView(final int hourStart, int minutesStart, int minutesDuration) {
         int hourHeight = (int) getResources().getDimension(R.dimen.day_view_hour_height);
         float minutesHeight = hourHeight / (float) 60;
 
@@ -159,7 +161,11 @@ public class ReservesShiftsFragment extends Fragment {
         shiftView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("shiftView", "CLIKED!!! at " + view.getY() + " + " + view.getHeight());
+                //Log.d("shiftView", "CLIKED!!! at " + view.getY() + " + " + view.getHeight());
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                DateConversion dc = new DateConversionImpl();
+                CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertIntToTimeString(hourStart, 0));
+                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             }
         });
     }

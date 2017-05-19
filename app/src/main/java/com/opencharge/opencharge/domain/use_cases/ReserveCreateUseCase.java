@@ -9,6 +9,7 @@ import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 public interface ReserveCreateUseCase extends UseCase {
     interface Callback {
         void onReserveCreated(String id);
+        void onError();
     }
 
     void setReserveParameters(long date, long startTime, long endTime);

@@ -20,6 +20,7 @@ import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
+import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
@@ -191,6 +192,22 @@ public class CreateReserveFragment extends Fragment {
 
     private void save() {
 
+        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        ReserveCreateUseCase getReserveCreateUseCase = useCasesLocator.getReserveCreateUseCase(new ReserveCreateUseCase.Callback(){
+            @Override
+            public void onReserveCreated(String id) {
+                FragmentManager fm = getFragmentManager();
+                PointInfoFragment fragment = PointInfoFragment.newInstance(pointId);
+                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            }
+
+            @Override
+            public void onError() {
+                Toast.makeText(getActivity(), "Hi ha hagut algun error al guardar les dades!", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
         String day = date.getText().toString();
         if (day.isEmpty()) {
             Toast.makeText(getActivity(), "Ha d'indicar el dia de la reserva!", Toast.LENGTH_SHORT).show();
@@ -219,19 +236,10 @@ public class CreateReserveFragment extends Fragment {
 
         Reserve r = new Reserve(startDay, startTime, endTime);
 
-        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        ServiceCreateUseCase getReserveCreateUseCase = useCasesLocator.getServiceCreateUseCase(new ServiceCreateUseCase.Callback(){
-            @Override
-            public void onServiceCreated(String id) {
-                FragmentManager fm = getFragmentManager();
-                PointInfoFragment fragment = PointInfoFragment.newInstance(id);
-                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
-            }
-
-        });
-
         //TODO: finish this
         //getReserveCreateUseCase.setServiceParameters();
+
+        getReserveCreateUseCase.execute();
 
     }
 

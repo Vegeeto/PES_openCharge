@@ -29,7 +29,7 @@ public class DateConversionImpl implements DateConversion {
 
     @Override
     public Date ConvertStringToDate(String dateString){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date convertedDate = dateFormat.parse(dateString);
             return convertedDate;
@@ -49,6 +49,21 @@ public class DateConversionImpl implements DateConversion {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public String ConvertIntToTimeString(int hour, int minute) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        Date date = new Date();
+        date.setHours(hour);
+        date.setMinutes(minute);
+        return dateFormat.format(date);
+    }
+
+    @Override
+    public String ConvertDateToString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(date);
     }
 
 }
