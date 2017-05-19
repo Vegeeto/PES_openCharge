@@ -9,6 +9,7 @@
     <ScrollView
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
+        android:descendantFocusability="blocksDescendants"
         android:id="@+id/scrollView">
         <LinearLayout
             android:id="@+id/widget33"
@@ -227,147 +228,74 @@
                 android:gravity="start"
                 android:text="@string/conector"
                 android:textColor="@color/black"
-                android:textSize="24sp"
-                tools:text="Conector (max 3)" />
+                android:textSize="24sp" />
         </LinearLayout>
 
-            <RadioGroup
-                android:id="@+id/tipus_connector_1"
+            <LinearLayout
+                android:id="@+id/connector_type_parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:orientation="vertical">
 
-
-                <RadioButton
-                    android:id="@+id/Fast"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/connector_type_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/fast_acces"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:text="@string/fast"
-                    android:textSize="20sp" />
+                    android:orientation="vertical">
 
-                <RadioButton
-                    android:id="@+id/Rapid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/rapid_acces"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:text="@string/rapid"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/Slow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/slow_acces"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:text="@string/slow"
-                    android:textSize="20sp" />
-            </RadioGroup>
-
-            <RadioGroup
-                android:id="@+id/tipus_connector_2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                    <RadioGroup
+                        android:id="@+id/tipus_connector_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
 
-                <RadioButton
-                    android:id="@+id/Fast"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/fast_acces"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:text="@string/fast"
-                    android:textSize="20sp" />
+                        <RadioButton
+                            android:id="@+id/Fast"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="16dp"
+                            android:checked="false"
+                            android:drawableStart="@mipmap/fast_acces"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:text="@string/fast"
+                            android:textSize="20sp" />
 
-                <RadioButton
-                    android:id="@+id/Rapid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/rapid_acces"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:text="@string/rapid"
-                    android:textSize="20sp" />
+                        <RadioButton
+                            android:id="@+id/Rapid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="16dp"
+                            android:checked="false"
+                            android:drawableStart="@mipmap/rapid_acces"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:text="@string/rapid"
+                            android:textSize="20sp" />
 
-                <RadioButton
-                    android:id="@+id/Slow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/slow_acces"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:text="@string/slow"
-                    android:textSize="20sp" />
-            </RadioGroup>
+                        <RadioButton
+                            android:id="@+id/Slow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="16dp"
+                            android:checked="false"
+                            android:drawableStart="@mipmap/slow_acces"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:text="@string/slow"
+                            android:textSize="20sp" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
 
-            <RadioGroup
-                android:id="@+id/tipus_connector_3"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/add_more_connectors_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-
-                <RadioButton
-                    android:id="@+id/Fast"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/fast_acces"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:text="@string/fast"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/Rapid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/rapid_acces"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:text="@string/rapid"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/Slow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:checked="false"
-                    android:drawableStart="@mipmap/slow_acces"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:text="@string/slow"
-                    android:textSize="20sp" />
-            </RadioGroup>
+                android:text="+" />
 
             <LinearLayout
             style="@android:style/ButtonBar"
