@@ -170,26 +170,26 @@
 
         </RadioGroup>
 
-        <LinearLayout
-            android:id="@+id/Horari_layout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:paddingTop="16dp"
-            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/Horari_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:orientation="horizontal"
+                android:paddingTop="0dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="24sp"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/black"
-                android:text="@string/horari"
-                android:gravity="start"
-                android:layout_weight="2" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:text="@string/horari"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
 
-        </LinearLayout>
+            </LinearLayout>
 
         <LinearLayout
             android:id="@+id/Horari_text"
@@ -222,56 +222,154 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="24sp"
                 android:layout_marginStart="16dp"
-                android:textColor="@color/black"
-                android:text="@string/conector"
+                android:layout_weight="2"
                 android:gravity="start"
-                android:layout_weight="2" />
+                android:text="@string/conector"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                tools:text="Conector (max 3)" />
         </LinearLayout>
 
-        <RadioGroup
-            android:id="@+id/tipus_connector"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <RadioButton
-                android:id="@+id/Slow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginBottom="16dp"
-                android:checked="false"
+            <RadioGroup
+                android:id="@+id/tipus_connector_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:drawableStart="@mipmap/slow_acces"
-                android:text="@string/slow" />
+                android:orientation="horizontal"
+                android:weightSum="1">
 
 
-            <RadioButton
-                android:id="@+id/Fast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:checked="false"
+                <RadioButton
+                    android:id="@+id/Fast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false"
+                    android:drawableStart="@mipmap/fast_acces"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="@string/fast"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/Rapid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false"
+                    android:drawableStart="@mipmap/rapid_acces"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="@string/rapid"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/Slow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false"
+                    android:drawableStart="@mipmap/slow_acces"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="@string/slow"
+                    android:textSize="20sp" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/tipus_connector_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:drawableStart="@mipmap/fast_acces"
-                android:layout_marginBottom="16dp"
-                android:text="@string/fast" />
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-            <RadioButton
-                android:id="@+id/Rapid"
-                android:layout_width="wrap_content"
+
+                <RadioButton
+                    android:id="@+id/Fast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false"
+                    android:drawableStart="@mipmap/fast_acces"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="@string/fast"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/Rapid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false"
+                    android:drawableStart="@mipmap/rapid_acces"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="@string/rapid"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/Slow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false"
+                    android:drawableStart="@mipmap/slow_acces"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="@string/slow"
+                    android:textSize="20sp" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/tipus_connector_3"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:checked="false"
                 android:gravity="center"
-                android:drawableStart="@mipmap/rapid_acces"
-                android:text="@string/rapid" />
-        </RadioGroup>
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-        <LinearLayout
+
+                <RadioButton
+                    android:id="@+id/Fast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false"
+                    android:drawableStart="@mipmap/fast_acces"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="@string/fast"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/Rapid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false"
+                    android:drawableStart="@mipmap/rapid_acces"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="@string/rapid"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/Slow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:checked="false"
+                    android:drawableStart="@mipmap/slow_acces"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="@string/slow"
+                    android:textSize="20sp" />
+            </RadioGroup>
+
+            <LinearLayout
             style="@android:style/ButtonBar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
