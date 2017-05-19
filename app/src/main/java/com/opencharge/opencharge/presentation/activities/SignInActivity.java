@@ -29,12 +29,13 @@ import com.opencharge.opencharge.R;
  * Created by Usuario on 03/05/2017.
  */
 
-public class SignInActivity extends AppCompatActivity  implements GoogleApiClient.OnConnectionFailedListener {
+public class SignInActivity extends AppCompatActivity  {
 
-    private static final int RC_SIGN_IN = 0;
+    private static final int RC_SIGN_IN = 1;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
+    private SignInButton signInButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,14 +44,19 @@ public class SignInActivity extends AppCompatActivity  implements GoogleApiClien
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("393888953618-boh787gvf5v2spi8geddk486dl0holrt.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mAuth = FirebaseAuth.getInstance();
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+        mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
+                .enableAutoManage(this,new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Toast.makeText(SignInActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    }
+                })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
@@ -71,7 +77,7 @@ public class SignInActivity extends AppCompatActivity  implements GoogleApiClien
         };
 
 
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -79,11 +85,6 @@ public class SignInActivity extends AppCompatActivity  implements GoogleApiClien
                 signIn();
             }
         });
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
 
@@ -106,6 +107,7 @@ public class SignInActivity extends AppCompatActivity  implements GoogleApiClien
             } else {
                 // Google Sign In failed, update UI appropriately
                 // ...
+                Toast.makeText(SignInActivity.this, "Sign In Error", Toast.LENGTH_LONG).show();
             }
         }
     }
