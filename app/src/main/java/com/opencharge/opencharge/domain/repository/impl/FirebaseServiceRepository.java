@@ -74,13 +74,14 @@ public class FirebaseServiceRepository implements ServiceRepository {
         myRef = myRef.child(point_id);
         myRef = myRef.child("Services");
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
                     Service[] services = parseServicesFromDataSnapshot(dataSnapshot);
                     callback.onServicesRetrieved(services);
                 } catch (ParseException e) {
+                    Log.e("SERVICES REPO", "Error on parse");
                     callback.onError();
                 }
             }
@@ -88,7 +89,7 @@ public class FirebaseServiceRepository implements ServiceRepository {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //TODO
-                Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
+                Log.e("SERVICES REPO","ERROR: "+databaseError.toString());
             }
         });
 

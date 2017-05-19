@@ -13,8 +13,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Service;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
+import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
+import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
+
+import org.joda.time.DateTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,7 +56,7 @@ public class ReservesShiftsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.pointId = getArguments().getString(ARG_POINT_ID);
-            
+
             long dayTime = getArguments().getLong(ARG_DAY_TIME);
             this.dayDate = new Date();
             this.dayDate.setTime(dayTime);
@@ -71,7 +76,21 @@ public class ReservesShiftsFragment extends Fragment {
         setUpAddButton();
         setUpDayLabels();
         createDayLayout();
-        createReservationShiftsViews();
+
+        ServiceListByPointAndDayUseCase useCase = UseCasesLocator.getInstance().getServiceListByPointAndDayUseCase(new ServiceListByPointAndDayUseCase.Callback() {
+            @Override
+            public void onServicesRetrieved(Service[] services) {
+                createServicesViews(services);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+        useCase.setDay(dayDate);
+        useCase.setPointId(pointId);
+        useCase.execute();
 
         return parentView;
     }
@@ -126,13 +145,27 @@ public class ReservesShiftsFragment extends Fragment {
     }
 
 
-    private void createReservationShiftsViews() {
-        createReservationShiftView(1, 0, 60);
-        createReservationShiftView(6, 0, 30);
-        createReservationShiftView(8, 0, 120);
+    private void createServicesViews(Service[] services) {
+        for (Service service : services) {
+            DateTime start = new DateTime(service.getStartHour());
+            DateTime end = new DateTime(service.getEndHour());
+            int startHour = start.getHourOfDay();
+            int startMinute = start.getMinuteOfHour();
+            int duration = end.getMinuteOfDay() - start.getMinuteOfDay();
+
+            Log.d("createServicesViews", "services: " + startHour + " - " + startMinute + " - " + duration);
+            createServiceView(startHour, startMinute, duration);
+        }
     }
 
-    private void createReservationShiftView(final int hourStart, int minutesStart, final int minutesDuration) {
+    private void createServiceView(final int hourStart, int minutesStart, final int minutesDuration) {
+        createRectangleView(hourStart, minutesStart, minutesDuration, Color.GREEN);
+    }
+
+    private void createRectangleView(final int hourStart,
+                                     int minutesStart,
+                                     final int minutesDuration,
+                                     int color) {
         int hourHeight = (int) getResources().getDimension(R.dimen.day_view_hour_height);
         float minutesHeight = hourHeight / (float) 60;
 
@@ -146,7 +179,7 @@ public class ReservesShiftsFragment extends Fragment {
         int shiftViewHeight = (int) (minutesDuration * minutesHeight);
 
         View shiftView = new View(getActivity().getApplicationContext());
-        shiftView.setBackgroundColor(Color.parseColor("#FF0000"));
+        shiftView.setBackgroundColor(color);
 
         shiftView.setY(Y);
         shiftView.setMinimumHeight(shiftViewHeight);
@@ -163,8 +196,8 @@ public class ReservesShiftsFragment extends Fragment {
             public void onClick(View view) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 DateConversion dc = new DateConversionImpl();
-                int hourEnd = hourStart + minutesDuration/60;
-                int minEnd = minutesDuration%60;
+                int hourEnd = hourStart + minutesDuration / 60;
+                int minEnd = minutesDuration % 60;
                 CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertIntToTimeString(hourStart, 0), dc.ConvertIntToTimeString(hourEnd, minEnd));
                 ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             }

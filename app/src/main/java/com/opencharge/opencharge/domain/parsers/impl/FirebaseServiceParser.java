@@ -1,5 +1,7 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
+import android.util.Log;
+
 import com.opencharge.opencharge.domain.Entities.Service;
 import com.opencharge.opencharge.domain.parsers.ServiceParser;
 
@@ -30,7 +32,7 @@ public class FirebaseServiceParser extends AbstractParser implements ServicePars
         DateFormat dayFormatter = new SimpleDateFormat(DAY_FORMAT);
         Date day = dayFormatter.parse((String)map.get(DAY_KEY));
 
-        DateFormat hourFormatter = new SimpleDateFormat(DAY_FORMAT);
+        DateFormat hourFormatter = new SimpleDateFormat(HOUR_FORMAT);
         Date startHour = hourFormatter.parse((String)map.get(START_HOUR_KEY));
         Date endHour = hourFormatter.parse((String)map.get(END_HOUR_KEY));
 

@@ -1,5 +1,6 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
+import android.util.Log;
 import android.util.SparseBooleanArray;
 
 import com.opencharge.opencharge.domain.Entities.Service;
@@ -44,7 +45,7 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
 
     @Override
     public void run() {
-        boolean onlyOneService = (lastRepeat != null && repetitions.size() > 0);
+        boolean onlyOneService = (lastRepeat == null || repetitions.size() == 0);
         if (onlyOneService) {
             createServiceForDay(day);
         }

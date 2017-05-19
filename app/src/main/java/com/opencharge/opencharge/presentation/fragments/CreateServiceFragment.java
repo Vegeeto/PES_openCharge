@@ -339,6 +339,7 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
             return;
         }
 
+        Toast.makeText(getActivity(), "Guardant les dades", Toast.LENGTH_SHORT).show();
         getServiceCreateUseCase.execute();
     }
 
