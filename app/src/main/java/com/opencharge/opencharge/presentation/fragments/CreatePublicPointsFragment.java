@@ -22,6 +22,8 @@ import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -36,6 +38,8 @@ public class CreatePublicPointsFragment extends Fragment {
     private EditText editSchedule;
     private RadioGroup rdgAcces;
     private RadioGroup rdgTipus;
+    private RadioGroup rdgTipus2;
+    private RadioGroup rdgTipus3;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +51,9 @@ public class CreatePublicPointsFragment extends Fragment {
         editNumber = (EditText) view.findViewById(R.id.Number);
         editSchedule = (EditText) view.findViewById(R.id.Horari);
         rdgAcces = (RadioGroup) view.findViewById(R.id.Public_or_private);
-        rdgTipus = (RadioGroup) view.findViewById(R.id.tipus_connector);
+        rdgTipus = (RadioGroup) view.findViewById(R.id.tipus_connector_1);
+        rdgTipus2 = (RadioGroup) view.findViewById(R.id.tipus_connector_2);
+        rdgTipus3 = (RadioGroup) view.findViewById(R.id.tipus_connector_3);
 
         rdgAcces.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -58,6 +64,20 @@ public class CreatePublicPointsFragment extends Fragment {
         });
 
         rdgTipus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                amagarTeclat();
+            }
+        });
+        rdgTipus2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                amagarTeclat();
+            }
+        });
+        rdgTipus3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             public void onCheckedChanged(RadioGroup group, int checkedId)
             {
@@ -126,6 +146,7 @@ public class CreatePublicPointsFragment extends Fragment {
             accesType = "Particular";
         }
         //Log.d("CrearPunt","accestype: "+accesType);
+        List<String> connectorTypeList = new ArrayList<>();
         String connectorType;
         switch(rdgTipus.getCheckedRadioButtonId()) {
             case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
@@ -133,6 +154,23 @@ public class CreatePublicPointsFragment extends Fragment {
             case R.id.Rapid: connectorType = Point.RAPID_CONNECTOR; break;
             default: connectorType = Point.UNKNOWN_CONNECTOR; break;
         }
+        connectorTypeList.add(0, connectorType);
+
+        switch(rdgTipus2.getCheckedRadioButtonId()) {
+            case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
+            case R.id.Fast: connectorType = Point.FAST_CONNECTOR; break;
+            case R.id.Rapid: connectorType = Point.RAPID_CONNECTOR; break;
+            default: connectorType = Point.UNKNOWN_CONNECTOR; break;
+        }
+        connectorTypeList.add(1, connectorType);
+
+        switch(rdgTipus3.getCheckedRadioButtonId()) {
+            case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
+            case R.id.Fast: connectorType = Point.FAST_CONNECTOR; break;
+            case R.id.Rapid: connectorType = Point.RAPID_CONNECTOR; break;
+            default: connectorType = Point.UNKNOWN_CONNECTOR; break;
+        }
+        connectorTypeList.add(2, connectorType);
         
         //Log.d("CrearPunt","connector: "+connectorType);
         //Log.d("CrearPunt","Pre llamada usecase");
@@ -156,8 +194,11 @@ public class CreatePublicPointsFragment extends Fragment {
             Toast.makeText(getActivity(), "Adreça invàlida", Toast.LENGTH_SHORT).show();
             return;
         }
-        //getCreatePointsUseCase.setPointParameters(1.0,1.0, "a","a","a","a","a","a");
-        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorType,schedule);
+        List<String> TEST = new ArrayList<String>();
+        TEST.add(connectorType);
+        TEST.add(Point.SLOW_CONNECTOR);
+
+        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorTypeList,schedule);
         getCreatePointsUseCase.execute();
 
     }
