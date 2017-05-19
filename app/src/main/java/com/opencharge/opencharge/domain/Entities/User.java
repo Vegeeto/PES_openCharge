@@ -12,6 +12,7 @@ public class User {
 
     private String email;
     private String username;
+    private String profilepic;
     private Integer minutes;
     private ArrayList<Pair<String,String>> punts;
     private ArrayList<Pair<String,String>> puntsReservats;
@@ -24,6 +25,8 @@ public class User {
         this.username = username;
     }
 
+    public void setProfilepic(String profilepic) { this.profilepic = profilepic; }
+
     public void setMinutes(Integer minutes) {
         this.minutes = minutes;
     }
@@ -35,6 +38,8 @@ public class User {
     public void setPuntsReservats(ArrayList<Pair<String, String>> puntsReservats) {
         this.puntsReservats = puntsReservats;
     }
+
+    public String getProfilepic() { return profilepic; }
 
     public void addPunt(Pair<String, String> punt){
         boolean trobat=false;
