@@ -65,9 +65,8 @@ public class SignInActivity extends AppCompatActivity  {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
-
-                  Intent i = new Intent(getApplicationContext(),NavigationActivity.class );
+                    // User is signed i
+                    Intent i = new Intent(getApplicationContext(), NavigationActivity.class );
                     startActivity(i);
                     Log.d("Sign in", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
@@ -102,6 +101,7 @@ public class SignInActivity extends AppCompatActivity  {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            Log.e("Sign in result: ", "" + result.isSuccess());
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
@@ -146,11 +146,12 @@ public class SignInActivity extends AppCompatActivity  {
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        // ...
+                        //TODO: Get Current User Data
                     }
                 });
     }
 
+    //To close sessios: FirebaseAuth.getInstance().signOut();
 
 }
 
