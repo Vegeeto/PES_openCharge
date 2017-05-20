@@ -45,9 +45,9 @@ public class FirebaseServiceParser extends AbstractParser implements ServicePars
 
     @Override
     public Map<String, Object> serializeService(Service service) {
-        String day = new SimpleDateFormat(DAY_FORMAT).format(service.getDay());
-        String startHour = new SimpleDateFormat(HOUR_FORMAT).format(service.getStartHour());
-        String endHour = new SimpleDateFormat(HOUR_FORMAT).format(service.getEndHour());
+        String day = serializeServiceDay(service.getDay());
+        String startHour = serializeServiceHour(service.getStartHour());
+        String endHour = serializeServiceHour(service.getEndHour());
 
         HashMap<String, Object> result = new HashMap<>();
         result.put(DAY_KEY, day);
@@ -55,5 +55,15 @@ public class FirebaseServiceParser extends AbstractParser implements ServicePars
         result.put(END_HOUR_KEY, endHour);
 
         return result;
+    }
+
+    @Override
+    public String serializeServiceHour(Date hour) {
+        return new SimpleDateFormat(HOUR_FORMAT).format(hour);
+    }
+
+    @Override
+    public String serializeServiceDay(Date day) {
+        return new SimpleDateFormat(DAY_FORMAT).format(day);
     }
 }

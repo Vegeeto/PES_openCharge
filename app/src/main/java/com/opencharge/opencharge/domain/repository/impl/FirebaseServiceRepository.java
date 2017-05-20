@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.opencharge.opencharge.domain.Entities.Service;
 import com.opencharge.opencharge.domain.parsers.ServiceParser;
@@ -74,7 +75,11 @@ public class FirebaseServiceRepository implements ServiceRepository {
         myRef = myRef.child(point_id);
         myRef = myRef.child("Services");
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        String serializedDay = serviceParser.serializeServiceDay(day);
+        Query queryRef = myRef.orderByChild("day").equalTo(serializedDay);
+
+
+        queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
