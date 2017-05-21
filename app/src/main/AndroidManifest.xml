@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -40,7 +41,7 @@
 
 
         <activity
-            android:name="presentation.activities.SignInActivity"
+            android:name=".presentation.activities.SignInActivity"
             android:label="@string/title_activity_sign_in1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
