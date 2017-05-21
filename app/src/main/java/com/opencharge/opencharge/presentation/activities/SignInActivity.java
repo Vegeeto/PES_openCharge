@@ -1,5 +1,8 @@
 package com.opencharge.opencharge.presentation.activities;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.presentation.locators.GoogleApiLocator;
 
 /**
  * Created by Usuario on 03/05/2017.
@@ -44,7 +48,7 @@ public class SignInActivity extends AppCompatActivity  {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                //.requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mAuth = FirebaseAuth.getInstance();
@@ -60,12 +64,15 @@ public class SignInActivity extends AppCompatActivity  {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+        GoogleApiLocator.getInstance(mGoogleApiClient);
+        
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed i
+                    // User is signed in
+                    //createUserInFirebaseHelper();
                     Intent i = new Intent(getApplicationContext(), NavigationActivity.class );
                     startActivity(i);
                     Log.d("Sign in", "onAuthStateChanged:signed_in:" + user.getUid());
@@ -83,7 +90,12 @@ public class SignInActivity extends AppCompatActivity  {
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                signIn();
+                if (isNetworkAvailable()){
+                    signIn();
+                }else {
+                    Toast.makeText(SignInActivity.this, "Oops! no internet connection!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -128,10 +140,10 @@ public class SignInActivity extends AppCompatActivity  {
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d("FirebaseAuthGoogle", "firebaseAuthWithGoogle:" + acct.getId());
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount account) {
+        Log.d("FirebaseAuthGoogle", "firebaseAuthWithGoogle:" + account.getId());
 
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -145,13 +157,35 @@ public class SignInActivity extends AppCompatActivity  {
                             Log.w("signInWithCredential", "signInWithCredential", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            //Get Current User Data
+                            String idToken = account.getIdToken();
+                            String name = account.getDisplayName();
+                            String email = account.getEmail();
+                            String photoUri = account.getPhotoUrl().toString();
+                            // TODO: Save Data to Firebase
+
+
+                            Toast.makeText(SignInActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
                         }
-                        //TODO: Get Current User Data
                     }
                 });
     }
 
-    //To close sessios: FirebaseAuth.getInstance().signOut();
+
+    private boolean isNetworkAvailable() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
+    }
 
 }
 
