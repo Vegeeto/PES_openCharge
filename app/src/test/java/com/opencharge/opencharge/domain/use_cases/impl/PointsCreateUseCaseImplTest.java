@@ -58,11 +58,11 @@ public class PointsCreateUseCaseImplTest {
         String street = "streetTest";
         String number = "numberTest";
         String accessType = "accessTypeTest";
-        String connectorType = "connectorTypeTest";
+        //String connectorType = "connectorTypeTest";
         String schedule = "scheduleTest";
 
         //When
-        sut.setPointParameters(lat,lon,town,street,number,accessType,connectorType,schedule);
+        sut.setPointParameters(lat,lon,town,street,number,accessType,/*connectorType*/ null,schedule);
         sut.run();
 
         //Then
@@ -80,7 +80,7 @@ public class PointsCreateUseCaseImplTest {
         String accessType = "accessTypeTest";
         String connectorType = "connectorTypeTest";
         String schedule = "scheduleTest";
-        sut.setPointParameters(lat,lon,town,street,number,accessType,connectorType,schedule);
+        sut.setPointParameters(lat,lon,town,street,number,accessType,/*connectorType*/null,schedule);
         sut.run();
         //verify(mockPointsRepository).createPoint(any(Point.class),repositoryCallbackCaptor.capture());
 

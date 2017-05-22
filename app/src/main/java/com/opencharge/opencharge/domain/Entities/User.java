@@ -9,13 +9,52 @@ import java.util.ArrayList;
  */
 
 public class User {
-
+    private String name;
+    private String photo;
+    private String password;
     private String email;
     private String username;
     private String profilepic;
     private Integer minutes;
-    private ArrayList<Pair<String,String>> punts;
+    private ArrayList<Pair<String,String>> puntsCreats;
     private ArrayList<Pair<String,String>> puntsReservats;
+
+    public User() {
+
+    }
+
+    public User (String name, String photo, String password, String email, ArrayList<Pair<String,String>> puntsCreats, ArrayList<Pair<String,String>> puntsReservats) {
+        this.name = name;
+        this.photo = photo;
+        this.password = password;
+        this.email = email;
+        this.puntsCreats = puntsCreats;
+        this.puntsReservats = puntsReservats;
+    }
+
+    public String getName () {
+        return name;
+    }
+
+    public String getPhoto () {
+        return photo;
+    }
+
+    public String getPassword () {
+        return password;
+    }
+
+    public String getEmail () {
+        return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Integer getMinutes() {
+        return minutes;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -32,7 +71,7 @@ public class User {
     }
 
     public void setPunts(ArrayList<Pair<String, String>> punts) {
-        this.punts = punts;
+        this.puntsCreats = punts;
     }
 
     public void setPuntsReservats(ArrayList<Pair<String, String>> puntsReservats) {
@@ -42,72 +81,59 @@ public class User {
     public String getProfilepic() { return profilepic; }
 
     public void addPunt(Pair<String, String> punt){
-        boolean trobat=false;
-        for(int i=0;i<punts.size();i++) {
-            if (punts.get(i).first.equals(punt.first)) {
+        boolean trobat = false;
+        for (int i = 0; i < puntsCreats.size(); i++) {
+            if (puntsCreats.get(i).first.equals(punt.first)) {
                 trobat = true;
             }
         }
-        if(!trobat) {
-            punts.add(punt);
+        if (!trobat) {
+            puntsCreats.add(punt);
         }
     }
 
     public void removePunt(String codipunt){
-        boolean trobat=false;
+        boolean trobat = false;
         int index = 0;
-        for(int i=0;i<punts.size();i++){
-            if(punts.get(i).first.equals(codipunt)){
+        for (int i = 0; i < puntsCreats.size(); i++){
+            if (puntsCreats.get(i).first.equals(codipunt)){
                 trobat=true;
                 index = i;
             }
         }
-        if(trobat) {
-            punts.remove(index);
+        if (trobat) {
+            puntsCreats.remove(index);
         }
     }
 
     public void addPuntReservat(Pair<String, String> punt){
-        boolean trobat=false;
-        for(int i=0;i<puntsReservats.size();i++) {
+        boolean trobat = false;
+        for (int i = 0; i < puntsReservats.size(); i++) {
             if (puntsReservats.get(i).first.equals(punt.first)) {
                 trobat = true;
             }
         }
-        if(!trobat) {
+        if (!trobat) {
             puntsReservats.add(punt);
         }
     }
 
     public void removePuntReservat(String codipunt){
-        boolean trobat=false;
+        boolean trobat = false;
         int index = 0;
-        for(int i=0;i<puntsReservats.size();i++){
-            if(puntsReservats.get(i).first.equals(codipunt)){
-                trobat=true;
+        for (int i = 0; i < puntsReservats.size(); i++){
+            if (puntsReservats.get(i).first.equals(codipunt)){
+                trobat = true;
                 index = i;
             }
         }
-        if(trobat) {
+        if (trobat) {
             puntsReservats.remove(index);
         }
     }
 
-    public String getEmail() {
-
-        return email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public Integer getMinutes() {
-        return minutes;
-    }
-
     public ArrayList<Pair<String, String>> getPunts() {
-        return punts;
+        return puntsCreats;
     }
 
     public ArrayList<Pair<String, String>> getPuntsReservats() {

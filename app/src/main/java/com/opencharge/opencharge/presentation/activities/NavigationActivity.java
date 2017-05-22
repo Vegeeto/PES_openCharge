@@ -1,7 +1,9 @@
 package com.opencharge.opencharge.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -19,9 +21,17 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.SignInAccount;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment;
 import com.opencharge.opencharge.presentation.fragments.MapsFragment;
+import com.opencharge.opencharge.presentation.locators.GoogleApiLocator;
 
 
 public class NavigationActivity extends AppCompatActivity
@@ -101,9 +111,9 @@ public class NavigationActivity extends AppCompatActivity
         android.app.FragmentManager fm = getFragmentManager();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        //startActivity(new Intent(NavigationActivity.this,SignInActivity.class ));
         if (id == R.id.nav_maps) {
-            fm.beginTransaction().replace(R.id.content_frame, new MapsFragment(), "MAPS_FRAGMENT").commit();
+            fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
         } else if (id == R.id.nav_newpoint) {
             fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
         } else if (id == R.id.nav_share) {
@@ -115,6 +125,21 @@ public class NavigationActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    private void signOut(){
+        FirebaseAuth.getInstance().signOut();
+        GoogleApiClient mGoogleApiClient = GoogleApiLocator.getInstance(null).getGoogleApiClient();
+        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        Intent intent = new Intent(NavigationActivity.this, SignInActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
 }

@@ -8,6 +8,12 @@ import com.opencharge.opencharge.domain.Entities.User;
 
 public interface UsersRepository {
 
+     public interface CreateUserCallback {
+        public void onUserCreated(String id);
+
+        public void onError();
+    }
+
     public interface GetUserByIdCallback {
         public void onUserRetrieved(User user);
 

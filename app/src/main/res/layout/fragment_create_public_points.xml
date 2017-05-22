@@ -225,14 +225,10 @@
                 android:layout_height="match_parent"
                 android:textSize="24sp"
                 android:layout_marginStart="16dp"
-                android:textColor="@color/black"
                 android:text="@string/conector"
+                android:textColor="@color/black"
                 android:gravity="start"
                 android:layout_weight="2"
-                android:gravity="start"
-                android:text="@string/conector"
-                android:textColor="@color/black"
-                android:textSize="24sp"
                 tools:text="Conector (max 3)" />
         </LinearLayout>
 
