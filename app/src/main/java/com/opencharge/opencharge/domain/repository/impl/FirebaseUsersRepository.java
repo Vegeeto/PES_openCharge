@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.opencharge.opencharge.domain.Entities.FirebaseUser;
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.parsers.UsersParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebaseUsersParser;
@@ -48,6 +49,22 @@ public class FirebaseUsersRepository implements UsersRepository {
         });
     }
 
+    @Override
+    public void createUser(FirebaseUser user, final CreateUserCallback callback) {
+        DatabaseReference myRef = database.getReference("Users");
+        myRef.push().setValue(user, new DatabaseReference.CompletionListener() {
+
+            @Override
+            public void onComplete(DatabaseError de, DatabaseReference dr) {
+                Log.d("CrearPunt","Record saved!");
+                String postId = dr.getKey();
+                callback.onUserCreated(postId);
+            }
+
+            ;
+        });
+    }
+
     private User parseUserFromSnapshot(DataSnapshot snapshot) {
         if (snapshot.getValue() instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
@@ -56,6 +73,7 @@ public class FirebaseUsersRepository implements UsersRepository {
         }
         return null;
     }
+
 
 
 }

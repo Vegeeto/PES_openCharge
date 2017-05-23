@@ -19,8 +19,14 @@ public class User {
     private ArrayList<Pair<String,String>> puntsCreats;
     private ArrayList<Pair<String,String>> puntsReservats;
 
+    public String id;
+
     public User() {
 
+    }
+
+    public User(String id) {
+        this.id = id;
     }
 
     public User (String name, String photo, String password, String email, ArrayList<Pair<String,String>> puntsCreats, ArrayList<Pair<String,String>> puntsReservats) {
@@ -65,6 +71,10 @@ public class User {
     }
 
     public void setProfilepic(String profilepic) { this.profilepic = profilepic; }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public void setMinutes(Integer minutes) {
         this.minutes = minutes;

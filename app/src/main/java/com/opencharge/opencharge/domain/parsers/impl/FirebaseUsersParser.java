@@ -10,20 +10,16 @@ import java.util.Map;
  */
 
 public class FirebaseUsersParser implements UsersParser {
-    public static final double COORDINATES_PRECISION = 0.0001;
 
-    public static final String TOWN_KEY = "town";
-    public static final String STREET_KEY = "street";
-    public static final String NUMBER_KEY = "number";
-    public static final String LON_KEY = "lon";
-    public static final String LAT_KEY = "lat";
-    public static final String ACCESS_TYPE_KEY = "accessType";
-    public static final String CONNECTOR_TYPE_KEY = "connectorType";
-    public static final String SCHEDULE_KEY = "schedule";
+    public static final String USERNAME_KEY = "username";
+    public static final String PASSWORD_KEY = "password";
+    public static final String PHOTO_KEY = "photo";
+    public static final String EMAIL_KEY = "email";
+    public static final String MINUTES_KEY = "minutes";
 
     @Override
     public User parseFromMap(String key, Map<String, Object> map) {
-        User user = new User();
+        User user = new User(key);
 
         //TODO aquesta part, i la resta també, s'ha d'emplenar correctament quan es sàpiga com es guarden els usuaris al firebase
         /*
