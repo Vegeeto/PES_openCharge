@@ -31,7 +31,6 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
     private Date lastRepeat;
 
 
-
     public ServiceCreateUseCaseImpl(Executor threadExecutor,
                                     MainThread mainThread,
                                     ServiceRepository serviceRepository,
@@ -48,8 +47,7 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
         boolean onlyOneService = (lastRepeat == null || repetitions.size() == 0);
         if (onlyOneService) {
             createServiceForDay(day);
-        }
-        else {
+        } else {
             createRepeatedServices();
         }
     }
@@ -70,16 +68,19 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
     }
 
     private void createRepeatedServices() {
+        Log.d("ServiceCreateUseCase", "createRepeatedServices");
         ArrayList<Service> services = new ArrayList<>();
         Date currentDay = day;
         while (currentDay.before(lastRepeat)) {
             int dayOfWeek = getDayOfWeekForDate(currentDay);
             if (repetitions.get(dayOfWeek)) {
-                Service newService = new Service(currentDay, startHour, endHour);
+                Date serviceDay = new Date(currentDay.getTime());
+                Service newService = new Service(serviceDay, startHour, endHour);
                 services.add(newService);
             }
             incrementOneDayToDate(currentDay);
         }
+        Log.d("ServiceCreateUseCase", "createRepeatedServices: " + services);
 
         Service[] servicesArray = (Service[]) services.toArray();
         serviceRepository.createServices(pointId, servicesArray, new ServiceRepository.CreateServicesCallback() {
@@ -136,37 +137,37 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
 
     @Override
     public void setRepeatMonday() {
-        repetitions.put(0, true);
+        repetitions.put(Calendar.MONDAY, true);
     }
 
     @Override
     public void setRepeatTuesday() {
-        repetitions.put(1, true);
+        repetitions.put(Calendar.TUESDAY, true);
     }
 
     @Override
     public void setRepeatWednesday() {
-        repetitions.put(2, true);
+        repetitions.put(Calendar.WEDNESDAY, true);
     }
 
     @Override
     public void setRepeatThursday() {
-        repetitions.put(3, true);
+        repetitions.put(Calendar.THURSDAY, true);
     }
 
     @Override
     public void setRepeatFriday() {
-        repetitions.put(4, true);
+        repetitions.put(Calendar.FRIDAY, true);
     }
 
     @Override
     public void setRepeatSaturday() {
-        repetitions.put(5, true);
+        repetitions.put(Calendar.SATURDAY, true);
     }
 
     @Override
     public void setRepeatSunday() {
-        repetitions.put(6, true);
+        repetitions.put(Calendar.SUNDAY, true);
     }
 
     @Override
