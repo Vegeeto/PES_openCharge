@@ -28,6 +28,12 @@ public class DateConversionImpl implements DateConversion {
     }
 
     @Override
+    public String ConvertLongToDateFormat(long time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(time);
+    }
+
+    @Override
     public Date ConvertStringToDate(String dateString){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {

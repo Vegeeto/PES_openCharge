@@ -1,29 +1,35 @@
 package com.opencharge.opencharge.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment;
 import com.opencharge.opencharge.presentation.fragments.CreateServiceFragment;
-import com.opencharge.opencharge.presentation.fragments.DaysPagerFragment;
 import com.opencharge.opencharge.presentation.fragments.MapsFragment;
+import com.opencharge.opencharge.presentation.locators.GoogleApiLocator;
 
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +66,6 @@ public class NavigationActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 
@@ -70,7 +75,7 @@ public class NavigationActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        //startActivity(new Intent(NavigationActivity.this,SignInActivity.class ));
         if (id == R.id.nav_maps) {
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
         } else if (id == R.id.nav_newpoint) {
@@ -86,6 +91,21 @@ public class NavigationActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    private void signOut(){
+        FirebaseAuth.getInstance().signOut();
+        GoogleApiClient mGoogleApiClient = GoogleApiLocator.getInstance(null).getGoogleApiClient();
+        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        Intent intent = new Intent(NavigationActivity.this, SignInActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
 }

@@ -1,6 +1,7 @@
 package com.opencharge.opencharge.domain.repository;
 
 import com.opencharge.opencharge.domain.Entities.Comment;
+import com.opencharge.opencharge.domain.Entities.FirebaseComment;
 
 /**
  * Created by DmnT on 26/04/2017.
@@ -14,20 +15,18 @@ public interface CommentsRepository {
     }
 
     interface GetCommentByIdCallback {
-        void onPointRetrieved(Comment comment);
+        void onCommentRetrieved(Comment comment);
         void onError();
     }
 
     interface CreateCommentCallback {
         void onCommentCreated(String id);
-
         void onError();
     }
 
 
-    void createComment(String point_id, Comment comment, final CreateCommentCallback callback);
+    void createComment(String point_id, FirebaseComment comment, final CreateCommentCallback callback);
 
     void getComments(String point_id, final GetCommentsCallback callback);
 
-    //void getCommentById(String commentId, final GetCommentByIdCallback callback);
 }

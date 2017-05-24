@@ -80,7 +80,7 @@ public class FirebaseCommentsParserTest {
         Comment c = sut.parseFromMap(key, map);
 
         //Then
-        assertEquals("Wrong parsed date", time, c.getData().getTime());
+        assertEquals("Wrong parsed date", time, c.getData());
     }
 
 }

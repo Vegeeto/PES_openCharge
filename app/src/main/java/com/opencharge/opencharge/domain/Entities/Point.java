@@ -6,6 +6,7 @@ import com.opencharge.opencharge.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.List;
 
 /**
  * Created by Crjs on 24/03/2017.
@@ -41,7 +42,8 @@ public class Point {
     public String number;
 
     public @Point.AccessType String accessType;
-    public @Point.ConnectorType String connectorType;
+    //private @Point.ConnectorType String connectorType;
+    public List<String> connectorTypeList;
     public String schedule;
 
     //Empty constructor needed for Firebase
@@ -80,9 +82,11 @@ public class Point {
         return accessType;
     }
 
-    public @ConnectorType String getConnectorType() {
+    public List<String> getConnectorTypeList() {return connectorTypeList;}
+
+    /*public @ConnectorType String getConnectorType() {
         return connectorType;
-    }
+    }*/
 
     public String getSchedule() {
         return schedule;
@@ -112,8 +116,11 @@ public class Point {
         this.accessType = accessType;
     }
 
-    public void setConnectorType(@ConnectorType String connectorType) {
+    /*public void setConnectorType(@ConnectorType String connectorType) {
         this.connectorType = connectorType;
+    }*/
+    public void setConnectorTypeList(List<String> connectorTypeList) {
+        this.connectorTypeList = connectorTypeList;
     }
 
     public void setSchedule(String schedule) {
@@ -130,7 +137,7 @@ public class Point {
                 ", street='" + street + '\'' +
                 ", number='" + number + '\'' +
                 ", accessType=" + accessType +
-                ", connectorType='" + connectorType + '\'' +
+                ", connectorTypeList[0]='" + connectorTypeList.get(0) + '\'' +
                 ", schedule='" + schedule + '\'' +
                 '}';
     }

@@ -37,10 +37,7 @@ public class Comment {
     public String getText() {
         return text;
     }
-    public Date getData() {
-        DateConversion dateConversion = new DateConversionImpl();
-        return dateConversion.StringToDate(data);
-    }
+    public String getData() { return data; }
 
     public void setId(String id){ this.id = id; }
     public void setAutor(String autor) {

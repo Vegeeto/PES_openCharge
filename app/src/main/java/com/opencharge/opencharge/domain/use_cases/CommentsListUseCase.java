@@ -12,5 +12,5 @@ public interface CommentsListUseCase extends UseCase {
         void onCommentsRetrieved(Comment[] comments);
     }
 
-    void setCommentId(String commentId);
+    void setPointId(String pointId);
 }

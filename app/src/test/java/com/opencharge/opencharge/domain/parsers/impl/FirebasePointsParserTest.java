@@ -37,7 +37,7 @@ public class FirebasePointsParserTest {
         map.put(FirebasePointsParser.LON_KEY, 3.2222);
         map.put(FirebasePointsParser.LAT_KEY, 2.3333);
         map.put(FirebasePointsParser.ACCESS_TYPE_KEY, Point.PUBLIC_ACCESS);
-        map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, Point.SLOW_CONNECTOR);
+        //map.put(FirebasePointsParser.CONNECTOR_TYPE_KEY, Point.SLOW_CONNECTOR);
         map.put(FirebasePointsParser.SCHEDULE_KEY, "some schedule");
     }
 
@@ -110,7 +110,7 @@ public class FirebasePointsParserTest {
         assertEquals("Wrong parsed accessType", Point.UNKNOWN_ACCESS, p.getAccessType());
     }
     //</editor-fold>
-
+/*
     //<editor-fold desc="ConnectorType tests">
     @Test
     public void testMapWithSlowConnector_parseFromMap_createPointWithCorrectConnectorType() {
@@ -180,7 +180,7 @@ public class FirebasePointsParserTest {
         assertEquals("Wrong parsed lat", 2.3333, p.getLatCoord(), FirebasePointsParser.COORDINATES_PRECISION);
         assertEquals("Wrong parsed lon", 3.2222, p.getLonCoord(), FirebasePointsParser.COORDINATES_PRECISION);
     }
-
+*/
     @Test
     public void testMapWithoutLatAndLon_parseFromMap_createPointWithCorrectConnectorType() {
         //Given

@@ -4,10 +4,13 @@ import android.content.Context;
 import android.util.Log;
 
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
+import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
+import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
+import com.opencharge.opencharge.domain.use_cases.impl.CommentsListUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
@@ -17,6 +20,7 @@ import com.opencharge.opencharge.domain.use_cases.impl.PointsListUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReserveCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ServiceCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ServiceListByPointAndDayUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.UserByIdUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserLocationUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.AddCommentUseCaseImpl;
 
@@ -80,6 +84,24 @@ public class UseCasesLocator {
         return new AddCommentUseCaseImpl(
                 sl.getExecutor(),
                 sl.getMainThread(),
+                RepositoriesLocator.getInstance().getCommentsRepository(),
+                callback
+        );
+    }
+
+    public UserByIdUseCase getUserByIdUseCase(UserByIdUseCase.Callback callback) {
+        return new UserByIdUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getUsersRepository(),
+                callback
+        );
+    }
+
+    public CommentsListUseCase getCommentsListUseCase(CommentsListUseCase.Callback callback) {
+        return new CommentsListUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
                 RepositoriesLocator.getInstance().getCommentsRepository(),
                 callback
         );

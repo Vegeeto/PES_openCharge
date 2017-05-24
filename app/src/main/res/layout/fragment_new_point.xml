@@ -7,269 +7,296 @@
 
     <!-- TODO: Material Design => VICTOR -->
     <ScrollView
-        android:layout_height="fill_parent"
+        android:id="@+id/scrollView"
         android:layout_width="fill_parent"
-        android:id="@+id/scrollView">
-        <LinearLayout
+        android:layout_height="fill_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/widget33"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            >
-        <LinearLayout
-            android:id="@+id/Afegir_layout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:background="@color/yellow"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="24sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:text="@string/afegir_punt_carrega"
-                android:gravity="center"
-                android:layout_weight="2" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/Direccio_layout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:paddingTop="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="24sp"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/black"
-                android:text="@string/direccio"
-                android:gravity="start"
-                android:layout_weight="2" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/Poblacio_layout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/Poblacio"
-                android:inputType="text"
-                android:hint= "@string/poblacio"
-                android:textColorHint="@color/grey_hint"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:gravity="start"
-                android:layout_marginStart="16dp"
-                android:layout_weight="2" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/Lloc_layout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/Street"
-                android:layout_width="0dp"
-                android:inputType="text"
-                android:hint= "@string/carrer"
-                android:textColorHint="@color/grey_hint"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginStart="16dp"
-                android:layout_weight="2"/>
-
-            <EditText
-                android:id="@+id/Number"
-                android:layout_width="0dp"
-                android:inputType="number"
-                android:hint= "@string/numero"
-                android:textColorHint="@color/grey_hint"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginStart="16dp"
-                android:layout_weight="2" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/Acces_layout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:paddingTop="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="24sp"
-                android:textColor="@color/black"
-                android:layout_marginStart="16dp"
-                android:text="@string/acces"
-                android:gravity="start"
-                android:layout_weight="2" />
-
-        </LinearLayout>
-
-        <RadioGroup
-            android:id="@+id/Public_or_private"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <RadioButton
-                android:id="@+id/Public"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginEnd="32dp"
-                android:checked="false"
-                android:text="@string/publics" />
-
-            <RadioButton
-                android:id="@+id/Privat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:checked="false"
-                android:layout_marginEnd="16dp"
-                android:text="@string/privat" />
-
-            <RadioButton
-                android:id="@+id/Particular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:checked="false"
-                android:text="@string/particular" />
-
-        </RadioGroup>
-
-        <LinearLayout
-            android:id="@+id/Horari_layout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:paddingTop="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="24sp"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/black"
-                android:text="@string/horari"
-                android:gravity="start"
-                android:layout_weight="2" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/Horari_text"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/Horari"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:textSize="20sp"
-                android:layout_marginStart="16dp"
-                android:gravity="start"
-                android:layout_weight="2" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/Conector"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="0dp"
-            android:paddingTop="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="24sp"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/black"
-                android:text="@string/conector"
-                android:gravity="start"
-                android:layout_weight="2" />
-        </LinearLayout>
-
-        <RadioGroup
-            android:id="@+id/tipus_connector"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:gravity="center"
             android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/Slow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginBottom="16dp"
-                android:checked="false"
+            <LinearLayout
+                android:id="@+id/Afegir_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/afegir_punt_carrega"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Direccio_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:text="@string/direccio"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Poblacio_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/Poblacio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:hint="@string/poblacio"
+                    android:inputType="text"
+                    android:textColorHint="@color/grey_hint"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Lloc_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
                 android:gravity="center"
-                android:drawableStart="@mipmap/slow_acces"
-                android:text="@string/slow" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/Street"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="2"
+                    android:hint="@string/carrer"
+                    android:inputType="text"
+                    android:textColorHint="@color/grey_hint"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/Number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="2"
+                    android:hint="@string/numero"
+                    android:inputType="number"
+                    android:textColorHint="@color/grey_hint"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Acces_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:text="@string/acces"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/Public_or_private"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/Public"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:checked="false"
+                    android:text="@string/publics"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/Privat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:text="@string/privat"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/Particular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/particular"
+                    android:textSize="20sp" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/Horari_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:text="@string/horari"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Horari_text"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/Horari"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Conector"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="24sp"
+                android:layout_marginStart="16dp"
+                android:text="@string/conector"
+                android:textColor="@color/black"
+                android:gravity="start"
+                android:layout_weight="2"
+                tools:text="Conector (max 3)" />
+        </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/connector_type_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/connector_type_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RadioGroup
+                        android:id="@+id/tipus_connector_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
 
-            <RadioButton
-                android:id="@+id/Fast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:checked="false"
-                android:gravity="center"
-                android:drawableStart="@mipmap/fast_acces"
-                android:layout_marginBottom="16dp"
-                android:text="@string/fast" />
+                        <RadioButton
+                            android:id="@+id/Fast"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="16dp"
+                            android:checked="false"
+                            android:drawableStart="@mipmap/fast_acces"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:text="@string/fast"
+                            android:textSize="20sp" />
 
-            <RadioButton
-                android:id="@+id/Rapid"
+                        <RadioButton
+                            android:id="@+id/Rapid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="16dp"
+                            android:checked="false"
+                            android:drawableStart="@mipmap/rapid_acces"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:text="@string/rapid"
+                            android:textSize="20sp" />
+
+                        <RadioButton
+                            android:id="@+id/Slow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="16dp"
+                            android:checked="false"
+                            android:drawableStart="@mipmap/slow_acces"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:text="@string/slow"
+                            android:textSize="20sp" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/add_more_connectors_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:checked="false"
-                android:gravity="center"
-                android:drawableStart="@mipmap/rapid_acces"
-                android:text="@string/rapid" />
-        </RadioGroup>
+                android:text="+" />
 
         <LinearLayout
             style="@android:style/ButtonBar"
@@ -279,25 +306,25 @@
             android:background="@color/white"
             android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/GuardarBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:layout_weight="1"
-                android:text="@string/guardar" />
+                <Button
+                    android:id="@+id/GuardarBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/guardar"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    />
 
-            <Button
-                android:id="@+id/CancelarBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:layout_weight="1"
-                android:text="@string/cancelar" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/CancelarBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/cancelar"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

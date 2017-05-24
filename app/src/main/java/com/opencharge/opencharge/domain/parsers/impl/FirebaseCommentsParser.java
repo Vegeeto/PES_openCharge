@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class FirebaseCommentsParser extends AbstractParser implements CommentsParser {
 
-    public static final String AUTHOR_KEY = "author";
+    public static final String AUTHOR_KEY = "autor";
     public static final String TEXT_KEY = "text";
-    public static final String DATE_KEY = "date";
+    public static final String DATE_KEY = "data";
 
 
     @Override

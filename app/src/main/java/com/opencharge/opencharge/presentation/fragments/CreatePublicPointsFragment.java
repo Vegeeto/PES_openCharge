@@ -6,11 +6,15 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -24,6 +28,8 @@ import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -38,28 +44,25 @@ public class CreatePublicPointsFragment extends Fragment {
     private EditText editSchedule;
     private RadioGroup rdgAcces;
     private RadioGroup rdgTipus;
-    
+    private LinearLayout connectorTypeLayout;
+    private LinearLayout connectorTypeLayourParent;
+    private Button addMoreConnectors;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_point, container, false);
+        final View view = inflater.inflate(R.layout.fragment_new_point, container, false);
         final Button saveButton = (Button) view.findViewById(R.id.GuardarBtn);
         editTown = (EditText) view.findViewById(R.id.Poblacio);
         editStreet = (EditText) view.findViewById(R.id.Street);
         editNumber = (EditText) view.findViewById(R.id.Number);
         editSchedule = (EditText) view.findViewById(R.id.Horari);
         rdgAcces = (RadioGroup) view.findViewById(R.id.Public_or_private);
-        rdgTipus = (RadioGroup) view.findViewById(R.id.tipus_connector);
+        connectorTypeLayout = (LinearLayout) view.findViewById(R.id.connector_type_layout);
+        addMoreConnectors = (Button) view.findViewById(R.id.add_more_connectors_button);
+        connectorTypeLayourParent = (LinearLayout) view.findViewById(R.id.connector_type_parent);
 
         rdgAcces.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            public void onCheckedChanged(RadioGroup group, int checkedId)
-            {
-                amagarTeclat();
-            }
-        });
-
-        rdgTipus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             public void onCheckedChanged(RadioGroup group, int checkedId)
             {
@@ -75,7 +78,7 @@ public class CreatePublicPointsFragment extends Fragment {
             }
         });
 
-        Button cancelButton = (Button) view.findViewById(R.id.CancelarBtn);
+        final Button cancelButton = (Button) view.findViewById(R.id.CancelarBtn);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 amagarTeclat();
@@ -131,16 +134,28 @@ public class CreatePublicPointsFragment extends Fragment {
             accesType = "Particular";
         }
         //Log.d("CrearPunt","accestype: "+accesType);
+        int childCount = connectorTypeLayourParent.getChildCount();
+        Log.d("SAVE-POINT", "Count: "+childCount);
+        int lastIndexInserted = 0;
+        List<String> connectorTypeList = new ArrayList<>();
         String connectorType;
-        switch(rdgTipus.getCheckedRadioButtonId()) {
-            case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
-            case R.id.Fast: connectorType = Point.FAST_CONNECTOR; break;
-            case R.id.Rapid: connectorType = Point.RAPID_CONNECTOR; break;
-            default: connectorType = Point.UNKNOWN_CONNECTOR; break;
+        for (int i = 0; i < childCount; i++) {
+            LinearLayout linearLayoutChild = (LinearLayout) connectorTypeLayourParent.getChildAt(i);
+            for(int j = 0; j < linearLayoutChild.getChildCount(); ++j) {
+                RadioGroup rdgbuton = (RadioGroup) linearLayoutChild.getChildAt(j);
+                if(rdgbuton instanceof RadioGroup) {
+                    switch(rdgbuton.getCheckedRadioButtonId()) {
+                        case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
+                        case R.id.Fast: connectorType = Point.FAST_CONNECTOR; break;
+                        case R.id.Rapid: connectorType = Point.RAPID_CONNECTOR; break;
+                        default: connectorType = Point.UNKNOWN_CONNECTOR; break;
+                    }
+                    connectorTypeList.add(lastIndexInserted, connectorType);
+                    ++lastIndexInserted;
+                }
+            }
+
         }
-        
-        //Log.d("CrearPunt","connector: "+connectorType);
-        //Log.d("CrearPunt","Pre llamada usecase");
         
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(new PointsCreateUseCase.Callback(){
@@ -161,8 +176,8 @@ public class CreatePublicPointsFragment extends Fragment {
             Toast.makeText(getActivity(), "Adreça invàlida", Toast.LENGTH_SHORT).show();
             return;
         }
-        //getCreatePointsUseCase.setPointParameters(1.0,1.0, "a","a","a","a","a","a");
-        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorType,schedule);
+
+        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorTypeList,schedule);
         getCreatePointsUseCase.execute();
 
     }
