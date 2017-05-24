@@ -29,10 +29,28 @@ public class FirebaseUsersRepository implements UsersRepository {
         this.database = FirebaseDatabase.getInstance();
     }
 
+    @Override
+    public void getUsers(final GetUsersCallback callback) {
+        DatabaseReference myRef = database.getReference("PointsTest");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User[] users = parsePointsFromDataSnapshot(dataSnapshot);
+                callback.onUsersRetrieved(users);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //TODO
+                Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
+            }
+        });
+    }
 
     @Override
     public void getUserById(String userId, final GetUserByIdCallback callback) {
-        DatabaseReference myRef = database.getReference("Userss").child(userId);
+        DatabaseReference myRef = database.getReference("Users").child(userId);
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -56,13 +74,27 @@ public class FirebaseUsersRepository implements UsersRepository {
 
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
-                Log.d("CrearPunt","Record saved!");
+                Log.d("CrearUser","Record saved!");
                 String postId = dr.getKey();
                 callback.onUserCreated(postId);
             }
 
             ;
         });
+    }
+
+    private User[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
+        User[] users = new User[(int)dataSnapshot.getChildrenCount()];
+        int index = 0;
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            User user = parseUserFromSnapshot(snapshot);
+            if (user != null) {
+                users[index] = user;
+                ++index;
+            }
+        }
+
+        return users;
     }
 
     private User parseUserFromSnapshot(DataSnapshot snapshot) {

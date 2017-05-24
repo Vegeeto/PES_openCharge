@@ -9,6 +9,12 @@ import com.opencharge.opencharge.domain.Entities.User;
 
 public interface UsersRepository {
 
+    public interface GetUsersCallback {
+        public void onUsersRetrieved(User[] users);
+
+        public void onError();
+    }
+
      public interface CreateUserCallback {
         public void onUserCreated(String id);
 
@@ -20,6 +26,8 @@ public interface UsersRepository {
 
         public void onError();
     }
+
+    void getUsers(final UsersRepository.GetUsersCallback callback);
 
     void getUserById(String userId, final GetUserByIdCallback callback);
 
