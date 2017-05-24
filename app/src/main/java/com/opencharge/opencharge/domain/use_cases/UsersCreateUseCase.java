@@ -2,6 +2,7 @@ package com.opencharge.opencharge.domain.use_cases;
 
 import android.util.Pair;
 
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public interface UsersCreateUseCase extends UseCase {
         void onUserCreated(String id);
     }
 
-    public void setUserParameters(String name, String photo, String email,String password,
+    public void setUserParameters(String name, String photo, String email,
                                   ArrayList<Pair<String,String>> puntsCreats,
                                   ArrayList<Pair<String,String>> puntsReservats);
 }

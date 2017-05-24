@@ -24,7 +24,7 @@ public class UserFactory {
         return instance;
     }
 
-    public User createNewUser(String name, String photo, String password, String email, ArrayList<Pair<String,String>> puntsCreats, ArrayList<Pair<String,String>> puntsReservats) {
+    public User createNewUser(String name, String photo, String email, ArrayList<Pair<String,String>> puntsCreats, ArrayList<Pair<String,String>> puntsReservats) {
 
         User u = new User();
         u.setUsername(name);
@@ -48,8 +48,6 @@ public class UserFactory {
         u.setPunts(p.getPunts());
         u.setPuntsReservats(p.getPuntsReservats());
         u.setMinutes(p.getMinutes());
-        u.setProfilepic(p.getProfilepic());
-        u.setPassword(p.getPassword());
         return u;
     }
 }

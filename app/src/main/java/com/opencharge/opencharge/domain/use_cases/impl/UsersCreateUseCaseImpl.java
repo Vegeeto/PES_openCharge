@@ -23,7 +23,6 @@ public class UsersCreateUseCaseImpl extends AbstractUseCase implements UsersCrea
     private String name;
     private String photo;
     private String email;
-    private String password;
     private ArrayList<Pair<String,String>> puntsCreats;
     private ArrayList<Pair<String,String>> puntsReservats;
 
@@ -37,19 +36,18 @@ public class UsersCreateUseCaseImpl extends AbstractUseCase implements UsersCrea
         this.callback = callback;
     }
     @Override
-    public void setUserParameters(String name, String photo, String email, String password, ArrayList<Pair<String,String>> puntsCreats,
+    public void setUserParameters(String name, String photo, String email,  ArrayList<Pair<String,String>> puntsCreats,
                                   ArrayList<Pair<String,String>> puntsReservats) {
         this.name = name;
         this.photo = photo;
         this.email = email;
-        this.password = password;
         this.puntsCreats = puntsCreats;
         this.puntsReservats = puntsReservats;
     }
 
     @Override
     public void run() {
-        final User user = UserFactory.getInstance().createNewUser(name, photo, password, email, puntsCreats, puntsReservats);
+        final User user = UserFactory.getInstance().createNewUser(name, photo, email, puntsCreats, puntsReservats);
         final FirebaseUser firebaseUser = UserFactory.getInstance().pointToFirebasePoint(user);
         usersRepository.createUser(firebaseUser, new UsersRepository.CreateUserCallback(){
             @Override
@@ -74,4 +72,5 @@ public class UsersCreateUseCaseImpl extends AbstractUseCase implements UsersCrea
             }
         });
     }
+
 }

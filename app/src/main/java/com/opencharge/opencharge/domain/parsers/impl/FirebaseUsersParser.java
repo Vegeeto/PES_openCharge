@@ -34,7 +34,7 @@ public class FirebaseUsersParser implements UsersParser {
         user.setUsername(parseStringKeyFromMap(USERNAME_KEY, map));
         user.setPhoto(parseStringKeyFromMap(PHOTO_KEY, map));
         user.setEmail(parseStringKeyFromMap(EMAIL_KEY, map));
-        user.setMinutes(parseIntegerKeyFromMap(MINUTES_KEY, map));
+        user.setMinutes(parseLongKeyFromMap(MINUTES_KEY, map).intValue());
         user.setPunts(parseArrayListFromMap(CREATS_KEY, map));
         user.setPuntsReservats(parseArrayListFromMap(RESERVATS_KEY, map));
 
@@ -56,6 +56,14 @@ public class FirebaseUsersParser implements UsersParser {
         Integer value = 0;
         if (map.containsKey(key)) {
             value = (Integer)map.get(key);
+        }
+        return value;
+    }
+
+    private Long parseLongKeyFromMap(String key, Map<String, Object> map) {
+        long value = 0;
+        if (map.containsKey(key)) {
+            value = (Long)map.get(key);
         }
         return value;
     }

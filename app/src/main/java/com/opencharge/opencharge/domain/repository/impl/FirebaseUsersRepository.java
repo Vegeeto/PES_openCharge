@@ -31,7 +31,7 @@ public class FirebaseUsersRepository implements UsersRepository {
 
     @Override
     public void getUsers(final GetUsersCallback callback) {
-        DatabaseReference myRef = database.getReference("PointsTest");
+        DatabaseReference myRef = database.getReference("Users");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
