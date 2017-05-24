@@ -1,14 +1,17 @@
 package com.opencharge.opencharge.presentation.fragments;
 
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
@@ -26,6 +29,7 @@ public class PointInfoFragment extends Fragment {
 
     private PointsAdapter pointsAdapter;
     private RecyclerView recyclerView;
+    private Button horari;
 
     private static final String ARG_POINT_ID = "point_id";
     private String pointId;
@@ -41,7 +45,6 @@ public class PointInfoFragment extends Fragment {
      * @param pointId String
      * @return A new instance of fragment PointInfoFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static PointInfoFragment newInstance(String pointId) {
         PointInfoFragment fragment = new PointInfoFragment();
         Bundle args = new Bundle();
@@ -64,7 +67,13 @@ public class PointInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_point_info, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.rv);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+        horari = (Button) view.findViewById(R.id.horari);
+
+        RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
+        datePickerButton.setVisibility(View.GONE);
+
         return view;
     }
 
@@ -88,5 +97,19 @@ public class PointInfoFragment extends Fragment {
 
         getPointUseCase.setPointId(pointId);
         getPointUseCase.execute();
+
+        horari.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    DaysPagerFragment fragment = DaysPagerFragment.newInstance(pointId);
+                    ft.replace(R.id.content_frame, fragment).commit();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 }

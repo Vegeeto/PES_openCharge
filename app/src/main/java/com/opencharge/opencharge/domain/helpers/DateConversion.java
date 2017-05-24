@@ -16,4 +16,12 @@ public interface DateConversion {
 
     String ConvertLongToDateFormat(long time);
 
+    Date ConvertStringToDate(String dateString);
+
+    String ConvertDateToString(Date date);
+
+    Date ConvertStringToTime(String dateString);
+
+    String ConvertIntToTimeString(int hour, int minute);
+
 }

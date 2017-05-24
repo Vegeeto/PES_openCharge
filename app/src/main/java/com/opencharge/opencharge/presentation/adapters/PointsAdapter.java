@@ -92,22 +92,6 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
-    //Not implemented yet
-    public class ViewHolderSchedule extends RecyclerView.ViewHolder {
-
-        private TextView schedule;
-
-        public ViewHolderSchedule(View itemView) {
-            super(itemView);
-            schedule = (TextView) itemView.findViewById(R.id.horari);
-        }
-
-        public void bindSchedule(Object o) {
-            //Posar la informació d'un horari a la vista
-        }
-
-
-    }
 
     public class ViewHolderComment extends RecyclerView.ViewHolder {
 
@@ -211,11 +195,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 viewHolder = new ViewHolderPoint(v);
                 v.setOnClickListener(this);
                 break;
-            case 1: //Replace the layout: inflate with scheduler layout
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_schedule, parent, false);
-                viewHolder = new ViewHolderSchedule(v);
-                break;
-            default: //Replace the layout: inflate with comment layout
+            default: //Inflate the layout with comments information
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler_comment, parent, false);
                 viewHolder = new ViewHolderComment(v);
                 break;
@@ -240,8 +220,6 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch(position) {
             case 0:  ((ViewHolderPoint) holder).bindPoint(item);
                 break;
-            case 1: ((ViewHolderSchedule) holder).bindSchedule(new Object());
-                break;
             default:
                 break;
         }
@@ -249,15 +227,14 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 2;
     }
 
     @Override
     public int getItemViewType(int position) {
         switch  (position) {
             case 0: return 0;
-            case 1: return 1;
-            default: return 2;
+            default: return 1;
         }
     }
 

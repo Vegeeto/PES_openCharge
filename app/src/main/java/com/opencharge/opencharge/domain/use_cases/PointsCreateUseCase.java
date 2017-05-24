@@ -1,6 +1,5 @@
 package com.opencharge.opencharge.domain.use_cases;
 
-import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public interface PointsCreateUseCase extends UseCase {
         void onPointCreated(String id);
     }
 
-    public void setPointParameters(double lat, double lon, String town,
+    void setPointParameters(double lat, double lon, String town,
                                    String street, String number, String accessType,
                                    List<String> connectorTypeList, String schedule);
 }

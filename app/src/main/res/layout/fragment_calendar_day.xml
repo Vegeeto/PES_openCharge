@@ -1,0 +1,63 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.opencharge.opencharge.presentation.fragments.ReservesShiftsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@color/blue">
+
+            <RelativeLayout
+                android:id="@+id/hours_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/orange"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true">
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/calendar_day_month_label"
+            android:layout_width="@dimen/day_view_hour_width"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:background="#EEFFFFFF"
+            android:paddingLeft="@dimen/day_view_hour_padding"
+            android:paddingRight="@dimen/day_view_hour_padding"
+            android:paddingTop="@dimen/day_view_hour_padding"/>
+        <TextView
+            android:id="@+id/calendar_day_week_label"
+            android:layout_width="@dimen/day_view_hour_width"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/calendar_day_month_label"
+            android:layout_alignParentLeft="true"
+            android:background="#EEFFFFFF"
+            android:paddingLeft="@dimen/day_view_hour_padding"
+            android:paddingRight="@dimen/day_view_hour_padding"
+            android:paddingBottom="@dimen/day_view_hour_padding"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:src="@drawable/ic_add_white_48dp"
+            android:id="@+id/calendar_new_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/day_view_hour_padding"
+            android:elevation="10dp"/>
+    </RelativeLayout>
+
+</FrameLayout>

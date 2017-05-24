@@ -6,6 +6,9 @@ import android.util.Log;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
@@ -16,11 +19,16 @@ import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.PointByIdUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsListUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ReserveCreateUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ServiceCreateUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ServiceListByPointAndDayUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserByIdUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserLocationUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.AddCommentUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UsersCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UsersListUseCaseImpl;
+
+import java.util.List;
 
 /**
  * Created by ferran on 22/3/17.
@@ -97,7 +105,7 @@ public class UseCasesLocator {
         return new AddCommentUseCaseImpl(
                 sl.getExecutor(),
                 sl.getMainThread(),
-                RepositoriesLocator.getInstance().getCommnetsRepository(),
+                RepositoriesLocator.getInstance().getCommentsRepository(),
                 callback
         );
     }
@@ -115,7 +123,37 @@ public class UseCasesLocator {
         return new CommentsListUseCaseImpl(
                 ServicesLocator.getInstance().getExecutor(),
                 ServicesLocator.getInstance().getMainThread(),
-                RepositoriesLocator.getInstance().getCommnetsRepository(),
+                RepositoriesLocator.getInstance().getCommentsRepository(),
+                callback
+        );
+    }
+
+    public ServiceCreateUseCase getServiceCreateUseCase(ServiceCreateUseCase.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ServiceCreateUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getServiceRepository(),
+                callback
+        );
+    }
+
+    public ServiceListByPointAndDayUseCase getServiceListByPointAndDayUseCase(ServiceListByPointAndDayUseCase.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ServiceListByPointAndDayUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getServiceRepository(),
+                callback
+        );
+    }
+
+    public ReserveCreateUseCase getReserveCreateUseCase(ReserveCreateUseCase.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ReserveCreateUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getReserveRepository(),
                 callback
         );
     }

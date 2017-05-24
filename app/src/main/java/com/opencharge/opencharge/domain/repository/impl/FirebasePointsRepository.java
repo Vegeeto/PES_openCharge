@@ -50,7 +50,7 @@ public class FirebasePointsRepository implements PointsRepository {
 
     @Override
     public void getPointById(String pointId, final GetPointByIdCallback callback) {
-        DatabaseReference myRef = database.getReference("PointsTest").child(pointId);
+        DatabaseReference myRef = database.getReference("Points").child(pointId);
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -91,15 +91,11 @@ public class FirebasePointsRepository implements PointsRepository {
     }
 
     public void createPoint(FirebasePoint point, final CreatePointCallback callback) {
-
-	//TODO: change this when reset database
-        //DatabaseReference myRef = database.getReference("PointsTest");
         DatabaseReference myRef = database.getReference("Points");
         myRef.push().setValue(point, new DatabaseReference.CompletionListener() {
 
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
-                Log.d("CrearPunt","Record saved!");
                 String postId = dr.getKey();
                 callback.onPointCreated(postId);
             }

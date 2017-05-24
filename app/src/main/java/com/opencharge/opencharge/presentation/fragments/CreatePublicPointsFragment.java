@@ -4,7 +4,8 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.content.Context;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,7 +51,7 @@ public class CreatePublicPointsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_create_public_points, container, false);
+        final View view = inflater.inflate(R.layout.fragment_new_point, container, false);
         final Button saveButton = (Button) view.findViewById(R.id.GuardarBtn);
         editTown = (EditText) view.findViewById(R.id.Poblacio);
         editStreet = (EditText) view.findViewById(R.id.Street);
@@ -73,17 +74,7 @@ public class CreatePublicPointsFragment extends Fragment {
             public void onClick(View v) {
                 //Log.d("CrearPunt","onClick Guardar!");
                 amagarTeclat();
-                guardarPunt(v);
-            }
-        });
-
-        addMoreConnectors.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            //duplicar layout
-                LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                LinearLayout main =(LinearLayout) v.findViewById(R.id.connector_type_parent);
-                View view = inflater.inflate(R.layout.radiogroup, null);
-                connectorTypeLayourParent.addView(view);
+                guardarPunt();
             }
         });
 
@@ -91,36 +82,39 @@ public class CreatePublicPointsFragment extends Fragment {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 amagarTeclat();
-                cancelar(v);
+                cancelar();
             }
         });
-        // Inflate the layout for this fragment
+
+        RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
+        datePickerButton.setVisibility(View.GONE);
+
         return view;
     }
     
-    public void guardarPunt(View view) {
+    public void guardarPunt() {
 
         String town = editTown.getText().toString();
         if (town.matches("")) {
-            Toast.makeText(getActivity(), "No has indicat la poblacio", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ha d'indicar la població", Toast.LENGTH_SHORT).show();
             return;
         }
         //Log.d("CrearPunt","town: "+town);
         String street = editStreet.getText().toString();
         if (street.matches("")) {
-            Toast.makeText(getActivity(), "No has indicat el carrer", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ha d'indicar el carrer", Toast.LENGTH_SHORT).show();
             return;
         }
         //Log.d("CrearPunt","street: "+street);
         String number = editNumber.getText().toString();
         if (number.matches("")) {
-            Toast.makeText(getActivity(), "No has indicat el numero", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ha d'indicar el número", Toast.LENGTH_SHORT).show();
             return;
         }
         //Log.d("CrearPunt","num: " +number);
         String schedule = editSchedule.getText().toString();
         if (schedule.matches("")) {
-            Toast.makeText(getActivity(), "No has indicat el horari", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ha d'indicar l'horari", Toast.LENGTH_SHORT).show();
             return;
         }
         //Log.d("CrearPunt","sch: "+schedule);
@@ -168,7 +162,7 @@ public class CreatePublicPointsFragment extends Fragment {
             @Override
             public void onPointCreated(String id) {
                 //Log.d("CrearPunt","onPointCreatedCallback");
-                android.app.FragmentManager fm = getFragmentManager();
+                FragmentManager fm = getFragmentManager();
                 PointInfoFragment fragment = PointInfoFragment.newInstance(id);
                 fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
             }
@@ -188,8 +182,8 @@ public class CreatePublicPointsFragment extends Fragment {
 
     }
 
-    public void cancelar(View view) {
-        android.app.FragmentManager fm = getFragmentManager();
+    public void cancelar() {
+        FragmentManager fm = getFragmentManager();
         MapsFragment mp = new MapsFragment();
         fm.beginTransaction().replace(R.id.content_frame, mp).commit();
     }

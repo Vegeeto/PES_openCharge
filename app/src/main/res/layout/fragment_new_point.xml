@@ -5,7 +5,7 @@
     android:orientation="vertical"
     tools:context="com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Material Design => VICTOR -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
@@ -322,7 +322,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/cancel"
+                    android:text="@string/cancelar"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
             </LinearLayout>
         </LinearLayout>
