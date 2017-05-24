@@ -55,7 +55,7 @@ public class UsersCreateUseCaseImpl extends AbstractUseCase implements UsersCrea
             @Override
             public void onUserCreated(String id)
             {
-                UserFactory.getInstance().setPointId(user, id);
+                UserFactory.getInstance().setUserId(user, id);
                 postUser(id);
             }
 

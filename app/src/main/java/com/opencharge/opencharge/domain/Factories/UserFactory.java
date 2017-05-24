@@ -35,7 +35,7 @@ public class UserFactory {
         u.setPuntsReservats(puntsReservats);
         return u;
     }
-    public void setPointId(User u, String id){
+    public void setUserId(User u, String id){
         u.id = id;
     }
 

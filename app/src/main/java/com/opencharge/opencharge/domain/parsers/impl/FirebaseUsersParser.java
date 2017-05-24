@@ -1,9 +1,15 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
+import android.util.Pair;
+
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.parsers.UsersParser;
 
+import java.net.Inet4Address;
+import java.util.ArrayList;
 import java.util.Map;
+
+import static com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser.LON_KEY;
 
 /**
  * Created by DmnT on 18/05/2017.
@@ -12,61 +18,44 @@ import java.util.Map;
 public class FirebaseUsersParser implements UsersParser {
 
     public static final String USERNAME_KEY = "username";
-    public static final String PASSWORD_KEY = "password";
     public static final String PHOTO_KEY = "photo";
     public static final String EMAIL_KEY = "email";
     public static final String MINUTES_KEY = "minutes";
+    public static final String CREATS_KEY = "puntsCreats";
+    public static final String RESERVATS_KEY = "puntsReservats";
 
     @Override
     public User parseFromMap(String key, Map<String, Object> map) {
         User user = new User(key);
 
         //TODO aquesta part, i la resta també, s'ha d'emplenar correctament quan es sàpiga com es guarden els usuaris al firebase
-        /*
-        point.setAccessType(parseAccessTypeFromMap(map));
-        point.setConnectorType(parseConnectorTypeFromMap(map));
 
-        point.setLat(parseDoubleKeyFromMap(LAT_KEY, map));
-        point.setLon(parseDoubleKeyFromMap(LON_KEY, map));
 
-        point.setTown(parseStringKeyFromMap(TOWN_KEY, map));
-        point.setStreet(parseStringKeyFromMap(STREET_KEY, map));
-        point.setNumber(parseStringKeyFromMap(NUMBER_KEY, map));
-
-        point.setSchedule(parseStringKeyFromMap(SCHEDULE_KEY, map));
-        */
-
-        user.setUsername("Pepito");
-        user.setEmail("pepito@dominiofalso.fake");
-        user.setMinutes(42);
+        user.setUsername(parseStringKeyFromMap(USERNAME_KEY, map));
+        user.setPhoto(parseStringKeyFromMap(PHOTO_KEY, map));
+        user.setEmail(parseStringKeyFromMap(EMAIL_KEY, map));
+        user.setMinutes(parseIntegerKeyFromMap(MINUTES_KEY, map));
+        user.setPunts(parseArrayListFromMap(CREATS_KEY, map));
+        user.setPuntsReservats(parseArrayListFromMap(RESERVATS_KEY, map));
 
         return user;
     }
 
-    /*
 
-    private @Point.AccessType String parseAccessTypeFromMap(Map<String, Object> map) {
-        @Point.AccessType String accessType = (String)map.get(ACCESS_TYPE_KEY);
-        if (!isCorrectAccessType(accessType)) {
-            accessType = Point.UNKNOWN_ACCESS;
-        }
 
-        return accessType;
-    }
-
-    private @Point.ConnectorType String parseConnectorTypeFromMap(Map<String, Object> map) {
-        @Point.ConnectorType String connectorType = (String)map.get(CONNECTOR_TYPE_KEY);
-        if (!isCorrectConnectorType(connectorType)) {
-            connectorType = Point.UNKNOWN_CONNECTOR;
-        }
-
-        return connectorType;
-    }
-
-    private double parseDoubleKeyFromMap(String key, Map<String, Object> map) {
-        double value = 0.0;
+    private ArrayList<Pair<String,String>> parseArrayListFromMap(String key, Map<String, Object> map) {
+        ArrayList<Pair<String,String>> arrayList = new ArrayList();
         if (map.containsKey(key)) {
-            value = (double)map.get(key);
+            arrayList = (ArrayList)map.get(key);
+        }
+
+        return arrayList;
+    }
+
+    private Integer parseIntegerKeyFromMap(String key, Map<String, Object> map) {
+        Integer value = 0;
+        if (map.containsKey(key)) {
+            value = (Integer)map.get(key);
         }
         return value;
     }
@@ -79,15 +68,4 @@ public class FirebaseUsersParser implements UsersParser {
             return null;
         }
     }
-
-    private boolean isCorrectAccessType(String accessType) {
-        String[] allowedTypes = new String[] {Point.PUBLIC_ACCESS, Point.PRIVATE_ACCESS, Point.PARTICULAR_ACCESS};
-        return Arrays.asList(allowedTypes).contains(accessType);
-    }
-
-    private boolean isCorrectConnectorType(String connectorType) {
-        String[] allowedTypes = new String[] {Point.SLOW_CONNECTOR, Point.FAST_CONNECTOR, Point.RAPID_CONNECTOR};
-        return Arrays.asList(allowedTypes).contains(connectorType);
-    }
-    */
 }
