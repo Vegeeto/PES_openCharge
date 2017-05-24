@@ -10,6 +10,8 @@ import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
+import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.CommentsListUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
@@ -23,6 +25,8 @@ import com.opencharge.opencharge.domain.use_cases.impl.ServiceListByPointAndDayU
 import com.opencharge.opencharge.domain.use_cases.impl.UserByIdUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserLocationUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.AddCommentUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.UsersCreateUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.UsersListUseCaseImpl;
 
 import java.util.List;
 
@@ -52,6 +56,15 @@ public class UseCasesLocator {
         );
     }
 
+    public UsersListUseCase getUsersListUseCase(UsersListUseCase.Callback callback) {
+        return new UsersListUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getUsersRepository(),
+                callback
+        );
+    }
+
     public PointByIdUseCase getPointByIdUseCase(PointByIdUseCase.Callback callback) {
         return new PointByIdUseCaseImpl(
                 ServicesLocator.getInstance().getExecutor(),
@@ -76,6 +89,14 @@ public class UseCasesLocator {
                 ServicesLocator.getInstance().getExecutor(),
                 ServicesLocator.getInstance().getMainThread(),
                 RepositoriesLocator.getInstance().getPointsRepository(),
+                callback);
+    }
+
+    public UsersCreateUseCase getUsersCreateUseCase(UsersCreateUseCase.Callback callback) {
+        return new UsersCreateUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getUsersRepository(),
                 callback);
     }
 

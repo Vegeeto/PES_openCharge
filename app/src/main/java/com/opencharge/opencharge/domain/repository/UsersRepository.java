@@ -1,5 +1,6 @@
 package com.opencharge.opencharge.domain.repository;
 
+import com.opencharge.opencharge.domain.Entities.FirebaseUser;
 import com.opencharge.opencharge.domain.Entities.User;
 
 /**
@@ -8,17 +9,27 @@ import com.opencharge.opencharge.domain.Entities.User;
 
 public interface UsersRepository {
 
-     public interface CreateUserCallback {
-        public void onUserCreated(String id);
+     interface GetUsersCallback {
+         void onUsersRetrieved(User[] users);
 
-        public void onError();
+         void onError();
     }
 
-    public interface GetUserByIdCallback {
-        public void onUserRetrieved(User user);
+     interface CreateUserCallback {
+        void onUserCreated(String id);
 
-        public void onError();
+        void onError();
     }
+
+    interface GetUserByIdCallback {
+        void onUserRetrieved(User user);
+
+        void onError();
+    }
+
+    void getUsers(final UsersRepository.GetUsersCallback callback);
 
     void getUserById(String userId, final GetUserByIdCallback callback);
+
+    void createUser(FirebaseUser user, final CreateUserCallback callback);
 }
