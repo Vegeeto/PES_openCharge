@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.opencharge.opencharge.domain.Entities.FirebaseUser;
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.parsers.UsersParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebaseUsersParser;
@@ -28,10 +29,28 @@ public class FirebaseUsersRepository implements UsersRepository {
         this.database = FirebaseDatabase.getInstance();
     }
 
+    @Override
+    public void getUsers(final GetUsersCallback callback) {
+        DatabaseReference myRef = database.getReference("Users");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User[] users = parsePointsFromDataSnapshot(dataSnapshot);
+                callback.onUsersRetrieved(users);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //TODO
+                Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
+            }
+        });
+    }
 
     @Override
     public void getUserById(String userId, final GetUserByIdCallback callback) {
-        DatabaseReference myRef = database.getReference("Userss").child(userId);
+        DatabaseReference myRef = database.getReference("Users").child(userId);
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -48,6 +67,36 @@ public class FirebaseUsersRepository implements UsersRepository {
         });
     }
 
+    @Override
+    public void createUser(FirebaseUser user, final CreateUserCallback callback) {
+        DatabaseReference myRef = database.getReference("Users");
+        myRef.push().setValue(user, new DatabaseReference.CompletionListener() {
+
+            @Override
+            public void onComplete(DatabaseError de, DatabaseReference dr) {
+                Log.d("CrearUser","Record saved!");
+                String postId = dr.getKey();
+                callback.onUserCreated(postId);
+            }
+
+            ;
+        });
+    }
+
+    private User[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
+        User[] users = new User[(int)dataSnapshot.getChildrenCount()];
+        int index = 0;
+        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            User user = parseUserFromSnapshot(snapshot);
+            if (user != null) {
+                users[index] = user;
+                ++index;
+            }
+        }
+
+        return users;
+    }
+
     private User parseUserFromSnapshot(DataSnapshot snapshot) {
         if (snapshot.getValue() instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
@@ -56,6 +105,7 @@ public class FirebaseUsersRepository implements UsersRepository {
         }
         return null;
     }
+
 
 
 }

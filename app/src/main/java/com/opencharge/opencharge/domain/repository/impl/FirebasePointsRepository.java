@@ -31,7 +31,7 @@ public class FirebasePointsRepository implements PointsRepository {
 
     @Override
     public void getPoints(final GetPointsCallback callback) {
-        DatabaseReference myRef = database.getReference("PointsTest");
+        DatabaseReference myRef = database.getReference("Points");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

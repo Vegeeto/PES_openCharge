@@ -9,39 +9,33 @@ import java.util.ArrayList;
  */
 
 public class User {
-    private String name;
     private String photo;
-    private String password;
     private String email;
     private String username;
-    private String profilepic;
     private Integer minutes;
     private ArrayList<Pair<String,String>> puntsCreats;
     private ArrayList<Pair<String,String>> puntsReservats;
+
+    public String id;
 
     public User() {
 
     }
 
-    public User (String name, String photo, String password, String email, ArrayList<Pair<String,String>> puntsCreats, ArrayList<Pair<String,String>> puntsReservats) {
-        this.name = name;
+    public User(String id) {
+        this.id = id;
+    }
+
+    public User (String username, String photo,  String email, ArrayList<Pair<String,String>> puntsCreats, ArrayList<Pair<String,String>> puntsReservats) {
+        this.username = username;
         this.photo = photo;
-        this.password = password;
         this.email = email;
         this.puntsCreats = puntsCreats;
         this.puntsReservats = puntsReservats;
     }
 
-    public String getName () {
-        return name;
-    }
-
     public String getPhoto () {
         return photo;
-    }
-
-    public String getPassword () {
-        return password;
     }
 
     public String getEmail () {
@@ -64,7 +58,9 @@ public class User {
         this.username = username;
     }
 
-    public void setProfilepic(String profilepic) { this.profilepic = profilepic; }
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public void setMinutes(Integer minutes) {
         this.minutes = minutes;
@@ -77,8 +73,6 @@ public class User {
     public void setPuntsReservats(ArrayList<Pair<String, String>> puntsReservats) {
         this.puntsReservats = puntsReservats;
     }
-
-    public String getProfilepic() { return profilepic; }
 
     public void addPunt(Pair<String, String> punt){
         boolean trobat = false;

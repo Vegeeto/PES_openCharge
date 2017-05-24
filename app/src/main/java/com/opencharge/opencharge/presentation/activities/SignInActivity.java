@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.content.Intent;
 import android.widget.Toast;
@@ -15,7 +16,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
-
+import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
+import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
@@ -29,6 +33,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.presentation.locators.GoogleApiLocator;
 
+import java.util.ArrayList;
+
 /**
  * Created by Usuario on 03/05/2017.
  */
@@ -40,6 +46,7 @@ public class SignInActivity extends AppCompatActivity  {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
     private SignInButton signInButton;
+    private boolean notInFirebase;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +80,8 @@ public class SignInActivity extends AppCompatActivity  {
                 if (user != null) {
                     // User is signed in
                     //createUserInFirebaseHelper();
-                    Intent i = new Intent(getApplicationContext(), NavigationActivity.class );
-                    startActivity(i);
+                    //Intent i = new Intent(getApplicationContext(), NavigationActivity.class );
+                    //startActivity(i);
                     Log.d("Sign in", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
@@ -162,12 +169,36 @@ public class SignInActivity extends AppCompatActivity  {
                             //Get Current User Data
                             String idToken = account.getIdToken();
                             String name = account.getDisplayName();
-                            String email = account.getEmail();
+                            final String email = account.getEmail();
                             String photoUri = account.getPhotoUrl().toString();
-                            // TODO: Save Data to Firebase
+                            notInFirebase = true;
+                            UsersListUseCase usersListUseCase = UseCasesLocator.getInstance().getUsersListUseCase(new UsersListUseCase.Callback() {
+                                @Override
+                                public void onUsersRetrieved(User[] users) {
+                                    for (User user : users) {
+                                        if (notInFirebase && user.getEmail().equals(email)) {
+                                            notInFirebase = false;
+                                        }
+                                    }
+                                }
 
+                            });
+                            usersListUseCase.execute();
 
-                            Toast.makeText(SignInActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            if (notInFirebase) {
+                                UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+                                UsersCreateUseCase getCreateUsersUseCase = useCasesLocator.getUsersCreateUseCase(new UsersCreateUseCase.Callback() {
+                                    @Override
+                                    public void onUserCreated(String id) {
+                                        Log.d("CrearUsuari", "onUserCreatedCallback");
+
+                                    }
+
+                                });
+                                getCreateUsersUseCase.setUserParameters(name, photoUri, email, new ArrayList<Pair<String, String>>(), new ArrayList<Pair<String, String>>());
+                                getCreateUsersUseCase.execute();
+                            }
+
                             Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
