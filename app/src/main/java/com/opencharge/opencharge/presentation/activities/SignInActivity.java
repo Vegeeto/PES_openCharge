@@ -46,7 +46,6 @@ public class SignInActivity extends AppCompatActivity  {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
     private SignInButton signInButton;
-    private boolean notInFirebase;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -167,37 +166,39 @@ public class SignInActivity extends AppCompatActivity  {
                         } else {
 
                             //Get Current User Data
-                            String idToken = account.getIdToken();
-                            String name = account.getDisplayName();
-                            final String email = account.getEmail();
-                            String photoUri = account.getPhotoUrl().toString();
-                            notInFirebase = true;
+
                             UsersListUseCase usersListUseCase = UseCasesLocator.getInstance().getUsersListUseCase(new UsersListUseCase.Callback() {
                                 @Override
                                 public void onUsersRetrieved(User[] users) {
+                                    String email = account.getEmail();
+                                    boolean notInFirebase = true;
                                     for (User user : users) {
                                         if (notInFirebase && user.getEmail().equals(email)) {
                                             notInFirebase = false;
                                         }
                                     }
+                                    if (notInFirebase) {
+                                        String idToken = account.getIdToken();
+                                        String name = account.getDisplayName();
+                                        String photoUri = account.getPhotoUrl().toString();
+                                        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+                                        UsersCreateUseCase getCreateUsersUseCase = useCasesLocator.getUsersCreateUseCase(new UsersCreateUseCase.Callback() {
+                                            @Override
+                                            public void onUserCreated(String id) {
+                                                Log.d("CrearUsuari", "onUserCreatedCallback");
+
+                                            }
+
+                                        });
+                                        ArrayList<Pair<String, String>>  puntsCreats = new ArrayList<Pair<String, String>>();
+                                        ArrayList<Pair<String, String>>  puntsReservats = new ArrayList<Pair<String, String>>();
+                                        getCreateUsersUseCase.setUserParameters(name, photoUri, email, puntsCreats, puntsReservats);
+                                        getCreateUsersUseCase.execute();
+                                    }
                                 }
 
                             });
                             usersListUseCase.execute();
-
-                            if (notInFirebase) {
-                                UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-                                UsersCreateUseCase getCreateUsersUseCase = useCasesLocator.getUsersCreateUseCase(new UsersCreateUseCase.Callback() {
-                                    @Override
-                                    public void onUserCreated(String id) {
-                                        Log.d("CrearUsuari", "onUserCreatedCallback");
-
-                                    }
-
-                                });
-                                getCreateUsersUseCase.setUserParameters(name, photoUri, email, new ArrayList<Pair<String, String>>(), new ArrayList<Pair<String, String>>());
-                                getCreateUsersUseCase.execute();
-                            }
 
                             Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
