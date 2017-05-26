@@ -89,6 +89,19 @@ public class CreatePublicPointsFragment extends Fragment {
         RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
         datePickerButton.setVisibility(View.GONE);
 
+        LinearLayout scheduleLayout = (LinearLayout) view.findViewById(R.id.Horari_text);
+        scheduleLayout.setVisibility(View.GONE);
+        rdgAcces.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (rdgAcces.getCheckedRadioButtonId()) {
+                    case R.id.Privat: scheduleLayout.setVisibility(View.VISIBLE); break;
+                    case R.id.Public: scheduleLayout.setVisibility(View.VISIBLE); break;
+                    default: accesType = scheduleLayout.setVisibility(View.GONE); break;
+                }
+            }
+        });
+
         return view;
     }
     
