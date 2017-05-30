@@ -7,6 +7,7 @@ import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReservesUserInvolvedUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
@@ -20,6 +21,7 @@ import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.PointByIdUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsListUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReserveCreateUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ReserveUserInvolvedUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ServiceCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ServiceListByPointAndDayUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserByIdUseCaseImpl;
@@ -151,6 +153,16 @@ public class UseCasesLocator {
     public ReserveCreateUseCase getReserveCreateUseCase(ReserveCreateUseCase.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
         return new ReserveCreateUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getReserveRepository(),
+                callback
+        );
+    }
+
+    public ReserveUserInvolvedUseCaseImpl getReservesUserInvolvedUseCaseImpl(ReserveUserInvolvedUseCaseImpl.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ReserveUserInvolvedUseCaseImpl(
                 sl.getExecutor(),
                 sl.getMainThread(),
                 RepositoriesLocator.getInstance().getReserveRepository(),
