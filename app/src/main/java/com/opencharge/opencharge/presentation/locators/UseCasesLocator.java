@@ -156,6 +156,7 @@ public class UseCasesLocator {
                 sl.getExecutor(),
                 sl.getMainThread(),
                 RepositoriesLocator.getInstance().getReserveRepository(),
+                RepositoriesLocator.getInstance().getUsersRepository(),
                 callback
         );
     }
