@@ -1,11 +1,18 @@
 package com.opencharge.opencharge.presentation.adapters;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +24,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Comment;
 import com.opencharge.opencharge.domain.Entities.Point;
@@ -28,7 +43,6 @@ import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.util.List;
 
-import static com.opencharge.opencharge.domain.Entities.Point.getDrawableForAccess;
 import static com.opencharge.opencharge.domain.Entities.Point.getDrawableForConnector;
 
 /**
@@ -37,9 +51,9 @@ import static com.opencharge.opencharge.domain.Entities.Point.getDrawableForConn
 
 public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
+    private Context context;
     private Point item;
     private View.OnClickListener listener;
-    private Context context;
 
     public class ViewHolderPoint extends RecyclerView.ViewHolder {
 
@@ -82,6 +96,50 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
 
+    }
+
+    public class ViewHolderMap extends RecyclerView.ViewHolder implements OnMapReadyCallback {
+
+        private GoogleMap mMap;
+
+        public ViewHolderMap(View itemView) {
+            super(itemView);
+
+            FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
+            Fragment fragment = fragmentManager.findFragmentById(R.id.map_recycler);
+            SupportMapFragment mapFragment = (SupportMapFragment) fragment;
+            mapFragment.getMapAsync(this);
+            if (mMap != null) {
+                onMapReady(mMap);
+            }
+        }
+
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            mMap = googleMap;
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            LatLng position = new LatLng(item.getLatCoord(), item.getLonCoord());
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(position);
+            BitmapDescriptor icon;
+            switch (item.getAccessType()) {
+                case Point.PUBLIC_ACCESS:
+                    icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+                    break;
+                case Point.PRIVATE_ACCESS:
+                    icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                    break;
+                case Point.PARTICULAR_ACCESS:
+                    icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+                    break;
+                default:
+                    icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+                    break;
+            }
+            markerOptions.icon(icon);
+            mMap.addMarker(markerOptions);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 14)); //40.000 km / 2^n, n=14
+        }
     }
 
 
@@ -182,12 +240,15 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         View v;
         RecyclerView.ViewHolder viewHolder;
         switch(viewType) {
-            case 0: //Inflate the layout with point information
+            case 0:     //Inflate the layout with point information
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler, parent, false);
                 viewHolder = new ViewHolderPoint(v);
-                v.setOnClickListener(this);
                 break;
-            default: //Inflate the layout with comments information
+            case 1:     //Inflate the layout with map information
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_map, parent, false);
+                viewHolder = new ViewHolderMap(v);
+                break;
+            default:    //Inflate the layout with comments information
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler_comment, parent, false);
                 viewHolder = new ViewHolderComment(v);
                 break;
@@ -219,14 +280,15 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 
     @Override
     public int getItemViewType(int position) {
         switch  (position) {
             case 0: return 0;
-            default: return 1;
+            case 1: return 1;
+            default: return 2;
         }
     }
 
