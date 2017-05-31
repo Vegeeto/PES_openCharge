@@ -2,14 +2,11 @@ package com.opencharge.opencharge.domain.repository.impl;
 
 import android.util.Log;
 
-import com.google.android.gms.games.snapshot.Snapshot;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.opencharge.opencharge.domain.Entities.FirebaseReserve;
-import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.parsers.ReserveParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebaseReserveParser;
@@ -29,28 +26,20 @@ public class FirebaseReserveRepository implements ReserveRepository {
     // We need a global var to count the childs to wait
     private long childsToWait;
 
-    //TODO: finish this class => ORIOL
-
     public FirebaseReserveRepository() {
         this.reserveParser = new FirebaseReserveParser();
         this.database = FirebaseDatabase.getInstance();
     }
 
     @Override
-    public void createReserve(String point_id, final FirebaseReserve reserve, final CreateReserveCallback callback) {
-        DatabaseReference myRef = database.getReference("Points");
-        myRef = myRef.child(point_id);
-        myRef = myRef.child("Reserves");
+    void createReserve(Reserve reserve, final CreateReserveCallback callback) {
+        DatabaseReference myRef = database.getReference("Reserves");
         myRef.push().setValue(reserve, new DatabaseReference.CompletionListener() {
-
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
-                System.out.println("Record saved!");
-                String serviceId = dr.getKey();
-                callback.onReserveCreated(serviceId);
+                String reserveId = dr.getKey();
+                callback.onReserveCreated(reserveId);
             }
-
-            ;
         });
     }
 
