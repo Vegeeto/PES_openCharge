@@ -163,11 +163,11 @@ public class Point {
     public static final int getDrawableForConnector(String connectorType) {
         switch(connectorType) {
             case Point.SLOW_CONNECTOR:
-                return R.mipmap.slow_acces;
+                return R.drawable.ic_connector_low;
             case Point.FAST_CONNECTOR:
-                return R.mipmap.fast_acces;
+                return R.drawable.ic_connector_medium;
             case Point.RAPID_CONNECTOR:
-                return R.mipmap.rapid_acces;
+                return R.drawable.ic_connector_high;
             default:
                 return R.drawable.ic_point_unknown;
         }
