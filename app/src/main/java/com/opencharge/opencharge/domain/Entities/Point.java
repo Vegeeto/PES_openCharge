@@ -119,6 +119,7 @@ public class Point {
     /*public void setConnectorType(@ConnectorType String connectorType) {
         this.connectorType = connectorType;
     }*/
+
     public void setConnectorTypeList(List<String> connectorTypeList) {
         this.connectorTypeList = connectorTypeList;
     }

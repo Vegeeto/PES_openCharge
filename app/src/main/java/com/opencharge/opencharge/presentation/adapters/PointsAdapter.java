@@ -2,20 +2,18 @@ package com.opencharge.opencharge.presentation.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Debug;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +26,10 @@ import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.presentation.fragments.ShowCommentsFragment;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
+
+import static com.opencharge.opencharge.domain.Entities.Point.getDrawableForAccess;
+import static com.opencharge.opencharge.domain.Entities.Point.getDrawableForConnector;
 
 /**
  * Created by Oriol on 10/4/2017.
@@ -40,16 +38,15 @@ import java.util.logging.Logger;
 public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private Point item;
-    private Comment comment;
     private View.OnClickListener listener;
     private Context context;
 
     public class ViewHolderPoint extends RecyclerView.ViewHolder {
 
         private TextView adreca;
+        private ImageView accessImage;
         private TextView access;
-        private TextView lat;
-        private TextView lng;
+        private TextView coords;
         private LinearLayout connectorLayout;
 
 
@@ -57,19 +54,20 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public ViewHolderPoint(View itemView) {
             super(itemView);
             adreca = (TextView) itemView.findViewById(R.id.adreca);
+            accessImage = (ImageView) itemView.findViewById(R.id.accessImage);
             access = (TextView) itemView.findViewById(R.id.access);
             connectorLayout = (LinearLayout) itemView.findViewById(R.id.connector_layout);
-            lat = (TextView) itemView.findViewById(R.id.lat);
-            lng = (TextView) itemView.findViewById(R.id.lng);
+            coords = (TextView) itemView.findViewById(R.id.coords);
         }
 
         public final void bindPoint(Point p) {
             //Posar la informació d'un punt a la vista
 
             adreca.setText(p.getAddress());
+            Drawable drawable = context.getResources().getDrawable(Point.getDrawableForAccess(p.getAccessType()));
+            accessImage.setImageDrawable(drawable);
             access.setText(p.getAccessType());
-            lat.setText(String.valueOf(p.getLatCoord()));
-            lng.setText(String.valueOf(p.getLonCoord()));
+            coords.setText("(" + String.valueOf(p.getLatCoord()) + ", " + String.valueOf(p.getLonCoord() + ")"));
 
 
             List<String> connectorList = p.getConnectorTypeList();
@@ -78,16 +76,10 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 connector.setLayoutParams(new RecyclerView.LayoutParams(
                         RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT));
                 connector.setText(connectorList.get(i));
-                connector.setPadding(0, 20, 0, 0);// in pixels (left, top, right, bottom)
+                connector.setPadding(0, 20, 0, 0);// in pixels (left, top, right, bottom). The same as setting drawable
+                connector.setCompoundDrawablesWithIntrinsicBounds(0, 0, getDrawableForConnector(connectorList.get(i)), 0);
                 connectorLayout.addView(connector);
             }
-
-            int drawable = Point.getDrawableForAccess(p.getAccessType());
-            access.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
-
-            //drawable = Point.getDrawableForConnector(p.getConnectorType());
-            drawable = Point.getDrawableForConnector("TEST");
-            //connector.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawable, 0);
         }
 
     }
