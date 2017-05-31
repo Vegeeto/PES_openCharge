@@ -88,18 +88,19 @@ public class FirebaseUsersRepository implements UsersRepository {
 
     @Override
     public void addSupplyReserveToUser(final String reserveId, String userId, final AddReserveToUser callback) {
-        final DatabaseReference myRef = database.getReference("Users");
+        DatabaseReference myRef = database.getReference("Users");
         myRef = myRef.child(userId).child("ReservesSupplier");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> savedIds = (List<>)dataSnapshot.getValue();
-                if( savedIds === null ) {
-                    savedIds = new ArrayList<>();
-                }
-                savedIds.add(reserveId);
-
-                myRef.updateChildren(savedIds);
+                //TODO: implement add new id to list
+//                List<String> savedIds = (List<>)dataSnapshot.getValue();
+//                if( savedIds === null ) {
+//                    savedIds = new ArrayList<>();
+//                }
+//                savedIds.add(reserveId);
+//
+//                myRef.updateChildren(savedIds);
                 callback.onReserveAdded();
             }
 
