@@ -13,6 +13,6 @@ public interface Parser {
 
     double parseDoubleKeyFromMap(String key, Map<String, Object> map);
 
-    Date parseDateKeyFromMap(String key, Map<String, Object> map);
+    Date parseDateLongKeyFromMap(String key, Map<String, Object> map);
 
 }

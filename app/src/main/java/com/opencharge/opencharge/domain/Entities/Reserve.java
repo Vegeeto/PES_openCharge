@@ -17,6 +17,7 @@ public class Reserve {
     private String serviceId;
     private String userId;
 
+    private Date day;
     private Date startHour;
     private Date endHour;
 
@@ -33,10 +34,19 @@ public class Reserve {
 
     private @Reserve.State String state;
 
-    public Reserve(Date startHour, Date endHour) {
+    public Reserve(Date day, Date startHour, Date endHour) {
+        this.day = day;
         this.startHour = startHour;
         this.endHour = endHour;
         this.state = CREATED;
+    }
+
+    public Date getDay() {
+        return day;
+    }
+
+    public void setDay(Date day) {
+        this.day = day;
     }
 
     public String getId() {

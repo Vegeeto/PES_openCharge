@@ -23,7 +23,7 @@ public class DateConversionImpl implements DateConversion {
     }
 
     @Override
-    public Date StringToDate(String time) {
+    public Date StringWithLongToDate(String time) {
         return longToDate(Long.parseLong(time));
     }
 
