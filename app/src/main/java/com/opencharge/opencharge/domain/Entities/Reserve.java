@@ -23,6 +23,7 @@ public class Reserve {
 
     private boolean ownerFinish;
     private boolean userFinish;
+    private boolean canConfirm;
 
     public static final String CREATED = "Creada";
     public static final String ACCEPTED = "Rebutjada";
@@ -39,6 +40,7 @@ public class Reserve {
         this.startHour = startHour;
         this.endHour = endHour;
         this.state = CREATED;
+        canConfirm = false;
     }
 
     public Date getDay() {
@@ -118,6 +120,14 @@ public class Reserve {
 
     public void markAsFinishedByUser() {
         this.userFinish = true;
+    }
+
+    public boolean getCanConfirm() {
+        return canConfirm;
+    }
+
+    public void setCanConfirm(boolean canConfirm) {
+        this.canConfirm = canConfirm;
     }
 
 }
