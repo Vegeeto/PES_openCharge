@@ -22,6 +22,7 @@ import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.CustomUserPointsAdapter;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by DmnT on 17/05/2017.
@@ -94,8 +95,7 @@ public class UserInfoFragment extends Fragment {
             @Override
             public void onUserRetrieved(final User user) {
 
-                //TODO importar la llibreria externa corresponent i descomentar aquesta part
-                //Picasso.with(getActivity().getApplicationContext()).load(user.getPhoto()).into(imatgeUsuari);
+                Picasso.with(getActivity().getApplicationContext()).load(user.getPhoto()).into(imatgeUsuari);
                 nomUsuari.setText(user.getUsername());
                 emailUsuari.setText(user.getEmail());
                 minutsUsuari.setText(user.getUsername());
