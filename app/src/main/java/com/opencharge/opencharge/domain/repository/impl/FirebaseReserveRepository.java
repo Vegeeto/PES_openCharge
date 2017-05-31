@@ -32,7 +32,7 @@ public class FirebaseReserveRepository implements ReserveRepository {
     }
 
     @Override
-    void createReserve(Reserve reserve, final CreateReserveCallback callback) {
+    public void createReserve(Reserve reserve, final CreateReserveCallback callback) {
         DatabaseReference myRef = database.getReference("Reserves");
         myRef.push().setValue(reserve, new DatabaseReference.CompletionListener() {
             @Override
