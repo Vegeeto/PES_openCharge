@@ -38,6 +38,17 @@ public abstract class AbstractParser implements Parser {
         DateConversion dateConversion = new DateConversionImpl();
         return dateConversion.StringToDate(date);
     }
+
+    public Date parseTimeKeyFromMap(String key, Map<String, Object> map) {
+        String time = "";
+        if (map.containsKey(key)) {
+            time = (String)map.get(key);
+        }
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertStringToTime(time);
+    }
+
+
     public boolean parseBooleanKeyFromMap(String key, Map<String, Object> map) {
         boolean value = false;
         if (map.containsKey(key)) {

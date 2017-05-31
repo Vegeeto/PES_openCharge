@@ -242,7 +242,7 @@ public class CreateReserveFragment extends Fragment {
             return;
         }
 
-        Reserve r = new Reserve(startDay, startTime, endTime);
+        Reserve r = new Reserve(startTime, endTime);
 
         //TODO: finish this
         //getReserveCreateUseCase.setServiceParameters();
