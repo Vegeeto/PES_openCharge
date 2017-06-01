@@ -149,6 +149,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     //ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
                     PointInfoFragment fragment = PointInfoFragment.newInstance(point.getId());
+
+                    //el deixo aquí per tenir-lo a mà si em cal fer alguna prova més, si molesta es pot treure
+                    //UserInfoFragment fragment = UserInfoFragment.newInstance("-Kkw8SpHrn22Esxgd7F1");
+
                     ft.replace(R.id.content_frame, fragment).commit();
                 } catch (NullPointerException e) {
                     e.printStackTrace();
