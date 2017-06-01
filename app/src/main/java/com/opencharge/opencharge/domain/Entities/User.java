@@ -134,4 +134,16 @@ public class User {
     public ArrayList<Pair<String, String>> getPuntsReservats() {
         return puntsReservats;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", minutes=" + minutes +
+                ", puntsCreats=" + puntsCreats +
+                ", puntsReservats=" + puntsReservats +
+                ", id='" + id + '\'' +
+                '}';
+    }
 }

@@ -21,7 +21,7 @@ public class UserByIdUseCaseImpl extends AbstractUseCase implements UserByIdUseC
 
     public UserByIdUseCaseImpl(Executor threadExecutor,
                                MainThread mainThread,
-                               UsersRepository userssRepository,
+                               UsersRepository usersRepository,
                                UserByIdUseCase.Callback callback) {
         super(threadExecutor, mainThread);
 
