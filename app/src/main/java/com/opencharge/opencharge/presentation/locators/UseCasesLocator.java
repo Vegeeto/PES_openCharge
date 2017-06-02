@@ -192,7 +192,8 @@ public class UseCasesLocator {
         return new ReservesUpdateConfirmationsUseCaseImpl(
                 sl.getExecutor(),
                 sl.getMainThread(),
-                RepositoriesLocator.getInstance().getReserveRepository());
+                RepositoriesLocator.getInstance().getReserveRepository(),
+                RepositoriesLocator.getInstance().getUsersRepository());
     }
 
 }
