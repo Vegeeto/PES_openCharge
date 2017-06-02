@@ -1,8 +1,5 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
-import android.os.Debug;
-import android.util.Log;
-
 import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
@@ -12,8 +9,6 @@ import com.opencharge.opencharge.domain.use_cases.ReservesUpdateConfirmationsUse
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
 
 import org.joda.time.DateTime;
-
-import java.util.Calendar;
 
 /**
  * Created by Crjs on 02/06/2017.
@@ -41,7 +36,7 @@ public class ReservesUpdateConfirmationsUseCaseImpl extends AbstractUseCase impl
     @Override
     public void run() {
         reserveRepository.updateConfirmationsReserve(reserve);
-        if(reserve.isMarkedAsFinishedByOwner() && reserve.isMarkedAsFinishedByUser()) {
+        if(reserve.isMarkedAsFinishedByConsumer() && reserve.isMarkedAsFinishedBySupplier()) {
             reserve.accept();
             DateTime endHour = new DateTime(reserve.getEndHour());
             DateTime startHour = new DateTime(reserve.getStartHour());
