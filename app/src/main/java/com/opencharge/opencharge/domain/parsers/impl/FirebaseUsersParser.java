@@ -7,6 +7,7 @@ import com.opencharge.opencharge.domain.parsers.UsersParser;
 
 import java.net.Inet4Address;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser.LON_KEY;
@@ -21,8 +22,10 @@ public class FirebaseUsersParser implements UsersParser {
     public static final String PHOTO_KEY = "photo";
     public static final String EMAIL_KEY = "email";
     public static final String MINUTES_KEY = "minutes";
-    public static final String CREATS_KEY = "puntsCreats";
+    public static final String CREATS_KEY = "punts";
     public static final String RESERVATS_KEY = "puntsReservats";
+    public static final String POINT_ID="first";
+    public static final String POINT_NAME="second";
 
     @Override
     public User parseFromMap(String key, Map<String, Object> map) {
@@ -45,9 +48,26 @@ public class FirebaseUsersParser implements UsersParser {
 
     private ArrayList<Pair<String,String>> parseArrayListFromMap(String key, Map<String, Object> map) {
         ArrayList<Pair<String,String>> arrayList = new ArrayList();
+        //Log.i("ParseArrayList",key);
         if (map.containsKey(key)) {
-            arrayList = (ArrayList)map.get(key);
+            ArrayList<HashMap<String,String>> totsPunts =(ArrayList)map.get(key);
+            for (HashMap<String,String> element : totsPunts)
+            {
+                String idPunt = element.get(POINT_ID).toString();
+                String nomPunt=element.get(POINT_NAME).toString();
+                arrayList.add(new Pair<String,String>(idPunt,nomPunt));
+            }
         }
+
+        /*
+        //TODO això és el que s'ha de treure:
+        Pair<String,String> laParella = new Pair<>("-KkVEoFuPWKlEP2PZTPw","Pablo Neruda, 54");
+        arrayList.add(laParella);
+        Pair<String,String> laParella2=new Pair<>("-Kl4THJS4T9PiF2zbdak","d, 5");
+        arrayList.add(laParella2);
+        */
+
+
 
         return arrayList;
     }
