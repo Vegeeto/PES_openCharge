@@ -77,17 +77,12 @@ public class SignInActivity extends AppCompatActivity  {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
-                    //createUserInFirebaseHelper();
-                    //Intent i = new Intent(getApplicationContext(), NavigationActivity.class );
-                    //startActivity(i);
+                    Log.d("SignInActivity", "onAuthStateChanged:signed_in:" + user.getUid());
+
                     goToApp();
-                    Log.d("Sign in", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
-                    // User is signed out
-                    Log.d("Sign out", "onAuthStateChanged:signed_out");
+                    Log.d("SignInActivity", "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
@@ -148,26 +143,26 @@ public class SignInActivity extends AppCompatActivity  {
     }
 
     private void firebaseAuthWithGoogle(final GoogleSignInAccount account) {
-        Log.d("FirebaseAuthGoogle", "firebaseAuthWithGoogle:" + account.getId());
+        Log.d("SignInActivity", "firebaseAuthWithGoogle:" + account.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("signInWithCredential", "signInWithCredential:onComplete:" + task.isSuccessful());
+                        Log.d("SignInActivity", "signInWithGoogleCredential:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w("signInWithCredential", "signInWithCredential", task.getException());
+                            Log.w("SignInActivity", "ERROR: signInWithCredential", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
 
                             //Get Current User Data
-
+                            Log.w("SignInActivity", "SUCCESS: credential = " + account);
                             UsersListUseCase usersListUseCase = UseCasesLocator.getInstance().getUsersListUseCase(new UsersListUseCase.Callback() {
                                 @Override
                                 public void onUsersRetrieved(User[] users) {
@@ -186,7 +181,7 @@ public class SignInActivity extends AppCompatActivity  {
                                         UsersCreateUseCase getCreateUsersUseCase = useCasesLocator.getUsersCreateUseCase(new UsersCreateUseCase.Callback() {
                                             @Override
                                             public void onUserCreated(String id) {
-                                                Log.d("CrearUsuari", "onUserCreatedCallback");
+                                                Log.d("SignInActivity", "onUserCreatedCallback");
 
                                             }
 
