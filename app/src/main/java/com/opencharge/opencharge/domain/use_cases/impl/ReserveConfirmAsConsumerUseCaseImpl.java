@@ -5,8 +5,9 @@ import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.ReserveRepository;
 import com.opencharge.opencharge.domain.repository.UsersRepository;
-import com.opencharge.opencharge.domain.use_cases.ReservesUpdateConfirmationsUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReserveConfirmAsConsumerUseCase;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReserveConfirmAsSupplierUseCase;
 
 import org.joda.time.DateTime;
 
@@ -14,15 +15,16 @@ import org.joda.time.DateTime;
  * Created by Crjs on 02/06/2017.
  */
 
-public class ReservesUpdateConfirmationsUseCaseImpl extends AbstractUseCase implements ReservesUpdateConfirmationsUseCase {
+public class ReserveConfirmAsConsumerUseCaseImpl extends AbstractUseCase implements ReserveConfirmAsConsumerUseCase{
     private ReserveRepository reserveRepository;
     private UsersRepository usersRepository;
+
     private Reserve reserve;
 
-    public ReservesUpdateConfirmationsUseCaseImpl(Executor threadExecutor,
-                                                  MainThread mainThread,
-                                                  ReserveRepository reserveRepository,
-                                                  UsersRepository usersRepository) {
+    public ReserveConfirmAsConsumerUseCaseImpl(Executor threadExecutor,
+                                               MainThread mainThread,
+                                               ReserveRepository reserveRepository,
+                                               UsersRepository usersRepository) {
         super(threadExecutor, mainThread);
 
         this.reserveRepository = reserveRepository;
@@ -35,7 +37,7 @@ public class ReservesUpdateConfirmationsUseCaseImpl extends AbstractUseCase impl
 
     @Override
     public void run() {
-        reserveRepository.updateConfirmationsReserve(reserve);
+        reserve.markAsFinishedByConsumer();
         if(reserve.isMarkedAsFinishedByConsumer() && reserve.isMarkedAsFinishedBySupplier()) {
             reserve.accept();
             DateTime endHour = new DateTime(reserve.getEndHour());
@@ -46,5 +48,6 @@ public class ReservesUpdateConfirmationsUseCaseImpl extends AbstractUseCase impl
             usersRepository.addMinutesToUser(-(minutes+hours*60), reserve.getConsumerUserId());
             usersRepository.addMinutesToUser((minutes+hours*60), reserve.getSupplierUserId());
         }
+        reserveRepository.updateConfirmationsReserve(reserve);
     }
 }

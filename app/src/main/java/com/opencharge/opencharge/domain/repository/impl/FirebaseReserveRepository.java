@@ -85,7 +85,7 @@ public class FirebaseReserveRepository implements ReserveRepository {
                     getReserveById(reserveId, new FirebaseReserveRepository.GetReserveByIdCallback(){
                         @Override
                         public void onReserveRetrieved(Reserve reserve) {
-                            if(reserve.getState() != Reserve.REJECTED)reserves.add(reserve);
+                            if((reserve.getState() != Reserve.REJECTED) && (reserve.getState() != Reserve.ACCEPTED))reserves.add(reserve);
                             if(--childsToWaitConsumer < 1){
                                 callback.onReservesRetrieved(reserves);
                             }
@@ -126,7 +126,7 @@ public class FirebaseReserveRepository implements ReserveRepository {
                     getReserveById(reserveId, new FirebaseReserveRepository.GetReserveByIdCallback(){
                         @Override
                         public void onReserveRetrieved(Reserve reserve) {
-                            if(reserve.getState() != Reserve.REJECTED)reserves.add(reserve);
+                            if((reserve.getState() != Reserve.REJECTED) && (reserve.getState() != Reserve.ACCEPTED))reserves.add(reserve);
                             if(--childsToWaitSupplier < 1){
                                 callback.onReservesRetrieved(reserves);
                             }
@@ -172,14 +172,19 @@ public class FirebaseReserveRepository implements ReserveRepository {
         DatabaseReference myRef = database.getReference("Reserves");
         myRef = myRef.child(r.getId());
         myRef = myRef.child("markedAsFinishedByOwner");
-        myRef.setValue(r.isMarkedAsFinishedByOwner());
+        myRef.setValue(r.isMarkedAsFinishedByConsumer());
 
         myRef = database.getReference("Reserves");
         myRef = myRef.child(r.getId());
         myRef = myRef.child("markedAsFinishedByUser");
-        myRef.setValue(r.isMarkedAsFinishedByUser());
+        myRef.setValue(r.isMarkedAsFinishedBySupplier());
 
-        myRef = database.getReference("Reserves");
+        updateStateReserve(r);
+    }
+
+    @Override
+    public void updateStateReserve(Reserve r) {
+        DatabaseReference myRef = database.getReference("Reserves");
         myRef = myRef.child(r.getId());
         myRef = myRef.child("state");
         myRef.setValue(r.getState());
