@@ -3,6 +3,7 @@ package com.opencharge.opencharge.domain.parsers.impl;
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -51,14 +52,19 @@ public class FirebasePointsParser extends AbstractParser implements PointsParser
         return accessType;
     }
 
-    private @Point.ConnectorType List<String> parseConnectorTypeFromMap(Map<String, Object> map) {
-        List<String> connectorTypeList = (List<String>) map.get(CONNECTOR_TYPE_LIST_KEY);
-        for (@Point.ConnectorType String conn:connectorTypeList) {
-            if (!isCorrectConnectorType(conn)) {
-                conn = Point.UNKNOWN_CONNECTOR;
+    private List<String> parseConnectorTypeFromMap(Map<String, Object> map) {
+        List<String> parsedList = new ArrayList<>();
+        if (map.containsKey(CONNECTOR_TYPE_LIST_KEY)) {
+            List<String> connectorTypeList = (List<String>) map.get(CONNECTOR_TYPE_LIST_KEY);
+            for (String conn : connectorTypeList) {
+                if (!isCorrectConnectorType(conn)) {
+                    conn = Point.UNKNOWN_CONNECTOR;
+                }
+                parsedList.add(conn);
             }
         }
-        return connectorTypeList;
+        
+        return parsedList;
     }
 
     private boolean isCorrectAccessType(String accessType) {
