@@ -30,12 +30,39 @@ public abstract class AbstractParser implements Parser {
         }
     }
 
-    public Date parseDateKeyFromMap(String key, Map<String, Object> map) {
+    public Date parseDateLongKeyFromMap(String key, Map<String, Object> map) {
         String date = "";
         if (map.containsKey(key)) {
             date = (String)map.get(key);
         }
         DateConversion dateConversion = new DateConversionImpl();
-        return dateConversion.StringToDate(date);
+        return dateConversion.StringWithLongToDate(date);
+    }
+
+    public Date parseDateStringKeyFromMap(String key, Map<String, Object> map) {
+        String date = "";
+        if (map.containsKey(key)) {
+            date = (String)map.get(key);
+        }
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertStringToDate(date);
+    }
+
+    public Date parseTimeKeyFromMap(String key, Map<String, Object> map) {
+        String time = "";
+        if (map.containsKey(key)) {
+            time = (String)map.get(key);
+        }
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertStringToTime(time);
+    }
+
+
+    public boolean parseBooleanKeyFromMap(String key, Map<String, Object> map) {
+        boolean value = false;
+        if (map.containsKey(key)) {
+            value = (boolean)map.get(key);
+        }
+        return value;
     }
 }

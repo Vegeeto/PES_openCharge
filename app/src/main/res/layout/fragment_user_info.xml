@@ -13,8 +13,10 @@
 
         <ImageView
             android:id="@+id/perfil_usuari_imatge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"/>
     </LinearLayout>
 
@@ -136,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Eliminar compta" />
+            android:text="Eliminar compte" />
     </LinearLayout>
 
 </LinearLayout>
