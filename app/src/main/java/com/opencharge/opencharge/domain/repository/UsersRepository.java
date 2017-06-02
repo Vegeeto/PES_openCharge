@@ -27,9 +27,17 @@ public interface UsersRepository {
         void onError();
     }
 
+    interface AddReserveToUser {
+        void onReserveAdded();
+        void onError();
+    }
+
     void getUsers(final UsersRepository.GetUsersCallback callback);
 
     void getUserById(String userId, final GetUserByIdCallback callback);
 
     void createUser(FirebaseUser user, final CreateUserCallback callback);
+
+    void addSupplyReserveToUser(String reserveId, String userId, AddReserveToUser callback);
+    void addConsumerReserveToUser(String reserveId, String userId, AddReserveToUser callback);
 }

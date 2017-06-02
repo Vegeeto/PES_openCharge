@@ -1,6 +1,5 @@
 package com.opencharge.opencharge.domain.repository;
 
-import com.opencharge.opencharge.domain.Entities.FirebaseReserve;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 
 import java.util.ArrayList;
@@ -29,12 +28,12 @@ public interface ReserveRepository {
     }
 
     interface CreateReserveCallback {
-        void onReserveCreated(String id);
+        void onReserveCreated(String reserveId);
 
         void onError();
     }
 
-    void createReserve(String point_id, FirebaseReserve service, final CreateReserveCallback callback);
+    void createReserve(Reserve reserve, final CreateReserveCallback callback);
 
     void getReserves(String point_id, final GetReservesCallback callback);
 

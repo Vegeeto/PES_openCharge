@@ -1,5 +1,6 @@
 package com.opencharge.opencharge.domain.use_cases;
 
+import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 /**
@@ -12,7 +13,6 @@ public interface ReserveCreateUseCase extends UseCase {
         void onError();
     }
 
-    void setReserveParameters(long date, long startTime, long endTime);
-
+    void setReserve(Reserve reserve);
 
 }
