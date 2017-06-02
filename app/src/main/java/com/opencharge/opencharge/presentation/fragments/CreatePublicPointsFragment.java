@@ -6,7 +6,6 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +23,11 @@ import android.view.inputmethod.InputMethodManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.helpers.AddressConversion;
 import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.impl.ReserveUserInvolvedUseCaseImpl;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.util.ArrayList;
@@ -103,6 +104,19 @@ public class CreatePublicPointsFragment extends Fragment {
             }
         });
 
+        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        Log.d("TESTING", "Declaring the use case");
+        ReserveUserInvolvedUseCaseImpl teset = useCasesLocator.getReservesUserInvolvedUseCaseImpl(new ReserveUserInvolvedUseCaseImpl.Callback(){
+
+            @Override
+            public void onReservesRetrieved(Reserve[] reserves) {
+                Log.d("TESTING", (reserves[0].getId()));
+            }
+        });
+        teset.setPointParameters("-Kkw8SpHrn22Esxgd7F1");
+        Log.d("TESTING", "Going to call execute");
+        teset.execute();
+
         return view;
     }
     
@@ -170,7 +184,7 @@ public class CreatePublicPointsFragment extends Fragment {
             }
 
         }
-        
+
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(new PointsCreateUseCase.Callback(){
             @Override

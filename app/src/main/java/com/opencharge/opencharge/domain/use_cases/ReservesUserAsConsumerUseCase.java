@@ -4,15 +4,13 @@ import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
 /**
- * Created by Oriol on 9/5/2017.
+ * Created by Crjs on 02/06/2017.
  */
 
-public interface ReserveCreateUseCase extends UseCase {
+public interface ReservesUserAsConsumerUseCase {
+
     interface Callback {
-        void onReserveCreated(String id);
-        void onError();
+        void onReservesRetrieved(Reserve[] reserves);
     }
-
-    void setReserve(Reserve reserve);
-
+    void setUserId(String userID);
 }
