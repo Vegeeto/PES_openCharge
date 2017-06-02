@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
-    <fragment android:id="@+id/map_recycler"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        class="com.google.android.gms.maps.SupportMapFragment"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        card_view:cardCornerRadius="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+                <fragment android:id="@+id/map_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    class="com.google.android.gms.maps.SupportMapFragment"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
 
 </LinearLayout>

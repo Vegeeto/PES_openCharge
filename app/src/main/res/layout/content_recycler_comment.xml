@@ -3,7 +3,21 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        card_view:cardCornerRadius="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
     <TextView
         android:id="@+id/addcoment"
@@ -53,31 +67,32 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/morecomments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="35dp"
-            android:text="@string/carrega_m_s_comentaris"
-            android:textColor="@color/black"
-            android:textSize="@dimen/normal_text_size" />
 
         <ImageButton
             android:id="@+id/moreCommentsBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:backgroundTint="@color/colorAccent"
             android:src="@drawable/ic_comment_black_24dp"
-            android:tint="@color/white"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            />
+            android:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/morecomments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/carrega_m_s_comentaris"
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_text_size"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/moreCommentsBtn"
+            android:layout_marginStart="17dp" />
 
     </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

@@ -5,37 +5,24 @@
     xmlns:rv="http://schemas.android.com/apk/res-auto"
     tools:context="com.opencharge.opencharge.presentation.fragments.PointInfoFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@color/white"
                 rv:cardCornerRadius="5dp"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/horari"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="bottom|end"
-                android:textColor="@color/black"
-                android:src="@drawable/ic_date_range_black_24dp"
-                android:tint="@color/white"
-                android:layout_weight="1" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/horari"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:src="@drawable/ic_date_range_black_24dp"
+        android:tint="@color/white" />
 
-        </LinearLayout>
-
-    </ScrollView>
 
 </FrameLayout>
