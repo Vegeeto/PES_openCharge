@@ -7,5 +7,7 @@
         android:id="@+id/rowTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=" " />
+        android:text=" "
+        android:textColor="@color/profile_black"
+        android:textStyle="bold" />
 </LinearLayout>

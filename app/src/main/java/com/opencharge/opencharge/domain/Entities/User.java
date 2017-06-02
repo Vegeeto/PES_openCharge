@@ -13,6 +13,7 @@ public class User {
     private String email;
     private String username;
     private Integer minutes;
+    //arraylist de pairs, on el primer component del pair és el codi del punt, i el segon és la direcció de carrer(que es mostrarà al perfil)
     private ArrayList<Pair<String,String>> puntsCreats;
     private ArrayList<Pair<String,String>> puntsReservats;
 
@@ -132,5 +133,17 @@ public class User {
 
     public ArrayList<Pair<String, String>> getPuntsReservats() {
         return puntsReservats;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", minutes=" + minutes +
+                ", puntsCreats=" + puntsCreats +
+                ", puntsReservats=" + puntsReservats +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

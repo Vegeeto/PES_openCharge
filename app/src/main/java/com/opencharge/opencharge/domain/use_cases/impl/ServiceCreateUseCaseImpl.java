@@ -68,7 +68,6 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
     }
 
     private void createRepeatedServices() {
-        Log.d("ServiceCreateUseCase", "createRepeatedServices");
         ArrayList<Service> services = new ArrayList<>();
         Date currentDay = day;
         while (currentDay.before(lastRepeat)) {
@@ -80,9 +79,8 @@ public class ServiceCreateUseCaseImpl extends AbstractUseCase implements Service
             }
             incrementOneDayToDate(currentDay);
         }
-        Log.d("ServiceCreateUseCase", "createRepeatedServices: " + services);
 
-        Service[] servicesArray = (Service[]) services.toArray();
+        Service[] servicesArray = services.toArray(new Service[services.size()]);
         serviceRepository.createServices(pointId, servicesArray, new ServiceRepository.CreateServicesCallback() {
             @Override
             public void onServicesCreated() {
