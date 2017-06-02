@@ -17,13 +17,13 @@ public class UserFactory {
     private UserFactory() {}
 
     public static UserFactory getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new UserFactory();
         }
         return instance;
     }
 
-    public User createNewUser(String name, String photo, String email, ArrayList<Pair<String,String>> puntsCreats, ArrayList<Pair<String,String>> puntsReservats) {
+    public User createNewUser(String name, String photo, String email, ArrayList<Pair<String,String>> puntsCreats) {
 
         User u = new User();
         u.setUsername(name);
@@ -31,22 +31,7 @@ public class UserFactory {
         u.setEmail(email);
         u.setMinutes(0);
         u.setPunts(puntsCreats);
-        u.setPuntsReservats(puntsReservats);
         return u;
     }
-    public void setUserId(User u, String id){
-        u.id = id;
-    }
 
-    public User pointToFirebasePoint(User p){
-
-        User u = new User();
-        u.setUsername(p.getUsername());
-        u.setPhoto(p.getPhoto());
-        u.setEmail(p.getEmail());
-        u.setPunts(p.getPunts());
-        u.setPuntsReservats(p.getPuntsReservats());
-        u.setMinutes(p.getMinutes());
-        return u;
-    }
 }

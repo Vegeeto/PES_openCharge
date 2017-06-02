@@ -46,13 +46,12 @@ public class UsersCreateUseCaseImpl extends AbstractUseCase implements UsersCrea
 
     @Override
     public void run() {
-        final User user = UserFactory.getInstance().createNewUser(name, photo, email, puntsCreats, puntsReservats);
-        final User firebaseUser = UserFactory.getInstance().pointToFirebasePoint(user);
-        usersRepository.createUser(firebaseUser, new UsersRepository.CreateUserCallback(){
+        final User user = UserFactory.getInstance().createNewUser(name, photo, email, puntsCreats);
+        usersRepository.createUser(user, new UsersRepository.CreateUserCallback(){
             @Override
             public void onUserCreated(String id)
             {
-                UserFactory.getInstance().setUserId(user, id);
+                user.setId(id);
                 postUser(id);
             }
 
