@@ -31,6 +31,6 @@ public class ReserveConfirmAsSupplierUseCaseImpl extends AbstractUseCase impleme
 
     @Override
     public void run() {
-        reserve.isMarkedAsFinishedBySupplier();
+        reserve.markAsFinishedBySupplier();
     }
 }
