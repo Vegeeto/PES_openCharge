@@ -47,7 +47,7 @@ public class DateConversionImpl implements DateConversion {
 
     @Override
     public Date ConvertStringToTime(String dateString){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         try {
             Date convertedTime = dateFormat.parse(dateString);
             return convertedTime;
