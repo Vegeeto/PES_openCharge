@@ -27,7 +27,8 @@ public class FirebaseReserveRepository implements ReserveRepository {
     private ReserveParser reserveParser;
     private FirebaseDatabase database;
     // We need a global var to count the childs to wait
-    private long childsToWait;
+    private long childsToWaitSupplier;
+    private long childsToWaitConsumer;
 
     //TODO: finish this class => ORIOL
 
@@ -84,16 +85,19 @@ public class FirebaseReserveRepository implements ReserveRepository {
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {;
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 final ArrayList<Reserve> reserves = new ArrayList<Reserve>();
-                childsToWait = dataSnapshot.getChildrenCount();
+                if(dataSnapshot.getChildrenCount() == 0) {
+                    callback.onReservesRetrieved(reserves);
+                }
+                childsToWaitConsumer = dataSnapshot.getChildrenCount();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String reserveId = (String)snapshot.getValue();
                     getReserveById(reserveId, new FirebaseReserveRepository.GetReserveByIdCallback(){
                         @Override
                         public void onReserveRetrieved(Reserve reserve) {
-                            reserves.add(reserve);
-                            if(--childsToWait < 1){
+                            if(reserve.getState() != Reserve.REJECTED)reserves.add(reserve);
+                            if(--childsToWaitConsumer < 1){
                                 callback.onReservesRetrieved(reserves);
                             }
                         }
@@ -122,16 +126,19 @@ public class FirebaseReserveRepository implements ReserveRepository {
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {;
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 final ArrayList<Reserve> reserves = new ArrayList<Reserve>();
-                childsToWait = dataSnapshot.getChildrenCount();
+                if(dataSnapshot.getChildrenCount() == 0) {
+                    callback.onReservesRetrieved(reserves);
+                }
+                childsToWaitSupplier = dataSnapshot.getChildrenCount();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String reserveId = (String)snapshot.getValue();
                     getReserveById(reserveId, new FirebaseReserveRepository.GetReserveByIdCallback(){
                         @Override
                         public void onReserveRetrieved(Reserve reserve) {
-                            reserves.add(reserve);
-                            if(--childsToWait < 1){
+                            if(reserve.getState() != Reserve.REJECTED)reserves.add(reserve);
+                            if(--childsToWaitSupplier < 1){
                                 callback.onReservesRetrieved(reserves);
                             }
                         }
@@ -170,6 +177,20 @@ public class FirebaseReserveRepository implements ReserveRepository {
             }
         });
     }
+
+    @Override
+    public void updateConfirmationsReserve(Reserve r) {
+        DatabaseReference myRef = database.getReference("Reserves");
+        myRef = myRef.child(r.getId());
+        myRef = myRef.child("markedAsFinishedByOwner");
+        myRef.setValue(r.isMarkedAsFinishedByOwner());
+
+        myRef = database.getReference("Reserves");
+        myRef = myRef.child(r.getId());
+        myRef = myRef.child("markedAsFinishedByUser");
+        myRef.setValue(r.isMarkedAsFinishedByUser());
+    }
+
     private Reserve[] parseReservesFromDataSnapshot(DataSnapshot dataSnapshot) {
         Reserve[] reserves = new Reserve[(int)dataSnapshot.getChildrenCount()];
         int index = 0;
