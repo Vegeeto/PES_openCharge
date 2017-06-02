@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -145,9 +144,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             public void onInfoWindowClick(Marker marker) {
                 Point point = (Point) marker.getTag();
                 try {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    //ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     PointInfoFragment fragment = PointInfoFragment.newInstance(point.getId());
+                    ft.setCustomAnimations(R.anim.slide_up, R.anim.slide_down);
 
                     //el deixo aquí per tenir-lo a mà si em cal fer alguna prova més, si molesta es pot treure
                     //UserInfoFragment fragment = UserInfoFragment.newInstance("-Kkw8SpHrn22Esxgd7F1");
