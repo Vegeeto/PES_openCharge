@@ -73,12 +73,10 @@ public class FirebaseUsersRepository implements UsersRepository {
 
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
-                Log.d("CrearUser","Record saved!");
                 String postId = dr.getKey();
                 callback.onUserCreated(postId);
             }
 
-            ;
         });
     }
 

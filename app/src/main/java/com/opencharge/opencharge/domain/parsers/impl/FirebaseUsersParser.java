@@ -44,8 +44,6 @@ public class FirebaseUsersParser implements UsersParser {
         return user;
     }
 
-
-
     private ArrayList<Pair<String,String>> parseArrayListFromMap(String key, Map<String, Object> map) {
         ArrayList<Pair<String,String>> arrayList = new ArrayList();
         //Log.i("ParseArrayList",key);
@@ -66,8 +64,6 @@ public class FirebaseUsersParser implements UsersParser {
         Pair<String,String> laParella2=new Pair<>("-Kl4THJS4T9PiF2zbdak","d, 5");
         arrayList.add(laParella2);
         */
-
-
 
         return arrayList;
     }
