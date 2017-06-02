@@ -179,7 +179,12 @@ public class FirebaseReserveRepository implements ReserveRepository {
         myRef = myRef.child("markedAsFinishedByUser");
         myRef.setValue(r.isMarkedAsFinishedBySupplier());
 
-        myRef = database.getReference("Reserves");
+        updateStateReserve(r);
+    }
+
+    @Override
+    public void updateStateReserve(Reserve r) {
+        DatabaseReference myRef = database.getReference("Reserves");
         myRef = myRef.child(r.getId());
         myRef = myRef.child("state");
         myRef.setValue(r.getState());

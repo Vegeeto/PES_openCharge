@@ -41,5 +41,6 @@ public interface ReserveRepository {
     void getReservesAsConsumerByUserId(String userId, final GetReservesByUserIdCallback callback);
     void getReserveById(String reserveId, final GetReserveByIdCallback callback);
     void updateConfirmationsReserve(Reserve r);
+    void updateStateReserve(Reserve r);
 
 }
