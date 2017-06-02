@@ -23,7 +23,7 @@ public class DateConversionImpl implements DateConversion {
     }
 
     @Override
-    public Date StringToDate(String time) {
+    public Date StringWithLongToDate(String time) {
         return longToDate(Long.parseLong(time));
     }
 
@@ -47,7 +47,7 @@ public class DateConversionImpl implements DateConversion {
 
     @Override
     public Date ConvertStringToTime(String dateString){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         try {
             Date convertedTime = dateFormat.parse(dateString);
             return convertedTime;

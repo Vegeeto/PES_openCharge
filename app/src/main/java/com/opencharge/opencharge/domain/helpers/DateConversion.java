@@ -12,7 +12,7 @@ public interface DateConversion {
 
     Date longToDate(long time);
 
-    Date StringToDate(String time);
+    Date StringWithLongToDate(String time);
 
     String ConvertLongToDateFormat(long time);
 
