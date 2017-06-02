@@ -172,12 +172,12 @@ public class FirebaseReserveRepository implements ReserveRepository {
         DatabaseReference myRef = database.getReference("Reserves");
         myRef = myRef.child(r.getId());
         myRef = myRef.child("markedAsFinishedByOwner");
-        myRef.setValue(r.isMarkedAsFinishedByOwner());
+        myRef.setValue(r.isMarkedAsFinishedByConsumer());
 
         myRef = database.getReference("Reserves");
         myRef = myRef.child(r.getId());
         myRef = myRef.child("markedAsFinishedByUser");
-        myRef.setValue(r.isMarkedAsFinishedByUser());
+        myRef.setValue(r.isMarkedAsFinishedBySupplier());
 
         myRef = database.getReference("Reserves");
         myRef = myRef.child(r.getId());

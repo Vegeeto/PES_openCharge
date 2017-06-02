@@ -22,8 +22,8 @@ public class Reserve {
     private Date startHour;
     private Date endHour;
 
-    private boolean ownerFinish;
-    private boolean userFinish;
+    private boolean consumerFinish;
+    private boolean supplierFinish;
     private boolean canConfirm;
 
     public static final String CREATED = "Creada";
@@ -115,20 +115,20 @@ public class Reserve {
         this.state = REJECTED;
     }
 
-    public boolean isMarkedAsFinishedByOwner() {
-        return ownerFinish;
+    public boolean isMarkedAsFinishedByConsumer() {
+        return consumerFinish;
     }
 
-    public boolean isMarkedAsFinishedByUser() {
-        return userFinish;
+    public boolean isMarkedAsFinishedBySupplier() {
+        return supplierFinish;
     }
 
-    public void markAsFinishedByOwner() {
-        this.ownerFinish = true;
+    public void markAsFinishedByConsumer() {
+        this.consumerFinish = true;
     }
 
-    public void markAsFinishedByUser() {
-        this.userFinish = true;
+    public void markAsFinishedBySupplier() {
+        this.supplierFinish = true;
     }
 
     public boolean getCanConfirm() {

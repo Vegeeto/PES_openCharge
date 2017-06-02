@@ -34,12 +34,12 @@ public class FirebaseReserveParser extends AbstractParser implements ReservePars
 
         boolean ownerFinish = parseBooleanKeyFromMap(OWNER_FINISH, map);
         if (ownerFinish) {
-            reserve.markAsFinishedByOwner();
+            reserve.markAsFinishedByConsumer();
         }
 
         boolean userFinish = parseBooleanKeyFromMap(USER_FINISH, map);
         if (userFinish) {
-            reserve.markAsFinishedByUser();
+            reserve.markAsFinishedBySupplier();
         }
 
         boolean canConfirm = parseBooleanKeyFromMap(CANCONFIRM, map);
