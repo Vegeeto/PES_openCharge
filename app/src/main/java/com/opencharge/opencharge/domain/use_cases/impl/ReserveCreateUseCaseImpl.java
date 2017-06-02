@@ -4,10 +4,8 @@ import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.ReserveRepository;
-import com.opencharge.opencharge.domain.repository.ServiceRepository;
 import com.opencharge.opencharge.domain.repository.UsersRepository;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
-import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
 
 /**
@@ -43,7 +41,7 @@ public class ReserveCreateUseCaseImpl extends AbstractUseCase implements Reserve
         this.reserveRepository.createReserve(reserve, new ReserveRepository.CreateReserveCallback() {
             @Override
             public void onReserveCreated(String reserveId) {
-                usersRepository.addConsumerReserveToUser(reserveId, reserve.getUserId(), new UsersRepository.AddReserveToUser() {
+                usersRepository.addConsumerReserveToUser(reserveId, reserve.getConsumerUserId(), new UsersRepository.AddReserveToUser() {
                     @Override
                     public void onReserveAdded() {
                         //TODO get id of the owner of the point where the reserve is created and add a SupplyReserve to him
