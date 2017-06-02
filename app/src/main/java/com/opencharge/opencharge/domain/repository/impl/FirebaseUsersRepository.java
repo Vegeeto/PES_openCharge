@@ -35,7 +35,7 @@ public class FirebaseUsersRepository implements UsersRepository {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User[] users = parsePointsFromDataSnapshot(dataSnapshot);
+                User[] users = parseUsersFromDataSnapshot(dataSnapshot);
                 callback.onUsersRetrieved(users);
             }
 
@@ -128,7 +128,7 @@ public class FirebaseUsersRepository implements UsersRepository {
         });
     }
 
-    private User[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
+    private User[] parseUsersFromDataSnapshot(DataSnapshot dataSnapshot) {
         User[] users = new User[(int)dataSnapshot.getChildrenCount()];
         int index = 0;
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
