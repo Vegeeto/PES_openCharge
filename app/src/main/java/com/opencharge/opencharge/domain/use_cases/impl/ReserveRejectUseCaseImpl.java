@@ -6,17 +6,17 @@ import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.ReserveRepository;
 import com.opencharge.opencharge.domain.repository.UsersRepository;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
-import com.opencharge.opencharge.domain.use_cases.ReserveCancelUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReserveRejectUseCase;
 
 /**
  * Created by Crjs on 02/06/2017.
  */
 
-public class ReserveCancelUseCaseImpl extends AbstractUseCase implements ReserveCancelUseCase {
+public class ReserveRejectUseCaseImpl extends AbstractUseCase implements ReserveRejectUseCase {
     private ReserveRepository reserveRepository;
     private Reserve reserve;
 
-    public ReserveCancelUseCaseImpl(Executor threadExecutor,
+    public ReserveRejectUseCaseImpl(Executor threadExecutor,
                                     MainThread mainThread,
                                     ReserveRepository reserveRepository,
                                     UsersRepository usersRepository) {
@@ -33,5 +33,6 @@ public class ReserveCancelUseCaseImpl extends AbstractUseCase implements Reserve
     @Override
     public void run() {
         reserve.reject();
+        reserveRepository.updateStateReserve(reserve);
     }
 }

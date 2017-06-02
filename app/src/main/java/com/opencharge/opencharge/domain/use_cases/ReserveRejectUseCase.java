@@ -6,6 +6,6 @@ import com.opencharge.opencharge.domain.Entities.Reserve;
  * Created by Crjs on 02/06/2017.
  */
 
-public interface ReserveCancelUseCase {
+public interface ReserveRejectUseCase {
     void setReserve(Reserve reserve);
 }
