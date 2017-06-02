@@ -116,6 +116,22 @@ public class FirebaseUsersRepository implements UsersRepository {
 
     }
 
+    @Override
+    public void addMinutesToUser(final int quantity, String userId) {
+        final DatabaseReference myRef = database.getReference("Users").child(userId).child("minutes");
+        getUserById(userId, new UsersRepository.GetUserByIdCallback() {
+            @Override
+            public void onUserRetrieved(User user) {
+                myRef.setValue(user.getMinutes()+quantity);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+    }
+
     private User[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
         User[] users = new User[(int)dataSnapshot.getChildrenCount()];
         int index = 0;

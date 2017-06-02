@@ -40,4 +40,5 @@ public interface UsersRepository {
 
     void addSupplyReserveToUser(String reserveId, String userId, AddReserveToUser callback);
     void addConsumerReserveToUser(String reserveId, String userId, AddReserveToUser callback);
+    void addMinutesToUser(int quantity, String userId);
 }
