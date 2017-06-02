@@ -178,6 +178,11 @@ public class FirebaseReserveRepository implements ReserveRepository {
         myRef = myRef.child(r.getId());
         myRef = myRef.child("markedAsFinishedByUser");
         myRef.setValue(r.isMarkedAsFinishedByUser());
+
+        myRef = database.getReference("Reserves");
+        myRef = myRef.child(r.getId());
+        myRef = myRef.child("state");
+        myRef.setValue(r.getState());
     }
 
     private Reserve[] parseReservesFromDataSnapshot(DataSnapshot dataSnapshot) {
