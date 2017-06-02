@@ -85,7 +85,7 @@ public class FirebaseReserveRepository implements ReserveRepository {
                     getReserveById(reserveId, new FirebaseReserveRepository.GetReserveByIdCallback(){
                         @Override
                         public void onReserveRetrieved(Reserve reserve) {
-                            if(reserve.getState() != Reserve.REJECTED)reserves.add(reserve);
+                            if((reserve.getState() != Reserve.REJECTED) && (reserve.getState() != Reserve.ACCEPTED))reserves.add(reserve);
                             if(--childsToWaitConsumer < 1){
                                 callback.onReservesRetrieved(reserves);
                             }
@@ -126,7 +126,7 @@ public class FirebaseReserveRepository implements ReserveRepository {
                     getReserveById(reserveId, new FirebaseReserveRepository.GetReserveByIdCallback(){
                         @Override
                         public void onReserveRetrieved(Reserve reserve) {
-                            if(reserve.getState() != Reserve.REJECTED)reserves.add(reserve);
+                            if((reserve.getState() != Reserve.REJECTED) && (reserve.getState() != Reserve.ACCEPTED))reserves.add(reserve);
                             if(--childsToWaitSupplier < 1){
                                 callback.onReservesRetrieved(reserves);
                             }
