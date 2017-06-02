@@ -81,6 +81,7 @@ public class SignInActivity extends AppCompatActivity  {
                     //createUserInFirebaseHelper();
                     //Intent i = new Intent(getApplicationContext(), NavigationActivity.class );
                     //startActivity(i);
+                    goToApp();
                     Log.d("Sign in", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
@@ -200,12 +201,16 @@ public class SignInActivity extends AppCompatActivity  {
                             });
                             usersListUseCase.execute();
 
-                            Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
+
                         }
                     }
                 });
+    }
+
+    private void goToApp() {
+        Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
 
