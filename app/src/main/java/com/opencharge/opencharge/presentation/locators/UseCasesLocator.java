@@ -1,13 +1,11 @@
 package com.opencharge.opencharge.presentation.locators;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
-import com.opencharge.opencharge.domain.use_cases.ReservesUserInvolvedUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
@@ -22,6 +20,9 @@ import com.opencharge.opencharge.domain.use_cases.impl.PointByIdUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsListUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReserveCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReserveUserInvolvedUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ReservesUpdateConfirmationsUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ReservesUserAsConsumerUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ReservesUserAsSupplierUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ServiceCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ServiceListByPointAndDayUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserByIdUseCaseImpl;
@@ -29,8 +30,6 @@ import com.opencharge.opencharge.domain.use_cases.impl.UserLocationUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.AddCommentUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UsersCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UsersListUseCaseImpl;
-
-import java.util.List;
 
 /**
  * Created by ferran on 22/3/17.
@@ -169,4 +168,30 @@ public class UseCasesLocator {
                 callback
         );
     }
+    public ReservesUserAsSupplierUseCaseImpl getReservesUserAsSupplierUseCaseImpl(ReservesUserAsSupplierUseCaseImpl.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ReservesUserAsSupplierUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getReserveRepository(),
+                callback
+        );
+    }
+    public ReservesUserAsConsumerUseCaseImpl getReservesUserAsConsumerUseCaseImpl(ReservesUserAsConsumerUseCaseImpl.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ReservesUserAsConsumerUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getReserveRepository(),
+                callback
+        );
+    }
+    public ReservesUpdateConfirmationsUseCaseImpl getReservesUpdateUseCaseImpl() {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ReservesUpdateConfirmationsUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getReserveRepository());
+    }
+
 }
