@@ -19,7 +19,8 @@ public class FirebaseReserveParser extends AbstractParser implements ReservePars
     public static final String SERVICE_ID = "servideId";
     public static final String STATE = "state";
     public static final String USER_FINISH = "userFinish";
-    public static final String USER_ID = "userId";
+    public static final String CONSUMER_USER_ID = "consumeruserId";
+    public static final String SUPPLIER_USER_ID = "supplieruserId";
     public static final String CANCONFIRM = "canconfirm";
 
     @Override
@@ -44,7 +45,8 @@ public class FirebaseReserveParser extends AbstractParser implements ReservePars
         boolean canConfirm = parseBooleanKeyFromMap(CANCONFIRM, map);
         reserve.setCanConfirm(canConfirm);
 
-        reserve.setUserId(parseStringKeyFromMap(USER_ID, map));
+        reserve.setConsumerUserId(parseStringKeyFromMap(CONSUMER_USER_ID, map));
+        reserve.setSupplierUserId(parseStringKeyFromMap(SUPPLIER_USER_ID, map));
         reserve.setServiceId(parseStringKeyFromMap(SERVICE_ID, map));
 
         String stateFirebase = parseStringKeyFromMap(STATE, map);

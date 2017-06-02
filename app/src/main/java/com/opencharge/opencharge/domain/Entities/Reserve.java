@@ -15,7 +15,8 @@ public class Reserve {
 
     private String id;
     private String serviceId;
-    private String userId;
+    private String consumerUserId;
+    private String supplierUserId;
 
     private Date day;
     private Date startHour;
@@ -26,8 +27,8 @@ public class Reserve {
     private boolean canConfirm;
 
     public static final String CREATED = "Creada";
-    public static final String ACCEPTED = "Rebutjada";
-    public static final String REJECTED = "Acceptada";
+    public static final String ACCEPTED = "Acceptada";
+    public static final String REJECTED = "Rebutjada";
 
     @StringDef({CREATED, ACCEPTED, REJECTED})
     @Retention(RetentionPolicy.SOURCE)
@@ -86,12 +87,20 @@ public class Reserve {
         this.endHour = endHour;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getConsumerUserId() {
+        return consumerUserId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setConsumerUserId(String consumerUserId) {
+        this.consumerUserId = consumerUserId;
+    }
+
+    public String getSupplierUserId() {
+        return supplierUserId;
+    }
+
+    public void setSupplierUserId(String supplierUserId) {
+        this.supplierUserId = supplierUserId;
     }
 
     public @State String getState() {
