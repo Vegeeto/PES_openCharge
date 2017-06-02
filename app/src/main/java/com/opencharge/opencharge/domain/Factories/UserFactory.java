@@ -2,7 +2,6 @@ package com.opencharge.opencharge.domain.Factories;
 
 import android.util.Pair;
 
-import com.opencharge.opencharge.domain.Entities.FirebaseUser;
 import com.opencharge.opencharge.domain.Entities.User;
 
 import java.util.ArrayList;
@@ -39,9 +38,9 @@ public class UserFactory {
         u.id = id;
     }
 
-    public FirebaseUser pointToFirebasePoint(User p){
+    public User pointToFirebasePoint(User p){
 
-        FirebaseUser u = new FirebaseUser();
+        User u = new User();
         u.setUsername(p.getUsername());
         u.setPhoto(p.getPhoto());
         u.setEmail(p.getEmail());

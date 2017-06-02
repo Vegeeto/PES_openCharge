@@ -6,16 +6,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.opencharge.opencharge.domain.Entities.FirebaseUser;
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.parsers.UsersParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebaseUsersParser;
 import com.opencharge.opencharge.domain.repository.UsersRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -71,7 +67,7 @@ public class FirebaseUsersRepository implements UsersRepository {
     }
 
     @Override
-    public void createUser(FirebaseUser user, final CreateUserCallback callback) {
+    public void createUser(User user, final CreateUserCallback callback) {
         DatabaseReference myRef = database.getReference("Users");
         myRef.push().setValue(user, new DatabaseReference.CompletionListener() {
 
