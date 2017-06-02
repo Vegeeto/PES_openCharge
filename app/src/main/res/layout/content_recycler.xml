@@ -133,6 +133,8 @@
                  android:id="@+id/connector_layout"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
+                 android:layout_margin="15dp"
+                 android:paddingLeft="50dp"
                  android:orientation="vertical" />
 
         </LinearLayout>

@@ -87,8 +87,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 connector.setLayoutParams(new RecyclerView.LayoutParams(
                         RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT));
                 connector.setText(connectorList.get(i));
-                connector.setPadding(0, 100, 0, 0);// in pixels (left, top, right, bottom). The same as setting drawable
-                connector.setCompoundDrawablesWithIntrinsicBounds(0, 0, getDrawableForConnector(connectorList.get(i)), 0);
+                connector.setPadding(0, 5, 0, 5);
+                connector.setCompoundDrawablesWithIntrinsicBounds(getDrawableForConnector(connectorList.get(i)), 0, 0, 0); //(left, top, right, bottom)
                 connectorLayout.addView(connector);
             }
         }
@@ -223,7 +223,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
-    public PointsAdapter(Activity context, Point item) {
+    public PointsAdapter(Context context, Point item) {
         this.context = context;
         this.item = item;
     }
@@ -234,15 +234,15 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         RecyclerView.ViewHolder viewHolder;
         switch(viewType) {
             case 0:     //Inflate the layout with point information
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler, parent, false);
+                v = LayoutInflater.from(this.context).inflate(R.layout.content_recycler, parent, false);
                 viewHolder = new ViewHolderPoint(v);
                 break;
             case 1:     //Inflate the layout with map information
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_map, parent, false);
+                v = LayoutInflater.from(this.context).inflate(R.layout.content_map, parent, false);
                 viewHolder = new ViewHolderMap(v);
                 break;
             default:    //Inflate the layout with comments information
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_recycler_comment, parent, false);
+                v = LayoutInflater.from(this.context).inflate(R.layout.content_recycler_comment, parent, false);
                 viewHolder = new ViewHolderComment(v);
                 break;
         }
