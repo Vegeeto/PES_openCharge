@@ -42,7 +42,7 @@ public class ReservesUserAsConsumerUseCaseImpl extends AbstractUseCase implement
                     Calendar reserveDay = Calendar.getInstance();
                     Calendar reserveTime = Calendar.getInstance();
                     reserveDay.setTime(r.getDay());
-                    reserveTime.setTime(r.getEndHour());
+                    reserveTime.setTime(r.getStartHour());
 
                     //Todos estos if encadenados es para comprobar que si podemos confirmar o no
                     if(reserveDay.get(Calendar.YEAR) == today.get(Calendar.YEAR)){
