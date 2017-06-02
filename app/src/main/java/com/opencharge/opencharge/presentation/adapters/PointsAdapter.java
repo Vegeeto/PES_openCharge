@@ -90,7 +90,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 connector.setLayoutParams(new RecyclerView.LayoutParams(
                         RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT));
                 connector.setText(connectorList.get(i));
-                connector.setPadding(0, 20, 0, 0);// in pixels (left, top, right, bottom). The same as setting drawable
+                connector.setPadding(0, 100, 0, 0);// in pixels (left, top, right, bottom). The same as setting drawable
                 connector.setCompoundDrawablesWithIntrinsicBounds(0, 0, getDrawableForConnector(connectorList.get(i)), 0);
                 connectorLayout.addView(connector);
             }
@@ -118,6 +118,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            mMap.getUiSettings().setScrollGesturesEnabled(false);
+            mMap.getUiSettings().setZoomGesturesEnabled(false);
             LatLng position = new LatLng(item.getLatCoord(), item.getLonCoord());
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(position);
@@ -221,12 +223,6 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
         }
-
-        public void bindComment(Comment c) {
-            //Posar la informació d'un comentari a la vista
-            //En aquest cas, com que l'estem creant no hem de posar res
-        }
-
 
     }
 

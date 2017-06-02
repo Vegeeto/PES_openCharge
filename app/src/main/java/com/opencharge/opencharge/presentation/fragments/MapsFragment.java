@@ -80,12 +80,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment;
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        Log.e("TAG: ", "on view created");
         getUserLocation();
     }
 
     @Override
     public void onResume() {
+        Log.e("TAG: ", "on resume");
         super.onResume();
         getUserLocation();
         if (currentLocation != null) {
