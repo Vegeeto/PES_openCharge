@@ -3,6 +3,7 @@ package com.opencharge.opencharge.domain.use_cases;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.use_cases.base.UseCase;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,6 +11,7 @@ import java.util.List;
  */
 
 public interface ReservesUserInvolvedUseCase extends UseCase {
+
     interface Callback {
         void onReservesRetrieved(Reserve[] reserves);
     }
