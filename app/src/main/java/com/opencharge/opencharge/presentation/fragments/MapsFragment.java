@@ -80,15 +80,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment;
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        Log.e("TAG: ", "on view created");
         getUserLocation();
     }
 
     @Override
     public void onResume() {
-        Log.e("TAG: ", "on resume");
         super.onResume();
-        getUserLocation();
+        if (currentLocation == null) getUserLocation();
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
             mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);

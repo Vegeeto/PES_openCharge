@@ -47,14 +47,13 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
 
     public UserLocationServiceImpl(Context context) {
         this.context = context;
-        //getLocation();
+        getLocation();
     }
 
     @Override
     public void getUserLocation(UserLocationService.Callback callback) {
         this.callback = callback;
-        Location location = getLocation();
-        this.callback.onLocationRetrieved(location);
+        this.callback.onLocationRetrieved(getLocation());
     }
 
 
