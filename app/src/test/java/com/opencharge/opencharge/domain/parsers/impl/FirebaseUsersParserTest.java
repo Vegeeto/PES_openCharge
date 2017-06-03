@@ -98,6 +98,7 @@ public class FirebaseUsersParserTest {
         //Then
         assertEquals("Wrong parsed Id", key, parsedUser.getId());
         assertEquals("Wrong parsed UserName", user.getUsername(), parsedUser.getUsername());
+        assertEquals("Wrong parsed Email", user.getEmail(), parsedUser.getEmail());
 
     }
     //</editor-fold>
