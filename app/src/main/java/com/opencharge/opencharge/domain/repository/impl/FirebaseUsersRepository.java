@@ -73,7 +73,7 @@ public class FirebaseUsersRepository implements UsersRepository {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = parseUserFromSnapshot(dataSnapshot);
+                User user = parseUserFromQuerySnapshot(dataSnapshot);
                 callback.onUserRetrieved(user);
             }
 
@@ -168,6 +168,16 @@ public class FirebaseUsersRepository implements UsersRepository {
             return usersParser.parseFromMap(key, map);
         }
         return null;
+    }
+
+    private User parseUserFromQuerySnapshot(DataSnapshot snapshot) {
+        Map<String, Object> queryData = (Map<String, Object>) snapshot.getValue();
+        Map.Entry<String, Object> entry = queryData.entrySet().iterator().next();
+
+        String key = entry.getKey();
+        Map<String, Object> userData = (Map<String, Object>) entry.getValue();
+
+        return usersParser.parseFromMap(key, userData);
     }
     
 }
