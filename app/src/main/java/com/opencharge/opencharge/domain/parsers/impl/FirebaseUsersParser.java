@@ -39,35 +39,21 @@ public class FirebaseUsersParser implements UsersParser {
         user.setEmail(parseStringKeyFromMap(EMAIL_KEY, map));
         user.setMinutes(parseLongKeyFromMap(MINUTES_KEY, map).intValue());
         user.setPunts(parseArrayListFromMap(CREATS_KEY, map));
-        user.setPuntsReservats(parseArrayListFromMap(RESERVATS_KEY, map));
 
         return user;
     }
 
-
-
     private ArrayList<Pair<String,String>> parseArrayListFromMap(String key, Map<String, Object> map) {
         ArrayList<Pair<String,String>> arrayList = new ArrayList();
-        //Log.i("ParseArrayList",key);
         if (map.containsKey(key)) {
             ArrayList<HashMap<String,String>> totsPunts =(ArrayList)map.get(key);
             for (HashMap<String,String> element : totsPunts)
             {
                 String idPunt = element.get(POINT_ID).toString();
-                String nomPunt=element.get(POINT_NAME).toString();
+                String nomPunt = element.get(POINT_NAME).toString();
                 arrayList.add(new Pair<String,String>(idPunt,nomPunt));
             }
         }
-
-        /*
-        //TODO això és el que s'ha de treure:
-        Pair<String,String> laParella = new Pair<>("-KkVEoFuPWKlEP2PZTPw","Pablo Neruda, 54");
-        arrayList.add(laParella);
-        Pair<String,String> laParella2=new Pair<>("-Kl4THJS4T9PiF2zbdak","d, 5");
-        arrayList.add(laParella2);
-        */
-
-
 
         return arrayList;
     }

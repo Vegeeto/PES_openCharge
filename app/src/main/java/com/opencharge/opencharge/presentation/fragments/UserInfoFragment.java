@@ -166,11 +166,14 @@ public class UserInfoFragment extends Fragment {
                 */
 
 
-                puntsResUsuari.setAdapter(new CustomUserPointsAdapter(getActivity().getApplicationContext(),user.getPuntsReservats()));
+                //COMENTARI FERRAN: Comento això d'aqui perque ja no hi ha l'array de punts reservats, no crec que faci falta
+                //TODO: borrar això
+                /*puntsResUsuari.setAdapter(new CustomUserPointsAdapter(getActivity().getApplicationContext(),user.getPuntsReservats()));
 
                 puntsResUsuari.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> listView, View itemView, int itemPosition, long itemId)
                     {
+
                         String pointId=user.getPuntsReservats().get(itemPosition).first;
                         try {
                             FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -181,7 +184,8 @@ public class UserInfoFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
-                });
+                });*/
+
                 botoEliminarCompta.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
 

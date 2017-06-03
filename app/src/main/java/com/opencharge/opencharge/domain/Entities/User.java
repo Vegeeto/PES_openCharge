@@ -9,15 +9,14 @@ import java.util.ArrayList;
  */
 
 public class User {
+    private String id;
     private String photo;
     private String email;
     private String username;
     private Integer minutes;
+
     //arraylist de pairs, on el primer component del pair és el codi del punt, i el segon és la direcció de carrer(que es mostrarà al perfil)
     private ArrayList<Pair<String,String>> puntsCreats;
-    private ArrayList<Pair<String,String>> puntsReservats;
-
-    public String id;
 
     public User() {
 
@@ -27,12 +26,15 @@ public class User {
         this.id = id;
     }
 
-    public User (String username, String photo,  String email, ArrayList<Pair<String,String>> puntsCreats, ArrayList<Pair<String,String>> puntsReservats) {
+    public User (String username, String photo,  String email, ArrayList<Pair<String,String>> puntsCreats) {
         this.username = username;
         this.photo = photo;
         this.email = email;
         this.puntsCreats = puntsCreats;
-        this.puntsReservats = puntsReservats;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getPhoto () {
@@ -49,6 +51,10 @@ public class User {
 
     public Integer getMinutes() {
         return minutes;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setEmail(String email) {
@@ -69,10 +75,6 @@ public class User {
 
     public void setPunts(ArrayList<Pair<String, String>> punts) {
         this.puntsCreats = punts;
-    }
-
-    public void setPuntsReservats(ArrayList<Pair<String, String>> puntsReservats) {
-        this.puntsReservats = puntsReservats;
     }
 
     public void addPunt(Pair<String, String> punt){
@@ -101,38 +103,8 @@ public class User {
         }
     }
 
-    public void addPuntReservat(Pair<String, String> punt){
-        boolean trobat = false;
-        for (int i = 0; i < puntsReservats.size(); i++) {
-            if (puntsReservats.get(i).first.equals(punt.first)) {
-                trobat = true;
-            }
-        }
-        if (!trobat) {
-            puntsReservats.add(punt);
-        }
-    }
-
-    public void removePuntReservat(String codipunt){
-        boolean trobat = false;
-        int index = 0;
-        for (int i = 0; i < puntsReservats.size(); i++){
-            if (puntsReservats.get(i).first.equals(codipunt)){
-                trobat = true;
-                index = i;
-            }
-        }
-        if (trobat) {
-            puntsReservats.remove(index);
-        }
-    }
-
     public ArrayList<Pair<String, String>> getPunts() {
         return puntsCreats;
-    }
-
-    public ArrayList<Pair<String, String>> getPuntsReservats() {
-        return puntsReservats;
     }
 
     @Override
@@ -142,7 +114,6 @@ public class User {
                 ", username='" + username + '\'' +
                 ", minutes=" + minutes +
                 ", puntsCreats=" + puntsCreats +
-                ", puntsReservats=" + puntsReservats +
                 ", id='" + id + '\'' +
                 '}';
     }

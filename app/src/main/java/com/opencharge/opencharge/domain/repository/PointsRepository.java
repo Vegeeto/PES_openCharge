@@ -1,6 +1,5 @@
 package com.opencharge.opencharge.domain.repository;
 
-import com.opencharge.opencharge.domain.Entities.FirebasePoint;
 import com.opencharge.opencharge.domain.Entities.Point; // Esto rompe clean arch??
 
 /**
@@ -29,7 +28,7 @@ public interface PointsRepository {
 
     void getPoints(final GetPointsCallback callback);
 
-    void createPoint(FirebasePoint point, final CreatePointCallback callback);
+    void createPoint(Point point, final CreatePointCallback callback);
 
     void getPointById(String pointId, final GetPointByIdCallback callback);
 }
