@@ -39,19 +39,16 @@ import java.util.Locale;
  */
 public class CreatePublicPointsFragment extends Fragment {
 
-    private String MapsFragmentId;
     private EditText editTown;
     private EditText editStreet;
     private EditText editNumber;
     private EditText editSchedule;
     private RadioGroup rdgAcces;
-    private RadioGroup rdgTipus;
     private LinearLayout connectorTypeLayout;
     private LinearLayout connectorTypeLayourParent;
-    private ImageButton addMoreConnectors;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_new_point, container, false);
         final Button saveButton = (Button) view.findViewById(R.id.GuardarBtn);
@@ -61,7 +58,6 @@ public class CreatePublicPointsFragment extends Fragment {
         editSchedule = (EditText) view.findViewById(R.id.Horari);
         rdgAcces = (RadioGroup) view.findViewById(R.id.Public_or_private);
         connectorTypeLayout = (LinearLayout) view.findViewById(R.id.connector_type_layout);
-        addMoreConnectors = (ImageButton) view.findViewById(R.id.add_more_connectors_button);
         connectorTypeLayourParent = (LinearLayout) view.findViewById(R.id.connector_type_parent);
 
         rdgAcces.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -91,7 +87,7 @@ public class CreatePublicPointsFragment extends Fragment {
         RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
         datePickerButton.setVisibility(View.GONE);
 
-        final LinearLayout scheduleLayout = (LinearLayout) view.findViewById(R.id.Horari_text);
+        final LinearLayout scheduleLayout = (LinearLayout) view.findViewById(R.id.horari_layout);
         scheduleLayout.setVisibility(View.GONE);
         rdgAcces.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +100,18 @@ public class CreatePublicPointsFragment extends Fragment {
             }
         });
 
-        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        final ImageButton addMoreConnectors = (ImageButton) view.findViewById(R.id.add_more_connectors_button);
+        addMoreConnectors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout newLayout = new LinearLayout(getActivity(), null);
+                newLayout.inflate(getActivity(), R.layout.radiogroup, container);
+                connectorTypeLayourParent.addView(newLayout);
+                
+            }
+        });
+
+        /*UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         Log.d("TESTING", "Declaring the use case");
         ReserveUserInvolvedUseCaseImpl teset = useCasesLocator.getReservesUserInvolvedUseCaseImpl(new ReserveUserInvolvedUseCaseImpl.Callback(){
 
@@ -115,7 +122,7 @@ public class CreatePublicPointsFragment extends Fragment {
         });
         teset.setPointParameters("-Kkw8SpHrn22Esxgd7F1");
         Log.d("TESTING", "Going to call execute");
-        teset.execute();
+        teset.execute();*/
 
         return view;
     }
