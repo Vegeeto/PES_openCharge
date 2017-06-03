@@ -35,6 +35,7 @@ import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
+import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.presentation.fragments.ShowCommentsFragment;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
@@ -87,7 +88,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 connector.setLayoutParams(new RecyclerView.LayoutParams(
                         RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT));
                 connector.setText(connectorList.get(i));
-                connector.setPadding(0, 5, 0, 5);
+                connector.setPadding(0, 0, 0, 5);
                 connector.setCompoundDrawablesWithIntrinsicBounds(getDrawableForConnector(connectorList.get(i)), 0, 0, 0); //(left, top, right, bottom)
                 connectorLayout.addView(connector);
             }
@@ -189,10 +190,11 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
+            final UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
                     AddCommentUseCase getAddCommentUseCase = useCasesLocator.getAddCommentUseCase(new AddCommentUseCase.Callback(){
                         @Override
                         public void onCommentAdded(String id) {
@@ -209,13 +211,24 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             morecomments.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
-                    ft.setCustomAnimations(R.anim.slide_up, R.anim.slide_down);
-                    ShowCommentsFragment fragment = ShowCommentsFragment.newInstance(item.getId());
-                    ft.replace(R.id.content_frame, fragment);
-                    ft.addToBackStack(null);
-                    ft.commit();
+                public void onClick(final View view) {
+                    CommentsListUseCase commentsListUseCase = useCasesLocator.getCommentsListUseCase(new CommentsListUseCase.Callback() {
+                        @Override
+                        public void onCommentsRetrieved(Comment[] comments) {
+                            if (comments.length > 0) {
+                                FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+                                ft.setCustomAnimations(R.anim.slide_up, R.anim.slide_down);
+                                ShowCommentsFragment fragment = ShowCommentsFragment.newInstance(item.getId());
+                                ft.replace(R.id.content_frame, fragment);
+                                ft.addToBackStack(null);
+                                ft.commit();
+                            } else {
+                                Toast.makeText(view.getContext(), "No hi ha comentaris!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    commentsListUseCase.setPointId(item.getId());
+                    commentsListUseCase.execute();
                 }
             });
 
