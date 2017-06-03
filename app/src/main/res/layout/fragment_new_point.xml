@@ -270,7 +270,8 @@
                 android:id="@+id/connector_type_parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="5dp">
 
                 <LinearLayout
                     android:id="@+id/connector_type_layout"

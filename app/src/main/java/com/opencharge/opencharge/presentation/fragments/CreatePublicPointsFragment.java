@@ -4,6 +4,7 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.content.Context;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -89,10 +90,10 @@ public class CreatePublicPointsFragment extends Fragment {
 
         final LinearLayout scheduleLayout = (LinearLayout) view.findViewById(R.id.horari_layout);
         scheduleLayout.setVisibility(View.GONE);
-        rdgAcces.setOnClickListener(new View.OnClickListener() {
+        rdgAcces.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                switch (rdgAcces.getCheckedRadioButtonId()) {
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.Privat: scheduleLayout.setVisibility(View.VISIBLE); break;
                     case R.id.Public: scheduleLayout.setVisibility(View.VISIBLE); break;
                     default: scheduleLayout.setVisibility(View.GONE); break;
@@ -102,12 +103,12 @@ public class CreatePublicPointsFragment extends Fragment {
 
         final ImageButton addMoreConnectors = (ImageButton) view.findViewById(R.id.add_more_connectors_button);
         addMoreConnectors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LinearLayout newLayout = new LinearLayout(getActivity(), null);
-                newLayout.inflate(getActivity(), R.layout.radiogroup, container);
-                connectorTypeLayourParent.addView(newLayout);
-                
+            public void onClick(View v) {
+                //Duplicar layout
+                LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                //LinearLayout main =(LinearLayout) v.findViewById(R.id.connector_type_parent);
+                View view = inflater.inflate(R.layout.radiogroup, null);
+                connectorTypeLayourParent.addView(view);
             }
         });
 
@@ -147,18 +148,24 @@ public class CreatePublicPointsFragment extends Fragment {
             return;
         }
         //Log.d("CrearPunt","num: " +number);
-        String schedule = editSchedule.getText().toString();
-        if (schedule.matches("")) {
-            Toast.makeText(getActivity(), "Ha d'indicar l'horari", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        //Log.d("CrearPunt","sch: "+schedule);
 
         String accesType;
+        String schedule = editSchedule.getText().toString();
+        //Log.d("CrearPunt","sch: "+schedule);*/
         switch (rdgAcces.getCheckedRadioButtonId()) {
             case R.id.Particular: accesType = Point.PARTICULAR_ACCESS; break;
-            case R.id.Privat: accesType = Point.PRIVATE_ACCESS; break;
-            case R.id.Public: accesType = Point.PUBLIC_ACCESS; break;
+            case R.id.Privat: accesType = Point.PRIVATE_ACCESS;
+                if (schedule.matches("")) {
+                    Toast.makeText(getActivity(), "Ha d'indicar l'horari", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                break;
+            case R.id.Public: accesType = Point.PUBLIC_ACCESS;
+                if (schedule.matches("")) {
+                    Toast.makeText(getActivity(), "Ha d'indicar l'horari", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                break;
             default: accesType = Point.UNKNOWN_ACCESS; break;
         }
         if (rdgAcces.getCheckedRadioButtonId() == R.id.Public) {
@@ -212,7 +219,7 @@ public class CreatePublicPointsFragment extends Fragment {
             return;
         }
 
-        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorTypeList,schedule);
+        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorTypeList, schedule);
         getCreatePointsUseCase.execute();
 
     }
