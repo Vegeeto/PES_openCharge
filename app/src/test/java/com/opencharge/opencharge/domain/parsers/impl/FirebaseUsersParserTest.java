@@ -2,16 +2,19 @@ package com.opencharge.opencharge.domain.parsers.impl;
 
 import android.util.Pair;
 
+import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.Entities.User;
 
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by ferran on 3/6/17.
@@ -83,6 +86,18 @@ public class FirebaseUsersParserTest {
         ArrayList<Pair<String, String>> list = new ArrayList<>();
         Collections.addAll(list, point1, point2);
         return list;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Parse tests">
+    @Test
+    public void test_parseFromMap_createUserWithCorrectParams() {
+        //When
+        User parsedUser = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("Wrong parsed Id", key, user.getId());
+
     }
     //</editor-fold>
 }

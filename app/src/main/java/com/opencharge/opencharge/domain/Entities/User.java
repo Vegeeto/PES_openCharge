@@ -3,6 +3,7 @@ package com.opencharge.opencharge.domain.Entities;
 import android.util.Pair;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DmnT on 10/05/2017.
@@ -16,7 +17,7 @@ public class User {
     private Integer minutes;
 
     //arraylist de pairs, on el primer component del pair és el codi del punt, i el segon és la direcció de carrer(que es mostrarà al perfil)
-    private ArrayList<Pair<String,String>> puntsCreats;
+    private List<Pair<String,String>> puntsCreats;
 
     public User() {
 
@@ -73,7 +74,7 @@ public class User {
         this.minutes = minutes;
     }
 
-    public void setPunts(ArrayList<Pair<String, String>> punts) {
+    public void setPunts(List<Pair<String, String>> punts) {
         this.puntsCreats = punts;
     }
 
@@ -103,7 +104,7 @@ public class User {
         }
     }
 
-    public ArrayList<Pair<String, String>> getPunts() {
+    public List<Pair<String, String>> getPunts() {
         return puntsCreats;
     }
 

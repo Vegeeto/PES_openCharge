@@ -29,15 +29,12 @@ public class FirebaseUsersParser implements UsersParser {
     @Override
     public User parseFromMap(String key, Map<String, Object> map) {
         User user = new User(key);
-
-        //TODO aquesta part, i la resta també, s'ha d'emplenar correctament quan es sàpiga com es guarden els usuaris al firebase
-
-
-        user.setUsername(parseStringKeyFromMap(USERNAME_KEY, map));
-        user.setPhoto(parseStringKeyFromMap(PHOTO_KEY, map));
-        user.setEmail(parseStringKeyFromMap(EMAIL_KEY, map));
-        user.setMinutes(parseLongKeyFromMap(MINUTES_KEY, map).intValue());
-        user.setPunts(parseArrayListFromMap(CREATS_KEY, map));
+        
+//        user.setUsername(parseStringKeyFromMap(USERNAME_KEY, map));
+//        user.setPhoto(parseStringKeyFromMap(PHOTO_KEY, map));
+//        user.setEmail(parseStringKeyFromMap(EMAIL_KEY, map));
+//        user.setMinutes(parseLongKeyFromMap(MINUTES_KEY, map).intValue());
+//        user.setPunts(parseArrayListFromMap(CREATS_KEY, map));
 
         return user;
     }
