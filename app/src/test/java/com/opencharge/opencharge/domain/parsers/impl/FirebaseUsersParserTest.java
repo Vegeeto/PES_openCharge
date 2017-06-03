@@ -46,7 +46,7 @@ public class FirebaseUsersParserTest {
         map.put(FirebaseUsersParser.USERNAME_KEY , "user name");
         map.put(FirebaseUsersParser.PHOTO_KEY , "path to photo");
         map.put(FirebaseUsersParser.EMAIL_KEY , "user@email.com");
-        map.put(FirebaseUsersParser.MINUTES_KEY , 10);
+        map.put(FirebaseUsersParser.MINUTES_KEY , Long.valueOf(10));
 
         List<Map<String, String>> pointsList = createPointsListForMapTest();
         map.put(FirebaseUsersParser.CREATS_KEY , pointsList);
@@ -100,6 +100,7 @@ public class FirebaseUsersParserTest {
         assertEquals("Wrong parsed UserName", user.getUsername(), parsedUser.getUsername());
         assertEquals("Wrong parsed Email", user.getEmail(), parsedUser.getEmail());
         assertEquals("Wrong parsed Photo", user.getPhoto(), parsedUser.getPhoto());
+        assertEquals("Wrong parsed Minutes", user.getMinutes(), parsedUser.getMinutes());
 
     }
     //</editor-fold>
