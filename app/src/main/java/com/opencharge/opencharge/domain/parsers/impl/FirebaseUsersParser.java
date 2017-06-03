@@ -41,7 +41,7 @@ public class FirebaseUsersParser implements UsersParser {
         if (map.containsKey(key)) {
 
             List<HashMap<String, String>> totsPunts = (List<HashMap<String, String>>) map.get(key);
-            for (HashMap<String,String> element : totsPunts) {
+            for (HashMap<String, String> element : totsPunts) {
                 String idPunt = element.get(POINT_ID);
                 String nomPunt = element.get(POINT_ADDRESS);
                 UserPointSummary point = new UserPointSummary(idPunt, nomPunt);
@@ -56,16 +56,15 @@ public class FirebaseUsersParser implements UsersParser {
     private Long parseLongKeyFromMap(String key, Map<String, Object> map) {
         long value = 0;
         if (map.containsKey(key)) {
-            value = (Long)map.get(key);
+            value = (Long) map.get(key);
         }
         return value;
     }
 
     private String parseStringKeyFromMap(String key, Map<String, Object> map) {
         if (map.containsKey(key)) {
-            return (String)map.get(key);
-        }
-        else {
+            return (String) map.get(key);
+        } else {
             return null;
         }
     }
