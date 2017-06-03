@@ -82,6 +82,11 @@ public class User {
         this.points = punts;
     }
 
+    public void addPoint(Point point) {
+        UserPointSummary pointSummary = new UserPointSummary(point.getId(), point.getAddress());
+        points.add(pointSummary);
+    }
+
     public List<UserPointSummary> getPoints() {
         return points;
     }
