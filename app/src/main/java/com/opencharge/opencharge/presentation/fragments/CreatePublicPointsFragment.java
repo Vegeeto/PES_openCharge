@@ -110,7 +110,9 @@ public class CreatePublicPointsFragment extends Fragment {
 
             @Override
             public void onReservesRetrieved(Reserve[] reserves) {
-                Log.d("TESTING", (reserves[0].getId()));
+                if (reserves.length > 0) {
+                    Log.d("TESTING", (reserves[0].getId()));
+                }
             }
         });
         teset.setPointParameters("-Kkw8SpHrn22Esxgd7F1");

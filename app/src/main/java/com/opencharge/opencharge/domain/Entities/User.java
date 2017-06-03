@@ -1,8 +1,7 @@
 package com.opencharge.opencharge.domain.Entities;
 
-import android.util.Pair;
-
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DmnT on 10/05/2017.
@@ -14,23 +13,29 @@ public class User {
     private String email;
     private String username;
     private Integer minutes;
-
-    //arraylist de pairs, on el primer component del pair és el codi del punt, i el segon és la direcció de carrer(que es mostrarà al perfil)
-    private ArrayList<Pair<String,String>> puntsCreats;
+    private List<UserPointSummary> points;
 
     public User() {
-
+        this.points = new ArrayList<>();
     }
 
     public User(String id) {
         this.id = id;
+        this.points = new ArrayList<>();
     }
 
-    public User (String username, String photo,  String email, ArrayList<Pair<String,String>> puntsCreats) {
+    public User (String username, String photo,  String email) {
         this.username = username;
         this.photo = photo;
         this.email = email;
-        this.puntsCreats = puntsCreats;
+        this.points = new ArrayList<>();
+    }
+
+    public User (String username, String photo,  String email, List<UserPointSummary> points) {
+        this.username = username;
+        this.photo = photo;
+        this.email = email;
+        this.points = points;
     }
 
     public String getId() {
@@ -73,38 +78,12 @@ public class User {
         this.minutes = minutes;
     }
 
-    public void setPunts(ArrayList<Pair<String, String>> punts) {
-        this.puntsCreats = punts;
+    public void setPoints(List<UserPointSummary> punts) {
+        this.points = punts;
     }
 
-    public void addPunt(Pair<String, String> punt){
-        boolean trobat = false;
-        for (int i = 0; i < puntsCreats.size(); i++) {
-            if (puntsCreats.get(i).first.equals(punt.first)) {
-                trobat = true;
-            }
-        }
-        if (!trobat) {
-            puntsCreats.add(punt);
-        }
-    }
-
-    public void removePunt(String codipunt){
-        boolean trobat = false;
-        int index = 0;
-        for (int i = 0; i < puntsCreats.size(); i++){
-            if (puntsCreats.get(i).first.equals(codipunt)){
-                trobat=true;
-                index = i;
-            }
-        }
-        if (trobat) {
-            puntsCreats.remove(index);
-        }
-    }
-
-    public ArrayList<Pair<String, String>> getPunts() {
-        return puntsCreats;
+    public List<UserPointSummary> getPoints() {
+        return points;
     }
 
     @Override
@@ -113,7 +92,7 @@ public class User {
                 "email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", minutes=" + minutes +
-                ", puntsCreats=" + puntsCreats +
+                ", points=" + points +
                 ", id='" + id + '\'' +
                 '}';
     }
