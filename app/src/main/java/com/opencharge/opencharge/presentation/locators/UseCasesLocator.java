@@ -2,16 +2,20 @@ package com.opencharge.opencharge.presentation.locators;
 
 import android.content.Context;
 
+import com.opencharge.opencharge.domain.device_services.UserPreferences;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
+import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
+import com.opencharge.opencharge.domain.use_cases.SetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.CommentsListUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.GetCurrentUserUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
@@ -25,6 +29,7 @@ import com.opencharge.opencharge.domain.use_cases.impl.ReservesUserAsConsumerUse
 import com.opencharge.opencharge.domain.use_cases.impl.ReservesUserAsSupplierUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ServiceCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ServiceListByPointAndDayUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.SetCurrentUserUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserByIdUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.UserLocationUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.AddCommentUseCaseImpl;
@@ -42,7 +47,7 @@ public class UseCasesLocator {
     }
 
     public static UseCasesLocator getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new UseCasesLocator();
         }
         return instance;
@@ -169,6 +174,7 @@ public class UseCasesLocator {
                 callback
         );
     }
+
     public ReservesUserAsSupplierUseCaseImpl getReservesUserAsSupplierUseCaseImpl(ReservesUserAsSupplierUseCaseImpl.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
         return new ReservesUserAsSupplierUseCaseImpl(
@@ -178,6 +184,7 @@ public class UseCasesLocator {
                 callback
         );
     }
+
     public ReservesUserAsConsumerUseCaseImpl getReservesUserAsConsumerUseCaseImpl(ReservesUserAsConsumerUseCaseImpl.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
         return new ReservesUserAsConsumerUseCaseImpl(
@@ -187,6 +194,7 @@ public class UseCasesLocator {
                 callback
         );
     }
+
     public ReservesUpdateConfirmationsUseCaseImpl getReservesUpdateUseCaseImpl() {
         ServicesLocator sl = ServicesLocator.getInstance();
         return new ReservesUpdateConfirmationsUseCaseImpl(
@@ -194,6 +202,26 @@ public class UseCasesLocator {
                 sl.getMainThread(),
                 RepositoriesLocator.getInstance().getReserveRepository(),
                 RepositoriesLocator.getInstance().getUsersRepository());
+    }
+
+    public SetCurrentUserUseCase getSetCurrentUserUseCase(Context context) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new SetCurrentUserUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                sl.getUserPreferencesService(context));
+    }
+
+    public GetCurrentUserUseCase getGetCurrentUserUseCase(Context context,
+                                                          GetCurrentUserUseCase.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        RepositoriesLocator rl = RepositoriesLocator.getInstance();
+        return new GetCurrentUserUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                sl.getUserPreferencesService(context),
+                rl.getUsersRepository(),
+                callback);
     }
 
 }

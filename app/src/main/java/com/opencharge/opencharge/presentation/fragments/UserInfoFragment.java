@@ -3,6 +3,7 @@ package com.opencharge.opencharge.presentation.fragments;
 //import android.app.Fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.CustomUserPointsAdapter;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
@@ -64,6 +66,11 @@ public class UserInfoFragment extends Fragment {
         return fragment;
     }
 
+    public static UserInfoFragment newInstance() {
+        UserInfoFragment fragment = new UserInfoFragment();
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,63 +98,85 @@ public class UserInfoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        UserByIdUseCase getUserUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
-            @Override
-            public void onUserRetrieved(final User user) {
+        if (needsToShowCurrentUser()) {
 
-                Picasso.with(getActivity().getApplicationContext()).load(user.getPhoto()).into(imatgeUsuari);
-                nomUsuari.setText(user.getUsername());
-                emailUsuari.setText(user.getEmail());
-                minutsUsuari.setText(user.getMinutes().toString());
-                //possible fallo que el context no s'estigui passant correctament?:
+            Context context = getActivity();
+            GetCurrentUserUseCase getCurrentUserUseCase = useCasesLocator.getGetCurrentUserUseCase(context, new GetCurrentUserUseCase.Callback() {
+                @Override
+                public void onCurrentUserRetrieved(User currentUser) {
+                    setUpViewForUser(currentUser);
+                }
+            });
+            getCurrentUserUseCase.execute();
+
+        }
+        else {
+
+            UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
+                @Override
+                public void onUserRetrieved(User user) {
+                    setUpViewForUser(user);
+                }
+            });
+            userByIdUseCase.setUserId(userId);
+            userByIdUseCase.execute();
+
+        }
+
+    }
+
+    private boolean needsToShowCurrentUser() {
+        return (userId == null);
+    }
+
+    private void setUpViewForUser(final User user) {
+        Picasso.with(getActivity().getApplicationContext()).load(user.getPhoto()).into(imatgeUsuari);
+        nomUsuari.setText(user.getUsername());
+        emailUsuari.setText(user.getEmail());
+        minutsUsuari.setText(user.getMinutes().toString());
+        //possible fallo que el context no s'estigui passant correctament?:
 
 
-                puntsUsuari.setAdapter(new CustomUserPointsAdapter(getActivity().getApplicationContext(), user.getPoints()));
+        puntsUsuari.setAdapter(new CustomUserPointsAdapter(getActivity().getApplicationContext(), user.getPoints()));
 
-                puntsUsuari.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> listView, View itemView, int itemPosition, long itemId) {
-                        String pointId = user.getPoints().get(itemPosition).getPointId();
-                        try {
-                            FragmentTransaction ft = getFragmentManager().beginTransaction();
-                            PointInfoFragment fragment = PointInfoFragment.newInstance(pointId);
-                            ft.replace(R.id.content_frame, fragment).commit();
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-                botoEliminarCompta.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-
-                        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                        alertDialog.setTitle("Segur?");
-                        alertDialog.setMessage("Es perdràn tots els punts, minuts i reserves. Aquesta acció no es pot desfer.");
-
-                        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                alertDialog.dismiss();
-                            }
-                        });
-                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Continuar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //TODO aqui s'ha de cridar la funció que esborri l'usuari
-                                // això és un placeholder per així tenir una resposta, un cop
-                                // implementat correctament es pot deixar, o treure
-                                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Usuari eliminat", Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
-                        });
-
-                        alertDialog.show();
-                    }
-
-                });
-
+        puntsUsuari.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> listView, View itemView, int itemPosition, long itemId) {
+                String pointId = user.getPoints().get(itemPosition).getPointId();
+                try {
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    PointInfoFragment fragment = PointInfoFragment.newInstance(pointId);
+                    ft.replace(R.id.content_frame, fragment).commit();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        getUserUseCase.setUserId(userId);
-        getUserUseCase.execute();
+        botoEliminarCompta.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setTitle("Segur?");
+                alertDialog.setMessage("Es perdràn tots els punts, minuts i reserves. Aquesta acció no es pot desfer.");
+
+                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO aqui s'ha de cridar la funció que esborri l'usuari
+                        // això és un placeholder per així tenir una resposta, un cop
+                        // implementat correctament es pot deixar, o treure
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Usuari eliminat", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+
+                alertDialog.show();
+            }
+
+        });
     }
 }

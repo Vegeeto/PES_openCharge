@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.Entities.UserPointSummary;
+import com.opencharge.opencharge.domain.use_cases.SetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -79,8 +80,7 @@ public class SignInActivity extends AppCompatActivity  {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Log.d("SignInActivity", "onAuthStateChanged:signed_in:" + user.getUid());
-
+                    setCurrentUser(user);
                     goToApp();
                 } else {
                     Log.d("SignInActivity", "onAuthStateChanged:signed_out");
@@ -208,6 +208,12 @@ public class SignInActivity extends AppCompatActivity  {
         startActivity(intent);
     }
 
+    private void setCurrentUser(FirebaseUser user) {
+        Log.d("SignInActivity", "onAuthStateChanged:signed_in:" + user.getEmail());
+        SetCurrentUserUseCase setCurrentUserUseCase = UseCasesLocator.getInstance().getSetCurrentUserUseCase(this);
+        setCurrentUserUseCase.setUserEmail(user.getEmail());
+        setCurrentUserUseCase.execute();
+    }
 
     private boolean isNetworkAvailable() {
 
