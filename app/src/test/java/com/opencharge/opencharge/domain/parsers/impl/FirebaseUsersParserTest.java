@@ -1,8 +1,7 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
-import android.support.v4.util.Pair;
-
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -75,14 +74,14 @@ public class FirebaseUsersParserTest {
         user.setPhoto("path to photo");
         user.setMinutes(10);
 
-        List<Pair<String, String>> points = createPointsListForUserTest();
+        List<UserPointSummary> points = createPointsListForUserTest();
         user.setPoints(points);
     }
 
-    private List<Pair<String, String>> createPointsListForUserTest() {
-        Pair<String, String> point1 = new Pair<>("Point1ID", "Point1 Address");
-        Pair<String, String> point2 = new Pair<>("Point2ID", "Point2 Address");
-        ArrayList<Pair<String, String>> list = new ArrayList<>();
+    private List<UserPointSummary> createPointsListForUserTest() {
+        UserPointSummary point1 = new UserPointSummary("Point1ID", "Point1 Address");
+        UserPointSummary point2 = new UserPointSummary("Point2ID", "Point2 Address");
+        ArrayList<UserPointSummary> list = new ArrayList<>();
         Collections.addAll(list, point1, point2);
         return list;
     }

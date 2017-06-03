@@ -1,8 +1,7 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
-import android.support.v4.util.Pair;
-
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 import com.opencharge.opencharge.domain.parsers.UsersParser;
 
 import java.util.ArrayList;
@@ -37,15 +36,15 @@ public class FirebaseUsersParser implements UsersParser {
         return user;
     }
 
-    private ArrayList<Pair<String,String>> parseArrayListFromMap(String key, Map<String, Object> map) {
-        ArrayList<Pair<String,String>> arrayList = new ArrayList<>();
+    private ArrayList<UserPointSummary> parseArrayListFromMap(String key, Map<String, Object> map) {
+        ArrayList<UserPointSummary> arrayList = new ArrayList<>();
         if (map.containsKey(key)) {
 
             List<HashMap<String, String>> totsPunts = (List<HashMap<String, String>>) map.get(key);
             for (HashMap<String,String> element : totsPunts) {
                 String idPunt = element.get(POINT_ID);
                 String nomPunt = element.get(POINT_NAME);
-                Pair<String, String> point = new Pair<>(idPunt, nomPunt);
+                UserPointSummary point = new UserPointSummary(idPunt, nomPunt);
                 arrayList.add(point);
             }
 
