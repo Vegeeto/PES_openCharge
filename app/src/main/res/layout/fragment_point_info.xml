@@ -1,38 +1,28 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:rv="http://schemas.android.com/apk/res-auto"
     tools:context="com.opencharge.opencharge.presentation.fragments.PointInfoFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:background="@color/white" />
+                android:layout_margin="10dp"
+                rv:cardCornerRadius="5dp"/>
 
-            <Button
-                android:id="@+id/horari"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/veure_horari"
-                android:textColor="@color/black"
-                android:textSize="@dimen/normal_text_size"
-                android:layout_weight="1" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/horari"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:src="@drawable/ic_date_range_black_24dp"
+        android:tint="@color/white" />
 
-        </LinearLayout>
 
-    </ScrollView>
-
-</ScrollView>
+</FrameLayout>

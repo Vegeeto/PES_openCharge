@@ -1,11 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment">
 
-    <!-- TODO: Material Design => VICTOR -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
@@ -43,17 +42,20 @@
                 android:id="@+id/Direccio_layout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginStart="0dp"
+                android:layout_marginStart="10dp"
                 android:orientation="horizontal"
                 android:paddingTop="16dp">
 
-                <TextView
-                    android:layout_width="0dp"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="2"
-                    android:gravity="start"
+                    android:src="@drawable/ic_place_black_24dp"
+                    android:tint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
                     android:text="@string/direccio"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
@@ -64,8 +66,7 @@
                 android:id="@+id/Poblacio_layout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginStart="0dp"
+                android:layout_marginEnd="10dp"
                 android:orientation="horizontal">
 
                 <EditText
@@ -86,7 +87,7 @@
                 android:id="@+id/Lloc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginStart="0dp"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -119,17 +120,22 @@
                 android:id="@+id/Acces_layout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginStart="0dp"
+                android:layout_marginStart="10dp"
                 android:orientation="horizontal"
                 android:paddingTop="16dp">
 
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:src="@drawable/ic_point_unknown"
+                    android:tint="@color/colorAccent"/>
+
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_weight="2"
-                    android:gravity="start"
+                    android:layout_marginLeft="10dp"
                     android:text="@string/acces"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
@@ -139,9 +145,9 @@
             <RadioGroup
                 android:id="@+id/Public_or_private"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/Public"
@@ -149,6 +155,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="32dp"
                     android:checked="false"
+                    android:drawableStart="@drawable/ic_point_public"
                     android:text="@string/publics"
                     android:textSize="20sp" />
 
@@ -158,6 +165,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:checked="false"
+                    android:drawableStart="@drawable/ic_point_private"
                     android:text="@string/privat"
                     android:textSize="20sp" />
 
@@ -166,6 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
+                    android:drawableStart="@drawable/ic_point_particular"
                     android:text="@string/particular"
                     android:textSize="20sp" />
 
@@ -175,17 +184,21 @@
                 android:id="@+id/Horari_layout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginStart="0dp"
+                android:layout_marginStart="10dp"
                 android:orientation="horizontal"
                 android:paddingTop="16dp">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_date_range_black_24dp"
+                    android:tint="@color/colorAccent" />
+
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
-                    android:layout_weight="2"
-                    android:gravity="start"
+                    android:layout_marginLeft="10dp"
                     android:text="@string/horari"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
@@ -196,7 +209,7 @@
                 android:id="@+id/Horari_text"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginStart="0dp"
                 android:orientation="horizontal">
 
@@ -215,22 +228,37 @@
                 android:id="@+id/Conector"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginStart="0dp"
+                android:layout_marginStart="10dp"
                 android:orientation="horizontal"
                 android:paddingTop="16dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="24sp"
-                android:layout_marginStart="16dp"
-                android:text="@string/conector"
-                android:textColor="@color/black"
-                android:gravity="start"
-                android:layout_weight="2"
-                tools:text="Conector (max 3)" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_power_black_24dp"
+                    android:tint="@color/colorAccent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="24sp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/conector"
+                    android:textColor="@color/black"
+                    android:gravity="start"
+                    android:layout_weight="2" />
+
+                <ImageButton
+                    android:id="@+id/add_more_connectors_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:tint="@color/colorAccent"
+                    android:backgroundTint="@color/white"
+                    android:scaleX="1.5"
+                    android:scaleY="1.5"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/connector_type_parent"
@@ -242,7 +270,7 @@
                     android:id="@+id/connector_type_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical" >
 
                     <RadioGroup
                         android:id="@+id/tipus_connector_1"
@@ -259,7 +287,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginBottom="16dp"
                             android:checked="false"
-                            android:drawableStart="@mipmap/fast_acces"
+                            android:drawableStart="@drawable/ic_connector_high"
                             android:gravity="center"
                             android:paddingTop="5dp"
                             android:text="@string/fast"
@@ -271,7 +299,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginBottom="16dp"
                             android:checked="false"
-                            android:drawableStart="@mipmap/rapid_acces"
+                            android:drawableStart="@drawable/ic_connector_medium"
                             android:gravity="center"
                             android:paddingTop="5dp"
                             android:text="@string/rapid"
@@ -283,7 +311,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginBottom="16dp"
                             android:checked="false"
-                            android:drawableStart="@mipmap/slow_acces"
+                            android:drawableStart="@drawable/ic_connector_low"
                             android:gravity="center"
                             android:paddingTop="5dp"
                             android:text="@string/slow"
@@ -291,12 +319,6 @@
                     </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
-
-            <Button
-                android:id="@+id/add_more_connectors_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+" />
 
         <LinearLayout
             style="@android:style/ButtonBar"
@@ -328,4 +350,4 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</FrameLayout>

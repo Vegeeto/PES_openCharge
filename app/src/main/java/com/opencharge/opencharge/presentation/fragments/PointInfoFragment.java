@@ -2,6 +2,7 @@ package com.opencharge.opencharge.presentation.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -29,7 +30,7 @@ public class PointInfoFragment extends Fragment {
 
     private PointsAdapter pointsAdapter;
     private RecyclerView recyclerView;
-    private Button horari;
+    private FloatingActionButton horari;
 
     private static final String ARG_POINT_ID = "point_id";
     private String pointId;
@@ -69,7 +70,7 @@ public class PointInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_point_info, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
-        horari = (Button) view.findViewById(R.id.horari);
+        horari = (FloatingActionButton) view.findViewById(R.id.horari);
 
         RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
         datePickerButton.setVisibility(View.GONE);
@@ -104,7 +105,7 @@ public class PointInfoFragment extends Fragment {
                 try {
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     DaysPagerFragment fragment = DaysPagerFragment.newInstance(pointId);
-                    ft.replace(R.id.content_frame, fragment).commit();
+                    ft.add(R.id.content_frame, fragment).addToBackStack(null).commit();
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }

@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -80,19 +79,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment;
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         getUserLocation();
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
-        getUserLocation();
+        if (currentLocation == null) getUserLocation();
         if (currentLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
             mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
         }
-    }
+    }*/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -146,14 +144,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             public void onInfoWindowClick(Marker marker) {
                 Point point = (Point) marker.getTag();
                 try {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    //ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     PointInfoFragment fragment = PointInfoFragment.newInstance(point.getId());
+                    ft.setCustomAnimations(R.anim.slide_up, R.anim.slide_down);
 
                     //el deixo aquí per tenir-lo a mà si em cal fer alguna prova més, si molesta es pot treure
                     //UserInfoFragment fragment = UserInfoFragment.newInstance("-Kkw8SpHrn22Esxgd7F1");
 
-                    ft.replace(R.id.content_frame, fragment).commit();
+                    ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }

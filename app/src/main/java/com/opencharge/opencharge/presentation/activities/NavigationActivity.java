@@ -60,7 +60,11 @@ public class NavigationActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -75,7 +79,6 @@ public class NavigationActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        //startActivity(new Intent(NavigationActivity.this,SignInActivity.class ));
         if (id == R.id.nav_maps) {
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
         } else if (id == R.id.nav_newpoint) {
