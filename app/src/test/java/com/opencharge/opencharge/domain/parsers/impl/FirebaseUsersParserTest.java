@@ -99,6 +99,7 @@ public class FirebaseUsersParserTest {
         assertEquals("Wrong parsed Id", key, parsedUser.getId());
         assertEquals("Wrong parsed UserName", user.getUsername(), parsedUser.getUsername());
         assertEquals("Wrong parsed Email", user.getEmail(), parsedUser.getEmail());
+        assertEquals("Wrong parsed Photo", user.getPhoto(), parsedUser.getPhoto());
 
     }
     //</editor-fold>
