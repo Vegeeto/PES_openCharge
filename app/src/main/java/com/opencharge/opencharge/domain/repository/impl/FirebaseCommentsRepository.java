@@ -8,8 +8,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.opencharge.opencharge.domain.Entities.Comment;
-import com.opencharge.opencharge.domain.Entities.FirebaseComment;
-import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.parsers.CommentsParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebaseCommentsParser;
 import com.opencharge.opencharge.domain.repository.CommentsRepository;
@@ -32,7 +30,7 @@ public class FirebaseCommentsRepository implements CommentsRepository {
 
 
     @Override
-    public void createComment(String point_id, FirebaseComment comment, final CreateCommentCallback callback) {
+    public void createComment(String point_id, Comment comment, final CreateCommentCallback callback) {
         //modificar aqui:
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(point_id);
