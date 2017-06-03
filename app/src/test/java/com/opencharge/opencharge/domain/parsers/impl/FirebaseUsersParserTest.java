@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by ferran on 3/6/17.
@@ -100,7 +101,45 @@ public class FirebaseUsersParserTest {
         assertEquals("Wrong parsed Photo", user.getPhoto(), parsedUser.getPhoto());
         assertEquals("Wrong parsed Minutes", user.getMinutes(), parsedUser.getMinutes());
         assertEquals("Wrong parsed Points List", user.getPoints(), parsedUser.getPoints());
+    }
 
+    @Test
+    public void testUserWithoutPhoto_parseFromMap_createUserWithCorrectParams() {
+        //Given
+        map.remove(FirebaseUsersParser.PHOTO_KEY);
+
+        //When
+        User parsedUser = sut.parseFromMap(key, map);
+
+        //Then
+        assertNull("Wrong parsed Photo", parsedUser.getPhoto());
+    }
+
+    @Test
+    public void testUserWithoutPoints_parseFromMap_createUserWithCorrectParams() {
+        //Given
+        map.remove(FirebaseUsersParser.POINTS_KEY);
+
+        //When
+        User parsedUser = sut.parseFromMap(key, map);
+
+        //Then
+        List<UserPointSummary> emptyPoints = new ArrayList<>();
+        assertEquals("Wrong parsed Points", emptyPoints, parsedUser.getPoints());
+    }
+
+    @Test
+    public void testUserWitEmptyPointsList_parseFromMap_createUserWithCorrectParams() {
+        //Given
+        List<Map<String, String>> emptyList = new ArrayList<>();
+        map.put(FirebaseUsersParser.POINTS_KEY, emptyList);
+
+        //When
+        User parsedUser = sut.parseFromMap(key, map);
+
+        //Then
+        List<UserPointSummary> emptyPoints = new ArrayList<>();
+        assertEquals("Wrong parsed Points", emptyPoints, parsedUser.getPoints());
     }
     //</editor-fold>
 }
