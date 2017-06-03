@@ -29,8 +29,7 @@ public class FirebaseUsersParser implements UsersParser {
     @Override
     public User parseFromMap(String key, Map<String, Object> map) {
         User user = new User(key);
-        
-//        user.setUsername(parseStringKeyFromMap(USERNAME_KEY, map));
+        user.setUsername(parseStringKeyFromMap(USERNAME_KEY, map));
 //        user.setPhoto(parseStringKeyFromMap(PHOTO_KEY, map));
 //        user.setEmail(parseStringKeyFromMap(EMAIL_KEY, map));
 //        user.setMinutes(parseLongKeyFromMap(MINUTES_KEY, map).intValue());

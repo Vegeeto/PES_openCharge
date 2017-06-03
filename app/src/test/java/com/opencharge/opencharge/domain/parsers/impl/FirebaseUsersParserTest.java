@@ -96,7 +96,8 @@ public class FirebaseUsersParserTest {
         User parsedUser = sut.parseFromMap(key, map);
 
         //Then
-        assertEquals("Wrong parsed Id", key, user.getId());
+        assertEquals("Wrong parsed Id", key, parsedUser.getId());
+        assertEquals("Wrong parsed UserName", user.getUsername(), parsedUser.getUsername());
 
     }
     //</editor-fold>
