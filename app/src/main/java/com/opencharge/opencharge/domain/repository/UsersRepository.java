@@ -23,6 +23,11 @@ public interface UsersRepository {
         void onError();
     }
 
+    interface GetUserByEmailCallback {
+        void onUserRetrieved(User user);
+        void onError();
+    }
+
     interface AddReserveToUser {
         void onReserveAdded();
         void onError();
@@ -31,6 +36,7 @@ public interface UsersRepository {
     void getUsers(final UsersRepository.GetUsersCallback callback);
 
     void getUserById(String userId, final GetUserByIdCallback callback);
+    void getUserByEmail(String userEmail, final GetUserByEmailCallback callback);
 
     void createUser(User user, final CreateUserCallback callback);
 
