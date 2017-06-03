@@ -36,6 +36,43 @@ public class FirebaseUsersParser implements UsersParser {
         return user;
     }
 
+    @Override
+    public Map<String, Object> serializeUser(User user) {
+        Map<String, Object> serializedUser = new HashMap<>();
+
+        serializedUser.put(USERNAME_KEY, user.getUsername());
+        serializedUser.put(EMAIL_KEY, user.getEmail());
+        serializedUser.put(PHOTO_KEY, user.getPhoto());
+
+        Long minutes = Long.valueOf(user.getMinutes());
+        serializedUser.put(MINUTES_KEY, minutes);
+
+        List<Map<String, String>> serializedPoints = serializePointsFromUser(user);
+        serializedUser.put(POINTS_KEY, serializedPoints);
+
+        return serializedUser;
+    }
+
+    private List<Map<String, String>> serializePointsFromUser(User user) {
+        List<Map<String, String>> serializedPoints = new ArrayList<>();
+
+        for (UserPointSummary point : user.getPoints()) {
+            Map<String, String> serializedPoint = serializePointFromUserPointSummary(point);
+            serializedPoints.add(serializedPoint);
+        }
+
+        return serializedPoints;
+    }
+
+    private Map<String, String> serializePointFromUserPointSummary(UserPointSummary point) {
+        Map<String, String> serializedPoint = new HashMap<>();
+
+        serializedPoint.put(POINT_ID, point.getPointId());
+        serializedPoint.put(POINT_ADDRESS, point.getPointAddress());
+
+        return serializedPoint;
+    }
+
     private ArrayList<UserPointSummary> parseArrayListFromMap(String key, Map<String, Object> map) {
         ArrayList<UserPointSummary> arrayList = new ArrayList<>();
         if (map.containsKey(key)) {

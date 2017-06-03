@@ -142,4 +142,30 @@ public class FirebaseUsersParserTest {
         assertEquals("Wrong parsed Points", emptyPoints, parsedUser.getPoints());
     }
     //</editor-fold>
+
+    @Test
+    public void test_serializeUser_createMapWithCorrectParams() {
+        //When
+        Map<String, Object> serializedUser = sut.serializeUser(user);
+
+        //Then
+        assertEquals("Wrong serialized UserName", map.get(FirebaseUsersParser.USERNAME_KEY), serializedUser.get(FirebaseUsersParser.USERNAME_KEY));
+        assertEquals("Wrong serialized Email", map.get(FirebaseUsersParser.EMAIL_KEY), serializedUser.get(FirebaseUsersParser.EMAIL_KEY));
+        assertEquals("Wrong serialized Photo", map.get(FirebaseUsersParser.PHOTO_KEY), serializedUser.get(FirebaseUsersParser.PHOTO_KEY));
+        assertEquals("Wrong serialized Minutes", map.get(FirebaseUsersParser.MINUTES_KEY), serializedUser.get(FirebaseUsersParser.MINUTES_KEY));
+        assertEquals("Wrong serialized Points List", map.get(FirebaseUsersParser.POINTS_KEY), serializedUser.get(FirebaseUsersParser.POINTS_KEY));
+    }
+
+    public void testUserWithoutPoints_serializeUser_createMapWithCorrectParams() {
+        //Given
+        List<UserPointSummary> emptyPoints = new ArrayList<>();
+        user.setPoints(emptyPoints);
+
+        //When
+        Map<String, Object> serializedUser = sut.serializeUser(user);
+
+        //Then
+        List<Map<String, String>> expectedEmptyList = new ArrayList<>();
+        assertEquals("Wrong serialized Points List", expectedEmptyList, serializedUser.get(FirebaseUsersParser.POINTS_KEY));
+    }
 }
