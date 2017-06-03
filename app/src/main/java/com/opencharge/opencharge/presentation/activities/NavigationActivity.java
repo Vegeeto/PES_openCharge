@@ -49,8 +49,7 @@ public class NavigationActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         FragmentManager fm = getSupportFragmentManager();
-//        fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
-        fm.beginTransaction().replace(R.id.content_frame, UserInfoFragment.newInstance()).commit();
+        fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
 
         RelativeLayout datePickerButton = (RelativeLayout) findViewById(R.id.date_picker_button);
         datePickerButton.setVisibility(View.GONE);
