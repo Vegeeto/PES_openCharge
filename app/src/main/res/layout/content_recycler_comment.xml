@@ -19,77 +19,76 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/addcoment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="@dimen/normal_text_size"
-        android:text="@string/comment" />
+            <TextView
+                android:id="@+id/addcoment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_text_size"
+                android:text="@string/comment" />
 
-    <EditText
-        android:id="@+id/commentBox"
-        android:layout_width="fill_parent"
-        android:layout_height="150dip"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="10dip"
-        android:ems="150"
-        android:gravity="left|top"
-        android:hint="@string/comment_hint"
-        android:inputType="textMultiLine|textCapSentences"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:textSize="20sp" >
-    </EditText>
+            <EditText
+                android:id="@+id/commentBox"
+                android:layout_width="fill_parent"
+                android:layout_height="150dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:ems="150"
+                android:gravity="left|top"
+                android:hint="@string/comment_hint"
+                android:inputType="textMultiLine|textCapSentences"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
 
-        <Button
-            android:id="@+id/cancelBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancelar"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+                <Button
+                    android:id="@+id/cancelBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cancelar"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored" />
 
-        <Button
-            android:id="@+id/sendBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/send"
-            style="@style/Widget.AppCompat.Button.Colored" />
+                <Button
+                    android:id="@+id/sendBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/send"
+                    style="@style/Widget.AppCompat.Button.Colored" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/moreCommentsBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
-            android:src="@drawable/ic_comment_black_24dp"
-            android:tint="@color/white" />
+                <ImageButton
+                    android:id="@+id/moreCommentsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorAccent"
+                    android:src="@drawable/ic_comment_black_24dp"
+                    android:tint="@color/white" />
 
-        <TextView
-            android:id="@+id/morecomments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/carrega_m_s_comentaris"
-            android:textColor="@color/black"
-            android:textSize="@dimen/normal_text_size"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/moreCommentsBtn"
-            android:layout_marginStart="17dp" />
+                <TextView
+                    android:id="@+id/morecomments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/carrega_m_s_comentaris"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/normal_text_size"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/moreCommentsBtn"
+                    android:layout_marginStart="17dp" />
 
-    </RelativeLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 

@@ -53,7 +53,7 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
     @Override
     public void getUserLocation(UserLocationService.Callback callback) {
         this.callback = callback;
-        this.callback.onLocationRetrieved(getLocation());
+        this.callback.onLocationRetrieved(userLocation);
     }
 
 
