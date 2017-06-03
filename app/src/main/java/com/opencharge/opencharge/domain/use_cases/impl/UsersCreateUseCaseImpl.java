@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.Factories.UserFactory;

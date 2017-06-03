@@ -1,8 +1,7 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
-import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.Entities.User;
 
 import org.junit.Before;
@@ -101,6 +100,7 @@ public class FirebaseUsersParserTest {
         assertEquals("Wrong parsed Email", user.getEmail(), parsedUser.getEmail());
         assertEquals("Wrong parsed Photo", user.getPhoto(), parsedUser.getPhoto());
         assertEquals("Wrong parsed Minutes", user.getMinutes(), parsedUser.getMinutes());
+        assertEquals("Wrong parsed Points List", user.getPunts(), parsedUser.getPunts());
 
     }
     //</editor-fold>

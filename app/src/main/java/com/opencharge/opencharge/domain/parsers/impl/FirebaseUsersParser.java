@@ -1,16 +1,14 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.parsers.UsersParser;
 
-import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser.LON_KEY;
 
 /**
  * Created by DmnT on 18/05/2017.
@@ -33,32 +31,26 @@ public class FirebaseUsersParser implements UsersParser {
         user.setPhoto(parseStringKeyFromMap(PHOTO_KEY, map));
         user.setEmail(parseStringKeyFromMap(EMAIL_KEY, map));
         user.setMinutes(parseLongKeyFromMap(MINUTES_KEY, map).intValue());
-//        user.setPunts(parseArrayListFromMap(CREATS_KEY, map));
+        user.setPunts(parseArrayListFromMap(CREATS_KEY, map));
 
         return user;
     }
 
     private ArrayList<Pair<String,String>> parseArrayListFromMap(String key, Map<String, Object> map) {
-        ArrayList<Pair<String,String>> arrayList = new ArrayList();
+        ArrayList<Pair<String,String>> arrayList = new ArrayList<>();
         if (map.containsKey(key)) {
-            ArrayList<HashMap<String,String>> totsPunts =(ArrayList)map.get(key);
-            for (HashMap<String,String> element : totsPunts)
-            {
-                String idPunt = element.get(POINT_ID).toString();
-                String nomPunt = element.get(POINT_NAME).toString();
-                arrayList.add(new Pair<String,String>(idPunt,nomPunt));
+
+            List<HashMap<String, String>> totsPunts = (List<HashMap<String, String>>) map.get(key);
+            for (HashMap<String,String> element : totsPunts) {
+                String idPunt = element.get(POINT_ID);
+                String nomPunt = element.get(POINT_NAME);
+                Pair<String, String> point = new Pair<>(idPunt, nomPunt);
+                arrayList.add(point);
             }
+
         }
 
         return arrayList;
-    }
-
-    private Integer parseIntegerKeyFromMap(String key, Map<String, Object> map) {
-        Integer value = 0;
-        if (map.containsKey(key)) {
-            value = (Integer)map.get(key);
-        }
-        return value;
     }
 
     private Long parseLongKeyFromMap(String key, Map<String, Object> map) {

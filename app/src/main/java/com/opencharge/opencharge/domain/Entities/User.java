@@ -1,6 +1,6 @@
 package com.opencharge.opencharge.domain.Entities;
 
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

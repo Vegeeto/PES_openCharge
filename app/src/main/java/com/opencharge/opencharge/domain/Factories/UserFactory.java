@@ -1,10 +1,11 @@
 package com.opencharge.opencharge.domain.Factories;
 
-import android.util.Pair;
+import android.support.v4.util.Pair;
 
 import com.opencharge.opencharge.domain.Entities.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Usuario on 23/05/2017.
@@ -23,7 +24,7 @@ public class UserFactory {
         return instance;
     }
 
-    public User createNewUser(String name, String photo, String email, ArrayList<Pair<String,String>> puntsCreats) {
+    public User createNewUser(String name, String photo, String email, List<Pair<String,String>> puntsCreats) {
 
         User u = new User();
         u.setUsername(name);
