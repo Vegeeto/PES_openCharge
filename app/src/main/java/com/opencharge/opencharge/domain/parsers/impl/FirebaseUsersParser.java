@@ -31,7 +31,7 @@ public class FirebaseUsersParser implements UsersParser {
         user.setPhoto(parseStringKeyFromMap(PHOTO_KEY, map));
         user.setEmail(parseStringKeyFromMap(EMAIL_KEY, map));
         user.setMinutes(parseLongKeyFromMap(MINUTES_KEY, map).intValue());
-        user.setPunts(parseArrayListFromMap(CREATS_KEY, map));
+        user.setPoints(parseArrayListFromMap(CREATS_KEY, map));
 
         return user;
     }

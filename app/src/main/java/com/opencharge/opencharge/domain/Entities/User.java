@@ -17,7 +17,7 @@ public class User {
     private Integer minutes;
 
     //arraylist de pairs, on el primer component del pair és el codi del punt, i el segon és la direcció de carrer(que es mostrarà al perfil)
-    private List<Pair<String,String>> puntsCreats;
+    private List<Pair<String,String>> points;
 
     public User() {
 
@@ -27,11 +27,11 @@ public class User {
         this.id = id;
     }
 
-    public User (String username, String photo,  String email, ArrayList<Pair<String,String>> puntsCreats) {
+    public User (String username, String photo,  String email, ArrayList<Pair<String,String>> points) {
         this.username = username;
         this.photo = photo;
         this.email = email;
-        this.puntsCreats = puntsCreats;
+        this.points = points;
     }
 
     public String getId() {
@@ -74,38 +74,12 @@ public class User {
         this.minutes = minutes;
     }
 
-    public void setPunts(List<Pair<String, String>> punts) {
-        this.puntsCreats = punts;
+    public void setPoints(List<Pair<String, String>> punts) {
+        this.points = punts;
     }
 
-    public void addPunt(Pair<String, String> punt){
-        boolean trobat = false;
-        for (int i = 0; i < puntsCreats.size(); i++) {
-            if (puntsCreats.get(i).first.equals(punt.first)) {
-                trobat = true;
-            }
-        }
-        if (!trobat) {
-            puntsCreats.add(punt);
-        }
-    }
-
-    public void removePunt(String codipunt){
-        boolean trobat = false;
-        int index = 0;
-        for (int i = 0; i < puntsCreats.size(); i++){
-            if (puntsCreats.get(i).first.equals(codipunt)){
-                trobat=true;
-                index = i;
-            }
-        }
-        if (trobat) {
-            puntsCreats.remove(index);
-        }
-    }
-
-    public List<Pair<String, String>> getPunts() {
-        return puntsCreats;
+    public List<Pair<String, String>> getPoints() {
+        return points;
     }
 
     @Override
@@ -114,7 +88,7 @@ public class User {
                 "email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", minutes=" + minutes +
-                ", puntsCreats=" + puntsCreats +
+                ", points=" + points +
                 ", id='" + id + '\'' +
                 '}';
     }

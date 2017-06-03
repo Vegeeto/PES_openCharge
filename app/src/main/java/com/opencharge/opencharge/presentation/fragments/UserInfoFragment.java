@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,8 +24,6 @@ import com.opencharge.opencharge.presentation.adapters.CustomUserPointsAdapter;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 /**
  * Created by DmnT on 17/05/2017.
@@ -110,8 +106,8 @@ public class UserInfoFragment extends Fragment {
                 /*
                 ArrayList<String> nomsPunts = new ArrayList<String>();
 
-                for(int x=0;x<user.getPunts().size();x=x+1){
-                    nomsPunts.add(user.getPunts().get(x).second);
+                for(int x=0;x<user.getPoints().size();x=x+1){
+                    nomsPunts.add(user.getPoints().get(x).second);
                 }
                 Log.i("nomsPunts",nomsPunts.toString());
 
@@ -124,12 +120,12 @@ public class UserInfoFragment extends Fragment {
                 */
 
 
-                puntsUsuari.setAdapter(new CustomUserPointsAdapter(getActivity().getApplicationContext(),user.getPunts()));
+                puntsUsuari.setAdapter(new CustomUserPointsAdapter(getActivity().getApplicationContext(),user.getPoints()));
 
                 puntsUsuari.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> listView, View itemView, int itemPosition, long itemId)
                     {
-                        String pointId=user.getPunts().get(itemPosition).first;
+                        String pointId=user.getPoints().get(itemPosition).first;
                         try {
                             FragmentTransaction ft = getFragmentManager().beginTransaction();
                             //ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);

@@ -4,7 +4,6 @@ import android.support.v4.util.Pair;
 
 import com.opencharge.opencharge.domain.Entities.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +30,7 @@ public class UserFactory {
         u.setPhoto(photo);
         u.setEmail(email);
         u.setMinutes(0);
-        u.setPunts(puntsCreats);
+        u.setPoints(puntsCreats);
         return u;
     }
 

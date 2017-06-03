@@ -76,7 +76,7 @@ public class FirebaseUsersParserTest {
         user.setMinutes(10);
 
         List<Pair<String, String>> points = createPointsListForUserTest();
-        user.setPunts(points);
+        user.setPoints(points);
     }
 
     private List<Pair<String, String>> createPointsListForUserTest() {
@@ -100,7 +100,7 @@ public class FirebaseUsersParserTest {
         assertEquals("Wrong parsed Email", user.getEmail(), parsedUser.getEmail());
         assertEquals("Wrong parsed Photo", user.getPhoto(), parsedUser.getPhoto());
         assertEquals("Wrong parsed Minutes", user.getMinutes(), parsedUser.getMinutes());
-        assertEquals("Wrong parsed Points List", user.getPunts(), parsedUser.getPunts());
+        assertEquals("Wrong parsed Points List", user.getPoints(), parsedUser.getPoints());
 
     }
     //</editor-fold>
