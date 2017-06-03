@@ -219,7 +219,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
                                 ft.setCustomAnimations(R.anim.slide_up, R.anim.slide_down);
                                 ShowCommentsFragment fragment = ShowCommentsFragment.newInstance(item.getId());
-                                ft.replace(R.id.content_frame, fragment);
+                                ft.add(R.id.content_frame, fragment);
                                 ft.addToBackStack(null);
                                 ft.commit();
                             } else {

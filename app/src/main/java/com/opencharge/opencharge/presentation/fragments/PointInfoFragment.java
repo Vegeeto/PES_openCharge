@@ -105,7 +105,7 @@ public class PointInfoFragment extends Fragment {
                 try {
                     FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                     DaysPagerFragment fragment = DaysPagerFragment.newInstance(pointId);
-                    ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                    ft.add(R.id.content_frame, fragment).addToBackStack(null).commit();
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
