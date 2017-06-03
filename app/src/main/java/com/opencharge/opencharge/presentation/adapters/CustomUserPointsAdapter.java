@@ -1,8 +1,6 @@
 package com.opencharge.opencharge.presentation.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,24 +8,22 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by DmnT on 18/05/2017.
  */
 
-public class CustomUserPointsAdapter extends ArrayAdapter
-{
+public class CustomUserPointsAdapter extends ArrayAdapter {
 
-    List<Pair<String,String>> pointsList;
+    List<UserPointSummary> pointsList;
     private static LayoutInflater inflater = null;
 
 
-    public CustomUserPointsAdapter(Context context, List<Pair<String,String>> list)
-    {
-        super(context,0,list);
+    public CustomUserPointsAdapter(Context context, List<UserPointSummary> list) {
+        super(context, 0, list);
         pointsList = list;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -37,27 +33,23 @@ public class CustomUserPointsAdapter extends ArrayAdapter
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.row,parent,false);
-// inflate custom layout called row
+            convertView = inflater.inflate(R.layout.row, parent, false);
             holder = new ViewHolder();
-            holder.tv =(TextView) convertView.findViewById(R.id.rowTextView);
-// initialize textview
+            holder.tv = (TextView) convertView.findViewById(R.id.rowTextView);
             convertView.setTag(holder);
         }
-        else
-        {
-            holder = (ViewHolder)convertView.getTag();
+        else {
+            holder = (ViewHolder) convertView.getTag();
         }
-        Pair<String,String> in = pointsList.get(position);
-        holder.tv.setText(in.second);
-        // set the name to the text;
+
+        UserPointSummary pointSummary = pointsList.get(position);
+        holder.tv.setText(pointSummary.getPointAddress());
 
         return convertView;
 
     }
 
-    static class ViewHolder
-    {
+    static class ViewHolder {
         TextView tv;
     }
 }

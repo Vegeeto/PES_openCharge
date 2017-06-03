@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -34,6 +35,7 @@ import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.presentation.locators.GoogleApiLocator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Usuario on 03/05/2017.
@@ -174,29 +176,27 @@ public class SignInActivity extends AppCompatActivity  {
                                         }
                                     }
                                     if (notInFirebase) {
-                                        String idToken = account.getIdToken();
                                         String name = account.getDisplayName();
+                                        //TODO: la següent linea pot produir un NullPointerException, s'haura de tractar
                                         String photoUri = account.getPhotoUrl().toString();
+                                        List<UserPointSummary> puntsCreats = new ArrayList<>();
+
                                         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
                                         UsersCreateUseCase getCreateUsersUseCase = useCasesLocator.getUsersCreateUseCase(new UsersCreateUseCase.Callback() {
                                             @Override
                                             public void onUserCreated(String id) {
                                                 Log.d("SignInActivity", "onUserCreatedCallback");
-
                                             }
 
                                         });
-                                        ArrayList<Pair<String, String>>  puntsCreats = new ArrayList<Pair<String, String>>();
-                                        ArrayList<Pair<String, String>>  puntsReservats = new ArrayList<Pair<String, String>>();
-                                        getCreateUsersUseCase.setUserParameters(name, photoUri, email, puntsCreats, puntsReservats);
+
+                                        getCreateUsersUseCase.setUserParameters(name, photoUri, email, puntsCreats);
                                         getCreateUsersUseCase.execute();
                                     }
                                 }
 
                             });
                             usersListUseCase.execute();
-
-
                         }
                     }
                 });

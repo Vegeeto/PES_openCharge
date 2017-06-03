@@ -1,8 +1,7 @@
 package com.opencharge.opencharge.domain.Factories;
 
-import android.support.v4.util.Pair;
-
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 
 import java.util.List;
 
@@ -23,14 +22,13 @@ public class UserFactory {
         return instance;
     }
 
-    public User createNewUser(String name, String photo, String email, List<Pair<String,String>> puntsCreats) {
-
+    public User createNewUser(String name, String photo, String email, List<UserPointSummary> points) {
         User u = new User();
         u.setUsername(name);
         u.setPhoto(photo);
         u.setEmail(email);
         u.setMinutes(0);
-        u.setPoints(puntsCreats);
+        u.setPoints(points);
         return u;
     }
 

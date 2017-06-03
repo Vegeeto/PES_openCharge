@@ -1,6 +1,7 @@
 package com.opencharge.opencharge.presentation.fragments;
 
 //import android.app.Fragment;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -37,7 +38,6 @@ public class UserInfoFragment extends Fragment {
     private TextView emailUsuari;
     private TextView minutsUsuari;
     private ListView puntsUsuari;
-    private ListView puntsResUsuari;
     private Button botoEliminarCompta;
 
     private static final String ARG_USER_ID = "user_id";
@@ -77,13 +77,12 @@ public class UserInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_info, container, false);
-        imatgeUsuari = (ImageView)view.findViewById(R.id.perfil_usuari_imatge);
-        nomUsuari = (TextView)view.findViewById(R.id.perfil_usuari_nom2);
-        emailUsuari = (TextView)view.findViewById(R.id.perfil_usuari_email2);
-        minutsUsuari = (TextView)view.findViewById(R.id.perfil_usuari_minuts2);
-        puntsUsuari = (ListView)view.findViewById(R.id.perfil_usuari_punts2);
-        puntsResUsuari = (ListView)view.findViewById(R.id.perfil_usuari_puntsReser2);
-        botoEliminarCompta = (Button)view.findViewById(R.id.perfil_usuari_boto_eliminar);
+        imatgeUsuari = (ImageView) view.findViewById(R.id.perfil_usuari_imatge);
+        nomUsuari = (TextView) view.findViewById(R.id.perfil_usuari_nom2);
+        emailUsuari = (TextView) view.findViewById(R.id.perfil_usuari_email2);
+        minutsUsuari = (TextView) view.findViewById(R.id.perfil_usuari_minuts2);
+        puntsUsuari = (ListView) view.findViewById(R.id.perfil_usuari_punts2);
+        botoEliminarCompta = (Button) view.findViewById(R.id.perfil_usuari_boto_eliminar);
         return view;
     }
 
@@ -103,32 +102,13 @@ public class UserInfoFragment extends Fragment {
                 //possible fallo que el context no s'estigui passant correctament?:
 
 
-                /*
-                ArrayList<String> nomsPunts = new ArrayList<String>();
-
-                for(int x=0;x<user.getPoints().size();x=x+1){
-                    nomsPunts.add(user.getPoints().get(x).second);
-                }
-                Log.i("nomsPunts",nomsPunts.toString());
-
-                ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(
-                        getActivity().getApplicationContext(),
-                        android.R.layout.simple_list_item_1,
-                        nomsPunts );
-
-                puntsUsuari.setAdapter(arrayAdapter1);
-                */
-
-
-                puntsUsuari.setAdapter(new CustomUserPointsAdapter(getActivity().getApplicationContext(),user.getPoints()));
+                puntsUsuari.setAdapter(new CustomUserPointsAdapter(getActivity().getApplicationContext(), user.getPoints()));
 
                 puntsUsuari.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> listView, View itemView, int itemPosition, long itemId)
-                    {
-                        String pointId=user.getPoints().get(itemPosition).first;
+                    public void onItemClick(AdapterView<?> listView, View itemView, int itemPosition, long itemId) {
+                        String pointId = user.getPoints().get(itemPosition).getPointId();
                         try {
                             FragmentTransaction ft = getFragmentManager().beginTransaction();
-                            //ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
                             PointInfoFragment fragment = PointInfoFragment.newInstance(pointId);
                             ft.replace(R.id.content_frame, fragment).commit();
                         } catch (NullPointerException e) {
@@ -137,51 +117,6 @@ public class UserInfoFragment extends Fragment {
                     }
                 });
 
-
-                /*
-                ArrayList<String> nomsPuntsRes = new ArrayList<String>();
-
-                String puntsResSize = ""+user.getPuntsReservats().size();
-                Log.i("Mida puntsRes",puntsResSize);
-
-                for(int x=0;x<user.getPuntsReservats().size();x=x+1){
-                    String striX = ""+x;
-                    Log.i("Afegint punt amb index",striX);
-                    nomsPuntsRes.add(user.getPuntsReservats().get(x).second);
-                    Log.i("El nom es",user.getPuntsReservats().get(x).second);
-                }
-
-                Log.i("nomsPuntsRes",nomsPuntsRes.toString());
-
-                ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(
-                        getActivity().getApplicationContext(),
-                        android.R.layout.simple_list_item_1,
-                        nomsPuntsRes );
-
-                puntsResUsuari.setAdapter(arrayAdapter2);
-                */
-
-
-                //COMENTARI FERRAN: Comento això d'aqui perque ja no hi ha l'array de punts reservats, no crec que faci falta
-                //TODO: borrar això
-                /*puntsResUsuari.setAdapter(new CustomUserPointsAdapter(getActivity().getApplicationContext(),user.getPuntsReservats()));
-
-                puntsResUsuari.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> listView, View itemView, int itemPosition, long itemId)
-                    {
-
-                        String pointId=user.getPuntsReservats().get(itemPosition).first;
-                        try {
-                            FragmentTransaction ft = getFragmentManager().beginTransaction();
-                            //ft.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
-                            PointInfoFragment fragment = PointInfoFragment.newInstance(pointId);
-                            ft.replace(R.id.content_frame, fragment).commit();
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });*/
-
                 botoEliminarCompta.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
 
@@ -189,12 +124,12 @@ public class UserInfoFragment extends Fragment {
                         alertDialog.setTitle("Segur?");
                         alertDialog.setMessage("Es perdràn tots els punts, minuts i reserves. Aquesta acció no es pot desfer.");
 
-                        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,"Cancelar", new DialogInterface.OnClickListener() {
+                        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 alertDialog.dismiss();
                             }
                         });
-                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,"Continuar", new DialogInterface.OnClickListener() {
+                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Continuar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //TODO aqui s'ha de cridar la funció que esborri l'usuari
                                 // això és un placeholder per així tenir una resposta, un cop
