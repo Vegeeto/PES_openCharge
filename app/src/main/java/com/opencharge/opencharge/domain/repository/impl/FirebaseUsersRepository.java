@@ -32,7 +32,7 @@ public class FirebaseUsersRepository implements UsersRepository {
     public void getUsers(final GetUsersCallback callback) {
         DatabaseReference myRef = database.getReference("Users");
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User[] users = parseUsersFromDataSnapshot(dataSnapshot);
@@ -41,8 +41,7 @@ public class FirebaseUsersRepository implements UsersRepository {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //TODO
-                Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
+                callback.onError();
             }
         });
     }
@@ -60,8 +59,7 @@ public class FirebaseUsersRepository implements UsersRepository {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //TODO
-                Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
+                callback.onError();
             }
         });
     }
@@ -69,7 +67,8 @@ public class FirebaseUsersRepository implements UsersRepository {
     @Override
     public void createUser(User user, final CreateUserCallback callback) {
         DatabaseReference myRef = database.getReference("Users");
-        myRef.push().setValue(user, new DatabaseReference.CompletionListener() {
+        Map<String, Object> serializedUser = usersParser.serializeUser(user);
+        myRef.push().setValue(serializedUser, new DatabaseReference.CompletionListener() {
 
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
@@ -110,6 +109,8 @@ public class FirebaseUsersRepository implements UsersRepository {
 
     }
 
+    //TODO: borrar aquest mètode (també els dos anteriors d'afegir reserves). El que s'ha de fer és
+    //      que el use case modifiqui el entity del user i cridi un saveUser del repository.
     @Override
     public void addMinutesToUser(final int quantity, String userId) {
         final DatabaseReference myRef = database.getReference("Users").child(userId).child("minutes");
@@ -148,7 +149,5 @@ public class FirebaseUsersRepository implements UsersRepository {
         }
         return null;
     }
-
-
-
+    
 }

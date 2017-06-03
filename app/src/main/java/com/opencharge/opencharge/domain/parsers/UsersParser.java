@@ -10,4 +10,5 @@ import java.util.Map;
 
 public interface UsersParser {
     public User parseFromMap(String key, Map<String, Object> map);
+    public Map<String, Object> serializeUser(User user);
 }
