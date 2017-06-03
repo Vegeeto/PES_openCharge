@@ -1,7 +1,5 @@
 package com.opencharge.opencharge.domain.Entities;
 
-import android.support.v4.util.Pair;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,19 +13,25 @@ public class User {
     private String email;
     private String username;
     private Integer minutes;
-
-    //arraylist de pairs, on el primer component del pair és el codi del punt, i el segon és la direcció de carrer(que es mostrarà al perfil)
-    private List<Pair<String,String>> points;
+    private List<UserPointSummary> points;
 
     public User() {
-
+        this.points = new ArrayList<>();
     }
 
     public User(String id) {
         this.id = id;
+        this.points = new ArrayList<>();
     }
 
-    public User (String username, String photo,  String email, ArrayList<Pair<String,String>> points) {
+    public User (String username, String photo,  String email) {
+        this.username = username;
+        this.photo = photo;
+        this.email = email;
+        this.points = new ArrayList<>();
+    }
+
+    public User (String username, String photo,  String email, List<UserPointSummary> points) {
         this.username = username;
         this.photo = photo;
         this.email = email;
@@ -74,11 +78,11 @@ public class User {
         this.minutes = minutes;
     }
 
-    public void setPoints(List<Pair<String, String>> punts) {
+    public void setPoints(List<UserPointSummary> punts) {
         this.points = punts;
     }
 
-    public List<Pair<String, String>> getPoints() {
+    public List<UserPointSummary> getPoints() {
         return points;
     }
 
