@@ -10,19 +10,16 @@ public interface UsersRepository {
 
      interface GetUsersCallback {
          void onUsersRetrieved(User[] users);
-
          void onError();
     }
 
      interface CreateUserCallback {
         void onUserCreated(String id);
-
         void onError();
     }
 
     interface GetUserByIdCallback {
         void onUserRetrieved(User user);
-
         void onError();
     }
 
