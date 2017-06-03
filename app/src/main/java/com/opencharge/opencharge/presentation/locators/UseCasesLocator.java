@@ -5,6 +5,7 @@ import android.content.Context;
 import com.opencharge.opencharge.domain.device_services.UserPreferences;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
+import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
@@ -14,6 +15,7 @@ import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.CommentsListUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.GetCurrentUserUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
@@ -208,6 +210,18 @@ public class UseCasesLocator {
                 sl.getExecutor(),
                 sl.getMainThread(),
                 sl.getUserPreferencesService(context));
+    }
+
+    public GetCurrentUserUseCase getGetCurrentUserUseCase(Context context,
+                                                          GetCurrentUserUseCase.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        RepositoriesLocator rl = RepositoriesLocator.getInstance();
+        return new GetCurrentUserUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                sl.getUserPreferencesService(context),
+                rl.getUsersRepository(),
+                callback);
     }
 
 }
