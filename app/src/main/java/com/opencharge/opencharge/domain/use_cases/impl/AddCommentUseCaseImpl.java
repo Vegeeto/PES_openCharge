@@ -4,15 +4,12 @@ package com.opencharge.opencharge.domain.use_cases.impl;
 import android.util.Log;
 
 import com.opencharge.opencharge.domain.Entities.Comment;
-import com.opencharge.opencharge.domain.Entities.FirebaseComment;
 import com.opencharge.opencharge.domain.Factories.CommentFactory;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.CommentsRepository;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
-
-import java.util.Date;
 
 /**
  * Created by DmnT on 26/04/2017.
@@ -48,11 +45,10 @@ public class AddCommentUseCaseImpl extends AbstractUseCase implements AddComment
         System.out.println("Enter AddComment.run()");
         final Comment comment = CommentFactory.getInstance().createNewComment(autor, text, data);
         System.out.println("Created Comment: "+ comment.toString());
-        final FirebaseComment firebaseComment = CommentFactory.getInstance().commentToFirebaseComment(comment);
-        commentsRepository.createComment(point_id, firebaseComment, new CommentsRepository.CreateCommentCallback(){
+        commentsRepository.createComment(point_id, comment, new CommentsRepository.CreateCommentCallback(){
             @Override
             public void onCommentCreated(String id) {
-                CommentFactory.getInstance().setCommentId(comment, id);
+                comment.setId(id);
                 postComment(id);
             }
 

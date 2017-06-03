@@ -86,6 +86,8 @@ public class NavigationActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_logout) {
+            signOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -94,18 +96,21 @@ public class NavigationActivity extends AppCompatActivity
     }
 
 
-    private void signOut(){
+    private void signOut() {
         FirebaseAuth.getInstance().signOut();
-        GoogleApiClient mGoogleApiClient = GoogleApiLocator.getInstance(null).getGoogleApiClient();
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        Intent intent = new Intent(NavigationActivity.this, SignInActivity.class);
-                        startActivity(intent);
-                    }
-                }
-        );
+        //TODO: s'ha de mirar perque no es poden borrar les credencials de Google!!!
+//        GoogleApiClient mGoogleApiClient = GoogleApiLocator.getInstance(null).getGoogleApiClient();
+//        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
+//                new ResultCallback<Status>() {
+//                    @Override
+//                    public void onResult(@NonNull Status status) {
+//                        Intent intent = new Intent(NavigationActivity.this, SignInActivity.class);
+//                        startActivity(intent);
+//                    }
+//                }
+//        );
+        Intent intent = new Intent(NavigationActivity.this, SignInActivity.class);
+        startActivity(intent);
     }
 
 }

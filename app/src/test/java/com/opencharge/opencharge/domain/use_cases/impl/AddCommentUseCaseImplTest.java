@@ -5,13 +5,10 @@ package com.opencharge.opencharge.domain.use_cases.impl;
  */
 
 import com.opencharge.opencharge.domain.Entities.Comment;
-import com.opencharge.opencharge.domain.Entities.FirebaseComment;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.CommentsRepository;
-import com.opencharge.opencharge.domain.repository.PointsRepository;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
-import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +16,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.Date;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -67,6 +62,6 @@ public class AddCommentUseCaseImplTest {
         sut.run();
 
         //Then
-        verify(mockCommentsRepository).createComment(any(String.class),any(FirebaseComment.class),any(CommentsRepository.CreateCommentCallback.class));
+        verify(mockCommentsRepository).createComment(any(String.class),any(Comment.class),any(CommentsRepository.CreateCommentCallback.class));
     }
 }

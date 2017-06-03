@@ -1,6 +1,5 @@
 package com.opencharge.opencharge.domain.repository;
 
-import com.opencharge.opencharge.domain.Entities.FirebaseUser;
 import com.opencharge.opencharge.domain.Entities.User;
 
 /**
@@ -36,7 +35,7 @@ public interface UsersRepository {
 
     void getUserById(String userId, final GetUserByIdCallback callback);
 
-    void createUser(FirebaseUser user, final CreateUserCallback callback);
+    void createUser(User user, final CreateUserCallback callback);
 
     void addSupplyReserveToUser(String reserveId, String userId, AddReserveToUser callback);
     void addConsumerReserveToUser(String reserveId, String userId, AddReserveToUser callback);

@@ -2,7 +2,6 @@ package com.opencharge.opencharge.domain.use_cases.impl;
 
 import android.util.Pair;
 
-import com.opencharge.opencharge.domain.Entities.FirebaseUser;
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.Factories.UserFactory;
 import com.opencharge.opencharge.domain.executor.Executor;
@@ -47,13 +46,12 @@ public class UsersCreateUseCaseImpl extends AbstractUseCase implements UsersCrea
 
     @Override
     public void run() {
-        final User user = UserFactory.getInstance().createNewUser(name, photo, email, puntsCreats, puntsReservats);
-        final FirebaseUser firebaseUser = UserFactory.getInstance().pointToFirebasePoint(user);
-        usersRepository.createUser(firebaseUser, new UsersRepository.CreateUserCallback(){
+        final User user = UserFactory.getInstance().createNewUser(name, photo, email, puntsCreats);
+        usersRepository.createUser(user, new UsersRepository.CreateUserCallback(){
             @Override
             public void onUserCreated(String id)
             {
-                UserFactory.getInstance().setUserId(user, id);
+                user.setId(id);
                 postUser(id);
             }
 
