@@ -90,11 +90,13 @@ public class UseCasesLocator {
         );
     }
 
-    public PointsCreateUseCase getPointsCreateUseCase(PointsCreateUseCase.Callback callback) {
+    public PointsCreateUseCase getPointsCreateUseCase(Context context, PointsCreateUseCase.Callback callback) {
         return new PointsCreateUseCaseImpl(
                 ServicesLocator.getInstance().getExecutor(),
                 ServicesLocator.getInstance().getMainThread(),
                 RepositoriesLocator.getInstance().getPointsRepository(),
+                RepositoriesLocator.getInstance().getUsersRepository(),
+                context,
                 callback);
     }
 

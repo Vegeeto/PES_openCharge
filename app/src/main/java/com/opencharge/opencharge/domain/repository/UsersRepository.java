@@ -8,39 +8,55 @@ import com.opencharge.opencharge.domain.Entities.User;
 
 public interface UsersRepository {
 
-     interface GetUsersCallback {
-         void onUsersRetrieved(User[] users);
-         void onError();
+    interface GetUsersCallback {
+        void onUsersRetrieved(User[] users);
+
+        void onError();
     }
 
-     interface CreateUserCallback {
+    interface CreateUserCallback {
         void onUserCreated(String id);
+
+        void onError();
+    }
+
+    interface SaveUserCallback {
+        void onUserSaved();
+
         void onError();
     }
 
     interface GetUserByIdCallback {
         void onUserRetrieved(User user);
+
         void onError();
     }
 
     interface GetUserByEmailCallback {
         void onUserRetrieved(User user);
+
         void onError();
     }
 
     interface AddReserveToUser {
         void onReserveAdded();
+
         void onError();
     }
 
     void getUsers(final UsersRepository.GetUsersCallback callback);
 
     void getUserById(String userId, final GetUserByIdCallback callback);
+
     void getUserByEmail(String userEmail, final GetUserByEmailCallback callback);
 
     void createUser(User user, final CreateUserCallback callback);
 
+    void saveUser(User user, final SaveUserCallback callback);
+
     void addSupplyReserveToUser(String reserveId, String userId, AddReserveToUser callback);
+
     void addConsumerReserveToUser(String reserveId, String userId, AddReserveToUser callback);
+
     void addMinutesToUser(int quantity, String userId);
 }

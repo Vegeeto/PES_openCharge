@@ -202,7 +202,8 @@ public class CreatePublicPointsFragment extends Fragment {
         }
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(new PointsCreateUseCase.Callback(){
+        Context context = getActivity();
+        PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(context, new PointsCreateUseCase.Callback(){
             @Override
             public void onPointCreated(String id) {
                 //Log.d("CrearPunt","onPointCreatedCallback");
