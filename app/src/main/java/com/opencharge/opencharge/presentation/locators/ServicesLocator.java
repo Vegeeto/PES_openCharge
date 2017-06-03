@@ -3,6 +3,8 @@ package com.opencharge.opencharge.presentation.locators;
 import android.content.Context;
 import android.location.Geocoder;
 
+import com.opencharge.opencharge.domain.device_services.UserPreferences;
+import com.opencharge.opencharge.domain.device_services.impl.UserPreferenceImpl;
 import com.opencharge.opencharge.domain.helpers.MapSearchFeature;
 import com.opencharge.opencharge.domain.device_services.UserLocationService;
 import com.opencharge.opencharge.domain.helpers.impl.MapSearchFeatureImpl;
@@ -42,5 +44,9 @@ public class ServicesLocator {
 
     public MapSearchFeature getMapSearchFeature(Geocoder geocoder) {
         return new MapSearchFeatureImpl(geocoder);
+    }
+
+    public UserPreferences getUserPreferencesService(Context context) {
+        return new UserPreferenceImpl(context);
     }
 }
