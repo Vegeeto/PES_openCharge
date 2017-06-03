@@ -47,17 +47,17 @@ public class FirebaseUsersParserTest {
         map.put(FirebaseUsersParser.MINUTES_KEY , Long.valueOf(10));
 
         List<Map<String, String>> pointsList = createPointsListForMapTest();
-        map.put(FirebaseUsersParser.CREATS_KEY , pointsList);
+        map.put(FirebaseUsersParser.POINTS_KEY, pointsList);
     }
 
     private List<Map<String, String>> createPointsListForMapTest() {
         Map<String, String> point1 = new HashMap<>();
         point1.put(FirebaseUsersParser.POINT_ID, "Point1ID");
-        point1.put(FirebaseUsersParser.POINT_NAME, "Point1 Address");
+        point1.put(FirebaseUsersParser.POINT_ADDRESS, "Point1 Address");
 
         Map<String, String> point2 = new HashMap<>();
         point2.put(FirebaseUsersParser.POINT_ID, "Point2ID");
-        point2.put(FirebaseUsersParser.POINT_NAME, "Point2 Address");
+        point2.put(FirebaseUsersParser.POINT_ADDRESS, "Point2 Address");
 
         List<Map<String, String>> pointsList = new ArrayList<>();
         pointsList.add(point1);

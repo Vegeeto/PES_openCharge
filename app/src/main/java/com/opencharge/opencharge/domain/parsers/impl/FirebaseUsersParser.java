@@ -19,10 +19,10 @@ public class FirebaseUsersParser implements UsersParser {
     public static final String PHOTO_KEY = "photo";
     public static final String EMAIL_KEY = "email";
     public static final String MINUTES_KEY = "minutes";
-    public static final String CREATS_KEY = "punts";
+    public static final String POINTS_KEY = "points";
 
-    public static final String POINT_ID="first";
-    public static final String POINT_NAME="second";
+    public static final String POINT_ID = "id";
+    public static final String POINT_ADDRESS = "address";
 
     @Override
     public User parseFromMap(String key, Map<String, Object> map) {
@@ -31,7 +31,7 @@ public class FirebaseUsersParser implements UsersParser {
         user.setPhoto(parseStringKeyFromMap(PHOTO_KEY, map));
         user.setEmail(parseStringKeyFromMap(EMAIL_KEY, map));
         user.setMinutes(parseLongKeyFromMap(MINUTES_KEY, map).intValue());
-        user.setPoints(parseArrayListFromMap(CREATS_KEY, map));
+        user.setPoints(parseArrayListFromMap(POINTS_KEY, map));
 
         return user;
     }
@@ -43,7 +43,7 @@ public class FirebaseUsersParser implements UsersParser {
             List<HashMap<String, String>> totsPunts = (List<HashMap<String, String>>) map.get(key);
             for (HashMap<String,String> element : totsPunts) {
                 String idPunt = element.get(POINT_ID);
-                String nomPunt = element.get(POINT_NAME);
+                String nomPunt = element.get(POINT_ADDRESS);
                 UserPointSummary point = new UserPointSummary(idPunt, nomPunt);
                 arrayList.add(point);
             }
