@@ -18,7 +18,7 @@ public class UserPreferenceImpl implements UserPreferences {
     private static final String NO_CURRENT_USER_VALUE = "NO User";
 
     public UserPreferenceImpl(Context context) {
-        preferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences("OpenChargeApp", Context.MODE_PRIVATE);
     }
 
     @Override
