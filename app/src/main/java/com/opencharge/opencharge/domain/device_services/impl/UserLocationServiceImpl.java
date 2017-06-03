@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.app.Service;
 
@@ -34,7 +35,6 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
     private UserLocationService.Callback callback;
     private Context context;
     private boolean isGpsEnabled = false;
-    private boolean isNetworkEnabled = false;
 
     private Location userLocation;
 
@@ -53,8 +53,7 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
     @Override
     public void getUserLocation(UserLocationService.Callback callback) {
         this.callback = callback;
-        Location location = getLocation();
-        this.callback.onLocationRetrieved(location);
+        this.callback.onLocationRetrieved(userLocation);
     }
 
 
@@ -62,30 +61,28 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
         try {
             mLocationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
             isGpsEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);            //Check if GPS is enabled
-            isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);    //Check if Network is enabled
-            //System.out.println("GPS enabled: " + isGpsEnabled);
-            //System.out.println("NETWORK enabled: " + isNetworkEnabled);
-            if (!isGpsEnabled && !isNetworkEnabled) {
+            //isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);    //Check if Network is enabled
+            Log.d("TAG: ", "Hola");
+            if (!isGpsEnabled) {
                 showSettingsAlert();
+            }
+
+            //Check permissions
+            if (ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // Check Permissions Now
+                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+                //Log.e("Error: ", "You don't have the right permissions to get User Location ");
+                callback.onCanNotGetLocationError();
             } else {
-                //Check permissions
-                if (ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // Check Permissions Now
-                    ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
-                    //Log.e("Error: ", "You don't have the right permissions to get User Location ");
-                    callback.onCanNotGetLocationError();
-                } else {
-                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
-                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
-                    if (isGpsEnabled && mLocationManager != null) {             //Get the user location using gps
-                        //Log.e("LOCATION: ", "Getting user locations using GPS");
-                        userLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
+                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
+                if (isGpsEnabled && mLocationManager != null) {             //Get the user location using gps
+                    //Log.e("LOCATION: ", "Getting user locations using GPS");
+                    userLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                    } else { //Get the user location using network.
-                        //Log.e("LOCATION: ", "Getting user locations using NETWORK");
-                        userLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-                    }
+                } else { //Get the user location using network.
+                    //Log.e("LOCATION: ", "Getting user locations using NETWORK");
+                    userLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 }
             }
 
@@ -101,7 +98,7 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
         dialog.setTitle("GPS DESACTIVAT");
-        dialog.setMessage("Voleu activar el GPS?");
+        dialog.setMessage("Voleu activar-lo?");
 
         dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

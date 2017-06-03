@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -46,7 +48,7 @@ public class CreatePublicPointsFragment extends Fragment {
     private RadioGroup rdgTipus;
     private LinearLayout connectorTypeLayout;
     private LinearLayout connectorTypeLayourParent;
-    private Button addMoreConnectors;
+    private ImageButton addMoreConnectors;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,7 +61,7 @@ public class CreatePublicPointsFragment extends Fragment {
         editSchedule = (EditText) view.findViewById(R.id.Horari);
         rdgAcces = (RadioGroup) view.findViewById(R.id.Public_or_private);
         connectorTypeLayout = (LinearLayout) view.findViewById(R.id.connector_type_layout);
-        addMoreConnectors = (Button) view.findViewById(R.id.add_more_connectors_button);
+        addMoreConnectors = (ImageButton) view.findViewById(R.id.add_more_connectors_button);
         connectorTypeLayourParent = (LinearLayout) view.findViewById(R.id.connector_type_parent);
 
         rdgAcces.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -88,6 +90,19 @@ public class CreatePublicPointsFragment extends Fragment {
 
         RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
         datePickerButton.setVisibility(View.GONE);
+
+        final LinearLayout scheduleLayout = (LinearLayout) view.findViewById(R.id.Horari_text);
+        scheduleLayout.setVisibility(View.GONE);
+        rdgAcces.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (rdgAcces.getCheckedRadioButtonId()) {
+                    case R.id.Privat: scheduleLayout.setVisibility(View.VISIBLE); break;
+                    case R.id.Public: scheduleLayout.setVisibility(View.VISIBLE); break;
+                    default: scheduleLayout.setVisibility(View.GONE); break;
+                }
+            }
+        });
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         Log.d("TESTING", "Declaring the use case");
