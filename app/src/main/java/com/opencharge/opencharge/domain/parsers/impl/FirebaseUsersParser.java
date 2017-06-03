@@ -23,7 +23,6 @@ public class FirebaseUsersParser implements UsersParser {
     public static final String EMAIL_KEY = "email";
     public static final String MINUTES_KEY = "minutes";
     public static final String CREATS_KEY = "punts";
-    public static final String RESERVATS_KEY = "puntsReservats";
     public static final String POINT_ID="first";
     public static final String POINT_NAME="second";
 
