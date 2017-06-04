@@ -217,7 +217,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         public void onCommentsRetrieved(Comment[] comments) {
                             if (comments.length > 0) {
                                 FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
-                                ft.setCustomAnimations(R.anim.slide_up, R.anim.slide_down);
+                                ft.setCustomAnimations(R.anim.pop_in, R.anim.pop_out);
                                 ShowCommentsFragment fragment = ShowCommentsFragment.newInstance(item.getId());
                                 ft.add(R.id.content_frame, fragment);
                                 ft.addToBackStack(null);
