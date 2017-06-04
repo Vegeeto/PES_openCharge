@@ -51,7 +51,7 @@ public class FirebaseReserveRepository implements ReserveRepository {
         myRef = myRef.child(point_id);
         myRef = myRef.child("Reserves");
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Reserve[] services = parseReservesFromDataSnapshot(dataSnapshot);
