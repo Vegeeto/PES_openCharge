@@ -8,6 +8,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.Reserve;
+import com.opencharge.opencharge.domain.helpers.DateConversion;
+import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
@@ -64,6 +67,28 @@ public class FirebasePointsRepository implements PointsRepository {
                 Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
             }
         });
+    }
+
+    @Override
+    public void addReserveToPoint(Reserve reserve, final AddReserveToPointCallback callback) {
+        DatabaseReference myRef = database.getReference("Points");
+        myRef = myRef.child(reserve.getPointId()).child("Reserves");
+
+        String day = serializeReserveDay(reserve);
+        myRef = myRef.child(day);
+
+        myRef.push().setValue(reserve.getId(), new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onReserveAddedToPoint();
+            }
+        });
+
+    }
+
+    private String serializeReserveDay(Reserve reserve) {
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertDateToString(reserve.getDay());
     }
 
     private Point[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {

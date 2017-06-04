@@ -1,6 +1,7 @@
 package com.opencharge.opencharge.domain.repository;
 
 import com.opencharge.opencharge.domain.Entities.Point; // Esto rompe clean arch??
+import com.opencharge.opencharge.domain.Entities.Reserve;
 
 /**
  * Created by ferran on 15/3/17.
@@ -8,22 +9,28 @@ import com.opencharge.opencharge.domain.Entities.Point; // Esto rompe clean arch
 
 public interface PointsRepository {
 
-    public interface GetPointsCallback {
-        public void onPointsRetrieved(Point[] points);
+    interface GetPointsCallback {
+        void onPointsRetrieved(Point[] points);
 
-        public void onError();
+        void onError();
     }
 
-    public interface GetPointByIdCallback {
-        public void onPointRetrieved(Point point);
+    interface GetPointByIdCallback {
+        void onPointRetrieved(Point point);
 
-        public void onError();
+        void onError();
     }
 
-    public interface CreatePointCallback {
-        public void onPointCreated(String id);
+    interface CreatePointCallback {
+        void onPointCreated(String id);
 
-        public void onError();
+        void onError();
+    }
+
+    interface AddReserveToPointCallback {
+        void onReserveAddedToPoint();
+
+        void onError();
     }
 
     void getPoints(final GetPointsCallback callback);
@@ -31,4 +38,6 @@ public interface PointsRepository {
     void createPoint(Point point, final CreatePointCallback callback);
 
     void getPointById(String pointId, final GetPointByIdCallback callback);
+
+    void addReserveToPoint(Reserve reserve, final AddReserveToPointCallback callback);
 }

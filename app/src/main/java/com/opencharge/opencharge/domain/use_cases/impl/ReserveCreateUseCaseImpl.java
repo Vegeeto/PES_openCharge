@@ -3,6 +3,7 @@ package com.opencharge.opencharge.domain.use_cases.impl;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
+import com.opencharge.opencharge.domain.repository.PointsRepository;
 import com.opencharge.opencharge.domain.repository.ReserveRepository;
 import com.opencharge.opencharge.domain.repository.UsersRepository;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
@@ -17,17 +18,20 @@ public class ReserveCreateUseCaseImpl extends AbstractUseCase implements Reserve
     private Callback callback;
     private ReserveRepository reserveRepository;
     private UsersRepository usersRepository;
+    private PointsRepository pointsRepository;
     private Reserve reserve;
 
     public ReserveCreateUseCaseImpl(Executor threadExecutor,
                                     MainThread mainThread,
                                     ReserveRepository reserveRepository,
                                     UsersRepository usersRepository,
+                                    PointsRepository pointsRepository,
                                     Callback callback) {
         super(threadExecutor, mainThread);
 
         this.usersRepository = usersRepository;
         this.reserveRepository = reserveRepository;
+        this.pointsRepository = pointsRepository;
         this.callback = callback;
     }
 
@@ -47,7 +51,17 @@ public class ReserveCreateUseCaseImpl extends AbstractUseCase implements Reserve
                         usersRepository.addSupplyReserveToUser(reserveId, reserve.getSupplierUserId(), new UsersRepository.AddReserveToUser() {
                             @Override
                             public void onReserveAdded() {
-                                postReserve(reserveId);
+                                pointsRepository.addReserveToPoint(reserve, new PointsRepository.AddReserveToPointCallback() {
+                                    @Override
+                                    public void onReserveAddedToPoint() {
+                                        postReserve(reserveId);
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        postError();
+                                    }
+                                });
                             }
 
                             @Override

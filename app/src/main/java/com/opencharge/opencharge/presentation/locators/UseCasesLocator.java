@@ -163,6 +163,7 @@ public class UseCasesLocator {
                 sl.getMainThread(),
                 RepositoriesLocator.getInstance().getReserveRepository(),
                 RepositoriesLocator.getInstance().getUsersRepository(),
+                RepositoriesLocator.getInstance().getPointsRepository(),
                 callback
         );
     }
