@@ -80,7 +80,9 @@ public class NavigationActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_maps) {
+        if (id == R.id.nav_profile) {
+            fm.beginTransaction().replace(R.id.content_frame, new UserInfoFragment()).commit();
+        } else if (id == R.id.nav_maps) {
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
         } else if (id == R.id.nav_newpoint) {
             fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
