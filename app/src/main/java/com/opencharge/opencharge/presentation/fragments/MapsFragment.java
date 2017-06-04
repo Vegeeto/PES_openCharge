@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -63,8 +64,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
+
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
+        setHasOptionsMenu(true);
 
         RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
         datePickerButton.setVisibility(View.GONE);
@@ -91,6 +93,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
         }
     }*/
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        SupportMapFragment f = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (f != null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

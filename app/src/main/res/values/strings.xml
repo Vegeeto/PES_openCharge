@@ -62,7 +62,7 @@
     <string name="veure_horari">Veure horari</string>
 
     <string name="carrega_m_s_comentaris">Visualitza tots els comentaris</string>
-    <string name="title_activity_sign_in1">Sign in</string>
+    <string name="title_activity_sign_in">Account login</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -77,4 +77,8 @@
         completions."
     </string>
     <string name="coordenades">Coordenades</string>
+    <string name="mapa">Mapa</string>
+    <string name="crear_punt">Crear punt</string>
+    <string name="crear_torn">Crear torn</string>
+    <string name="el_meu_perfil">El meu perfil</string>
 </resources>
