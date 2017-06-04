@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -103,9 +105,12 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public ViewHolderMap(View itemView) {
             super(itemView);
 
+            SupportMapFragment mapFragment = new SupportMapFragment();
+
             FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
-            Fragment fragment = fragmentManager.findFragmentById(R.id.map_recycler);
-            SupportMapFragment mapFragment = (SupportMapFragment) fragment;
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.map_recycler, mapFragment).commit();
+
             mapFragment.getMapAsync(this);
             if (mMap != null) {
                 onMapReady(mMap);
@@ -297,6 +302,5 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             default: return 2;
         }
     }
-
 
 }
