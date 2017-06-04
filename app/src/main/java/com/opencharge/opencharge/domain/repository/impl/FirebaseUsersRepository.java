@@ -106,14 +106,11 @@ public class FirebaseUsersRepository implements UsersRepository {
         DatabaseReference myRef = database.getReference("Users");
         myRef = myRef.child(user.getId());
         Map<String, Object> serializedUser = usersParser.serializeUser(user);
-        myRef.setValue(serializedUser, new DatabaseReference.CompletionListener() {
-
-            @Override
-            public void onComplete(DatabaseError de, DatabaseReference dr) {
-                callback.onUserSaved();
-            }
-
-        });
+        for (Map.Entry<String, Object> entry : serializedUser.entrySet()) {
+            DatabaseReference propRef = myRef.child(entry.getKey());
+            propRef.setValue(entry.getValue());
+        }
+        callback.onUserSaved();
     }
 
     @Override
