@@ -198,7 +198,7 @@ public class ReservesShiftsFragment extends Fragment {
                 DateConversion dc = new DateConversionImpl();
                 int hourEnd = hourStart + minutesDuration / 60;
                 int minEnd = minutesDuration % 60;
-                CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertIntToTimeString(hourStart, 0), dc.ConvertIntToTimeString(hourEnd, minEnd));
+                CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertHourAndMinutesToString(hourStart, 0), dc.ConvertHourAndMinutesToString(hourEnd, minEnd));
                 ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             }
         });
