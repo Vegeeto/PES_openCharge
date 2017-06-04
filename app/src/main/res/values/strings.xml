@@ -77,4 +77,8 @@
         completions."
     </string>
     <string name="coordenades">Coordenades</string>
+    <string name="mapa">Mapa</string>
+    <string name="crear_punt">Crear punt</string>
+    <string name="crear_torn">Crear torn</string>
+    <string name="el_meu_perfil">El meu perfil</string>
 </resources>
