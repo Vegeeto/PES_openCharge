@@ -107,10 +107,6 @@ public class CreateReserveFragment extends Fragment {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*DatePickerDialog datePicker = new DatePickerDialog(getActivity(),datePickerListener1, year, month, day);
-                datePicker.setCancelable(false);
-                datePicker.setTitle("Seleccionar data");
-                datePicker.show();*/
                 Toast.makeText(getActivity(), "Si vol canviar el dia torni endarrere", Toast.LENGTH_SHORT).show();
             }
         });
@@ -254,8 +250,6 @@ public class CreateReserveFragment extends Fragment {
     private void cancel() {
         FragmentManager fm = getFragmentManager();
         fm.popBackStackImmediate();
-        /*MapsFragment mp = new MapsFragment();
-        fm.beginTransaction().replace(R.id.content_frame, mp).commit();*/
     }
 
 }
