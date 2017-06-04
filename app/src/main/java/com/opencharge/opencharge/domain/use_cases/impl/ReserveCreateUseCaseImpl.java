@@ -40,11 +40,21 @@ public class ReserveCreateUseCaseImpl extends AbstractUseCase implements Reserve
     public void run() {
         this.reserveRepository.createReserve(reserve, new ReserveRepository.CreateReserveCallback() {
             @Override
-            public void onReserveCreated(String reserveId) {
+            public void onReserveCreated(final String reserveId) {
                 usersRepository.addConsumerReserveToUser(reserveId, reserve.getConsumerUserId(), new UsersRepository.AddReserveToUser() {
                     @Override
                     public void onReserveAdded() {
-                        //TODO get id of the owner of the point where the reserve is created and add a SupplyReserve to him
+                        usersRepository.addSupplyReserveToUser(reserveId, reserve.getSupplierUserId(), new UsersRepository.AddReserveToUser() {
+                            @Override
+                            public void onReserveAdded() {
+                                postReserve(reserveId);
+                            }
+
+                            @Override
+                            public void onError() {
+                                postError();
+                            }
+                        });
                     }
 
                     @Override
