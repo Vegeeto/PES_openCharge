@@ -62,7 +62,7 @@
     <string name="veure_horari">Veure horari</string>
 
     <string name="carrega_m_s_comentaris">Visualitza tots els comentaris</string>
-    <string name="title_activity_sign_in1">Sign in</string>
+    <string name="title_activity_sign_in">Account login</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
