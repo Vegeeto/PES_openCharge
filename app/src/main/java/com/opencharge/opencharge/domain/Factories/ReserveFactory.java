@@ -1,5 +1,6 @@
 package com.opencharge.opencharge.domain.Factories;
 
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 
 import java.util.Date;
@@ -24,13 +25,12 @@ public class ReserveFactory {
     public Reserve createNewReserve(Date day,
                                     Date startHour,
                                     Date endHour,
-                                    String pointId,
-                                    String consumerUserId,
-                                    String supplierUserId) {
+                                    Point point,
+                                    String consumerUserId) {
         Reserve r = new Reserve(day, startHour, endHour);
-        r.setPointId(pointId);
+        r.setPointId(point.getId());
         r.setConsumerUserId(consumerUserId);
-        r.setSupplierUserId(supplierUserId);
+        r.setSupplierUserId(point.userId);
 
         return r;
     }
