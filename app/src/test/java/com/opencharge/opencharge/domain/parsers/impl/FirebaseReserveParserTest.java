@@ -38,7 +38,7 @@ public class FirebaseReserveParserTest {
         map.put(FirebaseReserveParser.END_HOUR_KEY, "14:05");
         map.put(FirebaseReserveParser.SUPPLIER_FINISH, false);
         map.put(FirebaseReserveParser.CONSUMER_FINISH, true);
-        map.put(FirebaseReserveParser.SERVICE_ID, "ServiceId");
+        map.put(FirebaseReserveParser.POINT_ID, "PointId");
         map.put(FirebaseReserveParser.CONSUMER_USER_ID, "ConsumerUserId");
         map.put(FirebaseReserveParser.SUPPLIER_USER_ID, "ConsumerUserId");
         map.put(FirebaseReserveParser.STATE, Reserve.CREATED);
@@ -49,7 +49,7 @@ public class FirebaseReserveParserTest {
         Date endHour = new Date("01/01/1970 14:05");
         reserve = new Reserve(day, startHour, endHour);
         reserve.markAsFinishedByConsumer();
-        reserve.setServiceId("ServiceId");
+        reserve.setPointId("PointId");
         reserve.setConsumerUserId("ConsumerUserId");
         reserve.setSupplierUserId("ConsumerUserId");
         reserve.setCanConfirm(true);
@@ -64,9 +64,9 @@ public class FirebaseReserveParserTest {
         assertEquals("Wrong parsed Id", key, parsedReserve.getId());
         assertEquals("Wrong parsed day", reserve.getDay(), parsedReserve.getDay());
         assertEquals("Wrong parsed startHour", reserve.getStartHour(), parsedReserve.getStartHour());
-        assertEquals("Wrong parsed supplierFinish", reserve.isMarkedAsFinishedBySupplier(), parsedReserve.isMarkedAsFinishedBySupplier());
-        assertEquals("Wrong parsed consumerFinish", reserve.isMarkedAsFinishedByConsumer(), parsedReserve.isMarkedAsFinishedByConsumer());
-        assertEquals("Wrong parsed serviceId", reserve.getServiceId(), parsedReserve.getServiceId());
+        assertEquals("Wrong parsed SupplierFinish", reserve.isMarkedAsFinishedBySupplier(), parsedReserve.isMarkedAsFinishedBySupplier());
+        assertEquals("Wrong parsed Finish", reserve.isMarkedAsFinishedByConsumer(), parsedReserve.isMarkedAsFinishedByConsumer());
+        assertEquals("Wrong parsed pointId", reserve.getPointId(), parsedReserve.getPointId());
         assertEquals("Wrong parsed consumerUserId", reserve.getConsumerUserId(), parsedReserve.getConsumerUserId());
         assertEquals("Wrong parsed supplierUserId", reserve.getSupplierUserId(), parsedReserve.getSupplierUserId());
         assertEquals("Wrong parsed state", reserve.getState(), parsedReserve.getState());
@@ -133,7 +133,7 @@ public class FirebaseReserveParserTest {
         assertEquals("Wrong serialized startHour", map.get(FirebaseReserveParser.START_HOUR_KEY), serializedReserve.get(FirebaseReserveParser.START_HOUR_KEY));
         assertEquals("Wrong serialized supplierFinish", map.get(FirebaseReserveParser.SUPPLIER_FINISH), serializedReserve.get(FirebaseReserveParser.SUPPLIER_FINISH));
         assertEquals("Wrong serialized consumerFinish", map.get(FirebaseReserveParser.CONSUMER_FINISH), serializedReserve.get(FirebaseReserveParser.CONSUMER_FINISH));
-        assertEquals("Wrong serialized serviceId", map.get(FirebaseReserveParser.SERVICE_ID), serializedReserve.get(FirebaseReserveParser.SERVICE_ID));
+        assertEquals("Wrong serialized pointId", map.get(FirebaseReserveParser.POINT_ID), serializedReserve.get(FirebaseReserveParser.POINT_ID));
         assertEquals("Wrong serialized consumerUserId", map.get(FirebaseReserveParser.CONSUMER_USER_ID), serializedReserve.get(FirebaseReserveParser.CONSUMER_USER_ID));
         assertEquals("Wrong serialized supplierUserId", map.get(FirebaseReserveParser.SUPPLIER_USER_ID), serializedReserve.get(FirebaseReserveParser.SUPPLIER_USER_ID));
         assertEquals("Wrong serialized state", map.get(FirebaseReserveParser.STATE), serializedReserve.get(FirebaseReserveParser.STATE));

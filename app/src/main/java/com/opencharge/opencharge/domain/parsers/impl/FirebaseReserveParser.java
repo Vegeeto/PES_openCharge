@@ -19,7 +19,7 @@ public class FirebaseReserveParser extends AbstractParser implements ReservePars
     public static final String STATE = "state";
     public static final String SUPPLIER_FINISH = "ownerFinish";
     public static final String CONSUMER_FINISH = "userFinish";
-    public static final String SERVICE_ID = "servideId";
+    public static final String POINT_ID = "pointId";
     public static final String CONSUMER_USER_ID = "consumeruserId";
     public static final String SUPPLIER_USER_ID = "supplieruserId";
     public static final String CAN_CONFIRM = "canconfirm";
@@ -48,7 +48,7 @@ public class FirebaseReserveParser extends AbstractParser implements ReservePars
 
         reserve.setConsumerUserId(parseStringKeyFromMap(CONSUMER_USER_ID, map));
         reserve.setSupplierUserId(parseStringKeyFromMap(SUPPLIER_USER_ID, map));
-        reserve.setServiceId(parseStringKeyFromMap(SERVICE_ID, map));
+        reserve.setPointId(parseStringKeyFromMap(POINT_ID, map));
 
         String stateFirebase = parseStringKeyFromMap(STATE, map);
         if (stateFirebase.equals(Reserve.ACCEPTED)) {
@@ -78,10 +78,10 @@ public class FirebaseReserveParser extends AbstractParser implements ReservePars
 
         serializedReserve.put(CONSUMER_USER_ID, reserve.getConsumerUserId());
         serializedReserve.put(SUPPLIER_USER_ID, reserve.getSupplierUserId());
-        serializedReserve.put(SERVICE_ID, reserve.getServiceId());
+        serializedReserve.put(POINT_ID, reserve.getPointId());
 
         serializedReserve.put(STATE, reserve.getState());
-        serializedReserve.put(CAN_CONFIRM, reserve.getCanConfirm());
+        serializedReserve.put(CAN_CONFIRM, reserve.getState());
 
         return serializedReserve;
     }
