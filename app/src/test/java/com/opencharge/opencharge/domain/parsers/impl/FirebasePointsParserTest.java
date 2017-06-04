@@ -34,6 +34,7 @@ public class FirebasePointsParserTest {
         key = "point1";
 
         map = new HashMap<>();
+        map.put(FirebasePointsParser.USER_ID_KEY, "userId");
         map.put(FirebasePointsParser.TOWN_KEY, "barcelona");
         map.put(FirebasePointsParser.STREET_KEY, "diagonal");
         map.put(FirebasePointsParser.NUMBER_KEY, "321-322");
@@ -55,6 +56,17 @@ public class FirebasePointsParserTest {
 
         //Then
         assertEquals("Point id not parsed", key, p.getId());
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="UserId tests">
+    @Test
+    public void test_parseFromMap_createPointWithCorrectUserId() {
+        //When
+        Point p = sut.parseFromMap(key, map);
+
+        //Then
+        assertEquals("User id not parsed", "userId", p.userId);
     }
     //</editor-fold>
 

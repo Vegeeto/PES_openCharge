@@ -1,6 +1,7 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.Map;
 public class FirebasePointsParser extends AbstractParser implements PointsParser {
     public static final double COORDINATES_PRECISION = 0.0001;
 
+    public static final String USER_ID_KEY = "userId";
     public static final String TOWN_KEY = "town";
     public static final String STREET_KEY = "street";
     public static final String NUMBER_KEY = "number";
@@ -27,6 +29,7 @@ public class FirebasePointsParser extends AbstractParser implements PointsParser
     @Override
     public Point parseFromMap(String key, Map<String, Object> map) {
         Point point = new Point(key);
+        point.userId = parseStringKeyFromMap(USER_ID_KEY, map);
 
         point.setAccessType(parseAccessTypeFromMap(map));
         point.setConnectorTypeList(parseConnectorTypeFromMap(map));

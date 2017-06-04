@@ -32,6 +32,7 @@ public class Point {
     public @interface ConnectorType {}
 
     public String id;
+    public String userId;
 
     //xCoord and yCoord string
     public double lat;
@@ -132,6 +133,7 @@ public class Point {
     public String toString() {
         return "Point{" +
                 "id=" + id +
+                ", userId=" + userId +
                 ", lat=" + lat +
                 ", lon=" + lon +
                 ", town='" + town + '\'' +
