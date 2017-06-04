@@ -15,5 +15,7 @@ public interface DateConversion {
 
     String ConvertDateToString(Date date);
 
+    String ConvertTimeToString(Date date);
+
     String ConvertHourAndMinutesToString(int hour, int minute);
 }

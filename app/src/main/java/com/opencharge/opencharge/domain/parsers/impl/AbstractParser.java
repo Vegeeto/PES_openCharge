@@ -56,4 +56,14 @@ public abstract class AbstractParser implements Parser {
         }
         return value;
     }
+
+    public String serializeDate(Date date) {
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertDateToString(date);
+    }
+
+    public String serializeTime(Date time) {
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertTimeToString(time);
+    }
 }

@@ -35,7 +35,8 @@ public class FirebaseReserveRepository implements ReserveRepository {
     @Override
     public void createReserve(Reserve reserve, final CreateReserveCallback callback) {
         DatabaseReference myRef = database.getReference("Reserves");
-        myRef.push().setValue(reserve, new DatabaseReference.CompletionListener() {
+        Map<String, Object> serializedReserve = reserveParser.serializeReserve(reserve);
+        myRef.push().setValue(serializedReserve, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
                 String reserveId = dr.getKey();

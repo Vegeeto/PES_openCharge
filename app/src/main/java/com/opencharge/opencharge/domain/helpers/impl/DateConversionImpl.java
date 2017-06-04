@@ -60,6 +60,11 @@ public class DateConversionImpl implements DateConversion {
     }
 
     @Override
+    public String ConvertTimeToString(Date date) {
+        return timeFormat.format(date);
+    }
+
+    @Override
     public String ConvertHourAndMinutesToString(int hour, int minute) {
         Date date = new Date();
         date.setHours(hour);
