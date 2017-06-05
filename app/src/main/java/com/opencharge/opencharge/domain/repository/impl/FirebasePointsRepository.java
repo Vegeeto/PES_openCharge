@@ -15,6 +15,7 @@ import com.opencharge.opencharge.domain.parsers.PointsParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -74,8 +75,8 @@ public class FirebasePointsRepository implements PointsRepository {
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(reserve.getPointId()).child("Reserves");
 
-        String day = serializeReserveDay(reserve);
-        myRef = myRef.child(day);
+        String dayPath = serializeReserveDate(reserve);
+        myRef = myRef.child(dayPath);
 
         myRef.push().setValue(reserve.getId(), new DatabaseReference.CompletionListener() {
             @Override
@@ -86,9 +87,10 @@ public class FirebasePointsRepository implements PointsRepository {
 
     }
 
-    private String serializeReserveDay(Reserve reserve) {
-        DateConversion dateConversion = new DateConversionImpl();
-        return dateConversion.ConvertDateToString(reserve.getDay());
+    private String serializeReserveDate(Reserve reserve) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String date = dateFormat.format(reserve.getDay());
+        return date;
     }
 
     private Point[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
