@@ -12,7 +12,7 @@
 
 
         <RadioButton
-            android:id="@+id/Fast"
+            android:id="@+id/Rapid"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"
@@ -24,7 +24,7 @@
             android:textSize="20sp" />
 
         <RadioButton
-            android:id="@+id/Rapid"
+            android:id="@+id/Fast"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"

@@ -128,7 +128,13 @@ public class EditPointFragment extends Fragment {
         });
 
         ImageButton addMoreConnectors = (ImageButton) view.findViewById(R.id.add_more_connectors_button);
-        addMoreConnectors.setVisibility(View.GONE);
+        addMoreConnectors.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //Duplicar layout
+                View connector = inflater.inflate(R.layout.radiogroup, container, false);
+                connectorTypeLayourParent.addView(connector);
+            }
+        });
 
         return view;
     }

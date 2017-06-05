@@ -101,7 +101,6 @@ public class CreatePublicPointsFragment extends Fragment {
         addMoreConnectors.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Duplicar layout
-                //LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View connector = inflater.inflate(R.layout.radiogroup, container, false);
                 connectorTypeLayourParent.addView(connector);
             }
