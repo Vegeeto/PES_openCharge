@@ -85,7 +85,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_maps) {
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
         } else if (id == R.id.nav_newpoint) {
-            fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
+            fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_newservice) {
             fm.beginTransaction().replace(R.id.content_frame, new CreateServiceFragment()).commit();
         } else if (id == R.id.nav_share) {

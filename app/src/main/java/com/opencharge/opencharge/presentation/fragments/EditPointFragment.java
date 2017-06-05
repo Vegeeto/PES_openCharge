@@ -25,6 +25,7 @@ import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.helpers.AddressConversion;
 import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
+import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
@@ -42,43 +43,71 @@ public class EditPointFragment extends Fragment {
     private EditText editNumber;
     private EditText editSchedule;
     private RadioGroup rdgAcces;
-    private LinearLayout connectorTypeLayout;
     private LinearLayout connectorTypeLayourParent;
+
+    private static final String ARG_POINT_ID = "point_id";
+    private String pointId;
+
+    public EditPointFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param pointId String
+     * @return A new instance of fragment PointInfoFragment.
+     */
+    public static EditPointFragment newInstance(String pointId) {
+        EditPointFragment fragment = new EditPointFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_POINT_ID, pointId);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.pointId = getArguments().getString(ARG_POINT_ID);
+        }
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_new_point, container, false);
-        final Button saveButton = (Button) view.findViewById(R.id.GuardarBtn);
+        View view = inflater.inflate(R.layout.fragment_new_point, container, false);
+
         editTown = (EditText) view.findViewById(R.id.Poblacio);
         editStreet = (EditText) view.findViewById(R.id.Street);
         editNumber = (EditText) view.findViewById(R.id.Number);
         editSchedule = (EditText) view.findViewById(R.id.Horari);
         rdgAcces = (RadioGroup) view.findViewById(R.id.Public_or_private);
-        connectorTypeLayout = (LinearLayout) view.findViewById(R.id.connector_type_layout);
         connectorTypeLayourParent = (LinearLayout) view.findViewById(R.id.connector_type_parent);
 
         rdgAcces.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
-            public void onCheckedChanged(RadioGroup group, int checkedId)
-            {
-                amagarTeclat();
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                hideKeyboard();
             }
         });
 
+        Button saveButton = (Button) view.findViewById(R.id.GuardarBtn);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Log.d("CrearPunt","onClick Guardar!");
-                amagarTeclat();
-                guardarPunt();
+                hideKeyboard();
+                savePoint();
             }
         });
 
-        final Button cancelButton = (Button) view.findViewById(R.id.CancelarBtn);
+        Button cancelButton = (Button) view.findViewById(R.id.CancelarBtn);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                amagarTeclat();
-                cancelar();
+                hideKeyboard();
+                cancel();
             }
         });
 
@@ -98,36 +127,58 @@ public class EditPointFragment extends Fragment {
             }
         });
 
-        final ImageButton addMoreConnectors = (ImageButton) view.findViewById(R.id.add_more_connectors_button);
-        addMoreConnectors.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //Duplicar layout
-                LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                //LinearLayout main =(LinearLayout) v.findViewById(R.id.connector_type_parent);
-                View view = inflater.inflate(R.layout.radiogroup, null);
-                connectorTypeLayourParent.addView(view);
-            }
-        });
-
-        /*UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        Log.d("TESTING", "Declaring the use case");
-        ReserveUserInvolvedUseCaseImpl teset = useCasesLocator.getReservesUserInvolvedUseCaseImpl(new ReserveUserInvolvedUseCaseImpl.Callback(){
-
-            @Override
-            public void onReservesRetrieved(Reserve[] reserves) {
-                if (reserves.length > 0) {
-                    Log.d("TESTING", (reserves[0].getId()));
-                }
-            }
-        });
-        teset.setPointParameters("-Kkw8SpHrn22Esxgd7F1");
-        Log.d("TESTING", "Going to call execute");
-        teset.execute();*/
+        ImageButton addMoreConnectors = (ImageButton) view.findViewById(R.id.add_more_connectors_button);
+        addMoreConnectors.setVisibility(View.GONE);
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        PointByIdUseCase getPointUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
+            @Override
+            public void onPointRetrieved(Point point) {
+                editTown.setText(point.getTown());
+                editStreet.setText(point.getStreet());
+                editNumber.setText(point.getNumber());
+
+                if (point.getSchedule() != null) {
+                    editSchedule.setText(point.getSchedule());
+                }
+
+                switch (point.getAccessType()) {
+                    case Point.PUBLIC_ACCESS: rdgAcces.check(R.id.Public);
+                        break;
+                    case Point.PRIVATE_ACCESS: rdgAcces.check(R.id.Privat);
+                        break;
+                    case Point.PARTICULAR_ACCESS: rdgAcces.check(R.id.Particular);
+                        break;
+                    default: rdgAcces.clearCheck();
+                        break;
+                }
+
+                List<String> connectorTypeList = point.getConnectorTypeList();
+                for (int i = 0; i < connectorTypeList.size(); i++) {
+                    LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View view = inflater.inflate(R.layout.radiogroup, null);
+                    RadioGroup rdgbuton = (RadioGroup) view.findViewById(R.id.tipus_connector_1);
+                    switch(connectorTypeList.get(i)) {
+                        case Point.SLOW_CONNECTOR: rdgbuton.check(R.id.Slow); break;
+                        case Point.FAST_CONNECTOR: rdgbuton.check(R.id.Fast); break;
+                        case Point.RAPID_CONNECTOR: rdgbuton.check(R.id.Rapid); break;
+                        default: rdgbuton.clearCheck();
+                    }
+                    connectorTypeLayourParent.addView(view);
+                }
+            }
+        });
+
+        getPointUseCase.setPointId(pointId);
+        getPointUseCase.execute();
+    }
     
-    public void guardarPunt() {
+    public void savePoint() {
 
         String town = editTown.getText().toString();
         if (town.matches("")) {
@@ -167,16 +218,10 @@ public class EditPointFragment extends Fragment {
                 break;
             default: accesType = Point.UNKNOWN_ACCESS; break;
         }
-        if (rdgAcces.getCheckedRadioButtonId() == R.id.Public) {
-            accesType = "Public";
-        } else if (rdgAcces.getCheckedRadioButtonId() == R.id.Privat) {
-            accesType = "Privat";
-        } else if (rdgAcces.getCheckedRadioButtonId() == R.id.Particular) {
-            accesType = "Particular";
-        }
+
         //Log.d("CrearPunt","accestype: "+accesType);
         int childCount = connectorTypeLayourParent.getChildCount();
-        Log.d("SAVE-POINT", "Count: "+childCount);
+        //Log.d("SAVE-POINT", "Count: "+childCount);
         int lastIndexInserted = 0;
         List<String> connectorTypeList = new ArrayList<>();
         String connectorType;
@@ -184,34 +229,31 @@ public class EditPointFragment extends Fragment {
             LinearLayout linearLayoutChild = (LinearLayout) connectorTypeLayourParent.getChildAt(i);
             for(int j = 0; j < linearLayoutChild.getChildCount(); ++j) {
                 RadioGroup rdgbuton = (RadioGroup) linearLayoutChild.getChildAt(j);
-                if(rdgbuton instanceof RadioGroup) {
-                    switch(rdgbuton.getCheckedRadioButtonId()) {
-                        case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
-                        case R.id.Fast: connectorType = Point.FAST_CONNECTOR; break;
-                        case R.id.Rapid: connectorType = Point.RAPID_CONNECTOR; break;
-                        default: connectorType = Point.UNKNOWN_CONNECTOR; break;
-                    }
-                    connectorTypeList.add(lastIndexInserted, connectorType);
-                    ++lastIndexInserted;
+                switch(rdgbuton.getCheckedRadioButtonId()) {
+                    case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
+                    case R.id.Fast: connectorType = Point.FAST_CONNECTOR; break;
+                    case R.id.Rapid: connectorType = Point.RAPID_CONNECTOR; break;
+                    default: connectorType = Point.UNKNOWN_CONNECTOR; break;
                 }
+                connectorTypeList.add(lastIndexInserted, connectorType);
+                ++lastIndexInserted;
             }
 
         }
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        Context context = getActivity();
-        PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(context, new PointsCreateUseCase.Callback(){
+        //TODO: call PointsEditUseCase
+        PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(getActivity(), new PointsCreateUseCase.Callback(){
             @Override
             public void onPointCreated(String id) {
-                //Log.d("CrearPunt","onPointCreatedCallback");
-                FragmentManager fm = getFragmentManager();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
                 PointInfoFragment fragment = PointInfoFragment.newInstance(id);
                 fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
             }
 
         });
         
-        Geocoder   geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         AddressConversion addressConversion = new AddressConversionImpl(geocoder);
         LatLng latlng = addressConversion.AddressToLatLng(town, street, number);
         if (latlng == null) {
@@ -219,18 +261,17 @@ public class EditPointFragment extends Fragment {
             return;
         }
 
-        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorTypeList, schedule);
+        getCreatePointsUseCase.setPointParameters(latlng.latitude, latlng.longitude, town, street, number, accesType, connectorTypeList, schedule);
         getCreatePointsUseCase.execute();
 
     }
 
-    public void cancelar() {
-        FragmentManager fm = getFragmentManager();
-        MapsFragment mp = new MapsFragment();
-        fm.beginTransaction().replace(R.id.content_frame, mp).commit();
+    public void cancel() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        fm.popBackStackImmediate();
     }
 
-    private void amagarTeclat() {
+    private void hideKeyboard() {
         InputMethodManager inputManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
