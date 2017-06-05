@@ -172,13 +172,24 @@ public class ReservesShiftsFragment extends Fragment {
     }
 
     private void createServiceView(final int hourStart, int minutesStart, final int minutesDuration) {
-        createRectangleView(hourStart, minutesStart, minutesDuration, Color.GREEN);
+        createRectangleView(hourStart, minutesStart, minutesDuration, Color.GREEN, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                DateConversion dc = new DateConversionImpl();
+                int hourEnd = hourStart + minutesDuration / 60;
+                int minEnd = minutesDuration % 60;
+                CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertHourAndMinutesToString(hourStart, 0), dc.ConvertHourAndMinutesToString(hourEnd, minEnd));
+                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+            }
+        });
     }
 
     private void createRectangleView(final int hourStart,
                                      int minutesStart,
                                      final int minutesDuration,
-                                     int color) {
+                                     int color,
+                                     View.OnClickListener clickListener) {
         int hourHeight = (int) getResources().getDimension(R.dimen.day_view_hour_height);
         float minutesHeight = hourHeight / (float) 60;
 
@@ -204,16 +215,6 @@ public class ReservesShiftsFragment extends Fragment {
         shiftView.requestLayout();
 
         shiftView.setClickable(true);
-        shiftView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                DateConversion dc = new DateConversionImpl();
-                int hourEnd = hourStart + minutesDuration / 60;
-                int minEnd = minutesDuration % 60;
-                CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertHourAndMinutesToString(hourStart, 0), dc.ConvertHourAndMinutesToString(hourEnd, minEnd));
-                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
-            }
-        });
+        shiftView.setOnClickListener(clickListener);
     }
 }
