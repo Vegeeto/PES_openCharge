@@ -202,8 +202,13 @@ public class ReservesShiftsFragment extends Fragment {
     private void createServicesAndReservesViews() {
         for (Service service : services) {
             Reserve[] reservesInService = getReservesInRange(service.getStartHour(), service.getEndHour());
-            splitAndCreateServiceViews(service, reserves);
-            createReservesViews(reservesInService);
+            if (reservesInService.length > 0) {
+                splitAndCreateServiceViews(service, reserves);
+                createReservesViews(reservesInService);
+            }
+            else {
+                createCompleteServiceView(service);
+            }
         }
     }
 
@@ -244,7 +249,6 @@ public class ReservesShiftsFragment extends Fragment {
             int startMinute = start.getMinuteOfHour();
             int duration = end.getMinuteOfDay() - start.getMinuteOfDay();
 
-            Log.d("createReservesViews", "reserve: " + startHour + " - " + startMinute + " - " + duration);
             createReserveView(startHour, startMinute, duration);
         }
     }
@@ -256,6 +260,51 @@ public class ReservesShiftsFragment extends Fragment {
 
             }
         });
+        Log.d("createRectangleView", "RESERVE at " + dayDate + " || " + hourStart + ":" + minutesStart + " - " + minutesDuration);
+    }
+
+    private void createCompleteServiceView(Service service) {
+        DateTime start = new DateTime(service.getStartHour());
+        DateTime end = new DateTime(service.getEndHour());
+        int startHour = start.getHourOfDay();
+        int startMinute = start.getMinuteOfHour();
+        int duration = end.getMinuteOfDay() - start.getMinuteOfDay();
+
+        createServiceView(startHour, startMinute, duration);
+    }
+
+    private void splitAndCreateServiceViews(Service service, Reserve[] reserves) {
+        int sliceStart = new DateTime(service.getStartHour()).getMinuteOfDay();
+
+        for (Reserve reserve : reserves) {
+            int reserveStart = new DateTime(reserve.getStartHour()).getMinuteOfDay();
+
+            int duration = reserveStart - sliceStart;
+            if (duration > 0) {
+                int startHour = getHourOfDayFromMinuteOfDay(sliceStart);
+                int startMinute = getMinuteOfHourFromMinuteOfDay(sliceStart);
+                createServiceView(startHour, startMinute, duration);
+            }
+
+            sliceStart = new DateTime(reserve.getEndHour()).getMinuteOfDay();
+        }
+
+        //Print last slice (if needed)
+        int serviceEnd = new DateTime(service.getEndHour()).getMinuteOfDay();
+        int duration = serviceEnd - sliceStart;
+        if (duration > 0) {
+            int startHour = getHourOfDayFromMinuteOfDay(sliceStart);
+            int startMinute = getMinuteOfHourFromMinuteOfDay(sliceStart);
+            createServiceView(startHour, startMinute, duration);
+        }
+    }
+
+    private int getHourOfDayFromMinuteOfDay(int minuteOfDay) {
+        return minuteOfDay/60;
+    }
+
+    private int getMinuteOfHourFromMinuteOfDay(int minuteOfDay) {
+        return minuteOfDay%60;
     }
 
     private void createServiceView(final int hourStart, int minutesStart, final int minutesDuration) {
@@ -270,24 +319,16 @@ public class ReservesShiftsFragment extends Fragment {
                 ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             }
         });
+        Log.d("createRectangleView", "SERVICE at " + dayDate + " || " + hourStart + ":" + minutesStart + " - " + minutesDuration);
     }
 
-    private void splitAndCreateServiceViews(Service service, Reserve[] reserves) {
-        DateTime start = new DateTime(service.getStartHour());
-        DateTime end = new DateTime(service.getEndHour());
-        int startHour = start.getHourOfDay();
-        int startMinute = start.getMinuteOfHour();
-        int duration = end.getMinuteOfDay() - start.getMinuteOfDay();
-
-        Log.d("createServicesViews", "services: " + startHour + " - " + startMinute + " - " + duration);
-        createServiceView(startHour, startMinute, duration);
-    }
 
     private void createRectangleView(final int hourStart,
                                      int minutesStart,
                                      final int minutesDuration,
                                      int color,
                                      View.OnClickListener clickListener) {
+
         int hourHeight = (int) getResources().getDimension(R.dimen.day_view_hour_height);
         float minutesHeight = hourHeight / (float) 60;
 
