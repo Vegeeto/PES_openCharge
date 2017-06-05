@@ -94,6 +94,7 @@ public class PointInfoFragment extends Fragment {
                 recyclerView.setAdapter(pointsAdapter);
                 recyclerView.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setNestedScrollingEnabled(false);
             }
         });
 
