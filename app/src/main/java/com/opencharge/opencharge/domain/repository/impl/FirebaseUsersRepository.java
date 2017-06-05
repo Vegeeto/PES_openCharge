@@ -13,6 +13,8 @@ import com.opencharge.opencharge.domain.parsers.UsersParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebaseUsersParser;
 import com.opencharge.opencharge.domain.repository.UsersRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -104,55 +106,41 @@ public class FirebaseUsersRepository implements UsersRepository {
         DatabaseReference myRef = database.getReference("Users");
         myRef = myRef.child(user.getId());
         Map<String, Object> serializedUser = usersParser.serializeUser(user);
-        myRef.setValue(serializedUser, new DatabaseReference.CompletionListener() {
-
-            @Override
-            public void onComplete(DatabaseError de, DatabaseReference dr) {
-                callback.onUserSaved();
-            }
-
-        });
+        for (Map.Entry<String, Object> entry : serializedUser.entrySet()) {
+            DatabaseReference propRef = myRef.child(entry.getKey());
+            propRef.setValue(entry.getValue());
+        }
+        callback.onUserSaved();
     }
 
     @Override
-    public void addSupplyReserveToUser(final String reserveId, String userId, final AddReserveToUser callback) {
-        DatabaseReference myRef = database.getReference("Users");
-        myRef = myRef.child(userId).child("ReservesSupplier");
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //TODO: implement add new id to list
-//                List<String> savedIds = (List<>)dataSnapshot.getValue();
-//                if( savedIds === null ) {
-//                    savedIds = new ArrayList<>();
-//                }
-//                savedIds.add(reserveId);
-//
-//                myRef.updateChildren(savedIds);
-                callback.onReserveAdded();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                callback.onError();
-            }
-        });
+    public void addSupplyReserveToUser(String reserveId, String userId, AddReserveToUser callback) {
+        addReserveToUser(reserveId, userId, "ReservesSupplier", callback);
     }
 
     @Override
     public void addConsumerReserveToUser(String reserveId, String userId, AddReserveToUser callback) {
-
+        addReserveToUser(reserveId, userId, "ReservesConsumer", callback);
     }
 
-    //TODO: borrar aquest mètode (també els dos anteriors d'afegir reserves). El que s'ha de fer és
-    //      que el use case modifiqui el entity del user i cridi un saveUser del repository.
+    private void addReserveToUser(String reserveId, String userId, String reservesList, final AddReserveToUser callback) {
+        DatabaseReference myRef = database.getReference("Users");
+        myRef = myRef.child(userId).child(reservesList);
+        myRef.push().setValue(reserveId, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onReserveAdded();
+            }
+        });
+    }
+
     @Override
     public void addMinutesToUser(final int quantity, String userId) {
         final DatabaseReference myRef = database.getReference("Users").child(userId).child("minutes");
         getUserById(userId, new UsersRepository.GetUserByIdCallback() {
             @Override
             public void onUserRetrieved(User user) {
-                myRef.setValue(user.getMinutes()+quantity);
+                myRef.setValue(user.getMinutes() + quantity);
             }
 
             @Override
@@ -163,7 +151,7 @@ public class FirebaseUsersRepository implements UsersRepository {
     }
 
     private User[] parseUsersFromDataSnapshot(DataSnapshot dataSnapshot) {
-        User[] users = new User[(int)dataSnapshot.getChildrenCount()];
+        User[] users = new User[(int) dataSnapshot.getChildrenCount()];
         int index = 0;
         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
             User user = parseUserFromSnapshot(snapshot);
@@ -194,5 +182,5 @@ public class FirebaseUsersRepository implements UsersRepository {
 
         return usersParser.parseFromMap(key, userData);
     }
-    
+
 }

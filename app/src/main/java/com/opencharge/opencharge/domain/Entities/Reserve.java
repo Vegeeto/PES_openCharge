@@ -14,7 +14,7 @@ import java.util.Date;
 public class Reserve {
 
     private String id;
-    private String serviceId;
+    private String pointId;
     private String consumerUserId;
     private String supplierUserId;
 
@@ -41,7 +41,10 @@ public class Reserve {
         this.startHour = startHour;
         this.endHour = endHour;
         this.state = CREATED;
+
         canConfirm = false;
+        consumerFinish = false;
+        supplierFinish = false;
     }
 
     public Date getDay() {
@@ -63,12 +66,12 @@ public class Reserve {
         this.id = id;
     }
 
-    public String getServiceId() {
-        return serviceId;
+    public String getPointId() {
+        return pointId;
     }
 
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
+    public void setPointId(String pointId) {
+        this.pointId = pointId;
     }
 
     public Date getStartHour() {

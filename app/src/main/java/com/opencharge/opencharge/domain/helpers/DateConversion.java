@@ -7,21 +7,15 @@ import java.util.Date;
  */
 
 public interface DateConversion {
-
-    long DateToLong(Date date);
-
-    Date longToDate(long time);
-
-    Date StringWithLongToDate(String time);
-
-    String ConvertLongToDateFormat(long time);
-
     Date ConvertStringToDate(String dateString);
-
-    String ConvertDateToString(Date date);
 
     Date ConvertStringToTime(String dateString);
 
-    String ConvertIntToTimeString(int hour, int minute);
+    String ConvertLongToString(long time);
 
+    String ConvertDateToString(Date date);
+
+    String ConvertTimeToString(Date date);
+
+    String ConvertHourAndMinutesToString(int hour, int minute);
 }

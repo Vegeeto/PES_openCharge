@@ -46,7 +46,7 @@ public class PointsCreateUseCaseImplTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        sut = new PointsCreateUseCaseImpl(mockThreadExecutor, mockMainThread, mockPointsRepository, mockCallback);
+        //sut = new PointsCreateUseCaseImpl(mockThreadExecutor, mockMainThread, mockPointsRepository, mockCallback);
     }
 
     @Test

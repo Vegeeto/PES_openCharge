@@ -30,15 +30,6 @@ public abstract class AbstractParser implements Parser {
         }
     }
 
-    public Date parseDateLongKeyFromMap(String key, Map<String, Object> map) {
-        String date = "";
-        if (map.containsKey(key)) {
-            date = (String)map.get(key);
-        }
-        DateConversion dateConversion = new DateConversionImpl();
-        return dateConversion.StringWithLongToDate(date);
-    }
-
     public Date parseDateStringKeyFromMap(String key, Map<String, Object> map) {
         String date = "";
         if (map.containsKey(key)) {
@@ -64,5 +55,15 @@ public abstract class AbstractParser implements Parser {
             value = (boolean)map.get(key);
         }
         return value;
+    }
+
+    public String serializeDate(Date date) {
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertDateToString(date);
+    }
+
+    public String serializeTime(Date time) {
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertTimeToString(time);
     }
 }

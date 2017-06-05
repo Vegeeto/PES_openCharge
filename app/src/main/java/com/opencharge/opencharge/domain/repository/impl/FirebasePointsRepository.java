@@ -8,10 +8,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.Reserve;
+import com.opencharge.opencharge.domain.helpers.DateConversion;
+import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -64,6 +68,29 @@ public class FirebasePointsRepository implements PointsRepository {
                 Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
             }
         });
+    }
+
+    @Override
+    public void addReserveToPoint(Reserve reserve, final AddReserveToPointCallback callback) {
+        DatabaseReference myRef = database.getReference("Points");
+        myRef = myRef.child(reserve.getPointId()).child("Reserves");
+
+        String dayPath = serializeReserveDate(reserve);
+        myRef = myRef.child(dayPath);
+
+        myRef.push().setValue(reserve.getId(), new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onReserveAddedToPoint();
+            }
+        });
+
+    }
+
+    private String serializeReserveDate(Reserve reserve) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String date = dateFormat.format(reserve.getDay());
+        return date;
     }
 
     private Point[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {

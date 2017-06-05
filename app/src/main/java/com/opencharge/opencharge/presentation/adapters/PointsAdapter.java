@@ -1,6 +1,5 @@
 package com.opencharge.opencharge.presentation.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
@@ -208,7 +207,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                     });
                     DateConversion dc = new DateConversionImpl();
-                    String date = dc.ConvertLongToDateFormat(System.currentTimeMillis());
+                    String date = dc.ConvertLongToString(System.currentTimeMillis());
                     getAddCommentUseCase.setCommentParameters(item.getId(), "Mock usuari", comment.getText().toString(), date);
                     getAddCommentUseCase.execute();
                 }

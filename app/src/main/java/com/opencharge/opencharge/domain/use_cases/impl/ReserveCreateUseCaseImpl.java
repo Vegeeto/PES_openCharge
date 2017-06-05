@@ -3,6 +3,7 @@ package com.opencharge.opencharge.domain.use_cases.impl;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
+import com.opencharge.opencharge.domain.repository.PointsRepository;
 import com.opencharge.opencharge.domain.repository.ReserveRepository;
 import com.opencharge.opencharge.domain.repository.UsersRepository;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
@@ -17,17 +18,20 @@ public class ReserveCreateUseCaseImpl extends AbstractUseCase implements Reserve
     private Callback callback;
     private ReserveRepository reserveRepository;
     private UsersRepository usersRepository;
+    private PointsRepository pointsRepository;
     private Reserve reserve;
 
     public ReserveCreateUseCaseImpl(Executor threadExecutor,
                                     MainThread mainThread,
                                     ReserveRepository reserveRepository,
                                     UsersRepository usersRepository,
+                                    PointsRepository pointsRepository,
                                     Callback callback) {
         super(threadExecutor, mainThread);
 
         this.usersRepository = usersRepository;
         this.reserveRepository = reserveRepository;
+        this.pointsRepository = pointsRepository;
         this.callback = callback;
     }
 
@@ -40,11 +44,32 @@ public class ReserveCreateUseCaseImpl extends AbstractUseCase implements Reserve
     public void run() {
         this.reserveRepository.createReserve(reserve, new ReserveRepository.CreateReserveCallback() {
             @Override
-            public void onReserveCreated(String reserveId) {
+            public void onReserveCreated(final String reserveId) {
+                reserve.setId(reserveId);
                 usersRepository.addConsumerReserveToUser(reserveId, reserve.getConsumerUserId(), new UsersRepository.AddReserveToUser() {
                     @Override
                     public void onReserveAdded() {
-                        //TODO get id of the owner of the point where the reserve is created and add a SupplyReserve to him
+                        usersRepository.addSupplyReserveToUser(reserveId, reserve.getSupplierUserId(), new UsersRepository.AddReserveToUser() {
+                            @Override
+                            public void onReserveAdded() {
+                                pointsRepository.addReserveToPoint(reserve, new PointsRepository.AddReserveToPointCallback() {
+                                    @Override
+                                    public void onReserveAddedToPoint() {
+                                        postReserve(reserveId);
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        postError();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError() {
+                                postError();
+                            }
+                        });
                     }
 
                     @Override

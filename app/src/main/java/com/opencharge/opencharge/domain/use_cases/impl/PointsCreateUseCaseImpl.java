@@ -48,10 +48,11 @@ public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCr
         this.context = context;
         this.callback = callback;
     }
+
     @Override
     public void setPointParameters(double lat, double lon, String town,
                                    String street, String number, String accessType,
-                                   List<String> connectorTypeList, String schedule){
+                                   List<String> connectorTypeList, String schedule) {
         this.lat = lat;
         this.lon = lon;
         this.town = town;
@@ -59,36 +60,24 @@ public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCr
         this.number = number;
         this.accessType = accessType;
         this.connectorTypeList = connectorTypeList;
-        this.schedule =  schedule;
+        this.schedule = schedule;
     }
+
     @Override
     public void run() {
-        final Point point = PointFactory.getInstance().createNewPoint(lat,lon,town,street,number,accessType,connectorTypeList,schedule);
-        pointsRepository.createPoint(point, new PointsRepository.CreatePointCallback(){
-            @Override
-            public void onPointCreated(String id) {
-                point.id = id;
-                addPointToCurrentUser(point);
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
-    }
-
-    private void addPointToCurrentUser(final Point point) {
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         GetCurrentUserUseCase getCurrentUserUseCase = useCasesLocator.getGetCurrentUserUseCase(context, new GetCurrentUserUseCase.Callback() {
             @Override
-            public void onCurrentUserRetrieved(User currentUser) {
-                currentUser.addPoint(point);
+            public void onCurrentUserRetrieved(final User currentUser) {
 
-                usersRepository.saveUser(currentUser, new UsersRepository.SaveUserCallback() {
+                final Point point = PointFactory.getInstance().createNewPoint(lat, lon, town, street, number, accessType, connectorTypeList, schedule);
+                point.userId = currentUser.getId();
+
+                pointsRepository.createPoint(point, new PointsRepository.CreatePointCallback() {
                     @Override
-                    public void onUserSaved() {
-                        postPoint(point.getId());
+                    public void onPointCreated(String id) {
+                        point.id = id;
+                        addPointToUser(point, currentUser);
                     }
 
                     @Override
@@ -99,7 +88,21 @@ public class PointsCreateUseCaseImpl extends AbstractUseCase implements PointsCr
             }
         });
         getCurrentUserUseCase.execute();
+    }
 
+    private void addPointToUser(final Point point, User user) {
+        user.addPoint(point);
+        usersRepository.saveUser(user, new UsersRepository.SaveUserCallback() {
+            @Override
+            public void onUserSaved() {
+                postPoint(point.getId());
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
     }
 
     private void postPoint(final String id) {
