@@ -8,6 +8,7 @@ import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReservesListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.SetCurrentUserUseCase;
@@ -24,6 +25,7 @@ import com.opencharge.opencharge.domain.use_cases.impl.PointByIdUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsListUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReserveCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReserveUserInvolvedUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ReservesListByPointAndDayUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReservesUpdateConfirmationsUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReservesUserAsConsumerUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReservesUserAsSupplierUseCaseImpl;
@@ -205,6 +207,15 @@ public class UseCasesLocator {
                 sl.getMainThread(),
                 RepositoriesLocator.getInstance().getReserveRepository(),
                 RepositoriesLocator.getInstance().getUsersRepository());
+    }
+
+    public ReservesListByPointAndDayUseCase getReservesListByPointAndDayUseCase(ReservesListByPointAndDayUseCase.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ReservesListByPointAndDayUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getReserveRepository(),
+                callback);
     }
 
     public SetCurrentUserUseCase getSetCurrentUserUseCase(Context context) {
