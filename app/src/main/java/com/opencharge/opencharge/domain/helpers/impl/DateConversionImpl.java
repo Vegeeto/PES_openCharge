@@ -13,6 +13,7 @@ import java.util.Date;
 public class DateConversionImpl implements DateConversion {
 
     public static final String DATE_FORMAT = "dd/MM/yyyy";
+    public static final String DATE_PATH_FORMAT = "yyyy/MM/dd";
     public static final String TIME_FORMAT = "HH:mm";
 
     private SimpleDateFormat dateFormat;
@@ -70,6 +71,12 @@ public class DateConversionImpl implements DateConversion {
         date.setHours(hour);
         date.setMinutes(minute);
         return timeFormat.format(date);
+    }
+
+    @Override
+    public String ConvertDateToPath(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATH_FORMAT);
+        return dateFormat.format(date);
     }
     //</editor-fold>
 

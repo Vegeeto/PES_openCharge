@@ -81,7 +81,7 @@ public class FirebaseReserveParser extends AbstractParser implements ReservePars
         serializedReserve.put(POINT_ID, reserve.getPointId());
 
         serializedReserve.put(STATE, reserve.getState());
-        serializedReserve.put(CAN_CONFIRM, reserve.getState());
+        serializedReserve.put(CAN_CONFIRM, reserve.getCanConfirm());
 
         return serializedReserve;
     }

@@ -18,4 +18,6 @@ public interface DateConversion {
     String ConvertTimeToString(Date date);
 
     String ConvertHourAndMinutesToString(int hour, int minute);
+
+    String ConvertDateToPath(Date date);
 }

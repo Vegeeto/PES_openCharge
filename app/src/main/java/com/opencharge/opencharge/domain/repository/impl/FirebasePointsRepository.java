@@ -88,9 +88,8 @@ public class FirebasePointsRepository implements PointsRepository {
     }
 
     private String serializeReserveDate(Reserve reserve) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        String date = dateFormat.format(reserve.getDay());
-        return date;
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertDateToPath(reserve.getDay());
     }
 
     private Point[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {

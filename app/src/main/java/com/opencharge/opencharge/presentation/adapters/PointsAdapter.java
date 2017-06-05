@@ -118,8 +118,10 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
                 @Override
                 public void onUserRetrieved(User user) {
-                    username.setText(user.getUsername());
-                    email.setText(user.getEmail());
+                    if (user != null) {
+                        username.setText(user.getUsername());
+                        email.setText(user.getEmail());
+                    }
                 }
             });
             userByIdUseCase.setUserId(userId);
