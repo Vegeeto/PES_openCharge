@@ -13,16 +13,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.Entities.Service;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
+import com.opencharge.opencharge.domain.use_cases.ReservesListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ReservesShiftsFragment extends Fragment {
 
@@ -36,6 +41,9 @@ public class ReservesShiftsFragment extends Fragment {
     private TextView mDayMonthLabel;
     private TextView mDayWeekLabel;
     private FloatingActionButton mAddButton;
+
+    private Service[] services;
+    private Reserve[] reserves;
 
     public ReservesShiftsFragment() {
         // Required empty public constructor
@@ -77,10 +85,17 @@ public class ReservesShiftsFragment extends Fragment {
         setUpDayLabels();
         createDayLayout();
 
+        loadServices();
+        loadReserves();
+
+        return parentView;
+    }
+
+    private void loadServices() {
         ServiceListByPointAndDayUseCase useCase = UseCasesLocator.getInstance().getServiceListByPointAndDayUseCase(new ServiceListByPointAndDayUseCase.Callback() {
             @Override
             public void onServicesRetrieved(Service[] services) {
-                createServicesViews(services);
+                setServices(services);
             }
 
             @Override
@@ -91,8 +106,35 @@ public class ReservesShiftsFragment extends Fragment {
         useCase.setDay(dayDate);
         useCase.setPointId(pointId);
         useCase.execute();
+    }
+    private void setServices(Service[] services) {
+        this.services = services;
+        if (reserves != null) {
+            createServicesAndReservesViews();
+        }
+    }
 
-        return parentView;
+    private void loadReserves() {
+        ReservesListByPointAndDayUseCase useCase = UseCasesLocator.getInstance().getReservesListByPointAndDayUseCase(new ReservesListByPointAndDayUseCase.Callback() {
+            @Override
+            public void onReservesRetrieved(Reserve[] reserves) {
+                setReserves(reserves);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+        useCase.setDay(dayDate);
+        useCase.setPointId(pointId);
+        useCase.execute();
+    }
+    private void setReserves(Reserve[] reserves) {
+        this.reserves = reserves;
+        if (services != null) {
+            createServicesAndReservesViews();
+        }
     }
 
     private void setUpAddButton() {
@@ -157,18 +199,62 @@ public class ReservesShiftsFragment extends Fragment {
         ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
     }
 
-
-    private void createServicesViews(Service[] services) {
+    private void createServicesAndReservesViews() {
         for (Service service : services) {
-            DateTime start = new DateTime(service.getStartHour());
-            DateTime end = new DateTime(service.getEndHour());
+            Reserve[] reservesInService = getReservesInRange(service.getStartHour(), service.getEndHour());
+            splitAndCreateServiceViews(service, reserves);
+            createReservesViews(reservesInService);
+        }
+    }
+
+    private Reserve[] getReservesInRange(Date startHour, Date endHour) {
+        LocalDate start = new LocalDate(startHour);
+        LocalDate end = new LocalDate(endHour);
+        List<Reserve> filteredReserves = new ArrayList<>();
+        for (Reserve reserve : reserves) {
+            if (reserveIsInRange(start, end, reserve)) {
+                filteredReserves.add(reserve);
+            }
+        }
+
+        Reserve[] reservesArr = new Reserve[filteredReserves.size()];
+        return reservesArr;
+    }
+
+    private boolean reserveIsInRange(LocalDate start, LocalDate end, Reserve reserve) {
+        LocalDate targetStartHour = new LocalDate(reserve.getStartHour());
+        LocalDate targetEndHour = new LocalDate(reserve.getEndHour());
+
+        boolean startIsInRange = isBetweenInclusive(start, end, targetStartHour);
+        boolean endIsInRange = isBetweenInclusive(start, end, targetEndHour);
+
+        return startIsInRange && endIsInRange;
+    }
+
+    private boolean isBetweenInclusive(LocalDate start, LocalDate end, LocalDate target) {
+        return !target.isBefore(start) && !target.isAfter(end);
+    }
+
+    private void createReservesViews(Reserve[] reserves) {
+        for (Reserve reserve : reserves) {
+            DateTime start = new DateTime(reserve.getStartHour());
+            DateTime end = new DateTime(reserve.getEndHour());
             int startHour = start.getHourOfDay();
             int startMinute = start.getMinuteOfHour();
             int duration = end.getMinuteOfDay() - start.getMinuteOfDay();
 
-            Log.d("createServicesViews", "services: " + startHour + " - " + startMinute + " - " + duration);
-            createServiceView(startHour, startMinute, duration);
+            Log.d("createReservesViews", "reserve: " + startHour + " - " + startMinute + " - " + duration);
+            createReserveView(startHour, startMinute, duration);
         }
+    }
+
+    private void createReserveView(final int hourStart, int minutesStart, final int minutesDuration) {
+        createRectangleView(hourStart, minutesStart, minutesDuration, Color.RED, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void createServiceView(final int hourStart, int minutesStart, final int minutesDuration) {
@@ -183,6 +269,17 @@ public class ReservesShiftsFragment extends Fragment {
                 ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             }
         });
+    }
+
+    private void splitAndCreateServiceViews(Service service, Reserve[] reserves) {
+        DateTime start = new DateTime(service.getStartHour());
+        DateTime end = new DateTime(service.getEndHour());
+        int startHour = start.getHourOfDay();
+        int startMinute = start.getMinuteOfHour();
+        int duration = end.getMinuteOfDay() - start.getMinuteOfDay();
+
+        Log.d("createServicesViews", "services: " + startHour + " - " + startMinute + " - " + duration);
+        createServiceView(startHour, startMinute, duration);
     }
 
     private void createRectangleView(final int hourStart,
