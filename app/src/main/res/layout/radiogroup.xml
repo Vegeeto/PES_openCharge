@@ -47,4 +47,6 @@
             android:text="@string/slow"
             android:textSize="20sp" />
     </RadioGroup>
+
+
 </LinearLayout>

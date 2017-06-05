@@ -83,15 +83,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         getUserLocation();
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        if (currentLocation == null) getUserLocation();
-        if (currentLocation != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
-        }
-    }*/
 
     @Override
     public void onDestroyView() {

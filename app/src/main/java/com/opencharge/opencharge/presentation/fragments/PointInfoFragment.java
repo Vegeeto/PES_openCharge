@@ -74,6 +74,7 @@ public class PointInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_point_info, container, false);
+        setHasOptionsMenu(true);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         horari = (FloatingActionButton) view.findViewById(R.id.horari);

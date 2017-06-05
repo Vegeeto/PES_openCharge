@@ -101,11 +101,14 @@ public class CreatePublicPointsFragment extends Fragment {
         addMoreConnectors.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //Duplicar layout
-                LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View view = inflater.inflate(R.layout.radiogroup, null);
-                connectorTypeLayourParent.addView(view);
+                //LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View connector = inflater.inflate(R.layout.radiogroup, container, false);
+                connectorTypeLayourParent.addView(connector);
             }
         });
+
+        View connector = inflater.inflate(R.layout.radiogroup, container, false);
+        connectorTypeLayourParent.addView(connector);
 
         return view;
     }
@@ -159,9 +162,9 @@ public class CreatePublicPointsFragment extends Fragment {
             for(int j = 0; j < linearLayoutChild.getChildCount(); ++j) {
                 RadioGroup rdgbuton = (RadioGroup) linearLayoutChild.getChildAt(j);
                 switch(rdgbuton.getCheckedRadioButtonId()) {
-                    case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
                     case R.id.Fast: connectorType = Point.FAST_CONNECTOR; break;
                     case R.id.Rapid: connectorType = Point.RAPID_CONNECTOR; break;
+                    case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
                     default: connectorType = Point.UNKNOWN_CONNECTOR; break;
                 }
                 connectorTypeList.add(lastIndexInserted, connectorType);

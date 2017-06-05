@@ -271,69 +271,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingTop="5dp">
+                android:paddingTop="5dp" />
 
-                <LinearLayout
-                    android:id="@+id/connector_type_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical" >
-
-                    <RadioGroup
-                        android:id="@+id/tipus_connector_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-
-                        <RadioButton
-                            android:id="@+id/Fast"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="16dp"
-                            android:checked="false"
-                            android:drawableStart="@drawable/ic_connector_high"
-                            android:gravity="center"
-                            android:paddingTop="5dp"
-                            android:text="@string/fast"
-                            android:textSize="20sp" />
-
-                        <RadioButton
-                            android:id="@+id/Rapid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="16dp"
-                            android:checked="false"
-                            android:drawableStart="@drawable/ic_connector_medium"
-                            android:gravity="center"
-                            android:paddingTop="5dp"
-                            android:text="@string/rapid"
-                            android:textSize="20sp" />
-
-                        <RadioButton
-                            android:id="@+id/Slow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="16dp"
-                            android:checked="false"
-                            android:drawableStart="@drawable/ic_connector_low"
-                            android:gravity="center"
-                            android:paddingTop="5dp"
-                            android:text="@string/slow"
-                            android:textSize="20sp" />
-                    </RadioGroup>
-                </LinearLayout>
-            </LinearLayout>
-
-        <LinearLayout
-            style="@android:style/ButtonBar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@color/white"
-            android:orientation="horizontal" >
+            <LinearLayout
+                style="@android:style/ButtonBar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@color/white"
+                android:orientation="horizontal" >
 
                 <Button
                     android:id="@+id/GuardarBtn"
@@ -353,8 +299,11 @@
                     android:gravity="center"
                     android:text="@string/cancelar"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+
             </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
 
 </FrameLayout>
