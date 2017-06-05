@@ -105,7 +105,6 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private TextView username;
         private TextView email;
 
-
         public ViewHolderUser(View itemView) {
             super(itemView);
             username = (TextView) itemView.findViewById(R.id.username);
@@ -117,10 +116,22 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
             UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
                 @Override
-                public void onUserRetrieved(User user) {
+                public void onUserRetrieved(final User user) {
                     if (user != null) {
                         username.setText(user.getUsername());
                         email.setText(user.getEmail());
+
+                        itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
+                                UserInfoFragment fragment = UserInfoFragment.newInstance(user.getId());
+                                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                            }
+                        });
+                    }
+                    else {
+                        username.setText("Usuari borrat");
                     }
                 }
             });
@@ -281,7 +292,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v;
+        final View v;
         RecyclerView.ViewHolder viewHolder;
         switch(viewType) {
             case 0:     //Inflate the layout with point information
@@ -290,14 +301,6 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             case 1:     //Inflate the layout with user information
                 v = LayoutInflater.from(this.context).inflate(R.layout.content_user, parent, false);
-                v.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
-                        UserInfoFragment fragment = UserInfoFragment.newInstance(item.userId);
-                        fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
-                    }
-                });
                 viewHolder = new ViewHolderUser(v);
                 break;
             case 2:     //Inflate the layout with map information
@@ -331,7 +334,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             case 1:
                 if (item.userId != null) {
-                    ((ViewHolderUser) holder).bindUser(item.userId);
+                    ViewHolderUser userHolder = (ViewHolderUser) holder;
+                    userHolder.bindUser(item.userId);
                 }
                 break;
             default:

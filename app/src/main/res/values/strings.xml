@@ -83,4 +83,5 @@
     <string name="el_meu_perfil">El meu perfil</string>
     <string name="afegir_torn_de_recarrega">Afegir torn de recàrrega</string>
     <string name="afegir_reserva">Afegir reserva</string>
+    <string name="opencharge">openCharge</string>
 </resources>
