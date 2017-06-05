@@ -5,10 +5,13 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +22,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.use_cases.DeleteUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
+import com.opencharge.opencharge.presentation.activities.NavigationActivity;
+import com.opencharge.opencharge.presentation.activities.SignInActivity;
 import com.opencharge.opencharge.presentation.adapters.CustomUserPointsAdapter;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -167,10 +178,20 @@ public class UserInfoFragment extends Fragment {
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Continuar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         //TODO aqui s'ha de cridar la funció que esborri l'usuari
+                        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+                        GetCurrentUserUseCase getCreateUsersUseCase = useCasesLocator.getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
+                            @Override
+                            public void onCurrentUserRetrieved(User currentUser) {
+                                currentUser.getPoints();
+                                FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getId()).removeValue();
+                                //signOut();
+                            }
+                        });
+                        getCreateUsersUseCase.execute();
                         // això és un placeholder per així tenir una resposta, un cop
                         // implementat correctament es pot deixar, o treure
-                        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Usuari eliminat", Toast.LENGTH_SHORT);
-                        toast.show();
+                        //Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Usuari eliminat", Toast.LENGTH_SHORT);
+                        //toast.show();
                     }
                 });
 
@@ -178,5 +199,23 @@ public class UserInfoFragment extends Fragment {
             }
 
         });
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        //TODO: s'ha de mirar perque no es poden borrar les credencials de Google!!!
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        user.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("Delete", "User account deleted.");
+                        }
+                    }
+                });
+        Intent intent = new Intent(getActivity(), SignInActivity.class);
+        startActivity(intent);
     }
 }

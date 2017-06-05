@@ -11,8 +11,8 @@ public class User {
     private String id;
     private String photo;
     private String email;
-    private String username;
     private Integer minutes;
+    private String username;
     private List<UserPointSummary> points;
 
     public User() {
