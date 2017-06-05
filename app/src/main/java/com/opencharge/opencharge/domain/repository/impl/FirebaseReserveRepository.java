@@ -16,6 +16,7 @@ import com.opencharge.opencharge.domain.repository.ReserveRepository;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +30,7 @@ public class FirebaseReserveRepository implements ReserveRepository {
     // We need a global var to count the childs to wait
     private long childsToWaitSupplier;
     private long childsToWaitConsumer;
+    private long childsToWaitByPointAndDay;
 
     public FirebaseReserveRepository() {
         this.reserveParser = new FirebaseReserveParser();
@@ -60,17 +62,45 @@ public class FirebaseReserveRepository implements ReserveRepository {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Reserve[] services = parseReservesFromDataSnapshot(dataSnapshot);
-                callback.onReservesRetrieved(services);
+                final List<Reserve> reserves = new ArrayList<Reserve>();
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    finishRetrieveReservesByPointAndDay(reserves, callback);
+                }
+                else {
+                    childsToWaitByPointAndDay = dataSnapshot.getChildrenCount();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String reserveId = (String)snapshot.getValue();
+                        getReserveById(reserveId, new FirebaseReserveRepository.GetReserveByIdCallback(){
+                            @Override
+                            public void onReserveRetrieved(Reserve reserve) {
+                                reserves.add(reserve);
+
+                                if (--childsToWaitByPointAndDay < 1) {
+                                    finishRetrieveReservesByPointAndDay(reserves, callback);
+                                }
+                            }
+
+                            @Override
+                            public void onError() {
+                                callback.onError();
+                            }
+                        });
+                    }
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //TODO
-                Log.e("FirebaseRepo","ERROR: "+databaseError.toString());
+                callback.onError();
             }
         });
 
+    }
+
+    private void finishRetrieveReservesByPointAndDay(List<Reserve> reservesList, GetReservesForPointAtDayCallback callback) {
+        Reserve[] reserves = new Reserve[reservesList.size()];
+        reserves = reservesList.toArray(reserves);
+        callback.onReservesRetrieved(reserves);
     }
 
     @Override
@@ -83,7 +113,7 @@ public class FirebaseReserveRepository implements ReserveRepository {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final ArrayList<Reserve> reserves = new ArrayList<Reserve>();
-                if(dataSnapshot.getChildrenCount() == 0) {
+                if (dataSnapshot.getChildrenCount() == 0) {
                     callback.onReservesRetrieved(reserves);
                 }
                 childsToWaitConsumer = dataSnapshot.getChildrenCount();
