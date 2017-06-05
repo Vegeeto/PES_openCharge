@@ -34,7 +34,6 @@ import com.squareup.picasso.Picasso;
 
 public class UserInfoFragment extends Fragment {
 
-    private PointsAdapter pointsAdapter;
     private ImageView imatgeUsuari;
     private TextView nomUsuari;
     private TextView emailUsuari;
