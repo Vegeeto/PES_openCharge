@@ -140,9 +140,9 @@ public class EditPointFragment extends Fragment {
             public void onClick(View v) {
                 int count = connectorTypeLayourParent.getChildCount();
                 if (count > 1) {
-                    connectorTypeLayourParent.removeViewInLayout((View) connectorTypeLayourParent.getChildAt(count));
+                    connectorTypeLayourParent.removeViewAt(count-1);
                 } else {
-                    Toast.makeText(getActivity(), "Hi ha d'haver un connector com a mínim!", Toast.LENGTH_SHORT);
+                    Toast.makeText(getActivity(), "Hi ha d'haver un connector com a mínim!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
