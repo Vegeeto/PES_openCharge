@@ -22,7 +22,7 @@ import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCas
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -208,8 +208,8 @@ public class ReservesShiftsFragment extends Fragment {
     }
 
     private Reserve[] getReservesInRange(Date startHour, Date endHour) {
-        LocalDate start = new LocalDate(startHour);
-        LocalDate end = new LocalDate(endHour);
+        LocalTime start = new LocalTime(startHour);
+        LocalTime end = new LocalTime(endHour);
         List<Reserve> filteredReserves = new ArrayList<>();
         for (Reserve reserve : reserves) {
             if (reserveIsInRange(start, end, reserve)) {
@@ -218,12 +218,13 @@ public class ReservesShiftsFragment extends Fragment {
         }
 
         Reserve[] reservesArr = new Reserve[filteredReserves.size()];
+        reservesArr = filteredReserves.toArray(reservesArr);
         return reservesArr;
     }
 
-    private boolean reserveIsInRange(LocalDate start, LocalDate end, Reserve reserve) {
-        LocalDate targetStartHour = new LocalDate(reserve.getStartHour());
-        LocalDate targetEndHour = new LocalDate(reserve.getEndHour());
+    private boolean reserveIsInRange(LocalTime start, LocalTime end, Reserve reserve) {
+        LocalTime targetStartHour = new LocalTime(reserve.getStartHour());
+        LocalTime targetEndHour = new LocalTime(reserve.getEndHour());
 
         boolean startIsInRange = isBetweenInclusive(start, end, targetStartHour);
         boolean endIsInRange = isBetweenInclusive(start, end, targetEndHour);
@@ -231,7 +232,7 @@ public class ReservesShiftsFragment extends Fragment {
         return startIsInRange && endIsInRange;
     }
 
-    private boolean isBetweenInclusive(LocalDate start, LocalDate end, LocalDate target) {
+    private boolean isBetweenInclusive(LocalTime start, LocalTime end, LocalTime target) {
         return !target.isBefore(start) && !target.isAfter(end);
     }
 
