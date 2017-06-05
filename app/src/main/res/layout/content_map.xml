@@ -12,15 +12,11 @@
         card_view:cardCornerRadius="3dp">
 
         <LinearLayout
+            android:id="@+id/map_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_margin="10dp"
-            android:orientation="vertical">
-
-                <fragment android:id="@+id/map_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    class="com.google.android.gms.maps.SupportMapFragment"/>
+            android:orientation="vertical" >
 
         </LinearLayout>
 

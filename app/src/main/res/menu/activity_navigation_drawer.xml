@@ -3,17 +3,21 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/el_meu_perfil" />
+        <item
             android:id="@+id/nav_maps"
             android:icon="@drawable/ic_menu_map"
-            android:title="Mapa" />
+            android:title="@string/mapa" />
         <item
             android:id="@+id/nav_newpoint"
             android:icon="@drawable/ic_menu_add_point"
-            android:title="Crear punt" />
+            android:title="@string/crear_punt" />
         <item
             android:id="@+id/nav_newservice"
             android:icon="@drawable/ic_menu_add_point"
-            android:title="Crear torn" />
+            android:title="@string/crear_torn" />
 
     </group>
 
