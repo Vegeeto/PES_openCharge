@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment">
 
     <ScrollView
@@ -10,15 +11,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/widget33"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/Afegir_layout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginEnd="0dp"
@@ -247,22 +245,22 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:textSize="24sp"
                     android:layout_marginLeft="10dp"
+                    android:layout_weight="2"
+                    android:gravity="start"
                     android:text="@string/conector"
                     android:textColor="@color/black"
-                    android:gravity="start"
-                    android:layout_weight="2" />
+                    android:textSize="24sp" />
 
                 <ImageButton
                     android:id="@+id/add_more_connectors_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_circle_outline_black_24dp"
-                    android:tint="@color/colorAccent"
                     android:backgroundTint="@color/white"
                     android:scaleX="1.5"
-                    android:scaleY="1.5"/>
+                    android:scaleY="1.5"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:tint="@color/colorAccent" />
 
             </LinearLayout>
 
@@ -343,8 +341,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/guardar"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    />
+                    style="@style/Widget.AppCompat.Button.Colored" />
 
                 <Button
                     android:id="@+id/CancelarBtn"
@@ -353,8 +350,11 @@
                     android:gravity="center"
                     android:text="@string/cancelar"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+
             </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
 
 </FrameLayout>

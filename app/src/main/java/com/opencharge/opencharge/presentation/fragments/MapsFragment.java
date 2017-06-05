@@ -273,8 +273,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     longitude = BARCELONA.longitude;
                 }
 
-                Log.i("Latitude: ", String.format("latitude: %s", latitude));
-                Log.i("Location: ", String.format("longitude: %s", longitude));
                 currentLocation = new LatLng(latitude, longitude);
 
                 if (mMap != null) {

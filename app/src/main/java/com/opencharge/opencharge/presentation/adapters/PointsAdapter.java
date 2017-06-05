@@ -339,9 +339,6 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        if (item.userId == null) {
-            return 3;
-        }
         return 4;
     }
 
