@@ -8,11 +8,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.opencharge.opencharge.domain.Entities.Reserve;
+import com.opencharge.opencharge.domain.helpers.DateConversion;
+import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.parsers.ReserveParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebaseReserveParser;
 import com.opencharge.opencharge.domain.repository.ReserveRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -46,10 +49,13 @@ public class FirebaseReserveRepository implements ReserveRepository {
     }
 
     @Override
-    public void getReserves(String point_id, final GetReservesCallback callback) {
+    public void getReservesForPointAtDay(String point_id, Date day, final GetReservesForPointAtDayCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
         myRef = myRef.child(point_id);
         myRef = myRef.child("Reserves");
+
+        String dayPath = serializeReserveDate(day);
+        myRef = myRef.child(dayPath);
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -189,6 +195,11 @@ public class FirebaseReserveRepository implements ReserveRepository {
         myRef = myRef.child(r.getId());
         myRef = myRef.child("state");
         myRef.setValue(r.getState());
+    }
+
+    private String serializeReserveDate(Date date) {
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertDateToPath(date);
     }
 
     private Reserve[] parseReservesFromDataSnapshot(DataSnapshot dataSnapshot) {
