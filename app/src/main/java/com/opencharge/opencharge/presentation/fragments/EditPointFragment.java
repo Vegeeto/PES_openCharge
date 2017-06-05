@@ -130,9 +130,20 @@ public class EditPointFragment extends Fragment {
         ImageButton addMoreConnectors = (ImageButton) view.findViewById(R.id.add_more_connectors_button);
         addMoreConnectors.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Duplicar layout
                 View connector = inflater.inflate(R.layout.radiogroup, container, false);
                 connectorTypeLayourParent.addView(connector);
+            }
+        });
+
+        ImageButton deleteMoreConnectors = (ImageButton) view.findViewById(R.id.delete_more_connectors_button);
+        deleteMoreConnectors.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                int count = connectorTypeLayourParent.getChildCount();
+                if (count > 1) {
+                    connectorTypeLayourParent.removeViewInLayout((View) connectorTypeLayourParent.getChildAt(count));
+                } else {
+                    Toast.makeText(getActivity(), "Hi ha d'haver un connector com a mínim!", Toast.LENGTH_SHORT);
+                }
             }
         });
 
