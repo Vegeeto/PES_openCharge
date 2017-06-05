@@ -33,11 +33,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Comment;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
+import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.fragments.ShowCommentsFragment;
+import com.opencharge.opencharge.presentation.fragments.UserInfoFragment;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.util.List;
@@ -96,6 +99,35 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
     }
+
+    public class ViewHolderUser extends RecyclerView.ViewHolder {
+
+        private TextView username;
+        private TextView email;
+
+
+        public ViewHolderUser(View itemView) {
+            super(itemView);
+            username = (TextView) itemView.findViewById(R.id.username);
+            email = (TextView) itemView.findViewById(R.id.email);
+        }
+
+        public final void bindUser(String userId) {
+            //Posar la informació d'un usuari a la vista
+            UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+            UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
+                @Override
+                public void onUserRetrieved(User user) {
+                    username.setText(user.getUsername());
+                    email.setText(user.getEmail());
+                }
+            });
+            userByIdUseCase.setUserId(userId);
+            userByIdUseCase.execute();
+        }
+
+    }
+
 
     public class ViewHolderMap extends RecyclerView.ViewHolder implements OnMapReadyCallback {
 
@@ -223,7 +255,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
                                 ft.setCustomAnimations(R.anim.pop_in, R.anim.pop_out);
                                 ShowCommentsFragment fragment = ShowCommentsFragment.newInstance(item.getId());
-                                ft.add(R.id.content_frame, fragment);
+                                ft.replace(R.id.content_frame, fragment);
                                 ft.addToBackStack(null);
                                 ft.commit();
                             } else {
@@ -254,7 +286,19 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 v = LayoutInflater.from(this.context).inflate(R.layout.content_recycler, parent, false);
                 viewHolder = new ViewHolderPoint(v);
                 break;
-            case 1:     //Inflate the layout with map information
+            case 1:     //Inflate the layout with user information
+                v = LayoutInflater.from(this.context).inflate(R.layout.content_user, parent, false);
+                v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
+                        UserInfoFragment fragment = UserInfoFragment.newInstance(item.userId);
+                        fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                    }
+                });
+                viewHolder = new ViewHolderUser(v);
+                break;
+            case 2:     //Inflate the layout with map information
                 v = LayoutInflater.from(this.context).inflate(R.layout.content_map, parent, false);
                 viewHolder = new ViewHolderMap(v);
                 break;
@@ -283,6 +327,11 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch(position) {
             case 0:  ((ViewHolderPoint) holder).bindPoint(item);
                 break;
+            case 1:
+                if (item.userId != null) {
+                    ((ViewHolderUser) holder).bindUser(item.userId);
+                }
+                break;
             default:
                 break;
         }
@@ -290,7 +339,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -298,7 +347,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch  (position) {
             case 0: return 0;
             case 1: return 1;
-            default: return 2;
+            case 2: return 2;
+            default: return 3;
         }
     }
 
