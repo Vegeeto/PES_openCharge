@@ -101,10 +101,7 @@ public class ReservesShiftsFragment extends Fragment {
         this.mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                DateConversion dc = new DateConversionImpl();
-                CreateServiceFragment fragment = CreateServiceFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), "10:00");
-                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                goToCreateServiceAtHour("10:00");
             }
         });
     }
@@ -127,6 +124,7 @@ public class ReservesShiftsFragment extends Fragment {
             HourDayView hourView = new HourDayView(getActivity().getApplicationContext());
             int newId = View.generateViewId();
             hourView.setId(newId);
+            hourView.setTag(i);
 
             String hourFormatted = String.format("%02d", i) + ":00";
             hourView.setHour(hourFormatted);
@@ -139,9 +137,24 @@ public class ReservesShiftsFragment extends Fragment {
             }
             hourView.setLayoutParams(params);
 
+            hourView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int hour = (int) view.getTag();
+                    goToCreateServiceAtHour(hour + ":00");
+                }
+            });
+
             this.mHoursWrapper.addView(hourView);
             previousId = newId;
         }
+    }
+
+    private void goToCreateServiceAtHour(String hour) {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        DateConversion dc = new DateConversionImpl();
+        CreateServiceFragment fragment = CreateServiceFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), hour);
+        ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
     }
 
 
