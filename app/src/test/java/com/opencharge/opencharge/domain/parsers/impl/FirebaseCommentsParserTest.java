@@ -55,7 +55,7 @@ public class FirebaseCommentsParserTest {
         Comment c = sut.parseFromMap(key, map);
 
         //Then
-        assertEquals("Wrong parsed author", "Oriol", c.getAutor());
+        assertEquals("Wrong parsed author", "Oriol", c.getUser());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class FirebaseCommentsParserTest {
         Comment c = sut.parseFromMap(key, map);
 
         //Then
-        assertNull("Wrong parsed author", c.getAutor());
+        assertNull("Wrong parsed author", c.getUser());
     }
     //</editor-fold>
 
@@ -101,7 +101,7 @@ public class FirebaseCommentsParserTest {
         Comment c = sut.parseFromMap(key, map);
 
         //Then
-        assertEquals("Wrong parsed date", "01/01/2017", c.getData());
+        assertEquals("Wrong parsed date", "01/01/2017", c.getDate());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class FirebaseCommentsParserTest {
         Comment c = sut.parseFromMap(key, map);
 
         //Then
-        assertNull("Wrong parsed Date", c.getData());
+        assertNull("Wrong parsed Date", c.getDate());
     }
     //</editor-fold>
 

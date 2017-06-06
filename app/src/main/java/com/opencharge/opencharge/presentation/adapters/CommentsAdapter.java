@@ -7,14 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Comment;
-import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.Entities.User;
-import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.fragments.UserInfoFragment;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -47,7 +44,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
             profilePhoto = (CircleImageView) itemView.findViewById(R.id.profilephoto);
             username = (TextView) itemView.findViewById(R.id.username);
-            date = (TextView) itemView.findViewById(R.id.commentdate);
+            date = (TextView) itemView.findViewById(R.id.date);
             content = (TextView) itemView.findViewById(R.id.comment);
 
         }
@@ -76,10 +73,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 }
             });
 
-            userByIdUseCase.setUserId(comment.getAutor());
+            userByIdUseCase.setUserId(comment.getUser());
             userByIdUseCase.execute();
 
-            date.setText(comment.getData());
+            date.setText(comment.getDate());
             content.setText(comment.getText());
         }
 

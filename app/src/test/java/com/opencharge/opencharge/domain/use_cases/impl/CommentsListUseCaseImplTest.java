@@ -72,7 +72,7 @@ public class CommentsListUseCaseImplTest {
 
         //When
         Comment comment = new Comment();
-        comment.autor = "Oriol";
+        comment.user = "Oriol";
         comment.text = "hola";
 
         Comment[] comments = new Comment[1];
