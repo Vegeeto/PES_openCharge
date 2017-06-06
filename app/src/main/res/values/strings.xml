@@ -60,14 +60,13 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="mapa">Mapa</string>
     <string name="crear_punt">Crear punt</string>
-    <string name="crear_torn">Crear torn</string>
     <string name="el_meu_perfil">El meu perfil</string>
     <string name="afegir_punt_carrega">Afegir punt de recàrrega</string>
     <string name="afegir_torn_de_recarrega">Afegir torn de recàrrega</string>
     <string name="afegir_reserva">Afegir reserva</string>
 
     <!-- Strings related to help -->
-    <string name="ajuda">Com funcióna l'aplicació?</string>
+    <string name="ajuda">Com funcióna l\'aplicació?</string>
     <string name="iniciar_sessio">INICIAR SESSIÓ</string>
     <string name="primer_contacte_amb_l_aplicacio">PRIMER CONTACTE AMB L\'APLICACIÓ</string>
 
