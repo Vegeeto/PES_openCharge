@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,18 +14,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.google.android.gms.maps.SupportMapFragment;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
-
-import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -128,7 +123,7 @@ public class PointInfoFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.edit_navigation, menu);
+        menuInflater.inflate(R.menu.point_navigation, menu);
     }
 
     @Override
@@ -138,6 +133,10 @@ public class PointInfoFragment extends Fragment {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 EditPointFragment fragment = EditPointFragment.newInstance(pointId);
                 ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                return true;
+            case R.id.go_delete_button:
+                //TODO: implement delete point
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

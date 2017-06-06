@@ -4,6 +4,13 @@
     <item
         android:id="@+id/go_edit_button"
         android:title="Edit point"
-        android:icon="@drawable/ic_edit_white_48"
+        android:icon="@drawable/ic_edit_icon"
         app:showAsAction="collapseActionView|always" />
+
+    <item
+        android:id="@+id/go_delete_button"
+        android:title="Delete point"
+        android:icon="@drawable/ic_delete_icon"
+        app:showAsAction="collapseActionView|always" />
+
 </menu>
