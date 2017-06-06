@@ -17,6 +17,7 @@ import com.opencharge.opencharge.domain.repository.PointsRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by ferran on 15/3/17.
@@ -134,7 +135,8 @@ public class FirebasePointsRepository implements PointsRepository {
 
     public void createPoint(Point point, final CreatePointCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
-        myRef.push().setValue(point, new DatabaseReference.CompletionListener() {
+        Map<String, Object> serializedPoint = pointsParser.serializePoint(point);
+        myRef.push().setValue(serializedPoint, new DatabaseReference.CompletionListener() {
 
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
@@ -144,5 +146,17 @@ public class FirebasePointsRepository implements PointsRepository {
 
             ;
         });
+    }
+
+    @Override
+    public void savePoint(Point point, SavePointCallback callback) {
+        DatabaseReference myRef = database.getReference("Points");
+        myRef = myRef.child(point.getId());
+        Map<String, Object> serializedPoint = pointsParser.serializePoint(point);
+        for (Map.Entry<String, Object> entry : serializedPoint.entrySet()) {
+            DatabaseReference propRef = myRef.child(entry.getKey());
+            propRef.setValue(entry.getValue());
+        }
+        callback.onPointSaved();
     }
 }
