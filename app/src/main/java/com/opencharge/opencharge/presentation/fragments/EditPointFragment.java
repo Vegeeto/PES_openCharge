@@ -27,6 +27,7 @@ import com.opencharge.opencharge.domain.helpers.AddressConversion;
 import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointsEditUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.util.ArrayList;
@@ -262,17 +263,15 @@ public class EditPointFragment extends Fragment {
         }
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        //TODO: call PointsEditUseCase
-        /*PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(getActivity(), new PointsCreateUseCase.Callback(){
+        PointsEditUseCase editPointUseCase = useCasesLocator.getPointsEditUseCase(new PointsEditUseCase.Callback() {
             @Override
-            public void onPointCreated(String id) {
+            public void onPointEdited() {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                PointInfoFragment fragment = PointInfoFragment.newInstance(id);
+                PointInfoFragment fragment = PointInfoFragment.newInstance(pointId);
                 fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
             }
-
         });
-        
+
         Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
         AddressConversion addressConversion = new AddressConversionImpl(geocoder);
         LatLng latlng = addressConversion.AddressToLatLng(town, street, number);
@@ -281,8 +280,9 @@ public class EditPointFragment extends Fragment {
             return;
         }
 
-        getCreatePointsUseCase.setPointParameters(latlng.latitude, latlng.longitude, town, street, number, accesType, connectorTypeList, schedule);
-        getCreatePointsUseCase.execute();*/
+        editPointUseCase.setPoint(pointToEdit);
+        editPointUseCase.setPointParameters(latlng.latitude, latlng.longitude, town, street, number, accesType, connectorTypeList, schedule);
+        editPointUseCase.execute();
 
     }
 
