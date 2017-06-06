@@ -133,7 +133,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Per crear un punt de recàrrega, selecciona la opció en el menú de l'aplicació i has d'omplir les dades que es demanen. Si el punt és public o privat, hauràs d'indicar l'horari del punt. Un punt pot tenir vàris connectors, però n'ha de tenir un com a mínim."
+                        android:text="Per crear un punt de recàrrega, selecciona la opció en el menú de l'aplicació i omple les dades que es demanen. Si el punt és public o privat, hauràs d'indicar l'horari del punt. Un punt pot tenir vàris connectors, però n'ha de tenir un com a mínim."
                         android:textColor="@color/black"/>
 
                 </LinearLayout>
@@ -168,7 +168,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Per consultar un punt de recàrrega, has de clicar sobre la informació que es mostra en el mapa després de clicar al marcador. En cas que el punt sigui particular, trobaràs un botó a la part inferior dreta de la pantalla per poder realitzar una reserva. Si prems sobre l'usuari del punt, s'obrirà una vista amb el seu perfil d'usuari."
+                        android:text="Per consultar un punt de recàrrega, has de prémer sobre la informació que es mostra en el mapa després de clicar al marcador. En cas que el punt sigui particular, trobaràs un botó a la part inferior dreta de la pantalla per poder realitzar una reserva. Si prems sobre l'usuari del punt, podràs veure el seu perfil d'usuari."
                         android:textColor="@color/black"/>
 
                 </LinearLayout>
@@ -203,7 +203,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="En els punts que tinguis del tipus particular, pots crear torns de reserva des del botó situat a la part inferior dreta de la pantalla d'informació del punt. Hauràs d'indicar la teva disponibilitat, i pots indicar si el torn vols que es repeteixi un o varis dies de la setmana."
+                        android:text="En els punts particulars que tinguis, pots crear torns de reserva des del botó situat a la part inferior dreta de la pantalla d'informació del punt. Hauràs d'indicar la teva disponibilitat, i pots indicar si el torn vols que es repeteixi un o varis dies de la setmana."
                         android:textColor="@color/black"/>
 
                 </LinearLayout>
@@ -274,7 +274,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Un cop feta la reserva, l'usuari propietari del punt de recàrrega l'ha d'acceptar abans de l'hora final indicada. Si un usuari reserva al teu punt de recàrrega, podràs acceptar o rebutjar la reserva. A partir de l'hora d'inici de la reserva, apareix un botó de finalitzar, que han de prémer els dos usuaris per completar la reserva."
+                        android:text="Un cop feta la reserva, l'usuari propietari del punt de recàrrega l'ha d'acceptar abans de l'hora final indicada. Si un usuari fa una reserva al teu punt de recàrrega, podràs acceptar-la o rebutjar-la. A partir de l'hora d'inici de la reserva, apareix un botó de finalitzar, que han de prémer els dos usuaris per completar la reserva."
                         android:textColor="@color/black"/>
 
                 </LinearLayout>
@@ -318,7 +318,6 @@
             </android.support.v7.widget.CardView>
 
         </LinearLayout>
-
 
 
     </ScrollView>
