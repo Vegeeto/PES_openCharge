@@ -147,4 +147,16 @@ public class FirebasePointsRepository implements PointsRepository {
             ;
         });
     }
+
+    @Override
+    public void savePoint(Point point, SavePointCallback callback) {
+        DatabaseReference myRef = database.getReference("Points");
+        myRef = myRef.child(point.getId());
+        Map<String, Object> serializedPoint = pointsParser.serializePoint(point);
+        for (Map.Entry<String, Object> entry : serializedPoint.entrySet()) {
+            DatabaseReference propRef = myRef.child(entry.getKey());
+            propRef.setValue(entry.getValue());
+        }
+        callback.onPointSaved();
+    }
 }
