@@ -84,4 +84,6 @@
     <string name="afegir_torn_de_recarrega">Afegir torn de recàrrega</string>
     <string name="afegir_reserva">Afegir reserva</string>
     <string name="opencharge">openCharge</string>
+    <string name="informacio">Informació:</string>
+    <string name="propietari">Propietari:</string>
 </resources>

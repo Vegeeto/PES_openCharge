@@ -260,7 +260,7 @@ public class EditPointFragment extends Fragment {
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         //TODO: call PointsEditUseCase
-        PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(getActivity(), new PointsCreateUseCase.Callback(){
+        /*PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(getActivity(), new PointsCreateUseCase.Callback(){
             @Override
             public void onPointCreated(String id) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -279,7 +279,7 @@ public class EditPointFragment extends Fragment {
         }
 
         getCreatePointsUseCase.setPointParameters(latlng.latitude, latlng.longitude, town, street, number, accesType, connectorTypeList, schedule);
-        getCreatePointsUseCase.execute();
+        getCreatePointsUseCase.execute();*/
 
     }
 

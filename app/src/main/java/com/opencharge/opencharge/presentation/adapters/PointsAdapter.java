@@ -104,11 +104,13 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         private TextView username;
         private TextView email;
+        private LinearLayout emailLayout;
 
         public ViewHolderUser(View itemView) {
             super(itemView);
             username = (TextView) itemView.findViewById(R.id.username);
             email = (TextView) itemView.findViewById(R.id.email);
+            emailLayout = (LinearLayout) itemView.findViewById(R.id.email_layout);
         }
 
         public final void bindUser(String userId) {
@@ -132,7 +134,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                     else {
                         username.setText("L'usuari ha borrat el seu compte");
-                        email.setVisibility(View.INVISIBLE);
+                        emailLayout.setVisibility(View.GONE);
                     }
                 }
             });

@@ -34,8 +34,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/normal_text_size"
-                    android:text="Propietari del punt: " />
+                    android:textSize="@dimen/big_text_size"
+                    android:text="@string/propietari" />
 
             </LinearLayout>
 
@@ -64,6 +64,7 @@
              </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/email_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
