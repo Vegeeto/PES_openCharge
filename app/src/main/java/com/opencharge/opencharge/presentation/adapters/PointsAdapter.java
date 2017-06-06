@@ -90,14 +90,10 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             access.setText(p.getAccessType());
             coords.setText("(" + String.valueOf(p.getLatCoord()) + ", " + String.valueOf(p.getLonCoord() + ")"));
 
-            Log.e("", ""+ p.getAccessType());
-            Log.e("", ""+ Point.PARTICULAR_ACCESS);
             if (!p.getAccessType().equals(Point.PARTICULAR_ACCESS) && !p.getSchedule().equals(null)){
-                Log.e("If: ", "omplir schedule");
                 schedule.setText(p.getSchedule());
             }
             else {
-                Log.e("Else: ", "ocultar layout");
                 scheduleLayout.setVisibility(View.GONE);
             }
 
