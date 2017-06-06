@@ -63,6 +63,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private ImageView accessImage;
         private TextView access;
         private TextView coords;
+        private TextView schedule;
+        private LinearLayout scheduleLayout;
         private LinearLayout connectorLayout;
 
 
@@ -72,8 +74,10 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             adreca = (TextView) itemView.findViewById(R.id.adreca);
             accessImage = (ImageView) itemView.findViewById(R.id.accessImage);
             access = (TextView) itemView.findViewById(R.id.access);
-            connectorLayout = (LinearLayout) itemView.findViewById(R.id.connector_layout);
             coords = (TextView) itemView.findViewById(R.id.coords);
+            schedule = (TextView) itemView.findViewById(R.id.schedule);
+            scheduleLayout = (LinearLayout) itemView.findViewById(R.id.schedule_layout);
+            connectorLayout = (LinearLayout) itemView.findViewById(R.id.connector_layout);
         }
 
         public final void bindPoint(Point p) {
@@ -84,7 +88,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             accessImage.setImageDrawable(drawable);
             access.setText(p.getAccessType());
             coords.setText("(" + String.valueOf(p.getLatCoord()) + ", " + String.valueOf(p.getLonCoord() + ")"));
-
+            if (p.getAccessType() != Point.PARTICULAR_ACCESS && p.getSchedule() != null) schedule.setText(p.getSchedule());
+            else scheduleLayout.setVisibility(View.GONE);
 
             List<String> connectorList = p.getConnectorTypeList();
             for(int i = 0; i < p.getConnectorTypeList().size(); ++i){

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -99,6 +100,8 @@ public class PointInfoFragment extends Fragment {
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setNestedScrollingEnabled(false);
 
+                Log.e("Access 1: ", " " + point.getAccessType());
+                Log.e("Access 2: ", " " + Point.PARTICULAR_ACCESS);
                 if (point.getAccessType() == Point.PARTICULAR_ACCESS) {
                     horari.setOnClickListener(new View.OnClickListener() {
                         @Override
