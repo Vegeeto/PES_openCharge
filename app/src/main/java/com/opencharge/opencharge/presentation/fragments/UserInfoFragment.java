@@ -46,6 +46,7 @@ public class UserInfoFragment extends Fragment {
 
     private static final String ARG_USER_ID = "user_id";
     private String userId;
+    private User currentUser;
 
     public UserInfoFragment() {
         // Required empty public constructor
@@ -107,8 +108,9 @@ public class UserInfoFragment extends Fragment {
             Context context = getActivity();
             GetCurrentUserUseCase getCurrentUserUseCase = useCasesLocator.getGetCurrentUserUseCase(context, new GetCurrentUserUseCase.Callback() {
                 @Override
-                public void onCurrentUserRetrieved(User currentUser) {
-                    setUpViewForUser(currentUser);
+                public void onCurrentUserRetrieved(User user) {
+                    currentUser = user;
+                    setUpViewForUser(user);
                 }
             });
             getCurrentUserUseCase.execute();
@@ -163,12 +165,11 @@ public class UserInfoFragment extends Fragment {
 
         botoReservesClient.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //aquí s'obrirà el fragment amb les reserves que l'usuari ha fet a putns d'altres usuaris
-                //Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Reserves com a client", Toast.LENGTH_SHORT);
-                //toast.show();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                UserReservesFragment fragment = UserReservesFragment.newInstance(userId);
-                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                if (currentUser != null) {
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    UserReservesFragment fragment = UserReservesFragment.newInstance(currentUser.getId());
+                    ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                }
             }
 
         });
@@ -208,5 +209,11 @@ public class UserInfoFragment extends Fragment {
             }
 
         });
+
+        if (!needsToShowCurrentUser()) {
+            botoReservesClient.setVisibility(View.GONE);
+            botoReservesProveidor.setVisibility(View.GONE);
+            botoEliminarCompta.setVisibility(View.GONE);
+        }
     }
 }
