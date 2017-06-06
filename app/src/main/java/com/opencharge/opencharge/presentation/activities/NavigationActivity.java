@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -27,8 +28,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
+import com.opencharge.opencharge.presentation.fragments.AboutFragment;
 import com.opencharge.opencharge.presentation.fragments.CreatePublicPointsFragment;
 import com.opencharge.opencharge.presentation.fragments.CreateServiceFragment;
+import com.opencharge.opencharge.presentation.fragments.HelpFragment;
 import com.opencharge.opencharge.presentation.fragments.MapsFragment;
 import com.opencharge.opencharge.presentation.fragments.UserInfoFragment;
 import com.opencharge.opencharge.presentation.locators.GoogleApiLocator;
@@ -101,12 +104,10 @@ public class NavigationActivity extends AppCompatActivity
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
         } else if (id == R.id.nav_newpoint) {
             fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).addToBackStack(null).commit();
-        } else if (id == R.id.nav_newservice) {
-            fm.beginTransaction().replace(R.id.content_frame, new CreateServiceFragment()).commit();
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_help) {
+            fm.beginTransaction().replace(R.id.content_frame, new HelpFragment()).addToBackStack(null).commit();
+        } else if (id == R.id.nav_about) {
+            fm.beginTransaction().replace(R.id.content_frame, new AboutFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_logout) {
             signOut();
         }

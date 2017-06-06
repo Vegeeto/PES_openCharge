@@ -93,10 +93,7 @@ public class PointInfoFragment extends Fragment {
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setNestedScrollingEnabled(false);
 
-                Log.e("", ""+ point.getAccessType());
-                Log.e("", ""+ Point.PARTICULAR_ACCESS);
                 if (point.getAccessType().equals(Point.PARTICULAR_ACCESS)) {
-                    Log.e("If: ", "assignar listener");
                     horari.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -111,8 +108,7 @@ public class PointInfoFragment extends Fragment {
                         }
                     });
                 } else {
-                    Log.e("Else: ", "ocultar botó");
-                    //horari.setVisibility(View.GONE);
+                    horari.setVisibility(View.GONE);
                 }
 
             }
