@@ -28,6 +28,12 @@ public interface PointsRepository {
         void onError();
     }
 
+    interface SavePointCallback {
+        void onPointSaved();
+
+        void onError();
+    }
+
     interface AddReserveToPointCallback {
         void onReserveAddedToPoint();
 
@@ -43,6 +49,8 @@ public interface PointsRepository {
     void getPoints(final GetPointsCallback callback);
 
     void createPoint(Point point, final CreatePointCallback callback);
+
+    void savePoint(Point point, final SavePointCallback callback);
 
     void getPointById(String pointId, final GetPointByIdCallback callback);
 

@@ -8,6 +8,7 @@ import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.DeletePointUseCase;
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointsEditUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReservesListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
@@ -24,6 +25,7 @@ import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.PointByIdUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.PointsEditUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsListUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReserveCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReserveUserInvolvedUseCaseImpl;
@@ -111,6 +113,15 @@ public class UseCasesLocator {
                 RepositoriesLocator.getInstance().getUsersRepository(),
                 context,
                 callback);
+    }
+
+    public PointsEditUseCase getPointsEditUseCase(PointsEditUseCase.Callback callback) {
+        return new PointsEditUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getPointsRepository(),
+                callback
+        );
     }
 
     public UsersCreateUseCase getUsersCreateUseCase(UsersCreateUseCase.Callback callback) {
