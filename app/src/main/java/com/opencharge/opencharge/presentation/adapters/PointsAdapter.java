@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,8 +89,17 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             accessImage.setImageDrawable(drawable);
             access.setText(p.getAccessType());
             coords.setText("(" + String.valueOf(p.getLatCoord()) + ", " + String.valueOf(p.getLonCoord() + ")"));
-            if (p.getAccessType() != Point.PARTICULAR_ACCESS && p.getSchedule() != null) schedule.setText(p.getSchedule());
-            else scheduleLayout.setVisibility(View.GONE);
+
+            Log.e("", ""+ p.getAccessType());
+            Log.e("", ""+ Point.PARTICULAR_ACCESS);
+            if (!p.getAccessType().equals(Point.PARTICULAR_ACCESS) && !p.getSchedule().equals(null)){
+                Log.e("If: ", "omplir schedule");
+                schedule.setText(p.getSchedule());
+            }
+            else {
+                Log.e("Else: ", "ocultar layout");
+                scheduleLayout.setVisibility(View.GONE);
+            }
 
             List<String> connectorList = p.getConnectorTypeList();
             for(int i = 0; i < p.getConnectorTypeList().size(); ++i){
@@ -341,7 +351,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case 0:  ((ViewHolderPoint) holder).bindPoint(item);
                 break;
             case 1:
-                if (item.userId != null) {
+                if (!item.userId.equals(null)) {
                     ViewHolderUser userHolder = (ViewHolderUser) holder;
                     userHolder.bindUser(item.userId);
                 }

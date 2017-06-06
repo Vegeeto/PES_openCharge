@@ -80,13 +80,6 @@ public class PointInfoFragment extends Fragment {
         RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
         datePickerButton.setVisibility(View.GONE);
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         PointByIdUseCase getPointUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
             @Override
@@ -100,9 +93,10 @@ public class PointInfoFragment extends Fragment {
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setNestedScrollingEnabled(false);
 
-                Log.e("Access 1: ", " " + point.getAccessType());
-                Log.e("Access 2: ", " " + Point.PARTICULAR_ACCESS);
-                if (point.getAccessType() == Point.PARTICULAR_ACCESS) {
+                Log.e("", ""+ point.getAccessType());
+                Log.e("", ""+ Point.PARTICULAR_ACCESS);
+                if (point.getAccessType().equals(Point.PARTICULAR_ACCESS)) {
+                    Log.e("If: ", "assignar listener");
                     horari.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -117,13 +111,22 @@ public class PointInfoFragment extends Fragment {
                         }
                     });
                 } else {
-                    horari.setVisibility(View.GONE);
+                    Log.e("Else: ", "ocultar botó");
+                    //horari.setVisibility(View.GONE);
                 }
+
             }
         });
 
         getPointUseCase.setPointId(pointId);
         getPointUseCase.execute();
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
     }
 
