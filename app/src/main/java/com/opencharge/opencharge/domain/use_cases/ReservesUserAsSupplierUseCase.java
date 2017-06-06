@@ -7,7 +7,7 @@ import com.opencharge.opencharge.domain.use_cases.base.UseCase;
  * Created by Crjs on 02/06/2017.
  */
 
-public interface ReservesUserAsSupplierUseCase {
+public interface ReservesUserAsSupplierUseCase extends UseCase {
 
     interface Callback {
         void onReservesRetrieved(Reserve[] reserves);

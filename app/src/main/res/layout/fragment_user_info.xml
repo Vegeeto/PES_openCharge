@@ -111,21 +111,30 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="left">
 
-        <TextView
-            android:id="@+id/perfil_usuari_puntsReser1"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/perfil_usuari_boto_reserves_client"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Punts reservats de l'usuari: "
-            android:textColor="@color/profile_black"
-            android:textSize="22sp" />
+            android:layout_weight="1"
+            android:text="Veure Reserves fetes" />
+    </LinearLayout>
 
-        <ListView
-            android:id="@+id/perfil_usuari_puntsReser2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="left">
+
+        <Button
+            android:id="@+id/perfil_usuari_boto_reserves_proveidor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Reserves en punts propis" />
     </LinearLayout>
 
     <LinearLayout
