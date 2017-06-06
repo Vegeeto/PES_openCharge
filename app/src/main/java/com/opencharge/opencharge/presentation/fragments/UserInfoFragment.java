@@ -40,6 +40,8 @@ public class UserInfoFragment extends Fragment {
     private TextView emailUsuari;
     private TextView minutsUsuari;
     private ListView puntsUsuari;
+    private Button botoReservesClient;
+    private Button botoReservesProveidor;
     private Button botoEliminarCompta;
 
     private static final String ARG_USER_ID = "user_id";
@@ -89,6 +91,8 @@ public class UserInfoFragment extends Fragment {
         emailUsuari = (TextView) view.findViewById(R.id.perfil_usuari_email2);
         minutsUsuari = (TextView) view.findViewById(R.id.perfil_usuari_minuts2);
         puntsUsuari = (ListView) view.findViewById(R.id.perfil_usuari_punts2);
+        botoReservesClient = (Button) view.findViewById(R.id.perfil_usuari_boto_reserves_client);
+        botoReservesProveidor = (Button) view.findViewById(R.id.perfil_usuari_boto_reserves_proveidor);
         botoEliminarCompta = (Button) view.findViewById(R.id.perfil_usuari_boto_eliminar);
         return view;
     }
@@ -111,6 +115,11 @@ public class UserInfoFragment extends Fragment {
 
         }
         else {
+
+            //com que es mostrarà el perfil d'un altre usuari, s'amaguen els botons de reserves i d'eliminar usuari
+            botoReservesClient.setVisibility(View.GONE);
+            botoReservesProveidor.setVisibility(View.GONE);
+            botoEliminarCompta.setVisibility(View.GONE);
 
             UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
                 @Override
@@ -150,6 +159,24 @@ public class UserInfoFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+        });
+
+        botoReservesClient.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                //aquí s'obrirà el fragment amb les reserves que l'usuari ha fet a putns d'altres usuaris
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Reserves com a client", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
+        });
+
+        botoReservesProveidor.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                //aquí s'obrirà el fragment amb les reserves que altres hagin fet a punts de l'usuari
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Reserves com a provider", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
         });
 
         botoEliminarCompta.setOnClickListener(new View.OnClickListener() {
