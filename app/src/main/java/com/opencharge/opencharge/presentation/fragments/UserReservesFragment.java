@@ -58,7 +58,6 @@ public class UserReservesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_reserves, container, false);
 
         setHasOptionsMenu(true);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.userReservesRV);
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
@@ -67,7 +66,7 @@ public class UserReservesFragment extends Fragment {
             public void onReservesRetrieved(Reserve[] reserves) {
                     List<Reserve> reserve = new ArrayList<>(Arrays.asList(reserves));
                     Integer r = reserve.size();
-                    Toast.makeText(getActivity().getApplicationContext(), r.toString(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getActivity().getApplicationContext(), r.toString(), Toast.LENGTH_SHORT).show();
                     reservesAdapter = new UserReservesAdapter(getActivity(), reserve);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                     recyclerView.setHasFixedSize(true);

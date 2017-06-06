@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
@@ -63,7 +64,7 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
             UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
                 @Override
                 public void onUserRetrieved(User user) {
-                    propietari.setText(user.getUsername());
+                    //propietari.setText(user.getUsername());
                 }
             });
             userByIdUseCase.setUserId(reserve.getSupplierUserId());
