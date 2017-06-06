@@ -5,6 +5,7 @@ import android.content.Context;
 import com.opencharge.opencharge.domain.device_services.UserPreferences;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
+import com.opencharge.opencharge.domain.use_cases.DeletePointUseCase;
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
@@ -16,6 +17,7 @@ import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.CommentsListUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.DeletePointUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.GetCurrentUserUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
@@ -75,6 +77,15 @@ public class UseCasesLocator {
 
     public PointByIdUseCase getPointByIdUseCase(PointByIdUseCase.Callback callback) {
         return new PointByIdUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getPointsRepository(),
+                callback
+        );
+    }
+
+    public DeletePointUseCase deletePointUseCase(DeletePointUseCase.Callback callback) {
+        return new DeletePointUseCaseImpl(
                 ServicesLocator.getInstance().getExecutor(),
                 ServicesLocator.getInstance().getMainThread(),
                 RepositoriesLocator.getInstance().getPointsRepository(),

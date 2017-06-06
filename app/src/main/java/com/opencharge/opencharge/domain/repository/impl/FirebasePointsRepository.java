@@ -87,6 +87,23 @@ public class FirebasePointsRepository implements PointsRepository {
 
     }
 
+    @Override
+    public void deletePoint(String pointId, final DeletePointCallback callback) {
+
+        Log.e("DeletePoint", "Hola");
+        DatabaseReference myRef = database.getReference("Points").child(pointId);
+
+        myRef.push().removeValue();
+
+        if (database.getReference("Points").child(pointId) == null) {
+            callback.onPointDeleted();
+            Log.e("DeletePoint", "Eliminat");
+        } else {
+            callback.onError();
+            Log.e("DeletePoint", "Error");
+        }
+    }
+
     private String serializeReserveDate(Reserve reserve) {
         DateConversion dateConversion = new DateConversionImpl();
         return dateConversion.ConvertDateToPath(reserve.getDay());

@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.use_cases.DeletePointUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
@@ -128,15 +129,23 @@ public class PointInfoFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()) {
             case R.id.go_edit_button:
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 EditPointFragment fragment = EditPointFragment.newInstance(pointId);
                 ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
                 return true;
             case R.id.go_delete_button:
-                //TODO: implement delete point
+                UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+                DeletePointUseCase deletePointUseCase = useCasesLocator.deletePointUseCase(new DeletePointUseCase.Callback() {
+                    @Override
+                    public void onPointDeleted() {
+                        ft.replace(R.id.content_frame, new MapsFragment()).commit();
+                    }
+                });
 
+                deletePointUseCase.setPointId(this.pointId);
+                deletePointUseCase.execute();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
