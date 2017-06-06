@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/go_edit_button"
+        android:title="Edit point"
+        android:icon="@drawable/ic_edit_white_48"
+        app:showAsAction="collapseActionView|always" />
+</menu>

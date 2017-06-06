@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,13 +19,13 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.helpers.AddressConversion;
 import com.opencharge.opencharge.domain.helpers.impl.AddressConversionImpl;
+import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
@@ -35,7 +36,7 @@ import java.util.Locale;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreatePublicPointsFragment extends Fragment {
+public class EditPointFragment extends Fragment {
 
     private EditText editTown;
     private EditText editStreet;
@@ -44,10 +45,41 @@ public class CreatePublicPointsFragment extends Fragment {
     private RadioGroup rdgAcces;
     private LinearLayout connectorTypeLayourParent;
 
+    private static final String ARG_POINT_ID = "point_id";
+    private String pointId;
+
+    public EditPointFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param pointId String
+     * @return A new instance of fragment PointInfoFragment.
+     */
+    public static EditPointFragment newInstance(String pointId) {
+        EditPointFragment fragment = new EditPointFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_POINT_ID, pointId);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            this.pointId = getArguments().getString(ARG_POINT_ID);
+        }
+    }
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_new_point, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_point, container, false);
 
         editTown = (EditText) view.findViewById(R.id.Poblacio);
         editStreet = (EditText) view.findViewById(R.id.Street);
@@ -58,8 +90,7 @@ public class CreatePublicPointsFragment extends Fragment {
 
         rdgAcces.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
-            public void onCheckedChanged(RadioGroup group, int checkedId)
-            {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
                 hideKeyboard();
             }
         });
@@ -67,9 +98,8 @@ public class CreatePublicPointsFragment extends Fragment {
         Button saveButton = (Button) view.findViewById(R.id.GuardarBtn);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Log.d("CrearPunt","onClick Guardar!");
                 hideKeyboard();
-                guardarPunt();
+                savePoint();
             }
         });
 
@@ -117,34 +147,78 @@ public class CreatePublicPointsFragment extends Fragment {
             }
         });
 
-        View connector = inflater.inflate(R.layout.radiogroup, container, false);
-        connectorTypeLayourParent.addView(connector);
-
         return view;
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        PointByIdUseCase getPointUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
+            @Override
+            public void onPointRetrieved(Point point) {
+                editTown.setText(point.getTown());
+                editStreet.setText(point.getStreet());
+                editNumber.setText(point.getNumber());
+
+                if (point.getSchedule() != null) {
+                    editSchedule.setText(point.getSchedule());
+                }
+
+                switch (point.getAccessType()) {
+                    case Point.PUBLIC_ACCESS: rdgAcces.check(R.id.Public);
+                        break;
+                    case Point.PRIVATE_ACCESS: rdgAcces.check(R.id.Privat);
+                        break;
+                    case Point.PARTICULAR_ACCESS: rdgAcces.check(R.id.Particular);
+                        break;
+                    default: rdgAcces.clearCheck();
+                        break;
+                }
+
+                List<String> connectorTypeList = point.getConnectorTypeList();
+                for (int i = 0; i < connectorTypeList.size(); i++) {
+                    LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View view = inflater.inflate(R.layout.radiogroup, null);
+                    RadioGroup rdgbuton = (RadioGroup) view.findViewById(R.id.tipus_connector_1);
+                    switch(connectorTypeList.get(i)) {
+                        case Point.SLOW_CONNECTOR: rdgbuton.check(R.id.Slow); break;
+                        case Point.FAST_CONNECTOR: rdgbuton.check(R.id.Fast); break;
+                        case Point.RAPID_CONNECTOR: rdgbuton.check(R.id.Rapid); break;
+                        default: rdgbuton.clearCheck();
+                    }
+                    connectorTypeLayourParent.addView(view);
+                }
+            }
+        });
+
+        getPointUseCase.setPointId(pointId);
+        getPointUseCase.execute();
+    }
     
-    public void guardarPunt() {
+    public void savePoint() {
 
         String town = editTown.getText().toString();
         if (town.matches("")) {
             Toast.makeText(getActivity(), "Ha d'indicar la població", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        //Log.d("CrearPunt","town: "+town);
         String street = editStreet.getText().toString();
         if (street.matches("")) {
             Toast.makeText(getActivity(), "Ha d'indicar el carrer", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        //Log.d("CrearPunt","street: "+street);
         String number = editNumber.getText().toString();
         if (number.matches("")) {
             Toast.makeText(getActivity(), "Ha d'indicar el número", Toast.LENGTH_SHORT).show();
             return;
         }
+        //Log.d("CrearPunt","num: " +number);
 
         String accesType;
         String schedule = editSchedule.getText().toString();
+        //Log.d("CrearPunt","sch: "+schedule);*/
         switch (rdgAcces.getCheckedRadioButtonId()) {
             case R.id.Particular: accesType = Point.PARTICULAR_ACCESS; break;
             case R.id.Privat: accesType = Point.PRIVATE_ACCESS;
@@ -162,8 +236,9 @@ public class CreatePublicPointsFragment extends Fragment {
             default: accesType = Point.UNKNOWN_ACCESS; break;
         }
 
-
+        //Log.d("CrearPunt","accestype: "+accesType);
         int childCount = connectorTypeLayourParent.getChildCount();
+        //Log.d("SAVE-POINT", "Count: "+childCount);
         int lastIndexInserted = 0;
         List<String> connectorTypeList = new ArrayList<>();
         String connectorType;
@@ -172,9 +247,9 @@ public class CreatePublicPointsFragment extends Fragment {
             for(int j = 0; j < linearLayoutChild.getChildCount(); ++j) {
                 RadioGroup rdgbuton = (RadioGroup) linearLayoutChild.getChildAt(j);
                 switch(rdgbuton.getCheckedRadioButtonId()) {
+                    case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
                     case R.id.Fast: connectorType = Point.FAST_CONNECTOR; break;
                     case R.id.Rapid: connectorType = Point.RAPID_CONNECTOR; break;
-                    case R.id.Slow: connectorType = Point.SLOW_CONNECTOR; break;
                     default: connectorType = Point.UNKNOWN_CONNECTOR; break;
                 }
                 connectorTypeList.add(lastIndexInserted, connectorType);
@@ -184,6 +259,7 @@ public class CreatePublicPointsFragment extends Fragment {
         }
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        //TODO: call PointsEditUseCase
         PointsCreateUseCase getCreatePointsUseCase = useCasesLocator.getPointsCreateUseCase(getActivity(), new PointsCreateUseCase.Callback(){
             @Override
             public void onPointCreated(String id) {
@@ -202,15 +278,14 @@ public class CreatePublicPointsFragment extends Fragment {
             return;
         }
 
-        getCreatePointsUseCase.setPointParameters(latlng.latitude,latlng.longitude, town,street,number,accesType,connectorTypeList, schedule);
+        getCreatePointsUseCase.setPointParameters(latlng.latitude, latlng.longitude, town, street, number, accesType, connectorTypeList, schedule);
         getCreatePointsUseCase.execute();
 
     }
 
     public void cancel() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        MapsFragment mp = new MapsFragment();
-        fm.beginTransaction().replace(R.id.content_frame, mp).commit();
+        fm.popBackStackImmediate();
     }
 
     private void hideKeyboard() {

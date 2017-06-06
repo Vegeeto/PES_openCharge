@@ -93,6 +93,8 @@ public class Point {
         return schedule;
     }
 
+    public String getUserId() { return userId; }
+
     public void setLat(double lat) {
         this.lat = lat;
     }
@@ -128,6 +130,8 @@ public class Point {
     public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
+
+    public void setUserId(String userId) { this.userId =  userId; }
 
     @Override
     public String toString() {

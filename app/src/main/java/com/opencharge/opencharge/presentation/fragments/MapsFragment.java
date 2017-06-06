@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -92,15 +91,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         getUserLocation();
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        if (currentLocation == null) getUserLocation();
-        if (currentLocation != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
-        }
-    }*/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -170,7 +160,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.navigation, menu);
+        menuInflater.inflate(R.menu.search_navigation, menu);
         final MenuItem searchItem = menu.findItem(R.id.searchBar);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint(getText(R.string.hint));
