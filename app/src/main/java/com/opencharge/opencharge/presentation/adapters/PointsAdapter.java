@@ -131,7 +131,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         });
                     }
                     else {
-                        username.setText("Usuari borrat");
+                        username.setText("L'usuari ha borrat el seu compte");
+                        email.setVisibility(View.INVISIBLE);
                     }
                 }
             });
@@ -244,7 +245,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    AddCommentUseCase getAddCommentUseCase = useCasesLocator.getAddCommentUseCase(new AddCommentUseCase.Callback(){
+                    AddCommentUseCase getAddCommentUseCase = useCasesLocator.getAddCommentUseCase(context, new AddCommentUseCase.Callback(){
                         @Override
                         public void onCommentAdded(String id) {
                             Toast.makeText(view.getContext(), "Missatge afegit!", Toast.LENGTH_SHORT).show();
@@ -253,7 +254,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     });
                     DateConversion dc = new DateConversionImpl();
                     String date = dc.ConvertLongToString(System.currentTimeMillis());
-                    getAddCommentUseCase.setCommentParameters(item.getId(), "Mock usuari", comment.getText().toString(), date);
+                    getAddCommentUseCase.setCommentParameters(item.getId(), comment.getText().toString(), date);
                     getAddCommentUseCase.execute();
                 }
             });

@@ -24,9 +24,10 @@ import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.CustomUserPointsAdapter;
-import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by DmnT on 17/05/2017.
@@ -34,7 +35,7 @@ import com.squareup.picasso.Picasso;
 
 public class UserInfoFragment extends Fragment {
 
-    private ImageView imatgeUsuari;
+    private CircleImageView imatgeUsuari;
     private TextView nomUsuari;
     private TextView emailUsuari;
     private TextView minutsUsuari;
@@ -83,7 +84,7 @@ public class UserInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_info, container, false);
-        imatgeUsuari = (ImageView) view.findViewById(R.id.perfil_usuari_imatge);
+        imatgeUsuari = (CircleImageView) view.findViewById(R.id.perfil_usuari_imatge);
         nomUsuari = (TextView) view.findViewById(R.id.perfil_usuari_nom2);
         emailUsuari = (TextView) view.findViewById(R.id.perfil_usuari_email2);
         minutsUsuari = (TextView) view.findViewById(R.id.perfil_usuari_minuts2);
