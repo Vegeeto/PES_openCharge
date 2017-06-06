@@ -80,16 +80,6 @@ public class PointInfoFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         horari = (FloatingActionButton) view.findViewById(R.id.horari);
 
-        RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
-        datePickerButton.setVisibility(View.GONE);
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         PointByIdUseCase getPointUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
             @Override
@@ -102,11 +92,23 @@ public class PointInfoFragment extends Fragment {
                 recyclerView.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setNestedScrollingEnabled(false);
+
+                if (point.userId == null) recyclerView.getChildAt(1).setVisibility(View.GONE);
             }
         });
 
         getPointUseCase.setPointId(pointId);
         getPointUseCase.execute();
+
+        RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
+        datePickerButton.setVisibility(View.GONE);
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         horari.setOnClickListener(new View.OnClickListener() {
             @Override
