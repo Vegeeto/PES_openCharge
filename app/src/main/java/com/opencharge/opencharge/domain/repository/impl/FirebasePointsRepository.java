@@ -7,12 +7,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.opencharge.opencharge.domain.Entities.FirebasePoint;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.Reserve;
+import com.opencharge.opencharge.domain.helpers.DateConversion;
+import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 import com.opencharge.opencharge.domain.parsers.impl.FirebasePointsParser;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -67,6 +70,45 @@ public class FirebasePointsRepository implements PointsRepository {
         });
     }
 
+    @Override
+    public void addReserveToPoint(Reserve reserve, final AddReserveToPointCallback callback) {
+        DatabaseReference myRef = database.getReference("Points");
+        myRef = myRef.child(reserve.getPointId()).child("Reserves");
+
+        String dayPath = serializeReserveDate(reserve);
+        myRef = myRef.child(dayPath);
+
+        myRef.push().setValue(reserve.getId(), new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onReserveAddedToPoint();
+            }
+        });
+
+    }
+
+    @Override
+    public void deletePoint(String pointId, final DeletePointCallback callback) {
+
+        Log.e("DeletePoint", "Hola");
+        DatabaseReference myRef = database.getReference("Points").child(pointId);
+
+        myRef.push().removeValue();
+
+        if (database.getReference("Points").child(pointId) == null) {
+            callback.onPointDeleted();
+            Log.e("DeletePoint", "Eliminat");
+        } else {
+            callback.onError();
+            Log.e("DeletePoint", "Error");
+        }
+    }
+
+    private String serializeReserveDate(Reserve reserve) {
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertDateToPath(reserve.getDay());
+    }
+
     private Point[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
         Point[] points = new Point[(int)dataSnapshot.getChildrenCount()];
         int index = 0;
@@ -90,7 +132,7 @@ public class FirebasePointsRepository implements PointsRepository {
         return null;
     }
 
-    public void createPoint(FirebasePoint point, final CreatePointCallback callback) {
+    public void createPoint(Point point, final CreatePointCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
         myRef.push().setValue(point, new DatabaseReference.CompletionListener() {
 

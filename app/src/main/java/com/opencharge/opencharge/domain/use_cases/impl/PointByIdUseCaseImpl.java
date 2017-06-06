@@ -22,7 +22,6 @@ public class PointByIdUseCaseImpl extends AbstractUseCase implements PointByIdUs
                                 PointsRepository pointsRepository,
                                 PointByIdUseCase.Callback callback) {
         super(threadExecutor, mainThread);
-
         this.pointsRepository = pointsRepository;
         this.callback = callback;
     }

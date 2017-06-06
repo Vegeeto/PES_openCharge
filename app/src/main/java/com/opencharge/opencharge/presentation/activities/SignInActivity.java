@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.Pair;
+import android.support.v4.util.Pair;
 import android.view.View;
 import android.content.Intent;
 import android.widget.Toast;
@@ -17,6 +17,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
+import com.opencharge.opencharge.domain.use_cases.SetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -34,6 +36,7 @@ import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.presentation.locators.GoogleApiLocator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Usuario on 03/05/2017.
@@ -77,16 +80,11 @@ public class SignInActivity extends AppCompatActivity  {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
-                    //createUserInFirebaseHelper();
-                    //Intent i = new Intent(getApplicationContext(), NavigationActivity.class );
-                    //startActivity(i);
-                    Log.d("Sign in", "onAuthStateChanged:signed_in:" + user.getUid());
+                    setCurrentUser(user);
+                    goToApp();
                 } else {
-                    // User is signed out
-                    Log.d("Sign out", "onAuthStateChanged:signed_out");
+                    Log.d("SignInActivity", "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
@@ -147,26 +145,26 @@ public class SignInActivity extends AppCompatActivity  {
     }
 
     private void firebaseAuthWithGoogle(final GoogleSignInAccount account) {
-        Log.d("FirebaseAuthGoogle", "firebaseAuthWithGoogle:" + account.getId());
+        Log.d("SignInActivity", "firebaseAuthWithGoogle:" + account.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("signInWithCredential", "signInWithCredential:onComplete:" + task.isSuccessful());
+                        Log.d("SignInActivity", "signInWithGoogleCredential:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w("signInWithCredential", "signInWithCredential", task.getException());
+                            Log.w("SignInActivity", "ERROR: signInWithCredential", task.getException());
                             Toast.makeText(SignInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
 
                             //Get Current User Data
-
+                            Log.w("SignInActivity", "SUCCESS: credential = " + account);
                             UsersListUseCase usersListUseCase = UseCasesLocator.getInstance().getUsersListUseCase(new UsersListUseCase.Callback() {
                                 @Override
                                 public void onUsersRetrieved(User[] users) {
@@ -178,36 +176,44 @@ public class SignInActivity extends AppCompatActivity  {
                                         }
                                     }
                                     if (notInFirebase) {
-                                        String idToken = account.getIdToken();
                                         String name = account.getDisplayName();
+                                        //TODO: la següent linea pot produir un NullPointerException, s'haura de tractar
                                         String photoUri = account.getPhotoUrl().toString();
+                                        List<UserPointSummary> puntsCreats = new ArrayList<>();
+
                                         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
                                         UsersCreateUseCase getCreateUsersUseCase = useCasesLocator.getUsersCreateUseCase(new UsersCreateUseCase.Callback() {
                                             @Override
                                             public void onUserCreated(String id) {
-                                                Log.d("CrearUsuari", "onUserCreatedCallback");
-
+                                                Log.d("SignInActivity", "onUserCreatedCallback");
                                             }
 
                                         });
-                                        ArrayList<Pair<String, String>>  puntsCreats = new ArrayList<Pair<String, String>>();
-                                        ArrayList<Pair<String, String>>  puntsReservats = new ArrayList<Pair<String, String>>();
-                                        getCreateUsersUseCase.setUserParameters(name, photoUri, email, puntsCreats, puntsReservats);
+
+                                        getCreateUsersUseCase.setUserParameters(name, photoUri, email, puntsCreats);
                                         getCreateUsersUseCase.execute();
                                     }
                                 }
 
                             });
                             usersListUseCase.execute();
-
-                            Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
                         }
                     }
                 });
     }
 
+    private void goToApp() {
+        Intent intent = new Intent(SignInActivity.this, NavigationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void setCurrentUser(FirebaseUser user) {
+        Log.d("SignInActivity", "onAuthStateChanged:signed_in:" + user.getEmail());
+        SetCurrentUserUseCase setCurrentUserUseCase = UseCasesLocator.getInstance().getSetCurrentUserUseCase(this);
+        setCurrentUserUseCase.setUserEmail(user.getEmail());
+        setCurrentUserUseCase.execute();
+    }
 
     private boolean isNetworkAvailable() {
 

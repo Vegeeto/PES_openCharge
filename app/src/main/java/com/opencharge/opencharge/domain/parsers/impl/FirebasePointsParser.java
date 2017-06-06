@@ -1,8 +1,10 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.parsers.PointsParser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import java.util.Map;
 public class FirebasePointsParser extends AbstractParser implements PointsParser {
     public static final double COORDINATES_PRECISION = 0.0001;
 
+    public static final String USER_ID_KEY = "userId";
     public static final String TOWN_KEY = "town";
     public static final String STREET_KEY = "street";
     public static final String NUMBER_KEY = "number";
@@ -26,6 +29,7 @@ public class FirebasePointsParser extends AbstractParser implements PointsParser
     @Override
     public Point parseFromMap(String key, Map<String, Object> map) {
         Point point = new Point(key);
+        point.userId = parseStringKeyFromMap(USER_ID_KEY, map);
 
         point.setAccessType(parseAccessTypeFromMap(map));
         point.setConnectorTypeList(parseConnectorTypeFromMap(map));
@@ -51,14 +55,19 @@ public class FirebasePointsParser extends AbstractParser implements PointsParser
         return accessType;
     }
 
-    private @Point.ConnectorType List<String> parseConnectorTypeFromMap(Map<String, Object> map) {
-        List<String> connectorTypeList = (List<String>) map.get(CONNECTOR_TYPE_LIST_KEY);
-        for (@Point.ConnectorType String conn:connectorTypeList) {
-            if (!isCorrectConnectorType(conn)) {
-                conn = Point.UNKNOWN_CONNECTOR;
+    private List<String> parseConnectorTypeFromMap(Map<String, Object> map) {
+        List<String> parsedList = new ArrayList<>();
+        if (map.containsKey(CONNECTOR_TYPE_LIST_KEY)) {
+            List<String> connectorTypeList = (List<String>) map.get(CONNECTOR_TYPE_LIST_KEY);
+            for (String conn : connectorTypeList) {
+                if (!isCorrectConnectorType(conn)) {
+                    conn = Point.UNKNOWN_CONNECTOR;
+                }
+                parsedList.add(conn);
             }
         }
-        return connectorTypeList;
+        
+        return parsedList;
     }
 
     private boolean isCorrectAccessType(String accessType) {

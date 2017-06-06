@@ -12,24 +12,24 @@
 
 
         <RadioButton
-            android:id="@+id/Fast"
+            android:id="@+id/Rapid"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"
             android:checked="false"
-            android:drawableStart="@mipmap/fast_acces"
+            android:drawableStart="@drawable/ic_connector_high"
             android:gravity="center"
             android:paddingTop="5dp"
             android:text="@string/fast"
             android:textSize="20sp" />
 
         <RadioButton
-            android:id="@+id/Rapid"
+            android:id="@+id/Fast"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"
             android:checked="false"
-            android:drawableStart="@mipmap/rapid_acces"
+            android:drawableStart="@drawable/ic_connector_medium"
             android:gravity="center"
             android:paddingTop="5dp"
             android:text="@string/rapid"
@@ -41,10 +41,12 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp"
             android:checked="false"
-            android:drawableStart="@mipmap/slow_acces"
+            android:drawableStart="@drawable/ic_connector_low"
             android:gravity="center"
             android:paddingTop="5dp"
             android:text="@string/slow"
             android:textSize="20sp" />
     </RadioGroup>
+
+
 </LinearLayout>

@@ -12,30 +12,22 @@ import java.util.Date;
 
 public class DateConversionImpl implements DateConversion {
 
-    @Override
-    public long DateToLong(Date date) {
-        return date.getTime();
+    public static final String DATE_FORMAT = "dd/MM/yyyy";
+    public static final String DATE_PATH_FORMAT = "yyyy/MM/dd";
+    public static final String TIME_FORMAT = "HH:mm";
+
+    private SimpleDateFormat dateFormat;
+    private SimpleDateFormat timeFormat;
+
+    public DateConversionImpl() {
+        dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        timeFormat = new SimpleDateFormat(TIME_FORMAT);
     }
 
-    @Override
-    public Date longToDate(long time) {
-        return new Date(time);
-    }
-
-    @Override
-    public Date StringToDate(String time) {
-        return longToDate(Long.parseLong(time));
-    }
-
-    @Override
-    public String ConvertLongToDateFormat(long time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return sdf.format(time);
-    }
+    //<editor-fold desc="String formats to Date">
 
     @Override
     public Date ConvertStringToDate(String dateString){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date convertedDate = dateFormat.parse(dateString);
             return convertedDate;
@@ -47,29 +39,47 @@ public class DateConversionImpl implements DateConversion {
 
     @Override
     public Date ConvertStringToTime(String dateString){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
         try {
-            Date convertedTime = dateFormat.parse(dateString);
+            Date convertedTime = timeFormat.parse(dateString);
             return convertedTime;
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return null;
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Object to String">
     @Override
-    public String ConvertIntToTimeString(int hour, int minute) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
-        Date date = new Date();
-        date.setHours(hour);
-        date.setMinutes(minute);
-        return dateFormat.format(date);
+    public String ConvertLongToString(long time) {
+        return dateFormat.format(time);
     }
 
     @Override
     public String ConvertDateToString(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
+
+    @Override
+    public String ConvertTimeToString(Date date) {
+        return timeFormat.format(date);
+    }
+
+    @Override
+    public String ConvertHourAndMinutesToString(int hour, int minute) {
+        Date date = new Date();
+        date.setHours(hour);
+        date.setMinutes(minute);
+        return timeFormat.format(date);
+    }
+
+    @Override
+    public String ConvertDateToPath(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATH_FORMAT);
+        return dateFormat.format(date);
+    }
+    //</editor-fold>
+
+
 
 }

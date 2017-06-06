@@ -3,7 +3,8 @@ package com.opencharge.opencharge.presentation.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +14,8 @@ import android.view.ViewGroup;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Comment;
-import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.presentation.adapters.CommentsAdapter;
-import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.util.ArrayList;
@@ -84,7 +83,6 @@ public class ShowCommentsFragment extends Fragment {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setAdapter(commentsAdapter);
-                //recyclerView.addItemDecoration(new ItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
             }
         });

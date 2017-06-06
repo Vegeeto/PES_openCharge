@@ -1,9 +1,7 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
-import android.util.Pair;
-
-import com.opencharge.opencharge.domain.Entities.FirebaseUser;
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 import com.opencharge.opencharge.domain.Factories.UserFactory;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
@@ -11,7 +9,7 @@ import com.opencharge.opencharge.domain.repository.UsersRepository;
 import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Usuario on 24/05/2017.
@@ -23,8 +21,7 @@ public class UsersCreateUseCaseImpl extends AbstractUseCase implements UsersCrea
     private String name;
     private String photo;
     private String email;
-    private ArrayList<Pair<String,String>> puntsCreats;
-    private ArrayList<Pair<String,String>> puntsReservats;
+    private List<UserPointSummary> points;
 
     public UsersCreateUseCaseImpl(Executor threadExecutor,
                                    MainThread mainThread,
@@ -36,24 +33,21 @@ public class UsersCreateUseCaseImpl extends AbstractUseCase implements UsersCrea
         this.callback = callback;
     }
     @Override
-    public void setUserParameters(String name, String photo, String email,  ArrayList<Pair<String,String>> puntsCreats,
-                                  ArrayList<Pair<String,String>> puntsReservats) {
+    public void setUserParameters(String name, String photo, String email, List<UserPointSummary> points) {
         this.name = name;
         this.photo = photo;
         this.email = email;
-        this.puntsCreats = puntsCreats;
-        this.puntsReservats = puntsReservats;
+        this.points = points;
     }
 
     @Override
     public void run() {
-        final User user = UserFactory.getInstance().createNewUser(name, photo, email, puntsCreats, puntsReservats);
-        final FirebaseUser firebaseUser = UserFactory.getInstance().pointToFirebasePoint(user);
-        usersRepository.createUser(firebaseUser, new UsersRepository.CreateUserCallback(){
+        final User user = UserFactory.getInstance().createNewUser(name, photo, email, points);
+        usersRepository.createUser(user, new UsersRepository.CreateUserCallback(){
             @Override
             public void onUserCreated(String id)
             {
-                UserFactory.getInstance().setUserId(user, id);
+                user.setId(id);
                 postUser(id);
             }
 

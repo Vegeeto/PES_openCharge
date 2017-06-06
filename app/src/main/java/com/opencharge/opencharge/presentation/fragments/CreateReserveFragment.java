@@ -2,6 +2,7 @@ package com.opencharge.opencharge.presentation.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,9 +18,15 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.Entities.Reserve;
+import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Factories.ReserveFactory;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
+import com.opencharge.opencharge.domain.repository.PointsRepository;
+import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
@@ -50,6 +57,9 @@ public class CreateReserveFragment extends Fragment {
     private String start_arg;
     private static final String ARG_END_TIME = "end_time";
     private String end_arg;
+
+    private User currentUser;
+    private Point point;
 
     public CreateReserveFragment() {
         year = calendar.get(Calendar.YEAR);
@@ -107,10 +117,6 @@ public class CreateReserveFragment extends Fragment {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*DatePickerDialog datePicker = new DatePickerDialog(getActivity(),datePickerListener1, year, month, day);
-                datePicker.setCancelable(false);
-                datePicker.setTitle("Seleccionar data");
-                datePicker.show();*/
                 Toast.makeText(getActivity(), "Si vol canviar el dia torni endarrere", Toast.LENGTH_SHORT).show();
             }
         });
@@ -154,7 +160,41 @@ public class CreateReserveFragment extends Fragment {
         RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
         datePickerButton.setVisibility(View.GONE);
 
+
+        loadCurrentUser();
+        loadPoint();
+
         return view;
+    }
+
+    private void loadCurrentUser() {
+        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        Context context = getActivity();
+        GetCurrentUserUseCase getCurrentUserUseCase = useCasesLocator.getGetCurrentUserUseCase(context, new GetCurrentUserUseCase.Callback() {
+            @Override
+            public void onCurrentUserRetrieved(User currentUser) {
+                setCurrentUser(currentUser);
+            }
+        });
+        getCurrentUserUseCase.execute();
+    }
+    private void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    private void loadPoint() {
+        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        PointByIdUseCase pointByIdUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
+            @Override
+            public void onPointRetrieved(Point point) {
+                setPoint(point);
+            }
+        });
+        pointByIdUseCase.setPointId(pointId);
+        pointByIdUseCase.execute();
+    }
+    private void setPoint(Point point) {
+        this.point = point;
     }
 
     private  DatePickerDialog.OnDateSetListener datePickerListener1 = new DatePickerDialog.OnDateSetListener() {
@@ -200,22 +240,6 @@ public class CreateReserveFragment extends Fragment {
 
     private void save() {
 
-        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-        ReserveCreateUseCase getReserveCreateUseCase = useCasesLocator.getReserveCreateUseCase(new ReserveCreateUseCase.Callback(){
-            @Override
-            public void onReserveCreated(String id) {
-                FragmentManager fm = getFragmentManager();
-                PointInfoFragment fragment = PointInfoFragment.newInstance(pointId);
-                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
-            }
-
-            @Override
-            public void onError() {
-                Toast.makeText(getActivity(), "Hi ha hagut algun error al guardar les dades!", Toast.LENGTH_SHORT).show();
-            }
-
-        });
-
         String day = date.getText().toString();
         if (day.isEmpty()) {
             Toast.makeText(getActivity(), "Ha d'indicar el dia de la reserva!", Toast.LENGTH_SHORT).show();
@@ -242,20 +266,33 @@ public class CreateReserveFragment extends Fragment {
             return;
         }
 
-        Reserve r = new Reserve(startDay, startTime, endTime);
+        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+        String consumerUserId = currentUser.getId();
+        Reserve newReserve = ReserveFactory.getInstance().createNewReserve(startDay, startTime, endTime, point, consumerUserId);
 
-        //TODO: finish this
-        //getReserveCreateUseCase.setServiceParameters();
+        ReserveCreateUseCase reserveCreateUseCase = useCasesLocator.getReserveCreateUseCase(new ReserveCreateUseCase.Callback(){
+            @Override
+            public void onReserveCreated(String id) {
+                FragmentManager fm = getFragmentManager();
+                PointInfoFragment fragment = PointInfoFragment.newInstance(pointId);
+                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            }
 
-        getReserveCreateUseCase.execute();
+            @Override
+            public void onError() {
+                Toast.makeText(getActivity(), "Hi ha hagut algun error al guardar les dades!", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        reserveCreateUseCase.setReserve(newReserve);
+        reserveCreateUseCase.execute();
 
     }
 
     private void cancel() {
         FragmentManager fm = getFragmentManager();
         fm.popBackStackImmediate();
-        /*MapsFragment mp = new MapsFragment();
-        fm.beginTransaction().replace(R.id.content_frame, mp).commit();*/
     }
 
 }

@@ -23,27 +23,7 @@ public class DateConversionTest {
         sut = new DateConversionImpl();
     }
 
-    @Test
-    public void testRightTime_dateConversion_returnCorrectDate() {
-        //Given
 
-        //When
-        Date date = sut.longToDate(System.currentTimeMillis());
-
-        //Then
-        assertEquals("Returned date is correct", date);
-    }
-
-    @Test
-    public void testRightTime_dateConversion_returnCorrectLong() {
-        //Given
-
-        //When
-        long time = sut.DateToLong(new Date(System.currentTimeMillis()));
-
-        //Then
-        assertEquals("Returned long is correct", time);
-    }
 
 
 }

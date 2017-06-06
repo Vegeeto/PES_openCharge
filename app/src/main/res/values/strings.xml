@@ -45,7 +45,7 @@
     <string name="tipus_de_connector_text">Tipus de connector:</string>
     <string name="informacio_addicional"><u>Informació addicional</u></string>
 
-    <string name="seleccionar_data">Seleccionar data</string>
+    <string name="seleccionar_data">Seleccionar date</string>
     <string name="seleccionar_hora">Seleccionar hora</string>
     <string name="dia">Dia:</string>
     <string name="hora_inici">Hora inici:</string>
@@ -62,7 +62,7 @@
     <string name="veure_horari">Veure horari</string>
 
     <string name="carrega_m_s_comentaris">Visualitza tots els comentaris</string>
-    <string name="title_activity_sign_in1">Sign in</string>
+    <string name="title_activity_sign_in">Account login</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -76,4 +76,14 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="coordenades">Coordenades</string>
+    <string name="mapa">Mapa</string>
+    <string name="crear_punt">Crear punt</string>
+    <string name="crear_torn">Crear torn</string>
+    <string name="el_meu_perfil">El meu perfil</string>
+    <string name="afegir_torn_de_recarrega">Afegir torn de recàrrega</string>
+    <string name="afegir_reserva">Afegir reserva</string>
+    <string name="opencharge">openCharge</string>
+    <string name="informacio">Informació:</string>
+    <string name="propietari">Propietari:</string>
 </resources>

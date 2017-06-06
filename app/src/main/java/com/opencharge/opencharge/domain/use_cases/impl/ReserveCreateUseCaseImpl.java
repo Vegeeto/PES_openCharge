@@ -1,11 +1,12 @@
 package com.opencharge.opencharge.domain.use_cases.impl;
 
+import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
+import com.opencharge.opencharge.domain.repository.PointsRepository;
 import com.opencharge.opencharge.domain.repository.ReserveRepository;
-import com.opencharge.opencharge.domain.repository.ServiceRepository;
+import com.opencharge.opencharge.domain.repository.UsersRepository;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
-import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
 
 /**
@@ -16,29 +17,73 @@ public class ReserveCreateUseCaseImpl extends AbstractUseCase implements Reserve
 
     private Callback callback;
     private ReserveRepository reserveRepository;
-    private String reserve_id;
-    private String date;
-    private String startTime;
-    private String endTime;
+    private UsersRepository usersRepository;
+    private PointsRepository pointsRepository;
+    private Reserve reserve;
 
     public ReserveCreateUseCaseImpl(Executor threadExecutor,
                                     MainThread mainThread,
                                     ReserveRepository reserveRepository,
+                                    UsersRepository usersRepository,
+                                    PointsRepository pointsRepository,
                                     Callback callback) {
         super(threadExecutor, mainThread);
 
+        this.usersRepository = usersRepository;
         this.reserveRepository = reserveRepository;
+        this.pointsRepository = pointsRepository;
         this.callback = callback;
     }
 
     @Override
-    public void setReserveParameters(long date, long startTime, long endTime) {
-        //TODO: implement method
+    public void setReserve(Reserve reserve) {
+        this.reserve = reserve;
     }
 
     @Override
     public void run() {
-        //TODO: implement method
+        this.reserveRepository.createReserve(reserve, new ReserveRepository.CreateReserveCallback() {
+            @Override
+            public void onReserveCreated(final String reserveId) {
+                reserve.setId(reserveId);
+                usersRepository.addConsumerReserveToUser(reserveId, reserve.getConsumerUserId(), new UsersRepository.AddReserveToUser() {
+                    @Override
+                    public void onReserveAdded() {
+                        usersRepository.addSupplyReserveToUser(reserveId, reserve.getSupplierUserId(), new UsersRepository.AddReserveToUser() {
+                            @Override
+                            public void onReserveAdded() {
+                                pointsRepository.addReserveToPoint(reserve, new PointsRepository.AddReserveToPointCallback() {
+                                    @Override
+                                    public void onReserveAddedToPoint() {
+                                        postReserve(reserveId);
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        postError();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError() {
+                                postError();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError() {
+                        postError();
+                    }
+                });
+            }
+
+            @Override
+            public void onError() {
+                postError();
+            }
+        });
     }
 
     private void postReserve(final String id) {
@@ -46,6 +91,15 @@ public class ReserveCreateUseCaseImpl extends AbstractUseCase implements Reserve
             @Override
             public void run() {
                 callback.onReserveCreated(id);
+            }
+        });
+    }
+
+    private void postError() {
+        mMainThread.post(new Runnable() {
+            @Override
+            public void run() {
+                callback.onError();
             }
         });
     }

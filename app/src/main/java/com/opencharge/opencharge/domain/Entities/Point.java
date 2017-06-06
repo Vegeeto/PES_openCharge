@@ -32,6 +32,7 @@ public class Point {
     public @interface ConnectorType {}
 
     public String id;
+    public String userId;
 
     //xCoord and yCoord string
     public double lat;
@@ -92,6 +93,8 @@ public class Point {
         return schedule;
     }
 
+    public String getUserId() { return userId; }
+
     public void setLat(double lat) {
         this.lat = lat;
     }
@@ -119,6 +122,7 @@ public class Point {
     /*public void setConnectorType(@ConnectorType String connectorType) {
         this.connectorType = connectorType;
     }*/
+
     public void setConnectorTypeList(List<String> connectorTypeList) {
         this.connectorTypeList = connectorTypeList;
     }
@@ -127,10 +131,13 @@ public class Point {
         this.schedule = schedule;
     }
 
+    public void setUserId(String userId) { this.userId =  userId; }
+
     @Override
     public String toString() {
         return "Point{" +
                 "id=" + id +
+                ", userId=" + userId +
                 ", lat=" + lat +
                 ", lon=" + lon +
                 ", town='" + town + '\'' +
@@ -163,11 +170,11 @@ public class Point {
     public static final int getDrawableForConnector(String connectorType) {
         switch(connectorType) {
             case Point.SLOW_CONNECTOR:
-                return R.mipmap.slow_acces;
+                return R.drawable.ic_connector_low;
             case Point.FAST_CONNECTOR:
-                return R.mipmap.fast_acces;
+                return R.drawable.ic_connector_medium;
             case Point.RAPID_CONNECTOR:
-                return R.mipmap.rapid_acces;
+                return R.drawable.ic_connector_high;
             default:
                 return R.drawable.ic_point_unknown;
         }

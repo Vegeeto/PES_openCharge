@@ -53,6 +53,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.7.17'
     compile 'joda-time:joda-time:2.9.9'
     compile files('libs/picasso-2.5.2.jar')
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

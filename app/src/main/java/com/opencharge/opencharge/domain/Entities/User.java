@@ -1,38 +1,45 @@
 package com.opencharge.opencharge.domain.Entities;
 
-import android.util.Pair;
-
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DmnT on 10/05/2017.
  */
 
 public class User {
+    private String id;
     private String photo;
     private String email;
     private String username;
     private Integer minutes;
-    //arraylist de pairs, on el primer component del pair és el codi del punt, i el segon és la direcció de carrer(que es mostrarà al perfil)
-    private ArrayList<Pair<String,String>> puntsCreats;
-    private ArrayList<Pair<String,String>> puntsReservats;
-
-    public String id;
+    private List<UserPointSummary> points;
 
     public User() {
-
+        this.points = new ArrayList<>();
     }
 
     public User(String id) {
         this.id = id;
+        this.points = new ArrayList<>();
     }
 
-    public User (String username, String photo,  String email, ArrayList<Pair<String,String>> puntsCreats, ArrayList<Pair<String,String>> puntsReservats) {
+    public User (String username, String photo,  String email) {
         this.username = username;
         this.photo = photo;
         this.email = email;
-        this.puntsCreats = puntsCreats;
-        this.puntsReservats = puntsReservats;
+        this.points = new ArrayList<>();
+    }
+
+    public User (String username, String photo,  String email, List<UserPointSummary> points) {
+        this.username = username;
+        this.photo = photo;
+        this.email = email;
+        this.points = points;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getPhoto () {
@@ -51,6 +58,10 @@ public class User {
         return minutes;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -67,72 +78,17 @@ public class User {
         this.minutes = minutes;
     }
 
-    public void setPunts(ArrayList<Pair<String, String>> punts) {
-        this.puntsCreats = punts;
+    public void setPoints(List<UserPointSummary> punts) {
+        this.points = punts;
     }
 
-    public void setPuntsReservats(ArrayList<Pair<String, String>> puntsReservats) {
-        this.puntsReservats = puntsReservats;
+    public void addPoint(Point point) {
+        UserPointSummary pointSummary = new UserPointSummary(point.getId(), point.getAddress());
+        points.add(pointSummary);
     }
 
-    public void addPunt(Pair<String, String> punt){
-        boolean trobat = false;
-        for (int i = 0; i < puntsCreats.size(); i++) {
-            if (puntsCreats.get(i).first.equals(punt.first)) {
-                trobat = true;
-            }
-        }
-        if (!trobat) {
-            puntsCreats.add(punt);
-        }
-    }
-
-    public void removePunt(String codipunt){
-        boolean trobat = false;
-        int index = 0;
-        for (int i = 0; i < puntsCreats.size(); i++){
-            if (puntsCreats.get(i).first.equals(codipunt)){
-                trobat=true;
-                index = i;
-            }
-        }
-        if (trobat) {
-            puntsCreats.remove(index);
-        }
-    }
-
-    public void addPuntReservat(Pair<String, String> punt){
-        boolean trobat = false;
-        for (int i = 0; i < puntsReservats.size(); i++) {
-            if (puntsReservats.get(i).first.equals(punt.first)) {
-                trobat = true;
-            }
-        }
-        if (!trobat) {
-            puntsReservats.add(punt);
-        }
-    }
-
-    public void removePuntReservat(String codipunt){
-        boolean trobat = false;
-        int index = 0;
-        for (int i = 0; i < puntsReservats.size(); i++){
-            if (puntsReservats.get(i).first.equals(codipunt)){
-                trobat = true;
-                index = i;
-            }
-        }
-        if (trobat) {
-            puntsReservats.remove(index);
-        }
-    }
-
-    public ArrayList<Pair<String, String>> getPunts() {
-        return puntsCreats;
-    }
-
-    public ArrayList<Pair<String, String>> getPuntsReservats() {
-        return puntsReservats;
+    public List<UserPointSummary> getPoints() {
+        return points;
     }
 
     @Override
@@ -141,8 +97,7 @@ public class User {
                 "email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", minutes=" + minutes +
-                ", puntsCreats=" + puntsCreats +
-                ", puntsReservats=" + puntsReservats +
+                ", points=" + points +
                 ", id='" + id + '\'' +
                 '}';
     }

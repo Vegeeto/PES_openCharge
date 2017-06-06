@@ -10,4 +10,6 @@ import java.util.Map;
 
 public interface ReserveParser {
     Reserve parseFromMap(String key, Map<String, Object> map);
+    Map<String, Object> serializeReserve(Reserve reserve);
+
 }
