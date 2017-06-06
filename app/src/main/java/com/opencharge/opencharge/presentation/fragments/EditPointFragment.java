@@ -47,6 +47,7 @@ public class EditPointFragment extends Fragment {
 
     private static final String ARG_POINT_ID = "point_id";
     private String pointId;
+    private Point pointToEdit;
 
     public EditPointFragment() {
         // Required empty public constructor
@@ -156,6 +157,8 @@ public class EditPointFragment extends Fragment {
         PointByIdUseCase getPointUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
             @Override
             public void onPointRetrieved(Point point) {
+                pointToEdit = point;
+
                 editTown.setText(point.getTown());
                 editStreet.setText(point.getStreet());
                 editNumber.setText(point.getNumber());
