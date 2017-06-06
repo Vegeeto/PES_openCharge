@@ -21,6 +21,7 @@ import com.opencharge.opencharge.domain.use_cases.ReserveRejectUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -28,14 +29,14 @@ import java.util.Objects;
  * Created by Victor on 06/06/2017.
  */
 
-public class UserReservesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
+public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapter.ViewHolder> implements View.OnClickListener {
 
     private Context context;
-    private Reserve item;
+    private List<Reserve> items;
     private View.OnClickListener listener;
 
 
-    public class ViewHolderReserve extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView propietari;
         private TextView address;
@@ -46,7 +47,7 @@ public class UserReservesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
 
-        public ViewHolderReserve(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             propietari = (TextView) itemView.findViewById(R.id.pointOwner);
             address = (TextView) itemView.findViewById(R.id.pointAddressR);
@@ -101,23 +102,18 @@ public class UserReservesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    public UserReservesAdapter(Context context, Reserve item) {
+    public UserReservesAdapter(Context context, List<Reserve> items) {
         this.context = context;
-        this.item = item;
+        this.items = items;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View v;
-        RecyclerView.ViewHolder viewHolder;
-        switch(viewType) {
-            default:    //Inflate the layout with comments information
-                v = LayoutInflater.from(this.context).inflate(R.layout.content_user_reserves_recycler, parent, false);
-                viewHolder = new ViewHolderReserve(v);
-                break;
-        }
+    public UserReservesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.content_user_reserves_recycler, parent, false);
+        v.setOnClickListener(this);
 
-        return viewHolder;
+        return new ViewHolder(v);
     }
 
     public void setOnClickListener(View.OnClickListener listener) {
@@ -132,17 +128,15 @@ public class UserReservesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch(position) {
-            default:
-                ((ViewHolderReserve) holder).bindReserve(item);
-                break;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        if (items.get(position) != null) {
+            holder.bindReserve(items.get(position));
         }
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return items.size();
     }
 
 }

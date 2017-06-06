@@ -17,6 +17,10 @@ import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.UserReservesAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class UserReservesFragment extends Fragment {
 
     private UserReservesAdapter reservesAdapter;
@@ -60,16 +64,15 @@ public class UserReservesFragment extends Fragment {
         ReservesUserAsConsumerUseCase reservesUserAsConsumerUseCase = useCasesLocator.getReservesUserAsConsumerUseCaseImpl(new ReservesUserAsConsumerUseCase.Callback() {
             @Override
             public void onReservesRetrieved(Reserve[] reserves) {
-                for (Reserve reserve : reserves) {
+                    List<Reserve> reserve = new ArrayList<>(Arrays.asList(reserves));
                     reservesAdapter = new UserReservesAdapter(getActivity(), reserve);
-
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setAdapter(reservesAdapter);
                     recyclerView.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setNestedScrollingEnabled(false);
-                }
+
             }
         });
         reservesUserAsConsumerUseCase.setUserId(userId);
