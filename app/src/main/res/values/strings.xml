@@ -45,7 +45,7 @@
     <string name="tipus_de_connector_text">Tipus de connector:</string>
     <string name="informacio_addicional"><u>Informació addicional</u></string>
 
-    <string name="seleccionar_data">Seleccionar data</string>
+    <string name="seleccionar_data">Seleccionar date</string>
     <string name="seleccionar_hora">Seleccionar hora</string>
     <string name="dia">Dia:</string>
     <string name="hora_inici">Hora inici:</string>
@@ -84,4 +84,6 @@
     <string name="afegir_torn_de_recarrega">Afegir torn de recàrrega</string>
     <string name="afegir_reserva">Afegir reserva</string>
     <string name="opencharge">openCharge</string>
+    <string name="informacio">Informació:</string>
+    <string name="propietari">Propietari:</string>
 </resources>

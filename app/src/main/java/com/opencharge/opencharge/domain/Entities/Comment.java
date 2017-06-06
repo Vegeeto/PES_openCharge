@@ -1,10 +1,5 @@
 package com.opencharge.opencharge.domain.Entities;
 
-import com.opencharge.opencharge.domain.helpers.DateConversion;
-import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
-
-import java.util.Date;
-
 /**
  * Created by DmnT on 26/04/2017.
  */
@@ -12,9 +7,9 @@ import java.util.Date;
 public class Comment {
 
     public String id;
-    public String autor;
+    public String user;
     public String text;
-    public String data;
+    public String date;
 
     //Empty constructor needed for Firebase
     public Comment() {}
@@ -23,43 +18,43 @@ public class Comment {
         this.id = id;
     }
 
-    public Comment(String autor, String text, String data) {
-        this.autor = autor;
+    public Comment(String user, String text, String date) {
+        this.user = user;
         this.text = text;
-        this.data = data;
+        this.date = date;
     }
 
     //Getters and setters
 
 
     public String getId(){ return id; }
-    public String getAutor() { return autor; }
+    public String getUser() { return user; }
     public String getText() {
         return text;
     }
-    public String getData() { return data; }
+    public String getDate() { return date; }
 
     public void setId(String id){ this.id = id; }
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setUser(String user) {
+        this.user = user;
     }
     public void setText(String text) {
         this.text = text;
     }
-    public void setData(String data) {
-        this.data = data;
+    public void setDate(String date) {
+        this.date = date;
     }
     public void setData(long data) {
-        this.data = String.valueOf(data);
+        this.date = String.valueOf(data);
     }
 
 
     @Override
     public String toString() {
         return "Comment{" +
-                "autor='" + autor + '\'' +
+                "user='" + user + '\'' +
                 ", text='" + text + '\'' +
-                ", data=" + data +
+                ", date=" + date +
                 '}';
     }
 

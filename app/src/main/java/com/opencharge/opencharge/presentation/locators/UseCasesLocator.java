@@ -110,12 +110,13 @@ public class UseCasesLocator {
                 callback);
     }
 
-    public AddCommentUseCase getAddCommentUseCase(AddCommentUseCase.Callback callback) {
+    public AddCommentUseCase getAddCommentUseCase(Context context, AddCommentUseCase.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
         return new AddCommentUseCaseImpl(
                 sl.getExecutor(),
                 sl.getMainThread(),
                 RepositoriesLocator.getInstance().getCommentsRepository(),
+                context,
                 callback
         );
     }

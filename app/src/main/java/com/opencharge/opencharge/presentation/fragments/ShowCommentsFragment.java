@@ -83,7 +83,6 @@ public class ShowCommentsFragment extends Fragment {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setAdapter(commentsAdapter);
-                //recyclerView.addItemDecoration(new ItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
             }
         });

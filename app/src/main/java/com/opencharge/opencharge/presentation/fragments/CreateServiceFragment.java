@@ -143,7 +143,7 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
             public void onClick(View view) {
                 DatePickerDialog datePicker = new DatePickerDialog(getActivity(),datePickerListener1, year, month, day);
                 datePicker.setCancelable(false);
-                datePicker.setTitle("Seleccionar data");
+                datePicker.setTitle("Seleccionar date");
                 datePicker.show();
             }
         });
@@ -153,7 +153,7 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
             public void onClick(View view) {
                 DatePickerDialog datePicker = new DatePickerDialog(getActivity(), datePickerListener2, year, month, day);
                 datePicker.setCancelable(true);
-                datePicker.setTitle("Seleccionar data");
+                datePicker.setTitle("Seleccionar date");
                 datePicker.show();
             }
         });
@@ -335,7 +335,7 @@ public class CreateServiceFragment extends Fragment implements CheckBox.OnChecke
             }
 
         } else if (mon.isChecked() || tue.isChecked() || wed.isChecked() || thu.isChecked() || fri.isChecked() || sat.isChecked() || sun.isChecked()) {
-            Toast.makeText(getActivity(), "Ha d'indicar data de finalització de repeticions!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ha d'indicar date de finalització de repeticions!", Toast.LENGTH_SHORT).show();
             return;
         }
 
