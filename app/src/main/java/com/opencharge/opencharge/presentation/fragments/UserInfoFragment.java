@@ -164,8 +164,11 @@ public class UserInfoFragment extends Fragment {
         botoReservesClient.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //aquí s'obrirà el fragment amb les reserves que l'usuari ha fet a putns d'altres usuaris
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Reserves com a client", Toast.LENGTH_SHORT);
-                toast.show();
+                //Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Reserves com a client", Toast.LENGTH_SHORT);
+                //toast.show();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                UserReservesFragment fragment = UserReservesFragment.newInstance(userId);
+                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             }
 
         });
@@ -173,8 +176,8 @@ public class UserInfoFragment extends Fragment {
         botoReservesProveidor.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //aquí s'obrirà el fragment amb les reserves que altres hagin fet a punts de l'usuari
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Reserves com a provider", Toast.LENGTH_SHORT);
-                toast.show();
+                //Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Reserves com a provider", Toast.LENGTH_SHORT);
+                //toast.show();
             }
 
         });

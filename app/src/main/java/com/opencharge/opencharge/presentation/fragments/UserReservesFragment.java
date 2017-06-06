@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Reserve;
@@ -65,6 +66,8 @@ public class UserReservesFragment extends Fragment {
             @Override
             public void onReservesRetrieved(Reserve[] reserves) {
                     List<Reserve> reserve = new ArrayList<>(Arrays.asList(reserves));
+                    Integer r = reserve.size();
+                    Toast.makeText(getActivity().getApplicationContext(), r.toString(), Toast.LENGTH_SHORT).show();
                     reservesAdapter = new UserReservesAdapter(getActivity(), reserve);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                     recyclerView.setHasFixedSize(true);
