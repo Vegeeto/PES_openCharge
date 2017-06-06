@@ -22,6 +22,7 @@ public class FirebasePointsParserTest {
 
     //Collaborators
     Map<String, Object> map;
+    Point point;
     String key;
 
     @Before
@@ -46,6 +47,17 @@ public class FirebasePointsParserTest {
         List<String> connectorTypes = new ArrayList<>();
         Collections.addAll(connectorTypes, Point.UNKNOWN_CONNECTOR, Point.SLOW_CONNECTOR, Point.FAST_CONNECTOR, Point.RAPID_CONNECTOR, "SOME WRONG CONNECTOR TYPE");
         map.put(FirebasePointsParser.CONNECTOR_TYPE_LIST_KEY, connectorTypes);
+
+        point = new Point();
+        point.setUserId("userId");
+        point.setTown("barcelona");
+        point.setStreet("diagonal");
+        point.setNumber("321-322");
+        point.setLon(3.2222);
+        point.setLat(2.3333);
+        point.setAccessType(Point.PUBLIC_ACCESS);
+        point.setSchedule("some schedule");
+        point.setConnectorTypeList(connectorTypes);
     }
 
     //<editor-fold desc="Id tests">
@@ -246,4 +258,21 @@ public class FirebasePointsParserTest {
         assertNull("Wrong parsed schedule", p.getSchedule());
     }
     //</editor-fold>
+
+    @Test
+    public void test_serializePoint_createCorrectMap() {
+        //When
+        Map<String, Object> serializedPoint = sut.serializePoint(point);
+
+        //Then
+        assertEquals("Wring serialized userId", point.getUserId(), serializedPoint.get(FirebasePointsParser.USER_ID_KEY));
+        assertEquals("Wring serialized town", point.getTown(), serializedPoint.get(FirebasePointsParser.TOWN_KEY));
+        assertEquals("Wring serialized street", point.getStreet(), serializedPoint.get(FirebasePointsParser.STREET_KEY));
+        assertEquals("Wring serialized number", point.getNumber(), serializedPoint.get(FirebasePointsParser.NUMBER_KEY));
+        assertEquals("Wring serialized lon", point.getLonCoord(), serializedPoint.get(FirebasePointsParser.LON_KEY));
+        assertEquals("Wring serialized lat", point.getLatCoord(), serializedPoint.get(FirebasePointsParser.LAT_KEY));
+        assertEquals("Wring serialized accessType", point.getAccessType(), serializedPoint.get(FirebasePointsParser.ACCESS_TYPE_KEY));
+        assertEquals("Wring serialized connectors", point.getConnectorTypeList(), serializedPoint.get(FirebasePointsParser.CONNECTOR_TYPE_LIST_KEY));
+        assertEquals("Wring serialized schedule", point.getSchedule(), serializedPoint.get(FirebasePointsParser.SCHEDULE_KEY));
+    }
 }

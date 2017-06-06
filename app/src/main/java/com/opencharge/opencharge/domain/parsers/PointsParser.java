@@ -10,4 +10,5 @@ import java.util.Map;
 
 public interface PointsParser {
     Point parseFromMap(String key, Map<String, Object> map);
+    Map<String, Object> serializePoint(Point point);
 }
