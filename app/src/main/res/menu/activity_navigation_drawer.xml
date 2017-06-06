@@ -14,10 +14,6 @@
             android:id="@+id/nav_newpoint"
             android:icon="@drawable/ic_menu_add_point"
             android:title="@string/crear_punt" />
-        <item
-            android:id="@+id/nav_newservice"
-            android:icon="@drawable/ic_menu_add_point"
-            android:title="@string/crear_torn" />
 
     </group>
 

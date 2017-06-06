@@ -60,7 +60,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="mapa">Mapa</string>
     <string name="crear_punt">Crear punt</string>
-    <string name="crear_torn">Crear torn</string>
     <string name="el_meu_perfil">El meu perfil</string>
     <string name="afegir_punt_carrega">Afegir punt de recàrrega</string>
     <string name="afegir_torn_de_recarrega">Afegir torn de recàrrega</string>
