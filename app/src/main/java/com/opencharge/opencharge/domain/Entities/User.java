@@ -83,7 +83,7 @@ public class User {
     }
 
     public void addPoint(Point point) {
-        UserPointSummary pointSummary = new UserPointSummary(point.getId(), point.getAddress());
+        UserPointSummary pointSummary = new UserPointSummary(point.getId(), point.getAddress(), point.getAccessType());
         points.add(pointSummary);
     }
 

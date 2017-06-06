@@ -1,5 +1,6 @@
 package com.opencharge.opencharge.domain.parsers.impl;
 
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 import com.opencharge.opencharge.domain.parsers.UsersParser;
@@ -20,7 +21,7 @@ public class FirebaseUsersParser implements UsersParser {
     public static final String EMAIL_KEY = "email";
     public static final String MINUTES_KEY = "minutes";
     public static final String POINTS_KEY = "points";
-
+    public static final String ACCESS_KEY = "accessType";
     public static final String POINT_ID = "id";
     public static final String POINT_ADDRESS = "address";
 
@@ -81,8 +82,13 @@ public class FirebaseUsersParser implements UsersParser {
             for (HashMap<String, String> element : totsPunts) {
                 String idPunt = element.get(POINT_ID);
                 String nomPunt = element.get(POINT_ADDRESS);
-                UserPointSummary point = new UserPointSummary(idPunt, nomPunt);
+                @Point.AccessType String accessType = element.get(ACCESS_KEY);
+                UserPointSummary point = new UserPointSummary(idPunt, nomPunt,accessType);
                 arrayList.add(point);
+
+
+
+
             }
 
         }

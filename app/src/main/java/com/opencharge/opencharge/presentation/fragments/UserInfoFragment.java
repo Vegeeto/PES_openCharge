@@ -28,9 +28,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 import com.opencharge.opencharge.domain.use_cases.DeleteUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.activities.NavigationActivity;
 import com.opencharge.opencharge.presentation.activities.SignInActivity;
@@ -38,6 +41,8 @@ import com.opencharge.opencharge.presentation.adapters.CustomUserPointsAdapter;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * Created by DmnT on 17/05/2017.
@@ -178,11 +183,24 @@ public class UserInfoFragment extends Fragment {
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Continuar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         //TODO aqui s'ha de cridar la funció que esborri l'usuari
-                        UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+                        final UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
                         GetCurrentUserUseCase getCreateUsersUseCase = useCasesLocator.getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
                             @Override
                             public void onCurrentUserRetrieved(User currentUser) {
-                                currentUser.getPoints();
+                                List<UserPointSummary> points = currentUser.getPoints();
+                                for (UserPointSummary point : points) {
+                                    FirebaseDatabase.getInstance().getReference("Points").child(point.getPointId()).removeValue();
+                                    /*PointByIdUseCase pointByIdUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
+                                        @Override
+                                        public void onPointRetrieved(Point point) {
+                                            if (point.getAccessType() == Point.PARTICULAR_ACCESS)
+                                                FirebaseDatabase.getInstance().getReference("Points").child(point.getId()).removeValue();
+                                        }
+                                    });
+                                    pointByIdUseCase.setPointId(point.getPointId());
+                                    pointByIdUseCase.execute();*/
+                                }
+
                                 FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getId()).removeValue();
                                 //signOut();
                             }
