@@ -1,50 +1,41 @@
 <resources>
     <string name="app_name">OpenCharge</string>
-    <string name="title_activity_navigation">OpenCharge</string>
-    <string name="afegir_punt_carrega">Afegir punt de recàrrega</string>
+
+    <!-- Strings related to point -->
     <string name="direccio">Direcció</string>
+    <string name="poblacio">Població</string>
+    <string name="carrer">Carrer</string>
+    <string name="numero">Número</string>
     <string name="acces">Accés</string>
     <string name="horari">Horari</string>
     <string name="conector">Conector</string>
     <string name="publics">Púlic</string>
     <string name="privat">Privat</string>
-    <string name="tipus1">Tipus 1</string>
-    <string name="tipus2">Tipus 2</string>
-    <string name="tipus3">Tipus 3</string>
+    <string name="particular">Particular</string>
     <string name="slow">Slow" "</string>
-    <string name="poblacio">Població</string>
-    <string name="carrer">Carrer</string>
-    <string name="numero">Número</string>
     <string name="fast">Fast"   "</string>
     <string name="rapid">Rapid</string>
+
+    <!-- Strings related to buttons -->
     <string name="guardar">Guardar</string>
     <string name="cancelar">Cancel·lar</string>
-    <string name="particular">Particular</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-
+    <!-- Strings related to searchview -->
     <string name="search_address">Address</string>
-
     <string name="hint">Buscar adreça</string>
 
-    <string name="turn_on_gps">Si us plau, activi el GPS</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
+    <string name="informacio">Informació:</string>
+    <string name="propietari">Propietari:</string>
     <string name="punt_de_recarrega">Punt de recàrrega</string>
     <string name="tipus_d_acces">Tipus d\'accés</string>
+
+    <!-- Strings related to comments -->
     <string name="comment">Comenta aquest punt de recàrrega</string>
     <string name="comment_hint">Escriure comentari aquí.</string>
     <string name="send">Enviar!</string>
-    <string name="horari_text">Horari:</string>
-    <string name="tipus_d_acces_text">Tipus d\'accés:</string>
-    <string name="tipus_de_connector_text">Tipus de connector:</string>
-    <string name="informacio_addicional"><u>Informació addicional</u></string>
+    <string name="carrega_mes_comentaris">Visualitza tots els comentaris</string>
 
+    <!-- Strings related to services and reserves -->
     <string name="seleccionar_data">Seleccionar date</string>
     <string name="seleccionar_hora">Seleccionar hora</string>
     <string name="dia">Dia:</string>
@@ -59,32 +50,26 @@
     <string name="dissabte">Dissabte</string>
     <string name="diumenge">Diumenge</string>
     <string name="fins_el_dia">Fins el dia:</string>
-    <string name="veure_horari">Veure horari</string>
-
-    <string name="carrega_m_s_comentaris">Visualitza tots els comentaris</string>
-    <string name="title_activity_sign_in">Account login</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="coordenades">Coordenades</string>
+    <string name="title_activity_sign_in">Account login</string>
+
+    <!-- Strings related to navigation drawer and titles -->
+    <string name="title_activity_navigation">OpenCharge</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="mapa">Mapa</string>
     <string name="crear_punt">Crear punt</string>
     <string name="crear_torn">Crear torn</string>
     <string name="el_meu_perfil">El meu perfil</string>
+    <string name="afegir_punt_carrega">Afegir punt de recàrrega</string>
     <string name="afegir_torn_de_recarrega">Afegir torn de recàrrega</string>
     <string name="afegir_reserva">Afegir reserva</string>
-    <string name="opencharge">openCharge</string>
-    <string name="informacio">Informació:</string>
-    <string name="propietari">Propietari:</string>
-    <string name="ajuda">Ajuda</string>
+
+    <!-- Strings related to help -->
+    <string name="ajuda">Com funcióna l'aplicació?</string>
+    <string name="iniciar_sessio">INICIAR SESSIÓ</string>
+    <string name="primer_contacte_amb_l_aplicacio">PRIMER CONTACTE AMB L\'APLICACIÓ</string>
+
+
 </resources>
