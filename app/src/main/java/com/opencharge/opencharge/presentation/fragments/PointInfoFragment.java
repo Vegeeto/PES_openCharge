@@ -4,29 +4,26 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.google.android.gms.maps.SupportMapFragment;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.use_cases.DeletePointUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
-
-import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,6 +77,9 @@ public class PointInfoFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         horari = (FloatingActionButton) view.findViewById(R.id.horari);
 
+        RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
+        datePickerButton.setVisibility(View.GONE);
+
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         PointByIdUseCase getPointUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
             @Override
@@ -93,15 +93,33 @@ public class PointInfoFragment extends Fragment {
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setNestedScrollingEnabled(false);
 
-                if (point.userId == null) recyclerView.getChildAt(1).setVisibility(View.GONE);
+                Log.e("", ""+ point.getAccessType());
+                Log.e("", ""+ Point.PARTICULAR_ACCESS);
+                if (point.getAccessType().equals(Point.PARTICULAR_ACCESS)) {
+                    Log.e("If: ", "assignar listener");
+                    horari.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                ft.setCustomAnimations(R.anim.slide_left, R.anim.nothing, R.anim.nothing, R.anim.slide_right);
+                                DaysPagerFragment fragment = DaysPagerFragment.newInstance(pointId);
+                                ft.add(R.id.content_frame, fragment).addToBackStack(null).commit();
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } else {
+                    Log.e("Else: ", "ocultar botó");
+                    //horari.setVisibility(View.GONE);
+                }
+
             }
         });
 
         getPointUseCase.setPointId(pointId);
         getPointUseCase.execute();
-
-        RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
-        datePickerButton.setVisibility(View.GONE);
 
         return view;
     }
@@ -110,34 +128,32 @@ public class PointInfoFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        horari.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                    ft.setCustomAnimations(R.anim.slide_left, R.anim.nothing, R.anim.nothing, R.anim.slide_right);
-                    DaysPagerFragment fragment = DaysPagerFragment.newInstance(pointId);
-                    ft.add(R.id.content_frame, fragment).addToBackStack(null).commit();
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.edit_navigation, menu);
+        menuInflater.inflate(R.menu.point_navigation, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()) {
             case R.id.go_edit_button:
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 EditPointFragment fragment = EditPointFragment.newInstance(pointId);
                 ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                return true;
+            case R.id.go_delete_button:
+                UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+                DeletePointUseCase deletePointUseCase = useCasesLocator.deletePointUseCase(new DeletePointUseCase.Callback() {
+                    @Override
+                    public void onPointDeleted() {
+                        ft.replace(R.id.content_frame, new MapsFragment()).commit();
+                    }
+                });
+
+                deletePointUseCase.setPointId(this.pointId);
+                deletePointUseCase.execute();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

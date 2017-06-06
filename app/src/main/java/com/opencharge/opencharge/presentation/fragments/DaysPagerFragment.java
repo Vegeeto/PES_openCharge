@@ -120,6 +120,7 @@ public class DaysPagerFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menu.clear();
         menuInflater.inflate(R.menu.calendar_navigation, menu);
     }
 

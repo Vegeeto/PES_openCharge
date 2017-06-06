@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +64,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private ImageView accessImage;
         private TextView access;
         private TextView coords;
+        private TextView schedule;
+        private LinearLayout scheduleLayout;
         private LinearLayout connectorLayout;
 
 
@@ -72,8 +75,10 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             adreca = (TextView) itemView.findViewById(R.id.adreca);
             accessImage = (ImageView) itemView.findViewById(R.id.accessImage);
             access = (TextView) itemView.findViewById(R.id.access);
-            connectorLayout = (LinearLayout) itemView.findViewById(R.id.connector_layout);
             coords = (TextView) itemView.findViewById(R.id.coords);
+            schedule = (TextView) itemView.findViewById(R.id.schedule);
+            scheduleLayout = (LinearLayout) itemView.findViewById(R.id.schedule_layout);
+            connectorLayout = (LinearLayout) itemView.findViewById(R.id.connector_layout);
         }
 
         public final void bindPoint(Point p) {
@@ -85,6 +90,16 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             access.setText(p.getAccessType());
             coords.setText("(" + String.valueOf(p.getLatCoord()) + ", " + String.valueOf(p.getLonCoord() + ")"));
 
+            Log.e("", ""+ p.getAccessType());
+            Log.e("", ""+ Point.PARTICULAR_ACCESS);
+            if (!p.getAccessType().equals(Point.PARTICULAR_ACCESS) && !p.getSchedule().equals(null)){
+                Log.e("If: ", "omplir schedule");
+                schedule.setText(p.getSchedule());
+            }
+            else {
+                Log.e("Else: ", "ocultar layout");
+                scheduleLayout.setVisibility(View.GONE);
+            }
 
             List<String> connectorList = p.getConnectorTypeList();
             for(int i = 0; i < p.getConnectorTypeList().size(); ++i){
@@ -336,7 +351,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case 0:  ((ViewHolderPoint) holder).bindPoint(item);
                 break;
             case 1:
-                if (item.userId != null) {
+                if (!item.userId.equals(null)) {
                     ViewHolderUser userHolder = (ViewHolderUser) holder;
                     userHolder.bindUser(item.userId);
                 }
