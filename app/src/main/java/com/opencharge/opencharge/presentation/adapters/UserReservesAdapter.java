@@ -126,14 +126,20 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
                 finalitzaBtn.setVisibility(View.GONE);
             } else {
                 finalitzaBtn.setVisibility(View.VISIBLE);
-                ReserveConfirmAsConsumerUseCase reserveConfirmAsConsumerUseCase = useCasesLocator.getReserveConfirmAsConsumerUseCase();
-                reserveConfirmAsConsumerUseCase.setReserve(reserve);
-                reserveConfirmAsConsumerUseCase.execute();
-                if (reserve.isMarkedAsFinishedBySupplier()) {
-                    state.setText(Reserve.ACCEPTED);
-                    finalitzaBtn.setVisibility(View.GONE);
-                    cancelBtn.setVisibility(View.GONE);
-                }
+                finalitzaBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ReserveConfirmAsConsumerUseCase reserveConfirmAsConsumerUseCase = useCasesLocator.getReserveConfirmAsConsumerUseCase();
+                        reserveConfirmAsConsumerUseCase.setReserve(reserve);
+                        reserveConfirmAsConsumerUseCase.execute();
+                        if (reserve.isMarkedAsFinishedBySupplier()) {
+                            state.setText(Reserve.ACCEPTED);
+                            finalitzaBtn.setVisibility(View.GONE);
+                            cancelBtn.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
             }
 
         }
