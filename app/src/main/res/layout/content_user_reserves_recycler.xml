@@ -113,7 +113,8 @@
                 android:id="@+id/btnCancelarReserva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/cancelar"/>
+                android:text="@string/cancelar"
+                style="@style/Widget.AppCompat.Button.Colored"/>
 
              <Button
                  android:id="@+id/btnFinalitzarReserva"
@@ -121,7 +122,8 @@
                  android:layout_height="wrap_content"
                  android:text="@string/finalitzar"
                  android:layout_alignParentTop="true"
-                 android:layout_alignParentEnd="true" />
+                 android:layout_alignParentEnd="true"
+                 style="@style/Widget.AppCompat.Button.Colored"/>
 
             </RelativeLayout>
 
