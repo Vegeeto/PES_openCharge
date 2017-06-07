@@ -167,8 +167,9 @@ public class UserInfoFragment extends Fragment {
 
         botoReservesProveidor.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //aquí s'obrirà el fragment amb les reserves que altres hagin fet a punts de l'usuari
-                Toast.makeText(getActivity().getApplicationContext(), "Reserves com a provider", Toast.LENGTH_SHORT).show();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                SupplierReservesFragment fragment = SupplierReservesFragment.newInstance(currentUser.getId());
+                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
             }
 
         });
