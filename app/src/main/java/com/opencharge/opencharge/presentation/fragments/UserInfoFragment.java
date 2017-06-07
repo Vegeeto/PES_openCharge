@@ -29,11 +29,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 import com.opencharge.opencharge.domain.use_cases.DeleteUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReservesUserInvolvedUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.activities.NavigationActivity;
 import com.opencharge.opencharge.presentation.activities.SignInActivity;
@@ -189,23 +191,32 @@ public class UserInfoFragment extends Fragment {
                             public void onCurrentUserRetrieved(User currentUser) {
                                 List<UserPointSummary> points = currentUser.getPoints();
                                 for (UserPointSummary point : points) {
-                                    FirebaseDatabase.getInstance().getReference("Points").child(point.getPointId()).removeValue();
-                                    /*PointByIdUseCase pointByIdUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
+                                    PointByIdUseCase pointByIdUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
                                         @Override
                                         public void onPointRetrieved(Point point) {
-                                            if (point.getAccessType() == Point.PARTICULAR_ACCESS)
+                                            if (point.getAccessType().equals(Point.PARTICULAR_ACCESS))
                                                 FirebaseDatabase.getInstance().getReference("Points").child(point.getId()).removeValue();
                                         }
                                     });
                                     pointByIdUseCase.setPointId(point.getPointId());
-                                    pointByIdUseCase.execute();*/
+                                    pointByIdUseCase.execute();
                                 }
-
                                 FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getId()).removeValue();
-                                //signOut();
+                                ReservesUserInvolvedUseCase reservesUserInvolvedUseCase = useCasesLocator.getReservesUserInvolvedUseCaseImpl(new ReservesUserInvolvedUseCase.Callback() {
+                                    @Override
+                                    public void onReservesRetrieved(Reserve[] reserves) {
+                                        for (Reserve reserve : reserves) {
+                                            FirebaseDatabase.getInstance().getReference("Reserves").child(reserve.getId()).removeValue();
+                                        }
+                                    }
+                                });
+                                reservesUserInvolvedUseCase.setPointParameters(currentUser.getId());
+                                reservesUserInvolvedUseCase.execute();
                             }
                         });
                         getCreateUsersUseCase.execute();
+                        signOut();
+
                         // això és un placeholder per així tenir una resposta, un cop
                         // implementat correctament es pot deixar, o treure
                         //Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Usuari eliminat", Toast.LENGTH_SHORT);
@@ -220,19 +231,6 @@ public class UserInfoFragment extends Fragment {
     }
 
     private void signOut() {
-        FirebaseAuth.getInstance().signOut();
-        //TODO: s'ha de mirar perque no es poden borrar les credencials de Google!!!
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        user.delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("Delete", "User account deleted.");
-                        }
-                    }
-                });
         Intent intent = new Intent(getActivity(), SignInActivity.class);
         startActivity(intent);
     }
