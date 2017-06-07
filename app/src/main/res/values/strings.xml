@@ -65,14 +65,14 @@
     <string name="afegir_torn_de_recarrega">Afegir torn de recàrrega</string>
     <string name="afegir_reserva">Afegir reserva</string>
     <string name="opencharge">openCharge</string>
-    <string name="informacio">Informació:</string>
-    <string name="propietari">Propietari:</string>
 
-<string name="finalitzar">Finalitzar</string>
-    <string name="reclinar">reclinar</string>
     <string name="sol_licitant">Sol·licitant</string>
-<!-- Strings related to help -->
+    <string name="finalitzar">Finalitzar</string>
+    <string name="reclinar">Reclinar</string>
+
+    <!-- Strings related to help -->
     <string name="ajuda">Com funcióna l\'aplicació?</string>
     <string name="iniciar_sessio">INICIAR SESSIÓ</string>
     <string name="primer_contacte_amb_l_aplicacio">PRIMER CONTACTE AMB L\'APLICACIÓ</string>
+
 </resources>

@@ -108,20 +108,18 @@ public class UserInfoFragment extends Fragment {
                 GetCurrentUserUseCase getCurrentUserUseCase = useCasesLocator.getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
                     @Override
                     public void onCurrentUserRetrieved(final User user) {
-
-
-                if (currentUser.getId().equals(userId)) {
-		    currentUser = user;
-                    setUpViewForUser(user);
-                } else {
-                    //Com que es mostrarà el perfil d'un altre usuari, s'amaguen els botons de reserves i d'eliminar usuari
-                    UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
-                        @Override
-                        public void onUserRetrieved(User user) {
+                        if (user.getId().equals(userId)) {
+                            currentUser = user;
                             setUpViewForUser(user);
-                            botoReservesClient.setVisibility(View.GONE);
-                            botoReservesProveidor.setVisibility(View.GONE);
-                            botoEliminarCompta.setVisibility(View.GONE);
+                        } else {
+                            //Com que es mostrarà el perfil d'un altre usuari, s'amaguen els botons de reserves i d'eliminar usuari
+                            UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
+                            @Override
+                            public void onUserRetrieved(User user) {
+                                setUpViewForUser(user);
+                                botoReservesClient.setVisibility(View.GONE);
+                                botoReservesProveidor.setVisibility(View.GONE);
+                                botoEliminarCompta.setVisibility(View.GONE);
                         }
                     });
                     userByIdUseCase.setUserId(userId);
@@ -200,11 +198,5 @@ public class UserInfoFragment extends Fragment {
             }
 
         });
-
-        if (!needsToShowCurrentUser()) {
-            botoReservesClient.setVisibility(View.GONE);
-            botoReservesProveidor.setVisibility(View.GONE);
-            botoEliminarCompta.setVisibility(View.GONE);
-        }
     }
 }
