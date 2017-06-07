@@ -89,14 +89,16 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
             cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getRes
+                    ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getReserveRejectUseCase();
+                    reserveRejectUseCase.execute();
                 }
             });
 
             if (!reserve.getCanConfirm()) {
                 finalitzaBtn.setVisibility(View.GONE);
             } else {
-
+                ReserveConfirmAsConsumerUseCase reserveConfirmAsConsumerUseCase = useCasesLocator.getReserveConfirmAsConsumerUseCase();
+                reserveConfirmAsConsumerUseCase.execute();
             }
 
         }

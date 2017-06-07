@@ -15,6 +15,8 @@ import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReserveConfirmAsSupplierUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReserveRejectUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
@@ -84,14 +86,16 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
             cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getRes
+                    ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getReserveRejectUseCase();
+                    reserveRejectUseCase.execute();
                 }
             });
 
             if (!reserve.getCanConfirm()) {
                 finalitzaBtn.setVisibility(View.GONE);
             } else {
-
+                ReserveConfirmAsSupplierUseCase reserveConfirmAsSupplierUseCase = useCasesLocator.getReserveConfirmAsSupplierUseCase();
+                reserveConfirmAsSupplierUseCase.execute();
             }
 
         }
