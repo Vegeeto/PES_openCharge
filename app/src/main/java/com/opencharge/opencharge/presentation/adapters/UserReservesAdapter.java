@@ -1,8 +1,10 @@
 package com.opencharge.opencharge.presentation.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,13 +114,30 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
             cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getReserveRejectUseCase();
-                    reserveRejectUseCase.setReserve(reserve);
-                    reserveRejectUseCase.execute();
-                    state.setText(Reserve.REJECTED);
-                    Drawable drawable = context.getResources().getDrawable(R.drawable.ic_event_busy_black_24dp);
-                    stateIcon.setImageDrawable(drawable);
-                    cancelBtn.setVisibility(View.GONE);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("CANCEL·LAR RESERVA");
+                    builder.setIcon(R.drawable.ic_warning_black_24dp);
+                    builder.setMessage("Segur que vols cancel·lar la reserva?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getReserveRejectUseCase();
+                                    reserveRejectUseCase.setReserve(reserve);
+                                    reserveRejectUseCase.execute();
+                                    state.setText(Reserve.REJECTED);
+                                    Drawable drawable = context.getResources().getDrawable(R.drawable.ic_event_busy_black_24dp);
+                                    stateIcon.setImageDrawable(drawable);
+                                    cancelBtn.setVisibility(View.GONE);
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                    builder.show();
                 }
             });
 

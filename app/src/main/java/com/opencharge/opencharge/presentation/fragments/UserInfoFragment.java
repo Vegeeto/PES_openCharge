@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,6 +110,9 @@ public class UserInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_info, container, false);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("El meu perfil");
+
         imatgeUsuari = (CircleImageView) view.findViewById(R.id.perfil_usuari_imatge);
         nomUsuari = (TextView) view.findViewById(R.id.perfil_usuari_nom);
         emailUsuari = (TextView) view.findViewById(R.id.perfil_usuari_email);

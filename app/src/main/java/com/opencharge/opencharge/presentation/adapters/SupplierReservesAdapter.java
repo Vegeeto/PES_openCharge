@@ -1,7 +1,9 @@
 package com.opencharge.opencharge.presentation.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,13 +135,35 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
                 cancelBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ReserveConfirmAsSupplierUseCase reserveConfirmAsSupplierUseCase = useCasesLocator.getReserveConfirmAsSupplierUseCase();
-                        reserveConfirmAsSupplierUseCase.execute();
-                        if (reserve.isMarkedAsFinishedByConsumer()) {
-                            state.setText(Reserve.ACCEPTED);
-                            finalitzaBtn.setVisibility(View.GONE);
-                            cancelBtn.setVisibility(View.GONE);
-                        }
+                        cancelBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setTitle("DECLINAR RESERVA");
+                                builder.setIcon(R.drawable.ic_warning_black_24dp);
+                                builder.setMessage("Segur que vols declinar la reserva?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                ReserveConfirmAsSupplierUseCase reserveConfirmAsSupplierUseCase = useCasesLocator.getReserveConfirmAsSupplierUseCase();
+                                                reserveConfirmAsSupplierUseCase.execute();
+                                                if (reserve.isMarkedAsFinishedByConsumer()) {
+                                                    state.setText(Reserve.ACCEPTED);
+                                                    finalitzaBtn.setVisibility(View.GONE);
+                                                    cancelBtn.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        })
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                builder.show();
+                            }
+                        });
                     }
                 });
             }
