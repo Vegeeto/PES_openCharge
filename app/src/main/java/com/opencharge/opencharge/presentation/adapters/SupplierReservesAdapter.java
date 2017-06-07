@@ -1,0 +1,138 @@
+package com.opencharge.opencharge.presentation.adapters;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.Reserve;
+import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
+import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
+import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
+
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Created by Victor on 07/06/2017.
+ */
+
+public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReservesAdapter.ViewHolder> implements View.OnClickListener {
+
+    private Context context;
+    private List<Reserve> items;
+    private View.OnClickListener listener;
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView solicitant;
+        private TextView address;
+        private TextView state;
+        private Button cancelBtn;
+        private Button finalitzaBtn;
+        private ImageView stateIcon;
+
+
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            solicitant = (TextView) itemView.findViewById(R.id.userApplicant);
+            address = (TextView) itemView.findViewById(R.id.pointAddressRS);
+            state = (TextView) itemView.findViewById(R.id.reserveStateSupplier);
+            cancelBtn = (Button) itemView.findViewById(R.id.btnRechazarReserva);
+            finalitzaBtn = (Button) itemView.findViewById(R.id.btnFinalitzarReservaSupplier);
+            stateIcon = (ImageView) itemView.findViewById(R.id.stateIconSupplier);
+        }
+
+        public final void bindReserve(Reserve reserve) {
+
+            final UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+            UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
+                @Override
+                public void onUserRetrieved(User user) {
+                    solicitant.setText(user.getUsername());
+                }
+            });
+            userByIdUseCase.setUserId(reserve.getConsumerUserId());
+            userByIdUseCase.execute();
+
+            PointByIdUseCase pointByIdUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
+                @Override
+                public void onPointRetrieved(Point point) {
+                    address.setText(point.getAddress());
+                }
+            });
+            pointByIdUseCase.setPointId(reserve.getPointId());
+            pointByIdUseCase.execute();
+
+            state.setText(reserve.getState());
+
+            if (Objects.equals(reserve.getState(), Reserve.REJECTED)) {
+                Drawable drawable = context.getResources().getDrawable(R.drawable.ic_event_busy_black_24dp);
+                stateIcon.setImageDrawable(drawable);
+            }
+
+            cancelBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getRes
+                }
+            });
+
+            if (!reserve.getCanConfirm()) {
+                finalitzaBtn.setVisibility(View.GONE);
+            } else {
+
+            }
+
+        }
+
+    }
+
+    public SupplierReservesAdapter(Context context, List<Reserve> items) {
+        this.context = context;
+        this.items = items;
+    }
+
+    @Override
+    public SupplierReservesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.content_user_reserves_recycler, parent, false);
+        v.setOnClickListener(this);
+
+        return new ViewHolder(v);
+    }
+
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (listener != null) {
+            listener.onClick(view);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        if (items.get(position) != null) {
+            holder.bindReserve(items.get(position));
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+}

@@ -87,4 +87,6 @@
     <string name="informacio">Informació:</string>
     <string name="propietari">Propietari:</string>
     <string name="finalitzar">Finalitzar</string>
+    <string name="reclinar">reclinar</string>
+    <string name="sol_licitant">Sol·licitant</string>
 </resources>
