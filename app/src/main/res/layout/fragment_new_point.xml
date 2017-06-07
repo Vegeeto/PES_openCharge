@@ -318,7 +318,8 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/guardar"
-                    style="@style/Widget.AppCompat.Button.Colored" />
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:backgroundTint="@color/colorButton"/>
 
                 <Button
                     android:id="@+id/CancelarBtn"
@@ -326,7 +327,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/cancelar"
-                    style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:textColor="@color/colorButton"/>
 
             </LinearLayout>
 
