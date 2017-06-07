@@ -143,7 +143,7 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
                                 builder.setIcon(R.drawable.ic_warning_black_24dp);
                                 builder.setMessage("Segur que vols declinar la reserva?")
                                         .setCancelable(false)
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 ReserveConfirmAsSupplierUseCase reserveConfirmAsSupplierUseCase = useCasesLocator.getReserveConfirmAsSupplierUseCase();

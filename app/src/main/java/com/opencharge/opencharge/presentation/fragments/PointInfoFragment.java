@@ -1,10 +1,13 @@
 package com.opencharge.opencharge.presentation.fragments;
 
+import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,11 +23,13 @@ import android.widget.RelativeLayout;
 import com.google.firebase.database.FirebaseDatabase;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 import com.opencharge.opencharge.domain.use_cases.DeletePointUseCase;
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReserveRejectUseCase;
 import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -146,22 +151,39 @@ public class PointInfoFragment extends Fragment {
                 ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
                 return true;
             case R.id.go_delete_button:
-                UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-                GetCurrentUserUseCase getCurrentUserUseCase = useCasesLocator.getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
-                    @Override
-                    public void onCurrentUserRetrieved(User currentUser) {
-                        List<UserPointSummary>  points = currentUser.getPoints();
-                        for (UserPointSummary point : points) {
-                            if (point.getPointId().equals(pointId)) {
-                                    FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getId()).child("points").child(String.valueOf(points.indexOf(point))).removeValue();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("ESBORRAR PUNT);
+                builder.setIcon(R.drawable.ic_warning_black_24dp);
+                builder.setMessage("Segur que vols esborrar aquest punt?")
+                        .setCancelable(false)
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+                                GetCurrentUserUseCase getCurrentUserUseCase = useCasesLocator.getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
+                                    @Override
+                                    public void onCurrentUserRetrieved(User currentUser) {
+                                        List<UserPointSummary>  points = currentUser.getPoints();
+                                        for (UserPointSummary point : points) {
+                                            if (point.getPointId().equals(pointId)) {
+                                                FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getId()).child("points").child(String.valueOf(points.indexOf(point))).removeValue();
+                                            }
+                                        }
+                                        currentUser.setPoints(points);
+                                    }
+                                });
+                                getCurrentUserUseCase.execute();
+                                FirebaseDatabase.getInstance().getReference("Points").child(pointId).removeValue();
+                                ft.replace(R.id.content_frame, new MapsFragment()).commit();
                             }
-                        }
-                        currentUser.setPoints(points);
-                    }
-                });
-                getCurrentUserUseCase.execute();
-                FirebaseDatabase.getInstance().getReference("Points").child(pointId).removeValue();
-                ft.replace(R.id.content_frame, new MapsFragment()).commit();
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                builder.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

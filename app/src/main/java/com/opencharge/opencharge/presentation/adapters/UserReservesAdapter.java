@@ -119,7 +119,7 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
                     builder.setIcon(R.drawable.ic_warning_black_24dp);
                     builder.setMessage("Segur que vols cancel·lar la reserva?")
                             .setCancelable(false)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getReserveRejectUseCase();

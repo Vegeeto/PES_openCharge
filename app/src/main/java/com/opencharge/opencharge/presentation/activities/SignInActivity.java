@@ -96,7 +96,7 @@ public class SignInActivity extends AppCompatActivity  {
                 if (isNetworkAvailable()){
                     signIn();
                 }else {
-                    Toast.makeText(SignInActivity.this, "Oops! no internet connection!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignInActivity.this, "Oops! No tens connexió a internet!", Toast.LENGTH_SHORT).show();
                 }
 
             }
