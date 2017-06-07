@@ -81,7 +81,6 @@ public class SignInActivity extends AppCompatActivity  {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     setCurrentUser(user);
-                    goToApp();
                 } else {
                     Log.d("SignInActivity", "onAuthStateChanged:signed_out");
                 }
@@ -197,6 +196,7 @@ public class SignInActivity extends AppCompatActivity  {
 
                             });
                             usersListUseCase.execute();
+                            goToApp();
                         }
                     }
                 });

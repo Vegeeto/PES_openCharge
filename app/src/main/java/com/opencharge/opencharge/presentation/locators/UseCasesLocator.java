@@ -6,6 +6,9 @@ import com.opencharge.opencharge.domain.device_services.UserPreferences;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.DeletePointUseCase;
+import com.opencharge.opencharge.domain.use_cases.DeleteUserUseCase;
+
+
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsEditUseCase;
@@ -21,7 +24,10 @@ import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.CommentsListUseCaseImpl;
+
 import com.opencharge.opencharge.domain.use_cases.impl.DeletePointUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.DeleteUserUseCaseImpl;
+
 import com.opencharge.opencharge.domain.use_cases.impl.GetCurrentUserUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
@@ -286,7 +292,7 @@ public class UseCasesLocator {
     }
 
     public GetCurrentUserUseCase getGetCurrentUserUseCase(Context context,
-                                                          GetCurrentUserUseCase.Callback callback) {
+                                                           GetCurrentUserUseCase.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
         RepositoriesLocator rl = RepositoriesLocator.getInstance();
         return new GetCurrentUserUseCaseImpl(
@@ -296,5 +302,13 @@ public class UseCasesLocator {
                 rl.getUsersRepository(),
                 callback);
     }
+
+    public DeleteUserUseCase getDeleteUserUseCase(Context context,
+                                                  DeleteUserUseCase.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new DeleteUserUseCaseImpl(sl.getExecutor(), sl.getMainThread(), (Context) sl.getUserPreferencesService(context));
+    }
+
+
 
 }
