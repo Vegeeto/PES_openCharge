@@ -111,7 +111,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_maps) {
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
         } else if (id == R.id.nav_newpoint) {
-            fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).addToBackStack(null).commit();
+            fm.beginTransaction().replace(R.id.content_frame, new CreatePublicPointsFragment()).commit();
         } else if (id == R.id.nav_help) {
             fm.beginTransaction().replace(R.id.content_frame, new HelpFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_about) {

@@ -64,7 +64,7 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
             stateIcon = (ImageView) itemView.findViewById(R.id.stateIconSupplier);
         }
 
-        public final void bindReserve(Reserve reserve) {
+        public final void bindReserve(final Reserve reserve) {
 
             final UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
             UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
@@ -130,13 +130,18 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
                 finalitzaBtn.setVisibility(View.GONE);
             } else {
                 finalitzaBtn.setVisibility(View.VISIBLE);
-                ReserveConfirmAsSupplierUseCase reserveConfirmAsSupplierUseCase = useCasesLocator.getReserveConfirmAsSupplierUseCase();
-                reserveConfirmAsSupplierUseCase.execute();
-                if (reserve.isMarkedAsFinishedByConsumer()) {
-                    state.setText(Reserve.ACCEPTED);
-                    finalitzaBtn.setVisibility(View.GONE);
-                    cancelBtn.setVisibility(View.GONE);
-                }
+                cancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ReserveConfirmAsSupplierUseCase reserveConfirmAsSupplierUseCase = useCasesLocator.getReserveConfirmAsSupplierUseCase();
+                        reserveConfirmAsSupplierUseCase.execute();
+                        if (reserve.isMarkedAsFinishedByConsumer()) {
+                            state.setText(Reserve.ACCEPTED);
+                            finalitzaBtn.setVisibility(View.GONE);
+                            cancelBtn.setVisibility(View.GONE);
+                        }
+                    }
+                });
             }
 
         }
