@@ -185,6 +185,7 @@ public class SignInActivity extends AppCompatActivity  {
                                             @Override
                                             public void onUserCreated(String id) {
                                                 Log.d("SignInActivity", "onUserCreatedCallback");
+                                                goToApp();
                                             }
 
                                         });
@@ -192,11 +193,13 @@ public class SignInActivity extends AppCompatActivity  {
                                         getCreateUsersUseCase.setUserParameters(name, photoUri, email, puntsCreats);
                                         getCreateUsersUseCase.execute();
                                     }
+                                    else
+                                        goToApp();
                                 }
 
                             });
                             usersListUseCase.execute();
-                            goToApp();
+
                         }
                     }
                 });
