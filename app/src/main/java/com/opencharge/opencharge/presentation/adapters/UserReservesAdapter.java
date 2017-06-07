@@ -66,7 +66,7 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
             stateIcon = (ImageView) itemView.findViewById(R.id.stateIcon);
         }
 
-        public final void bindReserve(Reserve reserve) {
+        public final void bindReserve(final Reserve reserve) {
 
             final UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
             UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
@@ -113,6 +113,7 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
                 @Override
                 public void onClick(View view) {
                     ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getReserveRejectUseCase();
+                    reserveRejectUseCase.setReserve(reserve);
                     reserveRejectUseCase.execute();
                     state.setText(Reserve.REJECTED);
                     Drawable drawable = context.getResources().getDrawable(R.drawable.ic_event_busy_black_24dp);
@@ -126,6 +127,7 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
             } else {
                 finalitzaBtn.setVisibility(View.VISIBLE);
                 ReserveConfirmAsConsumerUseCase reserveConfirmAsConsumerUseCase = useCasesLocator.getReserveConfirmAsConsumerUseCase();
+                reserveConfirmAsConsumerUseCase.setReserve(reserve);
                 reserveConfirmAsConsumerUseCase.execute();
                 if (reserve.isMarkedAsFinishedBySupplier()) {
                     state.setText(Reserve.ACCEPTED);
