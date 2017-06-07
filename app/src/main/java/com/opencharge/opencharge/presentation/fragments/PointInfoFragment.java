@@ -17,13 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
 import com.opencharge.opencharge.domain.use_cases.DeletePointUseCase;
+import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -141,15 +147,21 @@ public class PointInfoFragment extends Fragment {
                 return true;
             case R.id.go_delete_button:
                 UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
-                DeletePointUseCase deletePointUseCase = useCasesLocator.deletePointUseCase(new DeletePointUseCase.Callback() {
+                GetCurrentUserUseCase getCurrentUserUseCase = useCasesLocator.getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
                     @Override
-                    public void onPointDeleted() {
-                        ft.replace(R.id.content_frame, new MapsFragment()).commit();
+                    public void onCurrentUserRetrieved(User currentUser) {
+                        List<UserPointSummary>  points = currentUser.getPoints();
+                        for (UserPointSummary point : points) {
+                            if (point.getPointId().equals(pointId)) {
+                                    FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getId()).child("points").child(String.valueOf(points.indexOf(point))).removeValue();
+                            }
+                        }
+                        currentUser.setPoints(points);
                     }
                 });
-
-                deletePointUseCase.setPointId(this.pointId);
-                deletePointUseCase.execute();
+                getCurrentUserUseCase.execute();
+                FirebaseDatabase.getInstance().getReference("Points").child(pointId).removeValue();
+                ft.replace(R.id.content_frame, new MapsFragment()).commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
