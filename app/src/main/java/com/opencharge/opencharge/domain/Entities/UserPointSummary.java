@@ -1,16 +1,34 @@
 package com.opencharge.opencharge.domain.Entities;
 
+import android.support.annotation.StringDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Created by ferran on 3/6/17.
  */
 
 public class UserPointSummary {
+    public static final String UNKNOWN_ACCESS = "Desconegut";
+    public static final String PUBLIC_ACCESS = "Public";
+    public static final String PRIVATE_ACCESS = "Privat";
+    public static final String PARTICULAR_ACCESS = "Particular";
+
+    @StringDef({UNKNOWN_ACCESS, PUBLIC_ACCESS, PRIVATE_ACCESS, PARTICULAR_ACCESS})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface AccessType {}
+
+    public @Point.AccessType String accessType;
+
     private String pointId;
     private String pointAddress;
 
-    public UserPointSummary(String pointId, String pointAddress) {
+
+    public UserPointSummary(String pointId, String pointAddress, @Point.AccessType String accessType) {
         this.pointId = pointId;
         this.pointAddress = pointAddress;
+        this.accessType = accessType;
     }
 
     public String getPointId() {
@@ -28,6 +46,10 @@ public class UserPointSummary {
     public void setPointAddress(String pointAddress) {
         this.pointAddress = pointAddress;
     }
+
+    public @Point.AccessType    String getAccessType() { return accessType; }
+
+    public void setAccessType(@Point.AccessType String accessType) { this.accessType = accessType; }
 
     @Override
     public boolean equals(Object o) {

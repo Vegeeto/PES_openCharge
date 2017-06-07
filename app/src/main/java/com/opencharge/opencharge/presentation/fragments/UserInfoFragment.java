@@ -5,10 +5,13 @@ package com.opencharge.opencharge.presentation.fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,17 +22,34 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
+import com.opencharge.opencharge.domain.use_cases.DeleteUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReservesUserInvolvedUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
+import com.opencharge.opencharge.presentation.activities.NavigationActivity;
+import com.opencharge.opencharge.presentation.activities.SignInActivity;
 import com.opencharge.opencharge.presentation.adapters.CustomUserPointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 import com.squareup.picasso.Picasso;
 
+
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.opencharge.opencharge.R.styleable.CircleImageView;
+
+
 
 /**
  * Created by DmnT on 17/05/2017.
@@ -189,9 +209,43 @@ public class UserInfoFragment extends Fragment {
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Continuar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         //TODO aqui s'ha de cridar la funció que esborri l'usuari
+                        final UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+                        GetCurrentUserUseCase getCreateUsersUseCase = useCasesLocator.getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
+                            @Override
+                            public void onCurrentUserRetrieved(User currentUser) {
+                                List<UserPointSummary> points = currentUser.getPoints();
+                                for (UserPointSummary point : points) {
+                                    PointByIdUseCase pointByIdUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
+                                        @Override
+                                        public void onPointRetrieved(Point point) {
+                                            if (point.getAccessType().equals(Point.PARTICULAR_ACCESS))
+                                                FirebaseDatabase.getInstance().getReference("Points").child(point.getId()).removeValue();
+                                        }
+                                    });
+                                    pointByIdUseCase.setPointId(point.getPointId());
+                                    pointByIdUseCase.execute();
+                                }
+                                FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getId()).removeValue();
+                                ReservesUserInvolvedUseCase reservesUserInvolvedUseCase = useCasesLocator.getReservesUserInvolvedUseCaseImpl(new ReservesUserInvolvedUseCase.Callback() {
+                                    @Override
+                                    public void onReservesRetrieved(Reserve[] reserves) {
+                                        for (Reserve reserve : reserves) {
+                                            FirebaseDatabase.getInstance().getReference("Reserves").child(reserve.getId()).removeValue();
+                                        }
+                                    }
+                                });
+                                reservesUserInvolvedUseCase.setPointParameters(currentUser.getId());
+                                reservesUserInvolvedUseCase.execute();
+                            }
+                        });
+                        getCreateUsersUseCase.execute();
+                        signOut();
+
                         // això és un placeholder per així tenir una resposta, un cop
                         // implementat correctament es pot deixar, o treure
-                        Toast.makeText(getActivity().getApplicationContext(), "Usuari eliminat", Toast.LENGTH_SHORT).show();
+                        //Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Usuari eliminat", Toast.LENGTH_SHORT);
+                        //toast.show();
+
                     }
                 });
 
@@ -199,5 +253,10 @@ public class UserInfoFragment extends Fragment {
             }
 
         });
+    }
+
+    private void signOut() {
+        Intent intent = new Intent(getActivity(), SignInActivity.class);
+        startActivity(intent);
     }
 }

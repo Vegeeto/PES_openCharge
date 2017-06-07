@@ -11,8 +11,8 @@ public class User {
     private String id;
     private String photo;
     private String email;
-    private String username;
     private Integer minutes;
+    private String username;
     private List<UserPointSummary> points;
 
     public User() {
@@ -83,7 +83,7 @@ public class User {
     }
 
     public void addPoint(Point point) {
-        UserPointSummary pointSummary = new UserPointSummary(point.getId(), point.getAddress());
+        UserPointSummary pointSummary = new UserPointSummary(point.getId(), point.getAddress(), point.getAccessType());
         points.add(pointSummary);
     }
 
