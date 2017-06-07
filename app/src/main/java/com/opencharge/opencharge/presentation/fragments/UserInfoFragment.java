@@ -29,6 +29,8 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.opencharge.opencharge.R.styleable.CircleImageView;
+
 /**
  * Created by DmnT on 17/05/2017.
  */
