@@ -2,6 +2,7 @@ package com.opencharge.opencharge.domain.use_cases.impl;
 
 import android.util.Log;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.opencharge.opencharge.domain.executor.Executor;
 import com.opencharge.opencharge.domain.executor.MainThread;
 import com.opencharge.opencharge.domain.repository.PointsRepository;
@@ -37,7 +38,7 @@ public class DeletePointUseCaseImpl extends AbstractUseCase implements DeletePoi
         pointsRepository.deletePoint(this.pointId, new PointsRepository.DeletePointCallback() {
             @Override
             public void onPointDeleted() {
-                Log.e("OnPointDeleted: ", "Success");
+                FirebaseDatabase.getInstance().getReference("Points").child(pointId).removeValue();
             }
 
             @Override
