@@ -61,7 +61,12 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
             UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
                 @Override
                 public void onUserRetrieved(User user) {
-                    solicitant.setText(user.getUsername());
+                    if (user == null) {
+                        solicitant.setText("Usuari esborrat");
+                    }
+                    else {
+                        solicitant.setText(user.getUsername());
+                    }
                 }
             });
             userByIdUseCase.setUserId(reserve.getConsumerUserId());
@@ -70,7 +75,12 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
             PointByIdUseCase pointByIdUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
                 @Override
                 public void onPointRetrieved(Point point) {
-                    address.setText(point.getAddress());
+                    if (point == null) {
+                        address.setText("El punt ja no existeix");
+                    }
+                    else {
+                        address.setText(point.getAddress());
+                    }
                 }
             });
             pointByIdUseCase.setPointId(reserve.getPointId());
@@ -81,6 +91,13 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
             if (Objects.equals(reserve.getState(), Reserve.REJECTED)) {
                 Drawable drawable = context.getResources().getDrawable(R.drawable.ic_event_busy_black_24dp);
                 stateIcon.setImageDrawable(drawable);
+                cancelBtn.setVisibility(View.GONE);
+                finalitzaBtn.setVisibility(View.GONE);
+            }
+
+            if (Objects.equals(reserve.getState(), Reserve.ACCEPTED)) {
+                cancelBtn.setVisibility(View.GONE);
+                finalitzaBtn.setVisibility(View.GONE);
             }
 
             cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +105,10 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
                 public void onClick(View view) {
                     ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getReserveRejectUseCase();
                     reserveRejectUseCase.execute();
+                    state.setText(Reserve.REJECTED);
+                    Drawable drawable = context.getResources().getDrawable(R.drawable.ic_event_busy_black_24dp);
+                    stateIcon.setImageDrawable(drawable);
+                    cancelBtn.setVisibility(View.GONE);
                 }
             });
 
@@ -96,6 +117,11 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
             } else {
                 ReserveConfirmAsSupplierUseCase reserveConfirmAsSupplierUseCase = useCasesLocator.getReserveConfirmAsSupplierUseCase();
                 reserveConfirmAsSupplierUseCase.execute();
+                if (reserve.isMarkedAsFinishedByConsumer()) {
+                    state.setText(Reserve.ACCEPTED);
+                    finalitzaBtn.setVisibility(View.GONE);
+                    cancelBtn.setVisibility(View.GONE);
+                }
             }
 
         }
