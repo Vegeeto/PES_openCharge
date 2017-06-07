@@ -80,7 +80,7 @@
                     android:id="@+id/morecomments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/carrega_m_s_comentaris"
+                    android:text="@string/carrega_mes_comentaris"
                     android:textColor="@color/black"
                     android:textSize="@dimen/normal_text_size"
                     android:layout_centerVertical="true"

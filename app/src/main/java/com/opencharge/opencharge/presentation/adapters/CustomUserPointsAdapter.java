@@ -52,4 +52,8 @@ public class CustomUserPointsAdapter extends ArrayAdapter {
     static class ViewHolder {
         TextView tv;
     }
+
+    public String getPointID(int position) {
+        return this.pointsList.get(position).getPointId();
+    }
 }

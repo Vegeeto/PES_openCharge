@@ -13,10 +13,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.Entities.Service;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
+import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReservesListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -44,6 +48,9 @@ public class ReservesShiftsFragment extends Fragment {
 
     private Service[] services;
     private Reserve[] reserves;
+
+    private Point currentPoint;
+    private User currentUser;
 
     public ReservesShiftsFragment() {
         // Required empty public constructor
@@ -76,19 +83,50 @@ public class ReservesShiftsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_calendar_day, container, false);
 
-        this.mHoursWrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
-        this.mDayMonthLabel = (TextView) parentView.findViewById(R.id.calendar_day_month_label);
-        this.mDayWeekLabel = (TextView) parentView.findViewById(R.id.calendar_day_week_label);
-        this.mAddButton = (FloatingActionButton) parentView.findViewById(R.id.calendar_new_service);
+        mHoursWrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
+        mDayMonthLabel = (TextView) parentView.findViewById(R.id.calendar_day_month_label);
+        mDayWeekLabel = (TextView) parentView.findViewById(R.id.calendar_day_week_label);
+        mAddButton = (FloatingActionButton) parentView.findViewById(R.id.calendar_new_service);
+        mAddButton.setVisibility(View.GONE);
 
         setUpAddButton();
         setUpDayLabels();
         createDayLayout();
 
+        loadCurrentPointAndUser();
         loadServices();
         loadReserves();
 
         return parentView;
+    }
+
+    private void loadCurrentPointAndUser() {
+        PointByIdUseCase getPointUseCase = UseCasesLocator.getInstance().getPointByIdUseCase(new PointByIdUseCase.Callback() {
+            @Override
+            public void onPointRetrieved(Point point) {
+                currentPoint = point;
+                showAddServiceButtonIdNeeded();
+            }
+        });
+        getPointUseCase.setPointId(pointId);
+        getPointUseCase.execute();
+
+        GetCurrentUserUseCase getCurrentUserUseCase = UseCasesLocator.getInstance().getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
+            @Override
+            public void onCurrentUserRetrieved(User user) {
+                currentUser = user;
+                showAddServiceButtonIdNeeded();
+            }
+        });
+        getCurrentUserUseCase.execute();
+    }
+
+    private void showAddServiceButtonIdNeeded() {
+        if (currentPoint != null && currentUser != null) {
+            if (isOwnerUser()) {
+                mAddButton.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void loadServices() {
@@ -182,8 +220,10 @@ public class ReservesShiftsFragment extends Fragment {
             hourView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int hour = (int) view.getTag();
-                    goToCreateServiceAtHour(hour + ":00");
+                    if (isOwnerUser()) {
+                        int hour = (int) view.getTag();
+                        goToCreateServiceAtHour(hour + ":00");
+                    }
                 }
             });
 
@@ -311,12 +351,14 @@ public class ReservesShiftsFragment extends Fragment {
         createRectangleView(hourStart, minutesStart, minutesDuration, Color.GREEN, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                DateConversion dc = new DateConversionImpl();
-                int hourEnd = hourStart + minutesDuration / 60;
-                int minEnd = minutesDuration % 60;
-                CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertHourAndMinutesToString(hourStart, 0), dc.ConvertHourAndMinutesToString(hourEnd, minEnd));
-                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                if (!isOwnerUser()) {
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    DateConversion dc = new DateConversionImpl();
+                    int hourEnd = hourStart + minutesDuration / 60;
+                    int minEnd = minutesDuration % 60;
+                    CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertHourAndMinutesToString(hourStart, 0), dc.ConvertHourAndMinutesToString(hourEnd, minEnd));
+                    ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                }
             }
         });
         Log.d("createRectangleView", "SERVICE at " + dayDate + " || " + hourStart + ":" + minutesStart + " - " + minutesDuration);
@@ -355,5 +397,9 @@ public class ReservesShiftsFragment extends Fragment {
 
         shiftView.setClickable(true);
         shiftView.setOnClickListener(clickListener);
+    }
+
+    boolean isOwnerUser() {
+        return currentPoint.getUserId().equals(currentUser.getId());
     }
 }

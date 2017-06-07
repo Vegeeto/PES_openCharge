@@ -160,6 +160,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menu.clear();
         menuInflater.inflate(R.menu.search_navigation, menu);
         final MenuItem searchItem = menu.findItem(R.id.searchBar);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
