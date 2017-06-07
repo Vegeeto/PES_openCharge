@@ -151,8 +151,8 @@ public class PointInfoFragment extends Fragment {
                 ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
                 return true;
             case R.id.go_delete_button:
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("ESBORRAR PUNT);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("ESBORRAR PUNT");
                 builder.setIcon(R.drawable.ic_warning_black_24dp);
                 builder.setMessage("Segur que vols esborrar aquest punt?")
                         .setCancelable(false)
