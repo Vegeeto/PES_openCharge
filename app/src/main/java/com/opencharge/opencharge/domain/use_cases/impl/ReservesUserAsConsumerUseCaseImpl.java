@@ -9,6 +9,10 @@ import com.opencharge.opencharge.domain.use_cases.ReservesUserAsSupplierUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReservesUserInvolvedUseCase;
 import com.opencharge.opencharge.domain.use_cases.base.AbstractUseCase;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -32,30 +36,21 @@ public class ReservesUserAsConsumerUseCaseImpl extends AbstractUseCase implement
     }
     @Override
     public void run() {
-        final Calendar today = Calendar.getInstance();
+        final DateTime today = new DateTime();
         reserveRepository.getReservesAsConsumerByUserId(userID, new ReserveRepository.GetReservesByUserIdCallback() {
             @Override
             public void onReservesRetrieved(ArrayList<Reserve> reserves) {
                 Reserve[] reservesVector = new Reserve[reserves.size()];
                 int i = 0;
                 for (Reserve r: reserves) {
-                    Calendar reserveDay = Calendar.getInstance();
-                    Calendar reserveTime = Calendar.getInstance();
-                    reserveDay.setTime(r.getDay());
-                    reserveTime.setTime(r.getStartHour());
 
-                    //Todos estos if encadenados es para comprobar que si podemos confirmar o no
-                    if(reserveDay.get(Calendar.YEAR) == today.get(Calendar.YEAR)){
-                        if(reserveDay.get(Calendar.MONTH) == today.get(Calendar.MONTH)){
-                            if(reserveDay.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)){
-                                if(reserveTime.get(Calendar.HOUR_OF_DAY) == today.get(Calendar.HOUR_OF_DAY)){
-                                    if(reserveTime.get(Calendar.MINUTE) == today.get(Calendar.MINUTE)){
-                                        r.setCanConfirm(true);
-                                    }
-                                }
-                            }
-                        }
+                    DateTime reserveTime = new DateTime().withDate(new LocalDate(r.getDay()))
+                            .withTime(new LocalTime(r.getStartHour()));
+
+                    if (today.isAfter(reserveTime)) {
+                        r.setCanConfirm(true);
                     }
+
                     reservesVector[i] = r;
                     ++i;
                 }
