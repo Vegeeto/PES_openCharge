@@ -125,7 +125,7 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
                     cancelBtn.setVisibility(View.GONE);
                 }
             });
-            
+
             if (!reserve.getCanConfirm()) {
                 finalitzaBtn.setVisibility(View.GONE);
             } else {
