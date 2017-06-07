@@ -64,7 +64,12 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
             UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
                 @Override
                 public void onUserRetrieved(User user) {
-                    //propietari.setText(user.getUsername());
+                    if (user == null) {
+                        propietari.setText("Usuari esborrat");
+                    }
+                    else {
+                        propietari.setText(user.getUsername());
+                    }
                 }
             });
             userByIdUseCase.setUserId(reserve.getSupplierUserId());
@@ -73,7 +78,12 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
             PointByIdUseCase pointByIdUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
                 @Override
                 public void onPointRetrieved(Point point) {
-                    address.setText(point.getAddress());
+                    if (point == null) {
+                        address.setText("El punt ja no existeix");
+                    }
+                    else {
+                        address.setText(point.getAddress());
+                    }
                 }
             });
             pointByIdUseCase.setPointId(reserve.getPointId());
@@ -91,6 +101,10 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
                 public void onClick(View view) {
                     ReserveRejectUseCase reserveRejectUseCase = useCasesLocator.getReserveRejectUseCase();
                     reserveRejectUseCase.execute();
+                    state.setText(Reserve.REJECTED);
+                    Drawable drawable = context.getResources().getDrawable(R.drawable.ic_event_busy_black_24dp);
+                    stateIcon.setImageDrawable(drawable);
+                    cancelBtn.setVisibility(View.GONE);
                 }
             });
 
@@ -99,6 +113,11 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
             } else {
                 ReserveConfirmAsConsumerUseCase reserveConfirmAsConsumerUseCase = useCasesLocator.getReserveConfirmAsConsumerUseCase();
                 reserveConfirmAsConsumerUseCase.execute();
+                if (reserve.isMarkedAsFinishedBySupplier()) {
+                    state.setText(Reserve.ACCEPTED);
+                    finalitzaBtn.setVisibility(View.GONE);
+                    cancelBtn.setVisibility(View.GONE);
+                }
             }
 
         }
