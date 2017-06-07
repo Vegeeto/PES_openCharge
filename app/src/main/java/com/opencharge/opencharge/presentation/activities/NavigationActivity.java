@@ -95,11 +95,19 @@ public class NavigationActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        FragmentManager fm = getSupportFragmentManager();
+        final FragmentManager fm = getSupportFragmentManager();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_profile) {
-            fm.beginTransaction().replace(R.id.content_frame, new UserInfoFragment()).commit();
+            UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+            GetCurrentUserUseCase getCurrentUserUseCase = useCasesLocator.getGetCurrentUserUseCase(this, new GetCurrentUserUseCase.Callback() {
+                @Override
+                public void onCurrentUserRetrieved(User currentUser) {
+                    UserInfoFragment fragment = UserInfoFragment.newInstance(currentUser.getId());
+                    fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                }
+            });
+            getCurrentUserUseCase.execute();
         } else if (id == R.id.nav_maps) {
             fm.beginTransaction().replace(R.id.content_frame, new MapsFragment()).commit();
         } else if (id == R.id.nav_newpoint) {

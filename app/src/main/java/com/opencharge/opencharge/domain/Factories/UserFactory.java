@@ -27,7 +27,7 @@ public class UserFactory {
         u.setUsername(name);
         u.setPhoto(photo);
         u.setEmail(email);
-        u.setMinutes(0);
+        u.setMinutes(1000);
         u.setPoints(points);
         return u;
     }
