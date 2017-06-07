@@ -14,6 +14,8 @@ import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.helpers.DateConversion;
+import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveConfirmAsSupplierUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveRejectUseCase;
@@ -39,9 +41,13 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
         private TextView solicitant;
         private TextView address;
         private TextView state;
+        private TextView dataR;
+        private TextView horaI;
+        private TextView horaF;
         private Button cancelBtn;
         private Button finalitzaBtn;
         private ImageView stateIcon;
+
 
 
 
@@ -50,6 +56,9 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
             solicitant = (TextView) itemView.findViewById(R.id.userApplicant);
             address = (TextView) itemView.findViewById(R.id.pointAddressRS);
             state = (TextView) itemView.findViewById(R.id.reserveStateSupplier);
+            dataR = (TextView) itemView.findViewById(R.id.reserveDate);
+            horaI = (TextView) itemView.findViewById(R.id.reserveHourIni);
+            horaF = (TextView) itemView.findViewById(R.id.reserveHourFi);
             cancelBtn = (Button) itemView.findViewById(R.id.btnRechazarReserva);
             finalitzaBtn = (Button) itemView.findViewById(R.id.btnFinalitzarReservaSupplier);
             stateIcon = (ImageView) itemView.findViewById(R.id.stateIconSupplier);
@@ -86,6 +95,11 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
             pointByIdUseCase.setPointId(reserve.getPointId());
             pointByIdUseCase.execute();
 
+            DateConversion dateConversion = new DateConversionImpl();
+            dataR.setText(dateConversion.ConvertDateToString(reserve.getDay()));
+            horaI.setText(dateConversion.ConvertTimeToString(reserve.getStartHour()));
+            horaF.setText(dateConversion.ConvertTimeToString(reserve.getEndHour()));
+
             state.setText(reserve.getState());
 
             if (Objects.equals(reserve.getState(), Reserve.REJECTED)) {
@@ -111,10 +125,11 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
                     cancelBtn.setVisibility(View.GONE);
                 }
             });
-
+            
             if (!reserve.getCanConfirm()) {
                 finalitzaBtn.setVisibility(View.GONE);
             } else {
+                finalitzaBtn.setVisibility(View.VISIBLE);
                 ReserveConfirmAsSupplierUseCase reserveConfirmAsSupplierUseCase = useCasesLocator.getReserveConfirmAsSupplierUseCase();
                 reserveConfirmAsSupplierUseCase.execute();
                 if (reserve.isMarkedAsFinishedByConsumer()) {
