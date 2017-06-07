@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +34,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Comment;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
+import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.fragments.ShowCommentsFragment;
+import com.opencharge.opencharge.presentation.fragments.UserInfoFragment;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import java.util.List;
@@ -60,6 +64,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private ImageView accessImage;
         private TextView access;
         private TextView coords;
+        private TextView schedule;
+        private LinearLayout scheduleLayout;
         private LinearLayout connectorLayout;
 
 
@@ -69,8 +75,10 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             adreca = (TextView) itemView.findViewById(R.id.adreca);
             accessImage = (ImageView) itemView.findViewById(R.id.accessImage);
             access = (TextView) itemView.findViewById(R.id.access);
-            connectorLayout = (LinearLayout) itemView.findViewById(R.id.connector_layout);
             coords = (TextView) itemView.findViewById(R.id.coords);
+            schedule = (TextView) itemView.findViewById(R.id.schedule);
+            scheduleLayout = (LinearLayout) itemView.findViewById(R.id.schedule_layout);
+            connectorLayout = (LinearLayout) itemView.findViewById(R.id.connector_layout);
         }
 
         public final void bindPoint(Point p) {
@@ -82,6 +90,12 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             access.setText(p.getAccessType());
             coords.setText("(" + String.valueOf(p.getLatCoord()) + ", " + String.valueOf(p.getLonCoord() + ")"));
 
+            if (!p.getAccessType().equals(Point.PARTICULAR_ACCESS) && !p.getSchedule().equals(null)){
+                schedule.setText(p.getSchedule());
+            }
+            else {
+                scheduleLayout.setVisibility(View.GONE);
+            }
 
             List<String> connectorList = p.getConnectorTypeList();
             for(int i = 0; i < p.getConnectorTypeList().size(); ++i){
@@ -96,6 +110,51 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
     }
+
+    public class ViewHolderUser extends RecyclerView.ViewHolder {
+
+        private TextView username;
+        private TextView email;
+        private LinearLayout emailLayout;
+
+        public ViewHolderUser(View itemView) {
+            super(itemView);
+            username = (TextView) itemView.findViewById(R.id.username);
+            email = (TextView) itemView.findViewById(R.id.email);
+            emailLayout = (LinearLayout) itemView.findViewById(R.id.email_layout);
+        }
+
+        public final void bindUser(String userId) {
+            //Posar la informació d'un usuari a la vista
+            UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+            UserByIdUseCase userByIdUseCase = useCasesLocator.getUserByIdUseCase(new UserByIdUseCase.Callback() {
+                @Override
+                public void onUserRetrieved(final User user) {
+                    if (user != null) {
+                        username.setText(user.getUsername());
+                        email.setText(user.getEmail());
+
+                        itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
+                                UserInfoFragment fragment = UserInfoFragment.newInstance(user.getId());
+                                fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                            }
+                        });
+                    }
+                    else {
+                        username.setText("L'usuari ha borrat el seu compte");
+                        emailLayout.setVisibility(View.GONE);
+                    }
+                }
+            });
+            userByIdUseCase.setUserId(userId);
+            userByIdUseCase.execute();
+        }
+
+    }
+
 
     public class ViewHolderMap extends RecyclerView.ViewHolder implements OnMapReadyCallback {
 
@@ -199,7 +258,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    AddCommentUseCase getAddCommentUseCase = useCasesLocator.getAddCommentUseCase(new AddCommentUseCase.Callback(){
+                    AddCommentUseCase getAddCommentUseCase = useCasesLocator.getAddCommentUseCase(context, new AddCommentUseCase.Callback(){
                         @Override
                         public void onCommentAdded(String id) {
                             Toast.makeText(view.getContext(), "Missatge afegit!", Toast.LENGTH_SHORT).show();
@@ -208,7 +267,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     });
                     DateConversion dc = new DateConversionImpl();
                     String date = dc.ConvertLongToString(System.currentTimeMillis());
-                    getAddCommentUseCase.setCommentParameters(item.getId(), "Mock usuari", comment.getText().toString(), date);
+                    getAddCommentUseCase.setCommentParameters(item.getId(), comment.getText().toString(), date);
                     getAddCommentUseCase.execute();
                 }
             });
@@ -223,7 +282,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
                                 ft.setCustomAnimations(R.anim.pop_in, R.anim.pop_out);
                                 ShowCommentsFragment fragment = ShowCommentsFragment.newInstance(item.getId());
-                                ft.add(R.id.content_frame, fragment);
+                                ft.replace(R.id.content_frame, fragment);
                                 ft.addToBackStack(null);
                                 ft.commit();
                             } else {
@@ -247,14 +306,18 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v;
+        final View v;
         RecyclerView.ViewHolder viewHolder;
         switch(viewType) {
             case 0:     //Inflate the layout with point information
                 v = LayoutInflater.from(this.context).inflate(R.layout.content_recycler, parent, false);
                 viewHolder = new ViewHolderPoint(v);
                 break;
-            case 1:     //Inflate the layout with map information
+            case 1:     //Inflate the layout with user information
+                v = LayoutInflater.from(this.context).inflate(R.layout.content_user, parent, false);
+                viewHolder = new ViewHolderUser(v);
+                break;
+            case 2:     //Inflate the layout with map information
                 v = LayoutInflater.from(this.context).inflate(R.layout.content_map, parent, false);
                 viewHolder = new ViewHolderMap(v);
                 break;
@@ -283,6 +346,12 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch(position) {
             case 0:  ((ViewHolderPoint) holder).bindPoint(item);
                 break;
+            case 1:
+                if (!item.userId.equals(null)) {
+                    ViewHolderUser userHolder = (ViewHolderUser) holder;
+                    userHolder.bindUser(item.userId);
+                }
+                break;
             default:
                 break;
         }
@@ -290,7 +359,7 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -298,7 +367,8 @@ public class PointsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch  (position) {
             case 0: return 0;
             case 1: return 1;
-            default: return 2;
+            case 2: return 2;
+            default: return 3;
         }
     }
 

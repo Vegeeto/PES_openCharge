@@ -13,16 +13,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
+import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.Entities.Service;
+import com.opencharge.opencharge.domain.Entities.User;
 import com.opencharge.opencharge.domain.helpers.DateConversion;
 import com.opencharge.opencharge.domain.helpers.impl.DateConversionImpl;
+import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReservesListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ReservesShiftsFragment extends Fragment {
 
@@ -36,6 +45,12 @@ public class ReservesShiftsFragment extends Fragment {
     private TextView mDayMonthLabel;
     private TextView mDayWeekLabel;
     private FloatingActionButton mAddButton;
+
+    private Service[] services;
+    private Reserve[] reserves;
+
+    private Point currentPoint;
+    private User currentUser;
 
     public ReservesShiftsFragment() {
         // Required empty public constructor
@@ -68,19 +83,57 @@ public class ReservesShiftsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_calendar_day, container, false);
 
-        this.mHoursWrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
-        this.mDayMonthLabel = (TextView) parentView.findViewById(R.id.calendar_day_month_label);
-        this.mDayWeekLabel = (TextView) parentView.findViewById(R.id.calendar_day_week_label);
-        this.mAddButton = (FloatingActionButton) parentView.findViewById(R.id.calendar_new_service);
+        mHoursWrapper = (RelativeLayout) parentView.findViewById(R.id.hours_wrapper);
+        mDayMonthLabel = (TextView) parentView.findViewById(R.id.calendar_day_month_label);
+        mDayWeekLabel = (TextView) parentView.findViewById(R.id.calendar_day_week_label);
+        mAddButton = (FloatingActionButton) parentView.findViewById(R.id.calendar_new_service);
+        mAddButton.setVisibility(View.GONE);
 
         setUpAddButton();
         setUpDayLabels();
         createDayLayout();
 
+        loadCurrentPointAndUser();
+        loadServices();
+        loadReserves();
+
+        return parentView;
+    }
+
+    private void loadCurrentPointAndUser() {
+        PointByIdUseCase getPointUseCase = UseCasesLocator.getInstance().getPointByIdUseCase(new PointByIdUseCase.Callback() {
+            @Override
+            public void onPointRetrieved(Point point) {
+                currentPoint = point;
+                showAddServiceButtonIdNeeded();
+            }
+        });
+        getPointUseCase.setPointId(pointId);
+        getPointUseCase.execute();
+
+        GetCurrentUserUseCase getCurrentUserUseCase = UseCasesLocator.getInstance().getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
+            @Override
+            public void onCurrentUserRetrieved(User user) {
+                currentUser = user;
+                showAddServiceButtonIdNeeded();
+            }
+        });
+        getCurrentUserUseCase.execute();
+    }
+
+    private void showAddServiceButtonIdNeeded() {
+        if (currentPoint != null && currentUser != null) {
+            if (isOwnerUser()) {
+                mAddButton.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void loadServices() {
         ServiceListByPointAndDayUseCase useCase = UseCasesLocator.getInstance().getServiceListByPointAndDayUseCase(new ServiceListByPointAndDayUseCase.Callback() {
             @Override
             public void onServicesRetrieved(Service[] services) {
-                createServicesViews(services);
+                setServices(services);
             }
 
             @Override
@@ -91,8 +144,35 @@ public class ReservesShiftsFragment extends Fragment {
         useCase.setDay(dayDate);
         useCase.setPointId(pointId);
         useCase.execute();
+    }
+    private void setServices(Service[] services) {
+        this.services = services;
+        if (reserves != null) {
+            createServicesAndReservesViews();
+        }
+    }
 
-        return parentView;
+    private void loadReserves() {
+        ReservesListByPointAndDayUseCase useCase = UseCasesLocator.getInstance().getReservesListByPointAndDayUseCase(new ReservesListByPointAndDayUseCase.Callback() {
+            @Override
+            public void onReservesRetrieved(Reserve[] reserves) {
+                setReserves(reserves);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+        useCase.setDay(dayDate);
+        useCase.setPointId(pointId);
+        useCase.execute();
+    }
+    private void setReserves(Reserve[] reserves) {
+        this.reserves = reserves;
+        if (services != null) {
+            createServicesAndReservesViews();
+        }
     }
 
     private void setUpAddButton() {
@@ -101,10 +181,7 @@ public class ReservesShiftsFragment extends Fragment {
         this.mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                DateConversion dc = new DateConversionImpl();
-                CreateServiceFragment fragment = CreateServiceFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), "10:00");
-                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                goToCreateServiceAtHour("10:00");
             }
         });
     }
@@ -127,6 +204,7 @@ public class ReservesShiftsFragment extends Fragment {
             HourDayView hourView = new HourDayView(getActivity().getApplicationContext());
             int newId = View.generateViewId();
             hourView.setId(newId);
+            hourView.setTag(i);
 
             String hourFormatted = String.format("%02d", i) + ":00";
             hourView.setHour(hourFormatted);
@@ -139,33 +217,160 @@ public class ReservesShiftsFragment extends Fragment {
             }
             hourView.setLayoutParams(params);
 
+            hourView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isOwnerUser()) {
+                        int hour = (int) view.getTag();
+                        goToCreateServiceAtHour(hour + ":00");
+                    }
+                }
+            });
+
             this.mHoursWrapper.addView(hourView);
             previousId = newId;
         }
     }
 
+    private void goToCreateServiceAtHour(String hour) {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        DateConversion dc = new DateConversionImpl();
+        CreateServiceFragment fragment = CreateServiceFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), hour);
+        ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+    }
 
-    private void createServicesViews(Service[] services) {
+    private void createServicesAndReservesViews() {
         for (Service service : services) {
-            DateTime start = new DateTime(service.getStartHour());
-            DateTime end = new DateTime(service.getEndHour());
+            Reserve[] reservesInService = getReservesInRange(service.getStartHour(), service.getEndHour());
+            if (reservesInService.length > 0) {
+                splitAndCreateServiceViews(service, reserves);
+                createReservesViews(reservesInService);
+            }
+            else {
+                createCompleteServiceView(service);
+            }
+        }
+    }
+
+    private Reserve[] getReservesInRange(Date startHour, Date endHour) {
+        LocalTime start = new LocalTime(startHour);
+        LocalTime end = new LocalTime(endHour);
+        List<Reserve> filteredReserves = new ArrayList<>();
+        for (Reserve reserve : reserves) {
+            if (reserveIsInRange(start, end, reserve)) {
+                filteredReserves.add(reserve);
+            }
+        }
+
+        Reserve[] reservesArr = new Reserve[filteredReserves.size()];
+        reservesArr = filteredReserves.toArray(reservesArr);
+        return reservesArr;
+    }
+
+    private boolean reserveIsInRange(LocalTime start, LocalTime end, Reserve reserve) {
+        LocalTime targetStartHour = new LocalTime(reserve.getStartHour());
+        LocalTime targetEndHour = new LocalTime(reserve.getEndHour());
+
+        boolean startIsInRange = isBetweenInclusive(start, end, targetStartHour);
+        boolean endIsInRange = isBetweenInclusive(start, end, targetEndHour);
+
+        return startIsInRange && endIsInRange;
+    }
+
+    private boolean isBetweenInclusive(LocalTime start, LocalTime end, LocalTime target) {
+        return !target.isBefore(start) && !target.isAfter(end);
+    }
+
+    private void createReservesViews(Reserve[] reserves) {
+        for (Reserve reserve : reserves) {
+            DateTime start = new DateTime(reserve.getStartHour());
+            DateTime end = new DateTime(reserve.getEndHour());
             int startHour = start.getHourOfDay();
             int startMinute = start.getMinuteOfHour();
             int duration = end.getMinuteOfDay() - start.getMinuteOfDay();
 
-            Log.d("createServicesViews", "services: " + startHour + " - " + startMinute + " - " + duration);
+            createReserveView(startHour, startMinute, duration);
+        }
+    }
+
+    private void createReserveView(final int hourStart, int minutesStart, final int minutesDuration) {
+        createRectangleView(hourStart, minutesStart, minutesDuration, Color.RED, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        Log.d("createRectangleView", "RESERVE at " + dayDate + " || " + hourStart + ":" + minutesStart + " - " + minutesDuration);
+    }
+
+    private void createCompleteServiceView(Service service) {
+        DateTime start = new DateTime(service.getStartHour());
+        DateTime end = new DateTime(service.getEndHour());
+        int startHour = start.getHourOfDay();
+        int startMinute = start.getMinuteOfHour();
+        int duration = end.getMinuteOfDay() - start.getMinuteOfDay();
+
+        createServiceView(startHour, startMinute, duration);
+    }
+
+    private void splitAndCreateServiceViews(Service service, Reserve[] reserves) {
+        int sliceStart = new DateTime(service.getStartHour()).getMinuteOfDay();
+
+        for (Reserve reserve : reserves) {
+            int reserveStart = new DateTime(reserve.getStartHour()).getMinuteOfDay();
+
+            int duration = reserveStart - sliceStart;
+            if (duration > 0) {
+                int startHour = getHourOfDayFromMinuteOfDay(sliceStart);
+                int startMinute = getMinuteOfHourFromMinuteOfDay(sliceStart);
+                createServiceView(startHour, startMinute, duration);
+            }
+
+            sliceStart = new DateTime(reserve.getEndHour()).getMinuteOfDay();
+        }
+
+        //Print last slice (if needed)
+        int serviceEnd = new DateTime(service.getEndHour()).getMinuteOfDay();
+        int duration = serviceEnd - sliceStart;
+        if (duration > 0) {
+            int startHour = getHourOfDayFromMinuteOfDay(sliceStart);
+            int startMinute = getMinuteOfHourFromMinuteOfDay(sliceStart);
             createServiceView(startHour, startMinute, duration);
         }
     }
 
-    private void createServiceView(final int hourStart, int minutesStart, final int minutesDuration) {
-        createRectangleView(hourStart, minutesStart, minutesDuration, Color.GREEN);
+    private int getHourOfDayFromMinuteOfDay(int minuteOfDay) {
+        return minuteOfDay/60;
     }
+
+    private int getMinuteOfHourFromMinuteOfDay(int minuteOfDay) {
+        return minuteOfDay%60;
+    }
+
+    private void createServiceView(final int hourStart, int minutesStart, final int minutesDuration) {
+        createRectangleView(hourStart, minutesStart, minutesDuration, Color.GREEN, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isOwnerUser()) {
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    DateConversion dc = new DateConversionImpl();
+                    int hourEnd = hourStart + minutesDuration / 60;
+                    int minEnd = minutesDuration % 60;
+                    CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertHourAndMinutesToString(hourStart, 0), dc.ConvertHourAndMinutesToString(hourEnd, minEnd));
+                    ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                }
+            }
+        });
+        Log.d("createRectangleView", "SERVICE at " + dayDate + " || " + hourStart + ":" + minutesStart + " - " + minutesDuration);
+    }
+
 
     private void createRectangleView(final int hourStart,
                                      int minutesStart,
                                      final int minutesDuration,
-                                     int color) {
+                                     int color,
+                                     View.OnClickListener clickListener) {
+
         int hourHeight = (int) getResources().getDimension(R.dimen.day_view_hour_height);
         float minutesHeight = hourHeight / (float) 60;
 
@@ -191,16 +396,10 @@ public class ReservesShiftsFragment extends Fragment {
         shiftView.requestLayout();
 
         shiftView.setClickable(true);
-        shiftView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                DateConversion dc = new DateConversionImpl();
-                int hourEnd = hourStart + minutesDuration / 60;
-                int minEnd = minutesDuration % 60;
-                CreateReserveFragment fragment = CreateReserveFragment.newInstance(pointId, dc.ConvertDateToString(dayDate), dc.ConvertHourAndMinutesToString(hourStart, 0), dc.ConvertHourAndMinutesToString(hourEnd, minEnd));
-                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
-            }
-        });
+        shiftView.setOnClickListener(clickListener);
+    }
+
+    boolean isOwnerUser() {
+        return currentPoint.getUserId().equals(currentUser.getId());
     }
 }

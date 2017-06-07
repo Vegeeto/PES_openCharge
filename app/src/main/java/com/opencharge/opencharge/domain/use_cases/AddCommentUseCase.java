@@ -13,5 +13,5 @@ public interface AddCommentUseCase extends UseCase {
         void onCommentAdded(String id);
     }
 
-    void setCommentParameters(String point_id, String autor, String text, String data);
+    void setCommentParameters(String point_id, String text, String data);
 }

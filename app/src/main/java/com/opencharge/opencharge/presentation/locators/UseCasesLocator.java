@@ -5,10 +5,18 @@ import android.content.Context;
 import com.opencharge.opencharge.domain.device_services.UserPreferences;
 import com.opencharge.opencharge.domain.use_cases.AddCommentUseCase;
 import com.opencharge.opencharge.domain.use_cases.CommentsListUseCase;
+import com.opencharge.opencharge.domain.use_cases.DeletePointUseCase;
 import com.opencharge.opencharge.domain.use_cases.DeleteUserUseCase;
+
+
 import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.PointsEditUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReserveConfirmAsConsumerUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReserveConfirmAsSupplierUseCase;
 import com.opencharge.opencharge.domain.use_cases.ReserveCreateUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReserveRejectUseCase;
+import com.opencharge.opencharge.domain.use_cases.ReservesListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.ServiceListByPointAndDayUseCase;
 import com.opencharge.opencharge.domain.use_cases.SetCurrentUserUseCase;
@@ -16,16 +24,24 @@ import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersCreateUseCase;
 import com.opencharge.opencharge.domain.use_cases.UsersListUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.CommentsListUseCaseImpl;
+
+import com.opencharge.opencharge.domain.use_cases.impl.DeletePointUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.DeleteUserUseCaseImpl;
+
 import com.opencharge.opencharge.domain.use_cases.impl.GetCurrentUserUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsCreateUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointsListUseCase;
 import com.opencharge.opencharge.domain.use_cases.UserLocationUseCase;
 import com.opencharge.opencharge.domain.use_cases.impl.PointByIdUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.PointsEditUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.PointsListUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ReserveConfirmAsConsumerUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ReserveConfirmAsSupplierUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReserveCreateUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ReserveRejectUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReserveUserInvolvedUseCaseImpl;
+import com.opencharge.opencharge.domain.use_cases.impl.ReservesListByPointAndDayUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReservesUpdateConfirmationsUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReservesUserAsConsumerUseCaseImpl;
 import com.opencharge.opencharge.domain.use_cases.impl.ReservesUserAsSupplierUseCaseImpl;
@@ -82,6 +98,15 @@ public class UseCasesLocator {
         );
     }
 
+    public DeletePointUseCase deletePointUseCase(DeletePointUseCase.Callback callback) {
+        return new DeletePointUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getPointsRepository(),
+                callback
+        );
+    }
+
     public UserLocationUseCase getUserLocationUseCase(Context context, UserLocationUseCase.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
         return new UserLocationUseCaseImpl(
@@ -102,6 +127,15 @@ public class UseCasesLocator {
                 callback);
     }
 
+    public PointsEditUseCase getPointsEditUseCase(PointsEditUseCase.Callback callback) {
+        return new PointsEditUseCaseImpl(
+                ServicesLocator.getInstance().getExecutor(),
+                ServicesLocator.getInstance().getMainThread(),
+                RepositoriesLocator.getInstance().getPointsRepository(),
+                callback
+        );
+    }
+
     public UsersCreateUseCase getUsersCreateUseCase(UsersCreateUseCase.Callback callback) {
         return new UsersCreateUseCaseImpl(
                 ServicesLocator.getInstance().getExecutor(),
@@ -110,12 +144,13 @@ public class UseCasesLocator {
                 callback);
     }
 
-    public AddCommentUseCase getAddCommentUseCase(AddCommentUseCase.Callback callback) {
+    public AddCommentUseCase getAddCommentUseCase(Context context, AddCommentUseCase.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
         return new AddCommentUseCaseImpl(
                 sl.getExecutor(),
                 sl.getMainThread(),
                 RepositoriesLocator.getInstance().getCommentsRepository(),
+                context,
                 callback
         );
     }
@@ -170,6 +205,36 @@ public class UseCasesLocator {
         );
     }
 
+    public ReserveRejectUseCase getReserveRejectUseCase() {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ReserveRejectUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getReserveRepository(),
+                RepositoriesLocator.getInstance().getUsersRepository()
+        );
+    }
+
+    public ReserveConfirmAsConsumerUseCase getReserveConfirmAsConsumerUseCase() {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ReserveConfirmAsConsumerUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getReserveRepository(),
+                RepositoriesLocator.getInstance().getUsersRepository()
+        );
+    }
+
+    public ReserveConfirmAsSupplierUseCase getReserveConfirmAsSupplierUseCase() {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ReserveConfirmAsSupplierUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getReserveRepository(),
+                RepositoriesLocator.getInstance().getUsersRepository()
+        );
+    }
+
     public ReserveUserInvolvedUseCaseImpl getReservesUserInvolvedUseCaseImpl(ReserveUserInvolvedUseCaseImpl.Callback callback) {
         ServicesLocator sl = ServicesLocator.getInstance();
         return new ReserveUserInvolvedUseCaseImpl(
@@ -207,6 +272,15 @@ public class UseCasesLocator {
                 sl.getMainThread(),
                 RepositoriesLocator.getInstance().getReserveRepository(),
                 RepositoriesLocator.getInstance().getUsersRepository());
+    }
+
+    public ReservesListByPointAndDayUseCase getReservesListByPointAndDayUseCase(ReservesListByPointAndDayUseCase.Callback callback) {
+        ServicesLocator sl = ServicesLocator.getInstance();
+        return new ReservesListByPointAndDayUseCaseImpl(
+                sl.getExecutor(),
+                sl.getMainThread(),
+                RepositoriesLocator.getInstance().getReserveRepository(),
+                callback);
     }
 
     public SetCurrentUserUseCase getSetCurrentUserUseCase(Context context) {

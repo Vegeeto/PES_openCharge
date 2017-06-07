@@ -17,6 +17,7 @@ import com.opencharge.opencharge.domain.repository.PointsRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by ferran on 15/3/17.
@@ -87,10 +88,26 @@ public class FirebasePointsRepository implements PointsRepository {
 
     }
 
+    @Override
+    public void deletePoint(String pointId, final DeletePointCallback callback) {
+
+        Log.e("DeletePoint", "Hola");
+        DatabaseReference myRef = database.getReference("Points").child(pointId);
+
+        myRef.push().removeValue();
+
+        if (database.getReference("Points").child(pointId) == null) {
+            callback.onPointDeleted();
+            Log.e("DeletePoint", "Eliminat");
+        } else {
+            callback.onError();
+            Log.e("DeletePoint", "Error");
+        }
+    }
+
     private String serializeReserveDate(Reserve reserve) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        String date = dateFormat.format(reserve.getDay());
-        return date;
+        DateConversion dateConversion = new DateConversionImpl();
+        return dateConversion.ConvertDateToPath(reserve.getDay());
     }
 
     private Point[] parsePointsFromDataSnapshot(DataSnapshot dataSnapshot) {
@@ -118,7 +135,8 @@ public class FirebasePointsRepository implements PointsRepository {
 
     public void createPoint(Point point, final CreatePointCallback callback) {
         DatabaseReference myRef = database.getReference("Points");
-        myRef.push().setValue(point, new DatabaseReference.CompletionListener() {
+        Map<String, Object> serializedPoint = pointsParser.serializePoint(point);
+        myRef.push().setValue(serializedPoint, new DatabaseReference.CompletionListener() {
 
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
@@ -128,5 +146,17 @@ public class FirebasePointsRepository implements PointsRepository {
 
             ;
         });
+    }
+
+    @Override
+    public void savePoint(Point point, SavePointCallback callback) {
+        DatabaseReference myRef = database.getReference("Points");
+        myRef = myRef.child(point.getId());
+        Map<String, Object> serializedPoint = pointsParser.serializePoint(point);
+        for (Map.Entry<String, Object> entry : serializedPoint.entrySet()) {
+            DatabaseReference propRef = myRef.child(entry.getKey());
+            propRef.setValue(entry.getValue());
+        }
+        callback.onPointSaved();
     }
 }

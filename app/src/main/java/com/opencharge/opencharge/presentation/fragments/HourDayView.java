@@ -17,7 +17,6 @@ import com.opencharge.opencharge.R;
 
 public class HourDayView extends LinearLayout {
     private TextView mHora;
-    private View mLine;
 
     public HourDayView(Context context) {
         super(context);
@@ -45,7 +44,6 @@ public class HourDayView extends LinearLayout {
         inflater.inflate(R.layout.hour_day_view, this);
 
         mHora = (TextView)this.findViewById(R.id.hora);
-        mLine = this.findViewById(R.id.line);
 
         this.setBackgroundColor(Color.parseColor("#FFFFFF"));
     }

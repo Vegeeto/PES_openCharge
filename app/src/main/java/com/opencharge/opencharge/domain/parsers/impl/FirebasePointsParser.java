@@ -6,6 +6,7 @@ import com.opencharge.opencharge.domain.parsers.PointsParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,23 @@ public class FirebasePointsParser extends AbstractParser implements PointsParser
         point.setSchedule(parseStringKeyFromMap(SCHEDULE_KEY, map));
 
         return point;
+    }
+
+    @Override
+    public Map<String, Object> serializePoint(Point point) {
+        Map<String, Object> serializedPoint = new HashMap<>();
+
+        serializedPoint.put(USER_ID_KEY, point.getUserId());
+        serializedPoint.put(TOWN_KEY, point.getTown());
+        serializedPoint.put(STREET_KEY, point.getStreet());
+        serializedPoint.put(NUMBER_KEY, point.getNumber());
+        serializedPoint.put(LON_KEY, point.getLonCoord());
+        serializedPoint.put(LAT_KEY, point.getLatCoord());
+        serializedPoint.put(ACCESS_TYPE_KEY, point.getAccessType());
+        serializedPoint.put(CONNECTOR_TYPE_LIST_KEY, point.getConnectorTypeList());
+        serializedPoint.put(SCHEDULE_KEY, point.getSchedule());
+
+        return serializedPoint;
     }
 
     private @Point.AccessType String parseAccessTypeFromMap(Map<String, Object> map) {

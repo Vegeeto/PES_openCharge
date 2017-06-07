@@ -8,19 +8,28 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.firebase.database.FirebaseDatabase;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Point;
+import com.opencharge.opencharge.domain.Entities.User;
+import com.opencharge.opencharge.domain.Entities.UserPointSummary;
+import com.opencharge.opencharge.domain.use_cases.DeletePointUseCase;
+import com.opencharge.opencharge.domain.use_cases.GetCurrentUserUseCase;
 import com.opencharge.opencharge.domain.use_cases.PointByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.PointsAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,19 +78,13 @@ public class PointInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_point_info, container, false);
+        setHasOptionsMenu(true);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         horari = (FloatingActionButton) view.findViewById(R.id.horari);
 
         RelativeLayout datePickerButton = (RelativeLayout) getActivity().findViewById(R.id.date_picker_button);
         datePickerButton.setVisibility(View.GONE);
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         PointByIdUseCase getPointUseCase = useCasesLocator.getPointByIdUseCase(new PointByIdUseCase.Callback() {
@@ -94,24 +97,74 @@ public class PointInfoFragment extends Fragment {
                 recyclerView.setAdapter(pointsAdapter);
                 recyclerView.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setNestedScrollingEnabled(false);
+
+                if (point.getAccessType().equals(Point.PARTICULAR_ACCESS)) {
+                    horari.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                ft.setCustomAnimations(R.anim.slide_left, R.anim.nothing, R.anim.nothing, R.anim.slide_right);
+                                DaysPagerFragment fragment = DaysPagerFragment.newInstance(pointId);
+                                ft.add(R.id.content_frame, fragment).addToBackStack(null).commit();
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } else {
+                    horari.setVisibility(View.GONE);
+                }
+
             }
         });
 
         getPointUseCase.setPointId(pointId);
         getPointUseCase.execute();
 
-        horari.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                    DaysPagerFragment fragment = DaysPagerFragment.newInstance(pointId);
-                    ft.add(R.id.content_frame, fragment).addToBackStack(null).commit();
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.point_navigation, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        switch (item.getItemId()) {
+            case R.id.go_edit_button:
+                EditPointFragment fragment = EditPointFragment.newInstance(pointId);
+                ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                return true;
+            case R.id.go_delete_button:
+                UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
+                GetCurrentUserUseCase getCurrentUserUseCase = useCasesLocator.getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
+                    @Override
+                    public void onCurrentUserRetrieved(User currentUser) {
+                        List<UserPointSummary>  points = currentUser.getPoints();
+                        for (UserPointSummary point : points) {
+                            if (point.getPointId().equals(pointId)) {
+                                    FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getId()).child("points").child(String.valueOf(points.indexOf(point))).removeValue();
+                            }
+                        }
+                        currentUser.setPoints(points);
+                    }
+                });
+                getCurrentUserUseCase.execute();
+                FirebaseDatabase.getInstance().getReference("Points").child(pointId).removeValue();
+                ft.replace(R.id.content_frame, new MapsFragment()).commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

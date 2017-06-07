@@ -19,10 +19,8 @@ public class CommentFactory {
         return instance;
     }
 
-    public Comment createNewComment(String autor, String text, String data) {
-
-        Comment c = new Comment(autor, text, data);
-        return c;
+    public Comment createNewComment(String user, String text, String date) {
+        return new Comment(user, text, date);
     }
 
 }

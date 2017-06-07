@@ -7,11 +7,12 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -78,30 +79,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SupportMapFragment mapFragment;
-        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = new SupportMapFragment();
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.map, mapFragment).commit();
+
+        //mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+
         mapFragment.getMapAsync(this);
         getUserLocation();
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        if (currentLocation == null) getUserLocation();
-        if (currentLocation != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14)); //40.000 km / 2^n, n=14
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
-        }
-    }*/
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        SupportMapFragment f = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (f != null) {
-            getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
-        }
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -171,7 +160,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.navigation, menu);
+        menu.clear();
+        menuInflater.inflate(R.menu.search_navigation, menu);
         final MenuItem searchItem = menu.findItem(R.id.searchBar);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint(getText(R.string.hint));
@@ -274,8 +264,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     longitude = BARCELONA.longitude;
                 }
 
-                Log.i("Latitude: ", String.format("latitude: %s", latitude));
-                Log.i("Location: ", String.format("longitude: %s", longitude));
                 currentLocation = new LatLng(latitude, longitude);
 
                 if (mMap != null) {
