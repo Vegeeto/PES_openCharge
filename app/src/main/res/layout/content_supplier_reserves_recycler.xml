@@ -108,7 +108,16 @@
                     android:layout_marginLeft="15dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/normal_text_size"
-                    android:text="Hora Inici -" />
+                    android:text="Hora Inici" />
+
+                <TextView
+                    android:id="@+id/guion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/normal_text_size"
+                    android:text="-" />
+
 
                 <TextView
                     android:id="@+id/reserveHourFi"
@@ -116,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="@dimen/normal_text_size"
-                    android:text=" Hora Fi" />
+                    android:text="Hora Fi" />
 
             </LinearLayout>
 
