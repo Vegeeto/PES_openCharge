@@ -17,8 +17,8 @@ public class FirebaseReserveParser extends AbstractParser implements ReservePars
     public static final String START_HOUR_KEY = "startHour";
     public static final String END_HOUR_KEY = "endHour";
     public static final String STATE = "state";
-    public static final String SUPPLIER_FINISH = "ownerFinish";
-    public static final String CONSUMER_FINISH = "userFinish";
+    public static final String SUPPLIER_FINISH = "markedAsFinishedBySupplier";
+    public static final String CONSUMER_FINISH = "markedAsFinishedByConsumer";
     public static final String POINT_ID = "pointId";
     public static final String CONSUMER_USER_ID = "consumeruserId";
     public static final String SUPPLIER_USER_ID = "supplieruserId";
