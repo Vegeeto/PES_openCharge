@@ -98,6 +98,7 @@ public class UserLocationServiceImpl extends Service implements UserLocationServ
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AppTheme));
         dialog.setTitle("GPS DESACTIVAT");
+        dialog.setIcon(R.drawable.ic_my_location_black_24dp);
         dialog.setMessage("Voleu activar-lo?");
 
         dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {

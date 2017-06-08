@@ -51,8 +51,6 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
         private ImageView stateIcon;
 
 
-
-
         public ViewHolder(View itemView) {
             super(itemView);
             solicitant = (TextView) itemView.findViewById(R.id.userApplicant);

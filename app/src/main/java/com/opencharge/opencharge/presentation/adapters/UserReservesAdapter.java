@@ -54,7 +54,6 @@ public class UserReservesAdapter extends RecyclerView.Adapter<UserReservesAdapte
         private ImageView stateIcon;
 
 
-
         public ViewHolder(View itemView) {
             super(itemView);
             propietari = (TextView) itemView.findViewById(R.id.pointOwner);

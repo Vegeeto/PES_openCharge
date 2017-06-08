@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.opencharge.opencharge.R;
@@ -19,41 +20,53 @@ import java.util.List;
 public class CustomUserPointsAdapter extends ArrayAdapter {
 
     List<UserPointSummary> pointsList;
-    private static LayoutInflater inflater = null;
+
+    private static class ViewHolder {
+        private TextView text;
+
+        public ViewHolder(View v) {
+            text = (TextView) v.findViewById(R.id.rowTextView);
+        }
+
+        public final void bindPosition(String address) {
+            text.setText(address);
+        }
+
+    }
 
 
     public CustomUserPointsAdapter(Context context, List<UserPointSummary> list) {
         super(context, 0, list);
         pointsList = list;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        UserPointSummary pointSummary = pointsList.get(position);
+
         ViewHolder holder;
 
+        //Check if an existing view is being reused, otherwise inflate the view.
         if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.row, parent, false);
-            holder = new ViewHolder();
-            holder.tv = (TextView) convertView.findViewById(R.id.rowTextView);
+            holder = new ViewHolder(convertView);
+            holder.bindPosition(pointSummary.getPointAddress());
             convertView.setTag(holder);
-        }
-        else {
+        } else {
+
             holder = (ViewHolder) convertView.getTag();
         }
 
-        UserPointSummary pointSummary = pointsList.get(position);
-        holder.tv.setText(pointSummary.getPointAddress());
+        holder.bindPosition(pointSummary.getPointAddress());
 
         return convertView;
 
     }
 
-    static class ViewHolder {
-        TextView tv;
-    }
-
     public String getPointID(int position) {
         return this.pointsList.get(position).getPointId();
     }
+
 }

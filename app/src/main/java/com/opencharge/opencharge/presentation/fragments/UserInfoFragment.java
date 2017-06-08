@@ -82,7 +82,6 @@ public class UserInfoFragment extends Fragment {
      * @param userId String
      * @return A new instance of fragment UserInfoFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static UserInfoFragment newInstance(String userId) {
         UserInfoFragment fragment = new UserInfoFragment();
         Bundle args = new Bundle();
@@ -93,8 +92,7 @@ public class UserInfoFragment extends Fragment {
     }
 
     public static UserInfoFragment newInstance() {
-        UserInfoFragment fragment = new UserInfoFragment();
-        return fragment;
+        return new UserInfoFragment();
     }
 
     @Override
@@ -203,7 +201,8 @@ public class UserInfoFragment extends Fragment {
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                 alertDialog.setTitle("Segur que vols esborrar el teu compte d'usuari?");
-                alertDialog.setMessage("Es perdràn tots els punts, minuts i reserves. Aquesta acció no es pot desfer.");
+                alertDialog.setIcon(R.drawable.ic_warning_black_24dp);
+                alertDialog.setMessage("S'esborraran tots els teus punts i reserves. Aquesta acció no es pot desfer.");
 
                 alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -212,7 +211,6 @@ public class UserInfoFragment extends Fragment {
                 });
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Continuar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //TODO aqui s'ha de cridar la funció que esborri l'usuari
                         final UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
                         GetCurrentUserUseCase getCreateUsersUseCase = useCasesLocator.getGetCurrentUserUseCase(getActivity(), new GetCurrentUserUseCase.Callback() {
                             @Override
