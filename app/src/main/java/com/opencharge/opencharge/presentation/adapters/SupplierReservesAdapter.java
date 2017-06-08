@@ -180,7 +180,7 @@ public class SupplierReservesAdapter extends RecyclerView.Adapter<SupplierReserv
     @Override
     public SupplierReservesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.content_user_reserves_recycler, parent, false);
+                .inflate(R.layout.content_supplier_reserves_recycler, parent, false);
         v.setOnClickListener(this);
 
         return new ViewHolder(v);

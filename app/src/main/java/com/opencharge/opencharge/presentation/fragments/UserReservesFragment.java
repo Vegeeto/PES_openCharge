@@ -2,6 +2,7 @@ package com.opencharge.opencharge.presentation.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,6 @@ import android.widget.Toast;
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Reserve;
 import com.opencharge.opencharge.domain.use_cases.ReservesUserAsConsumerUseCase;
-import com.opencharge.opencharge.domain.use_cases.UserByIdUseCase;
 import com.opencharge.opencharge.presentation.adapters.ItemDecoration;
 import com.opencharge.opencharge.presentation.adapters.UserReservesAdapter;
 import com.opencharge.opencharge.presentation.locators.UseCasesLocator;
@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class UserReservesFragment extends Fragment {
 
     private UserReservesAdapter reservesAdapter;
@@ -55,18 +58,22 @@ public class UserReservesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user_reserves, container, false);
+        View view = inflater.inflate(R.layout.fragment_reserves, container, false);
 
-        setHasOptionsMenu(true);
-        recyclerView = (RecyclerView) view.findViewById(R.id.userReservesRV);
+        //setHasOptionsMenu(true);
+        recyclerView = (RecyclerView) view.findViewById(R.id.reserves_rv);
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         ReservesUserAsConsumerUseCase reservesUserAsConsumerUseCase = useCasesLocator.getReservesUserAsConsumerUseCaseImpl(new ReservesUserAsConsumerUseCase.Callback() {
             @Override
             public void onReservesRetrieved(Reserve[] reserves) {
-                    List<Reserve> reserve = new ArrayList<>(Arrays.asList(reserves));
-                    Integer r = reserve.size();
-                   // Toast.makeText(getActivity().getApplicationContext(), r.toString(), Toast.LENGTH_SHORT).show();
+                List<Reserve> reserve = new ArrayList<>(Arrays.asList(reserves));
+
+                if (reserve.size() == 0) {
+                    Toast.makeText(getActivity().getApplicationContext(), "No hi ha reserves", Toast.LENGTH_SHORT).show();
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStackImmediate();
+                } else {
                     reservesAdapter = new UserReservesAdapter(getActivity(), reserve);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
                     recyclerView.setHasFixedSize(true);
@@ -74,6 +81,7 @@ public class UserReservesFragment extends Fragment {
                     recyclerView.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setNestedScrollingEnabled(false);
+                }
 
             }
         });

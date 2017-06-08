@@ -3,12 +3,14 @@ package com.opencharge.opencharge.presentation.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.opencharge.opencharge.R;
 import com.opencharge.opencharge.domain.Entities.Reserve;
@@ -59,25 +61,30 @@ public class SupplierReservesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user_reserves, container, false);
+        View view = inflater.inflate(R.layout.fragment_reserves, container, false);
 
-        setHasOptionsMenu(true);
-        recyclerView = (RecyclerView) view.findViewById(R.id.userReservesRV);
+        //setHasOptionsMenu(true);
+        recyclerView = (RecyclerView) view.findViewById(R.id.reserves_rv);
 
         UseCasesLocator useCasesLocator = UseCasesLocator.getInstance();
         ReservesUserAsSupplierUseCase reservesUserAsSupplierUseCase = useCasesLocator.getReservesUserAsSupplierUseCaseImpl(new ReservesUserAsSupplierUseCase.Callback() {
             @Override
             public void onReservesRetrieved(Reserve[] reserves) {
                 List<Reserve> reserve = new ArrayList<>(Arrays.asList(reserves));
-                Integer r = reserve.size();
-                // Toast.makeText(getActivity().getApplicationContext(), r.toString(), Toast.LENGTH_SHORT).show();
-                reservesAdapter = new SupplierReservesAdapter(getActivity(), reserve);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setAdapter(reservesAdapter);
-                recyclerView.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setNestedScrollingEnabled(false);
+
+                if (reserve.size() == 0) {
+                    Toast.makeText(getActivity().getApplicationContext(), "No hi ha reserves", Toast.LENGTH_SHORT).show();
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStackImmediate();
+                } else {
+                    reservesAdapter = new SupplierReservesAdapter(getActivity(), reserve);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setAdapter(reservesAdapter);
+                    recyclerView.addItemDecoration(new ItemDecoration(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL));
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setNestedScrollingEnabled(false);
+                }
 
             }
         });
