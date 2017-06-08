@@ -14,11 +14,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -161,6 +164,19 @@ public class UserInfoFragment extends Fragment {
 
         final CustomUserPointsAdapter customUserPointsAdapter = new CustomUserPointsAdapter(getActivity().getApplicationContext(), user.getPoints());
         puntsUsuari.setAdapter(customUserPointsAdapter);
+        setListViewHeightBasedOnChildren(puntsUsuari);
+
+        puntsUsuari.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        //Log.e("TAG: ", "" + customUserPointsAdapter.size());
 
         puntsUsuari.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> listView, View itemView, int itemPosition, long itemId) {
@@ -234,6 +250,7 @@ public class UserInfoFragment extends Fragment {
                                         for (Reserve reserve : reserves) {
                                             FirebaseDatabase.getInstance().getReference("Reserves").child(reserve.getId()).removeValue();
                                         }
+                                        Toast.makeText(getActivity().getApplicationContext(), "Usuari eliminat", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                                 reservesUserInvolvedUseCase.setPointParameters(currentUser.getId());
@@ -243,11 +260,6 @@ public class UserInfoFragment extends Fragment {
                         getCreateUsersUseCase.execute();
                         signOut();
 
-                        // això és un placeholder per així tenir una resposta, un cop
-                        // implementat correctament es pot deixar, o treure
-                        //Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Usuari eliminat", Toast.LENGTH_SHORT);
-                        //toast.show();
-
                     }
                 });
 
@@ -255,6 +267,33 @@ public class UserInfoFragment extends Fragment {
             }
 
         });
+    }
+
+
+    /**** Method for Setting the Height of the ListView dynamically.
+     **** Hack to fix the issue of not showing all the items of the ListView
+     **** when placed inside a ScrollView  ****/
+    private static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+
+        int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            if (listItem instanceof ViewGroup) {
+                listItem.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            }
+
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 
     private void signOut() {

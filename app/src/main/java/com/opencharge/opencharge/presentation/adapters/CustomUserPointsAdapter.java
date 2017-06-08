@@ -69,4 +69,6 @@ public class CustomUserPointsAdapter extends ArrayAdapter {
         return this.pointsList.get(position).getPointId();
     }
 
+    public int size() { return this.pointsList.size(); }
+
 }
