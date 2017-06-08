@@ -184,7 +184,7 @@ public class UserInfoFragment extends Fragment {
                     String pointId = customUserPointsAdapter.getPointID(itemPosition);
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     PointInfoFragment fragment = PointInfoFragment.newInstance(pointId);
-                    ft.replace(R.id.content_frame, fragment).commit();
+                    ft.replace(R.id.content_frame, fragment).addToBackStack(null).commit();
                 } catch (NullPointerException e) {
                     Toast.makeText(getActivity().getApplicationContext(), "El punt ha estat eliminat del sistema", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
